@@ -19,9 +19,9 @@ public class DynamicRouterController {
 
   // Excluir: assets, api, captcha, favicon.ico, error, webjars, login
   @RequestMapping({
-    "/{p1:^(?!assets|api|captcha|favicon\\.ico$|error$|webjars|login$).+}",
-    "/{p1:^(?!assets|api|captcha|favicon\\.ico$|error$|webjars|login$).+}/{p2}",
-    "/{p1:^(?!assets|api|captcha|favicon\\.ico$|error$|webjars|login$).+}/{p2}/{p3}"
+    "/{p1:^(?!assets|assets_shop|api|captcha|favicon\\.ico$|error$|webjars|login$).+}",
+    "/{p1:^(?!assets|assets_shop|api|captcha|favicon\\.ico$|error$|webjars|login$).+}/{p2}",
+    "/{p1:^(?!assets|assets_shop|api|captcha|favicon\\.ico$|error$|webjars|login$).+}/{p2}/{p3}"
   })
   public String dynamic(@PathVariable String p1,
                         @PathVariable(required=false) String p2,

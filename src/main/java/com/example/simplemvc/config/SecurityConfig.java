@@ -42,7 +42,7 @@ public class SecurityConfig {
     http
       .securityMatcher("/admin/**", "/api/admin/**")
       .authorizeHttpRequests(auth -> auth
-        .requestMatchers("/assets/**", "/favicon.ico", "/captcha").permitAll()
+        .requestMatchers("/assets/**", "/assets_shop/**", "/captcha").permitAll()
         .anyRequest().hasAnyRole("ADMIN","STAFF")
       )
       .formLogin(login -> login
@@ -74,7 +74,7 @@ public class SecurityConfig {
       .authorizeHttpRequests(auth -> auth
         .requestMatchers("/", "/login", "/tienda/login", "/tienda/registro",
                          "/auth/forgot", "/auth/reset",
-                         "/assets/**", "/favicon.ico", "/captcha",
+                         "/assets/**", "/assets_shop/**", "/captcha",
                          "/api/tienda/**").permitAll()
         .anyRequest().authenticated()
       )
