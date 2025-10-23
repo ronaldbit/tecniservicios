@@ -1,0 +1,15 @@
+C:\Users\RONALD\Desktop\tecniservicios\src\main\java\com\example\simplemvc\Application.java
+C:\Users\RONALD\Desktop\tecniservicios\src\main\java\com\example\simplemvc\config\CaptchaFilter.java
+C:\Users\RONALD\Desktop\tecniservicios\src\main\java\com\example\simplemvc\config\SecurityConfig.java
+C:\Users\RONALD\Desktop\tecniservicios\src\main\java\com\example\simplemvc\controllers\admin\AdminProductosController.java
+C:\Users\RONALD\Desktop\tecniservicios\src\main\java\com\example\simplemvc\controllers\admin\api\ProductoAdminApi.java
+C:\Users\RONALD\Desktop\tecniservicios\src\main\java\com\example\simplemvc\controllers\AuthController.java
+C:\Users\RONALD\Desktop\tecniservicios\src\main\java\com\example\simplemvc\controllers\CaptchaController.java
+C:\Users\RONALD\Desktop\tecniservicios\src\main\java\com\example\simplemvc\controllers\DynamicRouterController.java
+C:\Users\RONALD\Desktop\tecniservicios\src\main\java\com\example\simplemvc\controllers\tienda\api\ProductoPublicApi.java
+C:\Users\RONALD\Desktop\tecniservicios\src\main\java\com\example\simplemvc\controllers\tienda\ProductosController.java
+C:\Users\RONALD\Desktop\tecniservicios\src\main\java\com\example\simplemvc\model\Producto.java
+C:\Users\RONALD\Desktop\tecniservicios\src\main\java\com\example\simplemvc\model\ProductoModel.java
+C:\Users\RONALD\Desktop\tecniservicios\src\main\java\com\example\simplemvc\security\CustomAuthFailureHandler.java
+C:\Users\RONALD\Desktop\tecniservicios\src\main\java\com\example\simplemvc\security\CustomAuthSuccessHandler.java
+C:\Users\RONALD\Desktop\tecniservicios\src\main\java\com\example\simplemvc\security\DbUserDetailsService.java

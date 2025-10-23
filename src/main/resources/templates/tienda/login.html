@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <title>Inicio de sesión - Tienda</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" href="/assets/images/favicon.svg" type="image/x-icon" />
+  <link rel="stylesheet" href="/assets/css/style.css" />
+  <link rel="stylesheet" href="/assets/css/style-preset.css" />
+</head>
+<body>
+  <div class="auth-main">
+    <div class="auth-wrapper v1">
+      <div class="auth-form">
+        <div class="card my-5">
+          <div class="card-body">
+            <div class="text-center">
+              <a href="/" class="b-brand text-primary">
+                <span style="font-size:20px;font-weight:bold;">TECNISERVICIOS</span>
+              </a>
+            </div>
+
+            <div class="saprator my-3"><span>Acceso Tienda</span></div>
+            <h4 class="text-center f-w-500 mb-3">Inicia sesión</h4>
+
+            <div style="color:#b00020; text-align:center; margin-bottom:8px;">
+              <script>
+                (function(){
+                  const q = new URLSearchParams(location.search);
+                  if(q.has('error')){
+                    const t = q.get('error')==='captcha' ? 'Código CAPTCHA incorrecto'
+                              : (q.get('error')==='forbidden' ? 'No tienes permisos para esta sección' : 'Credenciales inválidas');
+                    document.write('<div>'+t+'</div>');
+                  }
+                })();
+              </script>
+            </div>
+
+            <form method="post" action="/auth/login" autocomplete="off">
+              <input type="hidden" name="scope" value="tienda"/>
+              <div class="mb-3">
+                <input type="text" class="form-control" name="username" placeholder="Usuario o correo" required />
+              </div>
+              <div class="mb-3">
+                <input type="password" class="form-control" name="password" placeholder="Contraseña" required />
+              </div>
+
+              <div class="d-flex mt-1 justify-content-between align-items-center" style="gap:8px">
+                <div>
+                  <img id="captchaImg" src="/captcha" alt="captcha" style="height:48px;border:1px solid #eee;border-radius:6px">
+                  <button type="button" class="btn btn-light-primary" style="margin-left:6px" onclick="refreshCaptcha()">↻</button>
+                </div>
+                <div style="min-width:140px">
+                  <input type="text" class="form-control" id="codigo" name="codigo" placeholder="Código" maxlength="6" required style="text-transform:uppercase" />
+                </div>
+              </div>
+
+              <div class="d-flex mt-2 justify-content-between align-items-center">
+                <label class="form-check-label text-muted">
+                  <input class="form-check-input input-primary" type="checkbox" name="remember-me" /> Recordarme
+                </label>
+                <a href="/auth/forgot" class="text-secondary f-w-400 mb-0">¿Olvidaste tu contraseña?</a>
+              </div>
+
+              <div class="d-grid mt-4" style="gap:10px">
+                <button type="submit" class="btn btn-primary">Acceder</button>
+                <a class="btn btn-light" href="/tienda/registro">Crear cuenta</a>
+              </div>
+            </form>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function refreshCaptcha(){ document.getElementById('captchaImg').src = '/captcha?ts=' + Date.now(); }
+    document.addEventListener('input', e => { if(e.target.id==='codigo'){ e.target.value = e.target.value.toUpperCase(); }});
+    refreshCaptcha();
+  </script>
+</body>
+</html>
