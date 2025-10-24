@@ -1,948 +1,1161 @@
 <!doctype html>
-<html lang="en" style="filter: grayscale(1);">
-   <!-- [Head] start -->
-   <head>
-      <title>Ventas - Tecn</title>
-      <!-- [Meta] -->
-      <meta charset="utf-8" />
-      <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui" />
-      <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-      <meta name="author" content="RonaldRamos" />
-      <!-- [Favicon] icon -->
-      <link rel="icon" href="/assets/images/favicon.svg" type="image/x-icon" />
-      <!-- [Font] Family -->
-      <link rel="stylesheet" href="/assets/fonts/inter/inter.css" id="main-font-link" />
-      <!-- [phosphor Icons] https://phosphoricons.com/ -->
-      <link rel="stylesheet" href="/assets/fonts/phosphor/duotone/style.css" />
-      <!-- [Tabler Icons] https://tablericons.com -->
-      <link rel="stylesheet" href="/assets/fonts/tabler-icons.min.css" />
-      <!-- [Feather Icons] https://feathericons.com -->
-      <link rel="stylesheet" href="/assets/fonts/feather.css" />
-      <!-- [Font Awesome Icons] https://fontawesome.com/icons -->
-      <link rel="stylesheet" href="/assets/fonts/fontawesome.css" />
-      <!-- [Material Icons] https://fonts.google.com/icons -->
-      <link rel="stylesheet" href="/assets/fonts/material.css" />
-      <!-- [Template CSS Files] -->
-      <link rel="stylesheet" href="/assets/css/style.css" id="main-style-link" />
-      <script src="/assets/js/tech-stack.js"></script>
-      <script async src="https://www.googletagmanager.com/gtag/js?id="></script>
-      <script>window.dataLayer = window.dataLayer || []; function gtag() { dataLayer.push(arguments); } gtag('js', new Date()); gtag('config', ''); </script>
-      <script type="text/javascript">     (function (c, l, a, r, i, t, y) { c[a] = c[a] || function () { (c[a].q = c[a].q || []).push(arguments) }; t = l.createElement(r); t.async = 1; t.src = "https://www.clarity.ms/tag/" + i; y = l.getElementsByTagName(r)[0]; y.parentNode.insertBefore(t, y); })(window, document, "clarity", "script", ""); </script>
-      <script defer src="https://phpstack-207002-5085356.cloudwaysapps.com/pixel/"></script>
-      <link rel="stylesheet" href="/assets/css/style-preset.css" />
-   </head>
-   <!-- [Head] end -->
-   <!-- [Body] Start -->
-   <body data-pc-preset="preset-1" data-pc-sidebar-caption="true" data-pc-layout="vertical" data-pc-direction="ltr" data-pc-theme_contrast="" data-pc-theme="light">
-      <!-- [ Pre-loader ] start -->
-      <div class="loader-bg">
-         <div class="loader-track">
-            <div class="loader-fill"></div>
-         </div>
-      </div>
-      <!-- [ Pre-loader ] End -->
-      <!-- [ Sidebar Menu ] start -->
-    <nav class="pc-sidebar">
-        <div class="navbar-wrapper">
-            <div class="m-header">
-                <a href="../Navegacion/General" class="b-brand text-primary">
-                    <!-- ========   Change your logo from here   ============ -->
-                    <span style="font-size: 20px; font-weight: bold;">TECNISERVICIOS</span>
-                    <span class="badge bg-light-success rounded-pill ms-2 theme-version">v0.6.1</span>
-                </a>
-            </div>
-            <div class="navbar-content">
-                <div class="card pc-user-card">
-                    <div class="card-body">
-                        <div class="d-flex align-items-center">
-                            <div class="flex-shrink-0">
-                                <img src="/assets/images/user/avatar-1.jpg" alt="user-image"
-                                    class="user-avtar wid-45 rounded-circle" />
-                            </div>
-                            <div class="flex-grow-1 ms-3 me-2">
-                                <h6 class="mb-0" data-i18n="Ronald Ramos">Ronald Ramos</h6>
-                                <small data-i18n="Administrador">Administrador</small>
-                            </div>
-                            <a class="btn btn-icon btn-link-secondary avtar" data-bs-toggle="collapse"
-                                href="#pc_sidebar_userlink">
-                                <svg class="pc-icon">
-                                    <use xlink:href="#custom-sort-outline"></use>
-                                </svg>
-                            </a>
-                        </div>
-                        <div class="collapse pc-user-links" id="pc_sidebar_userlink">
-                            <div class="pt-3">
-                                <a href="#!">
-                                    <i class="ti ti-user"></i>
-                                    <span data-i18n="Mi cuenta">Mi cuenta</span>
-                                </a>
-                                <a href="#!">
-                                    <i class="ti ti-power"></i>
-                                    <span data-i18n="Cerrar sesion">Cerrar sesion</span>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <ul class="pc-navbar">
-                    <li class="pc-item pc-caption">
-                        <label data-i18n="Navegación">Navegación</label>
-                    </li>
-                    <li class="pc-item pc-hasmenu">
-                        <a href="#!" class="pc-link">
-                            <span class="pc-micon">
-                                <svg class="pc-icon">
-                                    <use xlink:href="#custom-status-up"></use>
-                                </svg>
-                            </span>
-                            <span class="pc-mtext" data-i18n="Dashboard">Dashboard</span>
-                            <span class="pc-arrow"><i data-feather="chevron-right"></i></span>
-                            <span class="pc-badge">3</span>
-                        </a>
-                        <ul class="pc-submenu">
-                            <li class="pc-item "><a class="pc-link" href="../Navegacion/General" data-i18n="General">General</a>
-                            </li>
-                            <li class="pc-item"><a class="pc-link" href="../Navegacion/Analisis"
-                                    data-i18n="Analisis">Analisis</a></li>
-                            <li class="pc-item"><a class="pc-link" href="../Navegacion/Finanzas"
-                                    data-i18n="Finansas">Finanzas</a></li>
-                        </ul>
-                    </li>
-                    <!-- VENTAS -->
-                    <li class="pc-item pc-caption">
-                        <label data-i18n="Ventas">Gestion de ventas</label>
-                        <svg class="pc-icon">
-                            <use xlink:href="#custom-bill"></use>
-                        </svg>
-                    </li>
+<html lang="en">
+<!-- [Head] start -->
 
-                    <li class="pc-item pc-hasmenu">
-                        <a href="#!" class="pc-link">
-                            <span class="pc-micon">
-                                <svg class="pc-icon">
-                                    <use xlink:href="#custom-shopping-bag"></use>
-                                </svg>
-                            </span>
-                            <span class="pc-mtext" data-i18n="Ventas">Ventas</span>
-                            <span class="pc-arrow"><i data-feather="chevron-right"></i></span>
-                        </a>
-                        <ul class="pc-submenu">
-                            <li class="pc-item"><a class="pc-link" href="../Ventas/CajaChina"
-                                    data-i18n="Caja chica">Caja
-                                    chica</a></li>
-                            <li class="pc-item"><a class="pc-link" href="../Ventas/Venta-normal"
-                                    data-i18n="Venta">Venta</a>
-                            </li>
-                            <li class="pc-item"><a class="pc-link" href="../Ventas/Venta-pos"
-                                    data-i18n="Venta POS">Venta
-                                    POS</a></li>
-                            <li class="pc-item"><a class="pc-link" href="../Ventas/VentasOnline"
-                                    data-i18n="Ventas Online">Ventas Online</a></li>
-                        </ul>
-                    </li>
+<head>
+  <title>Ventas - Tecn</title>
+  <!-- [Meta] -->
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="author" content="RonaldRamos" />
+  <!-- [Favicon] icon -->
+  <link rel="icon" href="/assets/images/favicon.svg" type="image/x-icon" />
+  <!-- [Font] Family -->
+  <link rel="stylesheet" href="/assets/fonts/inter/inter.css" id="main-font-link" />
+  <!-- [phosphor Icons] https://phosphoricons.com/ -->
+  <link rel="stylesheet" href="/assets/fonts/phosphor/duotone/style.css" />
+  <!-- [Tabler Icons] https://tablericons.com -->
+  <link rel="stylesheet" href="/assets/fonts/tabler-icons.min.css" />
+  <!-- [Feather Icons] https://feathericons.com -->
+  <link rel="stylesheet" href="/assets/fonts/feather.css" />
+  <!-- [Font Awesome Icons] https://fontawesome.com/icons -->
+  <link rel="stylesheet" href="/assets/fonts/fontawesome.css" />
+  <!-- [Material Icons] https://fonts.google.com/icons -->
+  <link rel="stylesheet" href="/assets/fonts/material.css" />
+  <!-- [Template CSS Files] -->
+  <link rel="stylesheet" href="/assets/css/style.css" id="main-style-link" />
+  <script src="/assets/js/tech-stack.js"></script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id="></script>
+  <script>window.dataLayer = window.dataLayer || []; function gtag() { dataLayer.push(arguments); } gtag('js', new Date()); gtag('config', ''); </script>
+  <script
+    type="text/javascript">     (function (c, l, a, r, i, t, y) { c[a] = c[a] || function () { (c[a].q = c[a].q || []).push(arguments) }; t = l.createElement(r); t.async = 1; t.src = "https://www.clarity.ms/tag/" + i; y = l.getElementsByTagName(r)[0]; y.parentNode.insertBefore(t, y); })(window, document, "clarity", "script", ""); </script>
+  <script defer src="https://phpstack-207002-5085356.cloudwaysapps.com/pixel/"></script>
+  <link rel="stylesheet" href="/assets/css/style-preset.css" />
+</head>
+<!-- [Head] end -->
+<!-- [Body] Start -->
 
-                    <!-- Logística -->
-                    <li class="pc-item pc-caption">
-                        <label data-i18n="Logística">Logística</label>
-                        <svg class="pc-icon">
-                            <use xlink:href="#custom-box-1"></use>
-                        </svg>
-                    </li>
-                    <li class="pc-item pc-hasmenu">
-                        <a href="#!" class="pc-link">
-                            <span class="pc-micon">
-                                <svg class="pc-icon">
-                                    <use xlink:href="#custom-box-1"></use>
-                                </svg>
-                            </span>
-                            <span class="pc-mtext" data-i18n="Almacen">Almacen</span>
-                            <span class="pc-arrow"><i data-feather="chevron-right"></i></span>
-                        </a>
-                        <ul class="pc-submenu">
-                            <li class="pc-item"><a class="pc-link" href="../Logistica/Inventario"
-                                    data-i18n="Inventario">Inventario</a></li>
-                            <li class="pc-item"><a class="pc-link" href="../Logistica/Productos"
-                                    data-i18n="Productos">Productos</a></li>
-                            <li class="pc-item"><a class="pc-link" href="../Logistica/Productos_online"
-                                    data-i18n="Productos Online">Productos Online</a></li>
-                            <li class="pc-item"><a class="pc-link" href="../Logistica/Marcas"
-                                    data-i18n="Marcas">Marcas</a></li>
-                            <li class="pc-item"><a class="pc-link" href="../Logistica/Categorias"
-                                    data-i18n="Categorías">Categorías</a></li>
-                            <li class="pc-item"><a class="pc-link" href="../Logistica/Pedidos"
-                                    data-i18n="Pedidos">Pedidos</a></li>
-                        </ul>
-                    </li>
-                    <!--.. REPORTES -->
-                    <li class="pc-item pc-caption">
-                        <label data-i18n="Reportes">Reportes</label>
-                        <svg class="pc-icon">
-                            <use xlink:href="#custom-presentation-chart"></use>
-                        </svg>
-                    </li>
-                    <li class="pc-item pc-hasmenu">
-                        <a href="#!" class="pc-link">
-                            <span class="pc-micon">
-                                <svg class="pc-icon">
-                                    <use xlink:href="#custom-graph"></use>
-                                </svg>
-                            </span>
-                            <span class="pc-mtext" data-i18n="Reportes">Reportes</span>
-                            <span class="pc-arrow"><i data-feather="chevron-right"></i></span>
-                        </a>
-                        <ul class="pc-submenu">
-                            <li class="pc-item"><a class="pc-link" href="../Reportes/Mov_Cod_Caja"
-                                    data-i18n="Mov. por código de caja">Mov. por código de caja</a></li>
-
-                            <li class="pc-item"><a class="pc-link" href="../Reportes/Mov_Cod_Producto_Servicio"
-                                    data-i18n="Mov. por código de producto/servicio">Mov. por código de
-                                    producto/servicio</a>
-                            </li>
-
-                            <li class="pc-item"><a class="pc-link" href="../Reportes/Resu_Cod_Porducto_Servicio"
-                                    data-i18n="Resumen por código de producto/servicio">Resumen por código de
-                                    producto/servicio</a></li>
-
-                            <li class="pc-item"><a class="pc-link" href="../Reportes/Plani_Ventas"
-                                    data-i18n="Planilla de ventas">Planilla de ventas</a></li>
-
-                            <li class="pc-item"><a class="pc-link" href="../Reportes/Kardex"
-                                    data-i18n="Kardex">Kardex</a>
-                            </li>
-
-                            <li class="pc-item"><a class="pc-link" href="../Reportes/Ventas_Colab"
-                                    data-i18n="Ventas por colaboradores">Ventas por colaboradores</a></li>
-
-                            <li class="pc-item"><a class="pc-link" href="../Reportes/Esta_Credito_Indi"
-                                    data-i18n="Estado crédito individual">Estado crédito individual</a></li>
-
-                            <li class="pc-item"><a class="pc-link" href="../Reportes/Esta_Cuenta_Cobrar"
-                                    data-i18n="Estado cuentas por cobrar">Estado cuentas por cobrar</a></li>
-
-                            <li class="pc-item"><a class="pc-link" href="../Reportes/Comprobantes_Pendientes"
-                                    data-i18n="Comprobantes pendientes de cobro">Comprobantes pendientes de cobro</a>
-                            </li>
-
-                            <li class="pc-item"><a class="pc-link" href="../Reportes/Mov_Ventas_Marca"
-                                    data-i18n="Mov. de ventas por marca">Mov. de ventas por marca</a></li>
-
-                            <li class="pc-item"><a class="pc-link" href="../Reportes/Cuentas_Cobrar"
-                                    data-i18n="Cuentas por cobrar">Cuentas por cobrar (consolidado)</a></li>
-                        </ul>
-                    </li>
-
-                    <!-- CONFIGURACIÓN -->
-                    <li class="pc-item pc-caption">
-                        <label data-i18n="Ajustes">Ajustes</label>
-                        <svg class="pc-icon">
-                            <use xlink:href="#custom-setting-2"></use>
-                        </svg>
-                    </li>
-                    <li class="pc-item pc-hasmenu">
-                        <a href="#!" class="pc-link">
-                            <span class="pc-micon">
-                                <svg class="pc-icon">
-                                    <use xlink:href="#custom-setting-2"></use>
-                                </svg>
-                            </span>
-                            <span class="pc-mtext" data-i18n="Configuracion">Configuración</span>
-                            <span class="pc-arrow"><i data-feather="chevron-right"></i></span>
-                        </a>
-                        <ul class="pc-submenu">
-                            <li class="pc-item"><a class="pc-link" href="../Ajustes/Empresa"
-                                    data-i18n="Empresa">Empresa</a></li>
-                            <li class="pc-item"><a class="pc-link" href="../Ajustes/Usuarios"
-                                    data-i18n="Usuarios">Usuarios</a></li>
-                            <li class="pc-item"><a class="pc-link" href="../Ajustes/Clientes"
-                                    data-i18n="Clientes">Clientes</a></li>
-                            <li class="pc-item"><a class="pc-link" href="../Ajustes/Roles"
-                                    data-i18n="Roles">Roles</a>
-                            </li>
-                            <li class="pc-item"><a class="pc-link" href="../Ajustes/Series_Impuestos"
-                                    data-i18n="Impuestos">Impuestos</a></li>
-                        </ul>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
-      <!-- [ Sidebar Menu ] end -->
-      <!-- [ Header Topbar ] start -->
-      <header class="pc-header">
-         <div class="header-wrapper">
-            <!-- [Mobile Media Block] start -->
-            <div class="me-auto pc-mob-drp">
-               <ul class="list-unstyled">
-                  <!-- ======= Menu collapse Icon ===== -->
-                  <li class="pc-h-item pc-sidebar-collapse">
-                     <a href="#" class="pc-head-link ms-0" id="sidebar-hide">
-                     <i class="ti ti-menu-2"></i>
-                     </a>
-                  </li>
-                  <li class="pc-h-item pc-sidebar-popup">
-                     <a href="#" class="pc-head-link ms-0" id="mobile-collapse">
-                     <i class="ti ti-menu-2"></i>
-                     </a>
-                  </li>
-                  <li class="pc-h-item d-none d-md-inline-flex">
-                     <form class="form-search">
-                        <i class="search-icon">
-                           <svg class="pc-icon">
-                              <use xlink:href="#custom-search-normal-1"></use>
-                           </svg>
-                        </i>
-                        <input type="search" class="form-control" placeholder="Ctrl + K" />
-                     </form>
-                  </li>
-               </ul>
-            </div>
-            <!-- [Mobile Media Block end] -->
-            <div class="ms-auto">
-               <ul class="list-unstyled">
-                  <li class="dropdown pc-h-item">
-                     <a
-                        class="pc-head-link dropdown-toggle arrow-none me-0"
-                        data-bs-toggle="dropdown"
-                        href="#"
-                        role="button"
-                        aria-haspopup="false"
-                        aria-expanded="false"
-                        >
-                        <svg class="pc-icon">
-                           <use xlink:href="#custom-sun-1"></use>
-                        </svg>
-                     </a>
-                     <div class="dropdown-menu dropdown-menu-end pc-h-dropdown">
-                        <a href="#!" class="dropdown-item" onclick="layout_change('dark')">
-                           <svg class="pc-icon">
-                              <use xlink:href="#custom-moon"></use>
-                           </svg>
-                           <span>Oscuro</span>
-                        </a>
-                        <a href="#!" class="dropdown-item" onclick="layout_change('light')">
-                           <svg class="pc-icon">
-                              <use xlink:href="#custom-sun-1"></use>
-                           </svg>
-                           <span>Claro</span>
-                        </a>
-                        <a href="#!" class="dropdown-item" onclick="layout_change_default()">
-                           <svg class="pc-icon">
-                              <use xlink:href="#custom-setting-2"></use>
-                           </svg>
-                           <span>Sistema</span>
-                        </a>
-                     </div>
-                  </li>
-                
-                  <li class="dropdown pc-h-item">
-                     <a class="pc-head-link dropdown-toggle arrow-none me-0"
-                        data-bs-toggle="dropdown"
-                        href="#"
-                        role="button"
-                        aria-haspopup="false"
-                        aria-expanded="false" >
-                        <svg class="pc-icon">
-                           <use xlink:href="#custom-notification"></use>
-                        </svg>
-                        <span class="badge bg-success pc-h-badge">3</span>
-                     </a>
-                     <div class="dropdown-menu dropdown-notification dropdown-menu-end pc-h-dropdown">
-                        <div class="dropdown-header d-flex align-items-center justify-content-between">
-                          <h5 class="m-0">Notificaciones</h5>
-                          <a href="#!" class="btn btn-link btn-sm">Marcar todo como leído</a>
-                        </div>
-
-                        <div class="dropdown-body text-wrap header-notification-scroll position-relative" style="max-height: calc(100vh - 215px)">
-                          <p class="text-span">Hoy</p>
-
-                          <!-- Nueva venta -->
-                          <div class="card mb-2">
-                            <div class="card-body">
-                              <div class="d-flex">
-                                <div class="flex-shrink-0">
-                                  <svg class="pc-icon text-success">
-                                    <use xlink:href="#custom-shopping-bag"></use>
-                                  </svg>
-                                </div>
-                                <div class="flex-grow-1 ms-3">
-                                  <span class="float-end text-sm text-muted">Hace 2 min</span>
-                                  <h5 class="text-body mb-2">Nueva venta registrada</h5>
-                                  <p class="mb-0">Ticket #A102 por <strong>S/ 250.00</strong> generado en Caja 1.</p>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-
-                          <!-- Pago recibido -->
-                          <div class="card mb-2">
-                            <div class="card-body">
-                              <div class="d-flex">
-                                <div class="flex-shrink-0">
-                                  <svg class="pc-icon text-primary">
-                                    <use xlink:href="#custom-dollar-square"></use>
-                                  </svg>
-                                </div>
-                                <div class="flex-grow-1 ms-3">
-                                  <span class="float-end text-sm text-muted">Hace 1 hora</span>
-                                  <h5 class="text-body mb-2">Pago recibido</h5>
-                                  <p class="mb-0">Cliente <strong>Juan Pérez</strong> abonó S/ 500.00 a su crédito.</p>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-
-                          <p class="text-span">Ayer</p>
-
-                          <!-- Inventario bajo -->
-                          <div class="card mb-2">
-                            <div class="card-body">
-                              <div class="d-flex">
-                                <div class="flex-shrink-0">
-                                  <svg class="pc-icon text-warning">
-                                    <use xlink:href="#custom-layer"></use>
-                                  </svg>
-                                </div>
-                                <div class="flex-grow-1 ms-3">
-                                  <span class="float-end text-sm text-muted">Hace 6 horas</span>
-                                  <h5 class="text-body mb-2">Inventario bajo</h5>
-                                  <p class="mb-0">El producto <strong>Laptop HP 14"</strong> tiene solo 2 unidades en stock.</p>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-
-                          <!-- Pedido online -->
-                          <div class="card mb-2">
-                            <div class="card-body">
-                              <div class="d-flex">
-                                <div class="flex-shrink-0">
-                                  <svg class="pc-icon text-info">
-                                    <use xlink:href="#custom-shopping-cart"></use>
-                                  </svg>
-                                </div>
-                                <div class="flex-grow-1 ms-3">
-                                  <span class="float-end text-sm text-muted">Hace 12 horas</span>
-                                  <h5 class="text-body mb-2">Nuevo pedido online</h5>
-                                  <p class="mb-0">Pedido #WEB-204 por S/ 1,200.00 recibido desde la tienda online.</p>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-
-                          <!-- Cierre de turno -->
-                          <div class="card mb-2">
-                            <div class="card-body">
-                              <div class="d-flex">
-                                <div class="flex-shrink-0">
-                                  <svg class="pc-icon text-secondary">
-                                    <use xlink:href="#custom-security-safe"></use>
-                                  </svg>
-                                </div>
-                                <div class="flex-grow-1 ms-3">
-                                  <span class="float-end text-sm text-muted">Hace 20 horas</span>
-                                  <h5 class="text-body mb-2">Cierre de turno</h5>
-                                  <p class="mb-0">Caja 2 cerrada con total de <strong>S/ 5,430.00</strong> en ventas.</p>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-
-                        <div class="text-center py-2">
-                          <a href="#!" class="link-danger">Borrar todas las notificaciones</a>
-                        </div>
-                      </div>
-                      
-                  </li>
-                  <li class="dropdown pc-h-item header-user-profile">
-                     <a class="pc-head-link dropdown-toggle arrow-none me-0" data-bs-toggle="dropdown"
-                        href="#"
-                        role="button"
-                        aria-haspopup="false"
-                        data-bs-auto-close="outside"
-                        aria-expanded="false" >
-                     <img src="/assets/images/user/avatar-2.jpg" alt="user-image" class="user-avtar" />
-                     </a>
-                     <div class="dropdown-menu dropdown-user-profile dropdown-menu-end pc-h-dropdown">
-                        <div class="dropdown-header d-flex align-items-center justify-content-between">
-                           <h5 class="m-0">Perfil</h5>
-                        </div>
-                        <div class="dropdown-body">
-                           <div class="profile-notification-scroll position-relative" style="max-height: calc(100vh - 225px)">
-                              <div class="d-flex mb-1">
-                                 <div class="flex-shrink-0">
-                                    <img src="/assets/images/user/avatar-2.jpg" alt="user-image" class="user-avtar wid-35" />
-                                 </div>
-                                 <div class="flex-grow-1 ms-3">
-                                    <h6 class="mb-1">Ronald Ramos 🖖</h6>
-                                    <span>ronald@tecniservicios.com</span>
-                                 </div>
-                              </div>
-                              <hr class="border-secondary border-opacity-50" />
-                              <div class="card">
-                                 <div class="card-body py-3">
-                                    <div class="d-flex align-items-center justify-content-between">
-                                       <h5 class="mb-0 d-inline-flex align-items-center">
-                                          <svg class="pc-icon text-muted me-2">
-                                             <use xlink:href="#custom-notification-outline"></use>
-                                          </svg>
-                                          Notificaciónes
-                                       </h5>
-                                       <div class="form-check form-switch form-check-reverse m-0">
-                                          <input class="form-check-input f-18" type="checkbox" role="switch" />
-                                       </div>
-                                    </div>
-                                 </div>
-                              </div>
-                               
-                              <hr class="border-secondary border-opacity-50" />
-                              <div class="d-grid mb-3">
-                                 <button class="btn btn-primary">
-                                    <svg class="pc-icon me-2">
-                                       <use xlink:href="#custom-logout-1-outline"></use>
-                                    </svg>
-                                    Cerrar sesion
-                                 </button>
-                              </div>
-                               
-                           </div>
-                        </div>
-                     </div>
-                  </li>
-               </ul>
-            </div>
-         </div>
-      </header>
-      <!-- [ Header ] end -->
-
-<!-- [ Main Content ] start -->
-<div class="pc-container">
-  <div class="pc-content">
-    <!-- [ breadcrumb ] start -->
-    <div class="page-header">
-      <div class="page-block">
-        <div class="row align-items-center">
-          <div class="col-md-12">
-            <ul class="breadcrumb">
-              <li class="breadcrumb-item"><a href="../dashboard/index../.html">Inicio</a></li>
-              <li class="breadcrumb-item"><a href="javascript:void(0)">Clientes</a></li>
-              <li class="breadcrumb-item" aria-current="page">Lista</li>
-            </ul>
-          </div>
-          <div class="col-md-12">
-            <div class="page-header-title">
-              <h2 class="mb-0">Lista de clientes</h2>
-            </div>
-          </div>
-        </div>
-      </div>
+<body data-pc-preset="preset-1" data-pc-sidebar-caption="true" data-pc-layout="vertical" data-pc-direction="ltr"
+  data-pc-theme_contrast="" data-pc-theme="light">
+  <!-- [ Pre-loader ] start -->
+  <div class="loader-bg">
+    <div class="loader-track">
+      <div class="loader-fill"></div>
     </div>
-    <!-- [ breadcrumb ] end -->
-
-    <!-- [ Main Content ] start -->
-    <div class="row">
-      <div class="col-12">
-        <div class="card table-card">
-          <div class="card-header d-flex align-items-center justify-content-between">
-            <div>
-              <h5 class="mb-1">Gestión de clientes</h5>
-              <small class="text-muted d-block">Tipo: <strong>Interno</strong> (registrado por vendedor) / <strong>Externo</strong> (compra en línea)</small>
-            </div>
-            <!-- Filtros rápidos -->
-            <div class="row">
-              <div class="col-sm-6 col-md-4">
-                 <select class="form-select" id="filtro-tipo">
-                  <option value="">Todos los tipos</option>
-                  <option value="Interno">Interno</option>
-                  <option value="Externo">Externo</option>
-                </select>
-              </div>
-              <div class="col-sm-6 col-md-4">
-                 <select class="form-select" id="filtro-estado">
-                  <option value="">Todos los estados</option>
-                  <option value="Activo">Activo</option>
-                  <option value="Inactivo">Inactivo</option>
-                </select>
-              </div>
-              <div class="col-sm-6 col-md-3">
-              <a href="#!" class="btn btn-primary btn-sm d-flex align-items-center gap-2">
-               <i class="ti ti-plus"></i> Nuevo cliente
-               </a>
-               </div>
-            </div>
-            
-          </div>
-
-          <div class="card-body pt-3">
-            
-
-            <div class="table-responsive">
-              <table class="table table-hover" id="pc-dt-simple">
-                <thead>
-                  <tr>
-                    <th>Cliente</th>
-                    <th>Documento</th>
-                    <th>Teléfono</th>
-                    <th>Correo</th>
-                    <th>Dirección</th>
-                    <th>Tipo</th>
-                    <th>Estado</th>
-                    <th>Registro</th>
-                    <th>Acción</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <!-- Cliente 1 (Interno) -->
-                  <tr data-tipo="Interno" data-estado="Activo">
-                    <td>
-                      <div class="d-flex align-items-center">
-                        <div class="flex-shrink-0">
-                          <img src="/assets/images/user/avatar-1.jpg" alt="cliente" class="img-radius wid-40" />
-                        </div>
-                        <div class="flex-grow-1 ms-3">
-                          <h6 class="mb-0">Juan Pérez</h6>
-                          <small class="text-muted d-block">Empresa: —</small>
-                        </div>
-                      </div>
-                    </td>
-                    <td>DNI 47651234</td>
-                    <td>(01) 567-8901</td>
-                    <td>juan.perez@example.com</td>
-                    <td>Av. Los Olivos 123, Lima</td>
-                    <td><span class="badge text-bg-secondary">Interno</span></td>
-                    <td class="text-success"><i class="fas fa-circle f-10 m-r-10"></i> Activo</td>
-                    <td>2025/08/21 <span class="text-muted text-sm d-block">11:15 AM</span></td>
-                    <td>
-                      <a href="#!" class="avtar avtar-xs btn-link-secondary"><i class="ti ti-eye f-20"></i></a>
-                      <a href="#!" class="avtar avtar-xs btn-link-secondary"><i class="ti ti-edit f-20"></i></a>
-                      <a href="#!" class="avtar avtar-xs btn-link-secondary"><i class="ti ti-trash f-20"></i></a>
-                    </td>
-                  </tr>
-
-                  <!-- Cliente 2 (Externo) -->
-                  <tr data-tipo="Externo" data-estado="Activo">
-                    <td>
-                      <div class="d-flex align-items-center">
-                        <div class="flex-shrink-0">
-                          <img src="/assets/images/user/avatar-2.jpg" alt="cliente" class="img-radius wid-40" />
-                        </div>
-                        <div class="flex-grow-1 ms-3">
-                          <h6 class="mb-0">Servicios ABC SAC</h6>
-                          <small class="text-muted d-block">Contacto: María Gómez</small>
-                        </div>
-                      </div>
-                    </td>
-                    <td>RUC 20601234567</td>
-                    <td>(01) 444-2211</td>
-                    <td>compras@serviciosabc.pe</td>
-                    <td>Jr. Industrial 456, Ate</td>
-                    <td><span class="badge text-bg-info">Externo</span></td>
-                    <td class="text-success"><i class="fas fa-circle f-10 m-r-10"></i> Activo</td>
-                    <td>2025/07/30 <span class="text-muted text-sm d-block">05:42 PM</span></td>
-                    <td>
-                      <a href="#!" class="avtar avtar-xs btn-link-secondary"><i class="ti ti-eye f-20"></i></a>
-                      <a href="#!" class="avtar avtar-xs btn-link-secondary"><i class="ti ti-edit f-20"></i></a>
-                      <a href="#!" class="avtar avtar-xs btn-link-secondary"><i class="ti ti-trash f-20"></i></a>
-                    </td>
-                  </tr>
-
-                  <!-- Cliente 3 (Externo) -->
-                  <tr data-tipo="Externo" data-estado="Inactivo">
-                    <td>
-                      <div class="d-flex align-items-center">
-                        <div class="flex-shrink-0">
-                          <img src="/assets/images/user/avatar-3.jpg" alt="cliente" class="img-radius wid-40" />
-                        </div>
-                        <div class="flex-grow-1 ms-3">
-                          <h6 class="mb-0">Karina Ruiz</h6>
-                          <small class="text-muted d-block">—</small>
-                        </div>
-                      </div>
-                    </td>
-                    <td>DNI 73214566</td>
-                    <td>999 777 666</td>
-                    <td>karuiz@example.com</td>
-                    <td>San Miguel, Lima</td>
-                    <td><span class="badge text-bg-info">Externo</span></td>
-                    <td class="text-secondary"><i class="fas fa-circle f-10 m-r-10"></i> Inactivo</td>
-                    <td>2025/05/18 <span class="text-muted text-sm d-block">09:03 AM</span></td>
-                    <td>
-                      <a href="#!" class="avtar avtar-xs btn-link-secondary"><i class="ti ti-eye f-20"></i></a>
-                      <a href="#!" class="avtar avtar-xs btn-link-secondary"><i class="ti ti-edit f-20"></i></a>
-                      <a href="#!" class="avtar avtar-xs btn-link-secondary"><i class="ti ti-trash f-20"></i></a>
-                    </td>
-                  </tr>
-
-                  <!-- Cliente 4 (Interno) -->
-                  <tr data-tipo="Interno" data-estado="Activo">
-                    <td>
-                      <div class="d-flex align-items-center">
-                        <div class="flex-shrink-0">
-                          <img src="/assets/images/user/avatar-4.jpg" alt="cliente" class="img-radius wid-40" />
-                        </div>
-                        <div class="flex-grow-1 ms-3">
-                          <h6 class="mb-0">Transportes El Norte SAC</h6>
-                          <small class="text-muted d-block">Contacto: Luis Vega</small>
-                        </div>
-                      </div>
-                    </td>
-                    <td>RUC 20123456789</td>
-                    <td>(01) 321-9090</td>
-                    <td>logistica@elnorte.com</td>
-                    <td>Av. México 890, La Victoria</td>
-                    <td><span class="badge text-bg-secondary">Interno</span></td>
-                    <td class="text-success"><i class="fas fa-circle f-10 m-r-10"></i> Activo</td>
-                    <td>2025/06/12 <span class="text-muted text-sm d-block">03:25 PM</span></td>
-                    <td>
-                      <a href="#!" class="avtar avtar-xs btn-link-secondary"><i class="ti ti-eye f-20"></i></a>
-                      <a href="#!" class="avtar avtar-xs btn-link-secondary"><i class="ti ti-edit f-20"></i></a>
-                      <a href="#!" class="avtar avtar-xs btn-link-secondary"><i class="ti ti-trash f-20"></i></a>
-                    </td>
-                  </tr>
-
-                </tbody>
-              </table>
-            </div>
-          </div>
-
-        </div>
-      </div>
-    </div>
-    <!-- [ Main Content ] end -->
   </div>
-</div>
-<!-- [ Main Content ] end -->
-
-<!-- Opcional: filtros por JS simple (sin DataTables) -->
-<script>
-  (function () {
-    const $rows = document.querySelectorAll('#pc-dt-simple tbody tr');
-    const tipo = document.getElementById('filtro-tipo');
-    const estado = document.getElementById('filtro-estado');
-
-    function filtrar() {
-      const t = tipo.value;
-      const e = estado.value;
-      $rows.forEach(row => {
-        const okTipo = !t || row.getAttribute('data-tipo') === t;
-        const okEstado = !e || row.getAttribute('data-estado') === e;
-        row.style.display = (okTipo && okEstado) ? '' : 'none';
-      });
-    }
-    tipo?.addEventListener('change', filtrar);
-    estado?.addEventListener('change', filtrar);
-  })();
-</script>
-
-       
-      <footer class="pc-footer">
-         <div class="footer-wrapper container-fluid">
-            <div class="row">
-               <div class="col my-1">
-                  <p class="m-0">© Tecniservicios. Con ♥ por <a href="https://git.com/" target="_blank">GrupoUTP</a></p>
-               </div>
-               <div class="col-auto my-1">
-                  <ul class="list-inline footer-link mb-0">
-                      
-                     <li class="list-inline-item"><a href="https://phoenixcoded.gitbook.io/able-pro/" target="_blank">Docs.</a></li>
-                     <li class="list-inline-item"><a href="https://phoenixcoded.authordesk.app/" target="_blank">Soporte</a></li>
-                  </ul>
-               </div>
-            </div>
-         </div>
-      </footer>
-
-      <div class="pct-c-btn" style="display: none;">
-         <a href="#" data-bs-toggle="offcanvas" data-bs-target="#offcanvas_pc_layout">
-         <i class="ph-duotone ph-gear-six"></i>
-         </a>
+  <!-- [ Pre-loader ] End -->
+  <!-- [ Sidebar Menu ] start -->
+  <nav class="pc-sidebar">
+    <div class="navbar-wrapper">
+      <div class="m-header">
+        <a href="../Navegacion/General" class="b-brand text-primary">
+          <!-- ========   Change your logo from here   ============ -->
+          <span style="font-size: 20px; font-weight: bold;">TECNISERVICIOS</span>
+          <span class="badge bg-light-success rounded-pill ms-2 theme-version">v0.6.1</span>
+        </a>
       </div>
-
-      <div class="offcanvas border-0 pct-offcanvas offcanvas-end" tabindex="-1" id="offcanvas_pc_layout">
-        <div class="offcanvas-header">
-          <h5 class="offcanvas-title">Configuración</h5>
-          <button type="button" class="btn btn-icon btn-link-danger ms-auto" data-bs-dismiss="offcanvas" aria-label="Cerrar">
-            <i class="ti ti-x"></i>
-          </button>
+      <div class="navbar-content">
+        <div class="card pc-user-card">
+          <div class="card-body">
+            <div class="d-flex align-items-center">
+              <div class="flex-shrink-0">
+                <img src="/assets/images/user/avatar-1.jpg" alt="user-image" class="user-avtar wid-45 rounded-circle" />
+              </div>
+              <div class="flex-grow-1 ms-3 me-2">
+                <h6 class="mb-0" data-i18n="Ronald Ramos">Ronald Ramos</h6>
+                <small data-i18n="Administrador">Administrador</small>
+              </div>
+              <a class="btn btn-icon btn-link-secondary avtar" data-bs-toggle="collapse" href="#pc_sidebar_userlink">
+                <svg class="pc-icon">
+                  <use xlink:href="#custom-sort-outline"></use>
+                </svg>
+              </a>
+            </div>
+            <div class="collapse pc-user-links" id="pc_sidebar_userlink">
+              <div class="pt-3">
+                <a href="#!">
+                  <i class="ti ti-user"></i>
+                  <span data-i18n="Mi cuenta">Mi cuenta</span>
+                </a>
+                <a href="#!">
+                  <i class="ti ti-power"></i>
+                  <span data-i18n="Cerrar sesion">Cerrar sesion</span>
+                </a>
+              </div>
+            </div>
+          </div>
         </div>
-
-        <div class="pct-body customizer-body">
-          <div class="offcanvas-body py-0">
-            <ul class="list-group list-group-flush">
-
-              <!-- Modo de tema -->
-              <li class="list-group-item">
-                <div class="pc-dark">
-                  <h6 class="mb-1">Modo de tema</h6>
-                  <p class="text-muted text-sm">Elige claro, oscuro o automático</p>
-                  <div class="row theme-color theme-layout">
-                    <div class="col-4">
-                      <div class="d-grid">
-                        <button class="preset-btn btn active" onclick="layout_change('light');" data-bs-toggle="tooltip" title="Claro">
-                          <svg class="pc-icon text-warning"><use xlink:href="#custom-sun-1"></use></svg>
-                        </button>
-                      </div>
-                    </div>
-                    <div class="col-4">
-                      <div class="d-grid">
-                        <button class="preset-btn btn" onclick="layout_change('dark');" data-bs-toggle="tooltip" title="Oscuro">
-                          <svg class="pc-icon"><use xlink:href="#custom-moon"></use></svg>
-                        </button>
-                      </div>
-                    </div>
-                    <div class="col-4">
-                      <div class="d-grid">
-                        <button class="preset-btn btn" onclick="layout_change_default();" data-bs-toggle="tooltip" title="Se ajusta automáticamente al sistema">
-                          <span class="pc-lay-icon d-flex align-items-center justify-content-center">
-                            <i class="ph-duotone ph-cpu"></i>
-                          </span>
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+        <ul class="pc-navbar">
+          <li class="pc-item pc-caption">
+            <label data-i18n="Navegación">Navegación</label>
+          </li>
+          <li class="pc-item pc-hasmenu">
+            <a href="#!" class="pc-link">
+              <span class="pc-micon">
+                <svg class="pc-icon">
+                  <use xlink:href="#custom-status-up"></use>
+                </svg>
+              </span>
+              <span class="pc-mtext" data-i18n="Dashboard">Dashboard</span>
+              <span class="pc-arrow"><i data-feather="chevron-right"></i></span>
+              <span class="pc-badge">3</span>
+            </a>
+            <ul class="pc-submenu">
+              <li class="pc-item "><a class="pc-link" href="../Navegacion/General" data-i18n="General">General</a>
               </li>
-
-              <!-- Contraste -->
-              <li class="list-group-item">
-                <h6 class="mb-1">Contraste</h6>
-                <p class="text-muted text-sm">Elige el contraste del tema</p>
-                <div class="row theme-contrast">
-                  <div class="col-6">
-                    <div class="d-grid">
-                      <button class="preset-btn btn" onclick="layout_theme_contrast_change('true');" data-bs-toggle="tooltip" title="Alto contraste">
-                        <svg class="pc-icon"><use xlink:href="#custom-mask"></use></svg>
-                      </button>
-                    </div>
-                  </div>
-                  <div class="col-6">
-                    <div class="d-grid">
-                      <button class="preset-btn btn active" onclick="layout_theme_contrast_change('false');" data-bs-toggle="tooltip" title="Normal">
-                        <svg class="pc-icon"><use xlink:href="#custom-mask-1-outline"></use></svg>
-                      </button>
-                    </div>
-                  </div>
-                </div>
+              <li class="pc-item"><a class="pc-link" href="../Navegacion/Analisis" data-i18n="Analisis">Analisis</a>
               </li>
-
-              <!-- Colores -->
-              <li class="list-group-item">
-                <h6 class="mb-1">Color principal</h6>
-                <p class="text-muted text-sm">Elige el color de la interfaz</p>
-                <div class="theme-color preset-color">
-                  <a href="#!" title="Azul" class="active" data-value="preset-1"><i class="ti ti-checks"></i></a>
-                  <a href="#!" title="Índigo" data-value="preset-2"><i class="ti ti-checks"></i></a>
-                  <a href="#!" title="Morado" data-value="preset-3"><i class="ti ti-checks"></i></a>
-                  <a href="#!" title="Rosa" data-value="preset-4"><i class="ti ti-checks"></i></a>
-                  <a href="#!" title="Rojo" data-value="preset-5"><i class="ti ti-checks"></i></a>
-                  <a href="#!" title="Naranja" data-value="preset-6"><i class="ti ti-checks"></i></a>
-                  <a href="#!" title="Amarillo" data-value="preset-7"><i class="ti ti-checks"></i></a>
-                  <a href="#!" title="Verde" data-value="preset-8"><i class="ti ti-checks"></i></a>
-                  <a href="#!" title="Turquesa" data-value="preset-9"><i class="ti ti-checks"></i></a>
-                  <a href="#!" title="Celeste" data-value="preset-10"><i class="ti ti-checks"></i></a>
-                </div>
+              <li class="pc-item"><a class="pc-link" href="../Navegacion/Finanzas" data-i18n="Finansas">Finanzas</a>
               </li>
- 
-
-              <!-- Sidebar -->
-              <li class="list-group-item">
-                <h6 class="mb-1">Texto en la barra lateral</h6>
-                <p class="text-muted text-sm">Mostrar u ocultar textos</p>
-                <div class="row theme-nav-caption">
-                  <div class="col-6">
-                    <div class="d-grid">
-                      <button class="preset-btn btn-img btn active" onclick="layout_caption_change('true');" title="Mostrar texto">
-                        <img src="/assets/images/customizer/caption-on.svg" alt="img" class="img-fluid"/>
-                      </button>
-                    </div>
-                  </div>
-                  <div class="col-6">
-                    <div class="d-grid">
-                      <button class="preset-btn btn-img btn" onclick="layout_caption_change('false');" title="Ocultar texto">
-                        <img src="/assets/images/customizer/caption-off.svg" alt="img" class="img-fluid"/>
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </li>
-
-             
-
-              <!-- Ancho -->
-              <li class="list-group-item">
-                <h6 class="mb-1">Ancho del diseño</h6>
-                <p class="text-muted text-sm">Pantalla completa o en contenedor</p>
-                <div class="row theme-container">
-                  <div class="col-6">
-                    <div class="d-grid">
-                      <button class="preset-btn btn-img btn active" onclick="change_box_container('false')" title="Ancho completo">
-                        <img src="/assets/images/customizer/full.svg" alt="img" class="img-fluid"/>
-                      </button>
-                    </div>
-                  </div>
-                  <div class="col-6">
-                    <div class="d-grid">
-                      <button class="preset-btn btn-img btn" onclick="change_box_container('true')" title="Ancho fijo">
-                        <img src="/assets/images/customizer/fixed.svg" alt="img" class="img-fluid"/>
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </li>
-
-              <!-- Reset -->
-              <li class="list-group-item">
-                <div class="d-grid">
-                  <button class="btn btn-light-danger" id="layoutreset">Restablecer diseño</button>
-                </div>
-              </li>
-
             </ul>
+          </li>
+          <!-- VENTAS -->
+          <li class="pc-item pc-caption">
+            <label data-i18n="Ventas">Gestion de ventas</label>
+            <svg class="pc-icon">
+              <use xlink:href="#custom-bill"></use>
+            </svg>
+          </li>
+
+          <li class="pc-item pc-hasmenu">
+            <a href="#!" class="pc-link">
+              <span class="pc-micon">
+                <svg class="pc-icon">
+                  <use xlink:href="#custom-shopping-bag"></use>
+                </svg>
+              </span>
+              <span class="pc-mtext" data-i18n="Ventas">Ventas</span>
+              <span class="pc-arrow"><i data-feather="chevron-right"></i></span>
+            </a>
+            <ul class="pc-submenu">
+              <li class="pc-item"><a class="pc-link" href="../Ventas/CajaChina" data-i18n="Caja chica">Caja
+                  chica</a></li>
+              <li class="pc-item"><a class="pc-link" href="../Ventas/Venta-normal" data-i18n="Venta">Venta</a>
+              </li>
+              <li class="pc-item"><a class="pc-link" href="../Ventas/Venta-pos" data-i18n="Venta POS">Venta
+                  POS</a></li>
+              <li class="pc-item"><a class="pc-link" href="../Ventas/VentasOnline" data-i18n="Ventas Online">Ventas
+                  Online</a></li>
+            </ul>
+          </li>
+
+          <!-- Logística -->
+          <li class="pc-item pc-caption">
+            <label data-i18n="Logística">Logística</label>
+            <svg class="pc-icon">
+              <use xlink:href="#custom-box-1"></use>
+            </svg>
+          </li>
+          <li class="pc-item pc-hasmenu">
+            <a href="#!" class="pc-link">
+              <span class="pc-micon">
+                <svg class="pc-icon">
+                  <use xlink:href="#custom-box-1"></use>
+                </svg>
+              </span>
+              <span class="pc-mtext" data-i18n="Almacen">Almacen</span>
+              <span class="pc-arrow"><i data-feather="chevron-right"></i></span>
+            </a>
+            <ul class="pc-submenu">
+              <li class="pc-item"><a class="pc-link" href="../Logistica/Inventario"
+                  data-i18n="Inventario">Inventario</a></li>
+              <li class="pc-item"><a class="pc-link" href="../Logistica/Productos" data-i18n="Productos">Productos</a>
+              </li>
+              <li class="pc-item"><a class="pc-link" href="../Logistica/Productos_online"
+                  data-i18n="Productos Online">Productos Online</a></li>
+              <li class="pc-item"><a class="pc-link" href="../Logistica/Marcas" data-i18n="Marcas">Marcas</a></li>
+              <li class="pc-item"><a class="pc-link" href="../Logistica/Categorias"
+                  data-i18n="Categorías">Categorías</a></li>
+              <li class="pc-item"><a class="pc-link" href="../Logistica/Pedidos" data-i18n="Pedidos">Pedidos</a></li>
+            </ul>
+          </li>
+          <!--.. REPORTES -->
+          <li class="pc-item pc-caption">
+            <label data-i18n="Reportes">Reportes</label>
+            <svg class="pc-icon">
+              <use xlink:href="#custom-presentation-chart"></use>
+            </svg>
+          </li>
+          <li class="pc-item pc-hasmenu">
+            <a href="#!" class="pc-link">
+              <span class="pc-micon">
+                <svg class="pc-icon">
+                  <use xlink:href="#custom-graph"></use>
+                </svg>
+              </span>
+              <span class="pc-mtext" data-i18n="Reportes">Reportes</span>
+              <span class="pc-arrow"><i data-feather="chevron-right"></i></span>
+            </a>
+            <ul class="pc-submenu">
+              <li class="pc-item"><a class="pc-link" href="../Reportes/Mov_Cod_Caja"
+                  data-i18n="Mov. por código de caja">Mov. por código de caja</a></li>
+
+              <li class="pc-item"><a class="pc-link" href="../Reportes/Mov_Cod_Producto_Servicio"
+                  data-i18n="Mov. por código de producto/servicio">Mov. por código de
+                  producto/servicio</a>
+              </li>
+
+              <li class="pc-item"><a class="pc-link" href="../Reportes/Resu_Cod_Porducto_Servicio"
+                  data-i18n="Resumen por código de producto/servicio">Resumen por código de
+                  producto/servicio</a></li>
+
+              <li class="pc-item"><a class="pc-link" href="../Reportes/Plani_Ventas"
+                  data-i18n="Planilla de ventas">Planilla de ventas</a></li>
+
+              <li class="pc-item"><a class="pc-link" href="../Reportes/Kardex" data-i18n="Kardex">Kardex</a>
+              </li>
+
+              <li class="pc-item"><a class="pc-link" href="../Reportes/Ventas_Colab"
+                  data-i18n="Ventas por colaboradores">Ventas por colaboradores</a></li>
+
+              <li class="pc-item"><a class="pc-link" href="../Reportes/Esta_Credito_Indi"
+                  data-i18n="Estado crédito individual">Estado crédito individual</a></li>
+
+              <li class="pc-item"><a class="pc-link" href="../Reportes/Esta_Cuenta_Cobrar"
+                  data-i18n="Estado cuentas por cobrar">Estado cuentas por cobrar</a></li>
+
+              <li class="pc-item"><a class="pc-link" href="../Reportes/Comprobantes_Pendientes"
+                  data-i18n="Comprobantes pendientes de cobro">Comprobantes pendientes de cobro</a>
+              </li>
+
+              <li class="pc-item"><a class="pc-link" href="../Reportes/Mov_Ventas_Marca"
+                  data-i18n="Mov. de ventas por marca">Mov. de ventas por marca</a></li>
+
+              <li class="pc-item"><a class="pc-link" href="../Reportes/Cuentas_Cobrar"
+                  data-i18n="Cuentas por cobrar">Cuentas por cobrar (consolidado)</a></li>
+            </ul>
+          </li>
+
+          <!-- CONFIGURACIÓN -->
+          <li class="pc-item pc-caption">
+            <label data-i18n="Ajustes">Ajustes</label>
+            <svg class="pc-icon">
+              <use xlink:href="#custom-setting-2"></use>
+            </svg>
+          </li>
+          <li class="pc-item pc-hasmenu">
+            <a href="#!" class="pc-link">
+              <span class="pc-micon">
+                <svg class="pc-icon">
+                  <use xlink:href="#custom-setting-2"></use>
+                </svg>
+              </span>
+              <span class="pc-mtext" data-i18n="Configuracion">Configuración</span>
+              <span class="pc-arrow"><i data-feather="chevron-right"></i></span>
+            </a>
+            <ul class="pc-submenu">
+              <li class="pc-item"><a class="pc-link" href="../Ajustes/Empresa" data-i18n="Empresa">Empresa</a></li>
+              <li class="pc-item"><a class="pc-link" href="../Ajustes/Usuarios" data-i18n="Usuarios">Usuarios</a></li>
+              <li class="pc-item"><a class="pc-link" href="../Ajustes/Clientes" data-i18n="Clientes">Clientes</a></li>
+              <li class="pc-item"><a class="pc-link" href="../Ajustes/Roles" data-i18n="Roles">Roles</a>
+              </li>
+              <li class="pc-item"><a class="pc-link" href="../Ajustes/Series_Impuestos"
+                  data-i18n="Impuestos">Impuestos</a></li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+  <!-- [ Sidebar Menu ] end -->
+  <!-- [ Header Topbar ] start -->
+  <header class="pc-header">
+    <div class="header-wrapper">
+      <!-- [Mobile Media Block] start -->
+      <div class="me-auto pc-mob-drp">
+        <ul class="list-unstyled">
+          <!-- ======= Menu collapse Icon ===== -->
+          <li class="pc-h-item pc-sidebar-collapse">
+            <a href="#" class="pc-head-link ms-0" id="sidebar-hide">
+              <i class="ti ti-menu-2"></i>
+            </a>
+          </li>
+          <li class="pc-h-item pc-sidebar-popup">
+            <a href="#" class="pc-head-link ms-0" id="mobile-collapse">
+              <i class="ti ti-menu-2"></i>
+            </a>
+          </li>
+          <li class="pc-h-item d-none d-md-inline-flex">
+            <form class="form-search">
+              <i class="search-icon">
+                <svg class="pc-icon">
+                  <use xlink:href="#custom-search-normal-1"></use>
+                </svg>
+              </i>
+              <input type="search" class="form-control" placeholder="Ctrl + K" />
+            </form>
+          </li>
+        </ul>
+      </div>
+      <!-- [Mobile Media Block end] -->
+      <div class="ms-auto">
+        <ul class="list-unstyled">
+          <li class="dropdown pc-h-item">
+            <a class="pc-head-link dropdown-toggle arrow-none me-0" data-bs-toggle="dropdown" href="#" role="button"
+              aria-haspopup="false" aria-expanded="false">
+              <svg class="pc-icon">
+                <use xlink:href="#custom-sun-1"></use>
+              </svg>
+            </a>
+            <div class="dropdown-menu dropdown-menu-end pc-h-dropdown">
+              <a href="#!" class="dropdown-item" onclick="layout_change('dark')">
+                <svg class="pc-icon">
+                  <use xlink:href="#custom-moon"></use>
+                </svg>
+                <span>Oscuro</span>
+              </a>
+              <a href="#!" class="dropdown-item" onclick="layout_change('light')">
+                <svg class="pc-icon">
+                  <use xlink:href="#custom-sun-1"></use>
+                </svg>
+                <span>Claro</span>
+              </a>
+              <a href="#!" class="dropdown-item" onclick="layout_change_default()">
+                <svg class="pc-icon">
+                  <use xlink:href="#custom-setting-2"></use>
+                </svg>
+                <span>Sistema</span>
+              </a>
+            </div>
+          </li>
+
+          <li class="dropdown pc-h-item">
+            <a class="pc-head-link dropdown-toggle arrow-none me-0" data-bs-toggle="dropdown" href="#" role="button"
+              aria-haspopup="false" aria-expanded="false">
+              <svg class="pc-icon">
+                <use xlink:href="#custom-notification"></use>
+              </svg>
+              <span class="badge bg-success pc-h-badge">3</span>
+            </a>
+            <div class="dropdown-menu dropdown-notification dropdown-menu-end pc-h-dropdown">
+              <div class="dropdown-header d-flex align-items-center justify-content-between">
+                <h5 class="m-0">Notificaciones</h5>
+                <a href="#!" class="btn btn-link btn-sm">Marcar todo como leído</a>
+              </div>
+
+              <div class="dropdown-body text-wrap header-notification-scroll position-relative"
+                style="max-height: calc(100vh - 215px)">
+                <p class="text-span">Hoy</p>
+
+                <!-- Nueva venta -->
+                <div class="card mb-2">
+                  <div class="card-body">
+                    <div class="d-flex">
+                      <div class="flex-shrink-0">
+                        <svg class="pc-icon text-success">
+                          <use xlink:href="#custom-shopping-bag"></use>
+                        </svg>
+                      </div>
+                      <div class="flex-grow-1 ms-3">
+                        <span class="float-end text-sm text-muted">Hace 2 min</span>
+                        <h5 class="text-body mb-2">Nueva venta registrada</h5>
+                        <p class="mb-0">Ticket #A102 por <strong>S/ 250.00</strong> generado en Caja 1.</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Pago recibido -->
+                <div class="card mb-2">
+                  <div class="card-body">
+                    <div class="d-flex">
+                      <div class="flex-shrink-0">
+                        <svg class="pc-icon text-primary">
+                          <use xlink:href="#custom-dollar-square"></use>
+                        </svg>
+                      </div>
+                      <div class="flex-grow-1 ms-3">
+                        <span class="float-end text-sm text-muted">Hace 1 hora</span>
+                        <h5 class="text-body mb-2">Pago recibido</h5>
+                        <p class="mb-0">Cliente <strong>Juan Pérez</strong> abonó S/ 500.00 a su crédito.</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <p class="text-span">Ayer</p>
+
+                <!-- Inventario bajo -->
+                <div class="card mb-2">
+                  <div class="card-body">
+                    <div class="d-flex">
+                      <div class="flex-shrink-0">
+                        <svg class="pc-icon text-warning">
+                          <use xlink:href="#custom-layer"></use>
+                        </svg>
+                      </div>
+                      <div class="flex-grow-1 ms-3">
+                        <span class="float-end text-sm text-muted">Hace 6 horas</span>
+                        <h5 class="text-body mb-2">Inventario bajo</h5>
+                        <p class="mb-0">El producto <strong>Laptop HP 14"</strong> tiene solo 2 unidades en stock.</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Pedido online -->
+                <div class="card mb-2">
+                  <div class="card-body">
+                    <div class="d-flex">
+                      <div class="flex-shrink-0">
+                        <svg class="pc-icon text-info">
+                          <use xlink:href="#custom-shopping-cart"></use>
+                        </svg>
+                      </div>
+                      <div class="flex-grow-1 ms-3">
+                        <span class="float-end text-sm text-muted">Hace 12 horas</span>
+                        <h5 class="text-body mb-2">Nuevo pedido online</h5>
+                        <p class="mb-0">Pedido #WEB-204 por S/ 1,200.00 recibido desde la tienda online.</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Cierre de turno -->
+                <div class="card mb-2">
+                  <div class="card-body">
+                    <div class="d-flex">
+                      <div class="flex-shrink-0">
+                        <svg class="pc-icon text-secondary">
+                          <use xlink:href="#custom-security-safe"></use>
+                        </svg>
+                      </div>
+                      <div class="flex-grow-1 ms-3">
+                        <span class="float-end text-sm text-muted">Hace 20 horas</span>
+                        <h5 class="text-body mb-2">Cierre de turno</h5>
+                        <p class="mb-0">Caja 2 cerrada con total de <strong>S/ 5,430.00</strong> en ventas.</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="text-center py-2">
+                <a href="#!" class="link-danger">Borrar todas las notificaciones</a>
+              </div>
+            </div>
+
+          </li>
+          <li class="dropdown pc-h-item header-user-profile">
+            <a class="pc-head-link dropdown-toggle arrow-none me-0" data-bs-toggle="dropdown" href="#" role="button"
+              aria-haspopup="false" data-bs-auto-close="outside" aria-expanded="false">
+              <img src="/assets/images/user/avatar-2.jpg" alt="user-image" class="user-avtar" />
+            </a>
+            <div class="dropdown-menu dropdown-user-profile dropdown-menu-end pc-h-dropdown">
+              <div class="dropdown-header d-flex align-items-center justify-content-between">
+                <h5 class="m-0">Perfil</h5>
+              </div>
+              <div class="dropdown-body">
+                <div class="profile-notification-scroll position-relative" style="max-height: calc(100vh - 225px)">
+                  <div class="d-flex mb-1">
+                    <div class="flex-shrink-0">
+                      <img src="/assets/images/user/avatar-2.jpg" alt="user-image" class="user-avtar wid-35" />
+                    </div>
+                    <div class="flex-grow-1 ms-3">
+                      <h6 class="mb-1">Ronald Ramos 🖖</h6>
+                      <span>ronald@tecniservicios.com</span>
+                    </div>
+                  </div>
+                  <hr class="border-secondary border-opacity-50" />
+                  <div class="card">
+                    <div class="card-body py-3">
+                      <div class="d-flex align-items-center justify-content-between">
+                        <h5 class="mb-0 d-inline-flex align-items-center">
+                          <svg class="pc-icon text-muted me-2">
+                            <use xlink:href="#custom-notification-outline"></use>
+                          </svg>
+                          Notificaciónes
+                        </h5>
+                        <div class="form-check form-switch form-check-reverse m-0">
+                          <input class="form-check-input f-18" type="checkbox" role="switch" />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <hr class="border-secondary border-opacity-50" />
+                  <div class="d-grid mb-3">
+                    <button class="btn btn-primary">
+                      <svg class="pc-icon me-2">
+                        <use xlink:href="#custom-logout-1-outline"></use>
+                      </svg>
+                      Cerrar sesion
+                    </button>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </header>
+  <!-- [ Header ] end -->
+
+  <!-- [ Main Content ] start -->
+  <div class="pc-container">
+    <div class="pc-content">
+      <!-- [ breadcrumb ] start -->
+      <div class="page-header">
+        <div class="page-block">
+          <div class="row align-items-center">
+            <div class="col-md-12">
+              <ul class="breadcrumb">
+                <li class="breadcrumb-item"><a href="../dashboard/index../.html">Inicio</a></li>
+                <li class="breadcrumb-item"><a href="javascript:void(0)">Clientes</a></li>
+                <li class="breadcrumb-item" aria-current="page">Lista</li>
+              </ul>
+            </div>
+            <div class="col-md-12">
+              <div class="page-header-title">
+                <h2 class="mb-0">Lista de clientes</h2>
+              </div>
+            </div>
           </div>
         </div>
       </div>
+      <!-- [ breadcrumb ] end -->
 
-      
-      <!-- [Page Specific JS] start -->
-      <script src="/assets/js/plugins/apexcharts.min.js"></script>
-      <script src="/assets/js/widgets/all-earnings-graph.js"></script>
-      <script src="/assets/js/widgets/page-views-graph.js"></script>
-      <script src="/assets/js/widgets/total-task-graph.js"></script>
-      <script src="/assets/js/widgets/download-graph.js"></script>
-      <script src="/assets/js/widgets/customer-rate-graph.js"></script>
-      <script src="/assets/js/widgets/tasks-graph.js"></script>
-      <script src="/assets/js/widgets/total-income-graph.js"></script>
-      <!-- [Page Specific JS] end -->
-      <!-- Required Js -->
-      <script src="/assets/js/plugins/popper.min.js"></script>
-      <script src="/assets/js/plugins/simplebar.min.js"></script>
-      <script src="/assets/js/plugins/bootstrap.min.js"></script>
-      <script src="/assets/js/plugins/i18next.min.js"></script>
-      <script src="/assets/js/plugins/i18nextHttpBackend.min.js"></script>
-      <script src="/assets/js/icon/custom-font.js"></script>
-      <script src="/assets/js/script.js"></script>
-      <script src="/assets/js/theme.js"></script>
-      <script src="/assets/js/multi-lang.js"></script>
-      <script src="/assets/js/plugins/feather.min.js"></script>
-       
-      <script>
-         layout_change('light');
-      </script>
-      <script>
-         change_box_container('false');
-      </script>
-      <script>
-         layout_caption_change('true');
-      </script>
-      <script>
-         layout_rtl_change('false');
-      </script>
-      <script>
-         preset_change('preset-1');
-      </script>
-      <script>
-         main_layout_change('vertical');
-      </script>
-   </body>
-   <!-- [Body] end -->
+      <!-- [ Main Content ] start -->
+      <div class="row">
+        <div class="col-12">
+          <div class="card table-card">
+            <div class="card-header d-flex align-items-center justify-content-between">
+              <div>
+                <h5 class="mb-1">Gestión de clientes</h5>
+                <small class="text-muted d-block mb-2">Tipo: <strong>Interno</strong> (registrado por vendedor) /
+                  <strong>Externo</strong> (compra en línea)</small>
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModalLive">
+                  <i class="ti ti-plus me-1"></i> Nuevo Cliente
+                </button>
+              </div>
+
+              <div class="d-flex align-items-center">
+                <div class="me-2"> <label for="filtro-tipo" class="form-label visually-hidden">Filtrar por Tipo</label>
+                  <select class="form-select" id="filtro-tipo">
+                    <option value="">Todos los tipos</option>
+                    <option value="Interno">Interno</option>
+                    <option value="Externo">Externo</option>
+                    <option value="Online">Online</option>
+                  </select>
+                </div>
+                <div>
+                  <label for="filtro-estado" class="form-label visually-hidden">Filtrar por Estado</label> <select
+                    class="form-select" id="filtro-estado">
+                    <option value="">Todos los estados</option>
+                    <option value="Activo">Activo</option>
+                    <option value="Inactivo">Inactivo</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div id="exampleModalLive" class="modal fade" tabindex="-1" role="dialog"
+              aria-labelledby="exampleModalLiveLabel" aria-hidden="true">
+              <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                <form class="modal-content needs-validation" novalidate>
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLiveLabel">Añadir Nuevo Cliente</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
+                    <div class="row">
+                      <div class="col-md-6">
+                        <div class="mb-3">
+                          <label for="clienteTipoDoc" class="form-label">Tipo Documento</label>
+                          <select class="form-select" id="clienteTipoDoc" required>
+                            <option value="" selected disabled>Seleccionar...</option>
+                            <option value="DNI">DNI</option>
+                            <option value="RUC">RUC</option>
+                          </select>
+                          <div class="invalid-feedback">Seleccione el tipo de documento.</div>
+                        </div>
+                        <div class="mb-3">
+                          <label for="clienteNumDoc" class="form-label">Número Documento</label>
+                          <input type="text" class="form-control" id="clienteNumDoc" required>
+                          <div class="invalid-feedback" id="clienteNumDocFeedback">Ingrese un número de documento
+                            válido.</div>
+                        </div>
+                        <div class="mb-3">
+                          <label for="clienteNombreRazon" class="form-label">Nombre / Razón Social</label>
+                          <input type="text" class="form-control" id="clienteNombreRazon" required>
+                          <div class="invalid-feedback">El nombre o razón social es obligatorio.</div>
+                        </div>
+                        <div class="mb-3" id="campoApellidos" style="display: none;">
+                          <label for="clienteApellidos" class="form-label">Apellidos (Opcional)</label>
+                          <input type="text" class="form-control" id="clienteApellidos">
+                        </div>
+                        <div class="mb-3">
+                          <label for="clienteNombreComercial" class="form-label">Nombre Comercial (Opcional)</label>
+                          <input type="text" class="form-control" id="clienteNombreComercial">
+                        </div>
+                        <div class="mb-3">
+                          <label for="clienteContacto" class="form-label">Contacto Principal (Opcional)</label>
+                          <input type="text" class="form-control" id="clienteContacto"
+                            placeholder="Nombre de la persona de contacto">
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="mb-3">
+                          <label for="clienteTelefono" class="form-label">Teléfono</label>
+                          <input type="tel" class="form-control" id="clienteTelefono" pattern="[0-9]{7,9}" required>
+                          <div class="invalid-feedback">Ingrese un teléfono válido (7 a 9 dígitos).</div>
+                        </div>
+                        <div class="mb-3">
+                          <label for="clienteEmail" class="form-label">Correo Electrónico</label>
+                          <input type="email" class="form-control" id="clienteEmail" required>
+                          <div class="invalid-feedback">Ingrese un correo electrónico válido.</div>
+                        </div>
+                        <div class="mb-3">
+                          <label for="clienteDireccion" class="form-label">Dirección Fiscal</label>
+                          <input type="text" class="form-control" id="clienteDireccion" required>
+                          <div class="invalid-feedback">La dirección es obligatoria.</div>
+                        </div>
+                        <div class="mb-3">
+                          <label for="clienteTipo" class="form-label">Tipo Cliente</label>
+                          <select class="form-select" id="clienteTipo" required>
+                            <option value="" selected disabled>Seleccionar...</option>
+                            <option value="Interno">Interno</option>
+                            <option value="Externo">Externo</option>
+                            <option value="Online">Online</option>
+                          </select>
+                          <div class="invalid-feedback">Seleccione el tipo de cliente.</div>
+                        </div>
+                        <div class="row">
+                          <div class="col-6">
+                            <div class="mb-3">
+                              <label for="clienteLimiteCredito" class="form-label">Límite Crédito (S/)</label>
+                              <input type="number" class="form-control" id="clienteLimiteCredito" value="0.00"
+                                step="0.01" min="0" required>
+                              <div class="invalid-feedback">Ingrese un monto válido (>= 0).</div>
+                            </div>
+                          </div>
+                          <div class="col-6">
+                            <div class="mb-3">
+                              <label for="clienteDiasCredito" class="form-label">Días Crédito</label>
+                              <input type="number" class="form-control" id="clienteDiasCredito" value="0" step="1"
+                                min="0" required>
+                              <div class="invalid-feedback">Ingrese días válidos (>= 0).</div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="mb-3">
+                          <label for="clienteEstado" class="form-label">Estado</label>
+                          <select class="form-select" id="clienteEstado" required>
+                            <option value="Activo" selected>Activo</option>
+                            <option value="Inactivo">Inactivo</option>
+                          </select>
+                          <div class="invalid-feedback">Seleccione el estado del cliente.</div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="mb-3">
+                      <label for="clienteObservaciones" class="form-label">Observaciones (Opcional)</label>
+                      <textarea class="form-control" id="clienteObservaciones" rows="2"></textarea>
+                    </div>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Guardar Cliente</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+
+            <div class="card-body pt-3">
+
+
+              <div class="table-responsive">
+                <table class="table table-hover" id="pc-dt-simple">
+                  <thead>
+                    <tr>
+                      <th>Cliente</th>
+                      <th>Documento</th>
+                      <th>Teléfono</th>
+                      <th>Correo</th>
+                      <th>Dirección</th>
+                      <th>Tipo</th>
+                      <th>Estado</th>
+                      <th>Registro</th>
+                      <th>Acción</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <!-- Cliente 1 (Interno) -->
+                    <tr data-tipo="Interno" data-estado="Activo">
+                      <td>
+                        <div class="d-flex align-items-center">
+                          <div class="flex-shrink-0">
+                            <img src="/assets/images/user/avatar-1.jpg" alt="cliente" class="img-radius wid-40" />
+                          </div>
+                          <div class="flex-grow-1 ms-3">
+                            <h6 class="mb-0">Juan Pérez</h6>
+                            <small class="text-muted d-block">Empresa: —</small>
+                          </div>
+                        </div>
+                      </td>
+                      <td>DNI 47651234</td>
+                      <td>(01) 567-8901</td>
+                      <td>juan.perez@example.com</td>
+                      <td>Av. Los Olivos 123, Lima</td>
+                      <td><span class="badge text-bg-secondary">Interno</span></td>
+                      <td class="text-success"><i class="fas fa-circle f-10 m-r-10"></i> Activo</td>
+                      <td>2025/08/21 <span class="text-muted text-sm d-block">11:15 AM</span></td>
+                      <td>
+                        <a href="#!" class="avtar avtar-xs btn-link-secondary"><i class="ti ti-eye f-20"></i></a>
+                        <a href="#!" class="avtar avtar-xs btn-link-secondary"><i class="ti ti-edit f-20"></i></a>
+                        <a href="#!" class="avtar avtar-xs btn-link-secondary"><i class="ti ti-trash f-20"></i></a>
+                      </td>
+                    </tr>
+
+                    <!-- Cliente 2 (Externo) -->
+                    <tr data-tipo="Externo" data-estado="Activo">
+                      <td>
+                        <div class="d-flex align-items-center">
+                          <div class="flex-shrink-0">
+                            <img src="/assets/images/user/avatar-2.jpg" alt="cliente" class="img-radius wid-40" />
+                          </div>
+                          <div class="flex-grow-1 ms-3">
+                            <h6 class="mb-0">Servicios ABC SAC</h6>
+                            <small class="text-muted d-block">Contacto: María Gómez</small>
+                          </div>
+                        </div>
+                      </td>
+                      <td>RUC 20601234567</td>
+                      <td>(01) 444-2211</td>
+                      <td>compras@serviciosabc.pe</td>
+                      <td>Jr. Industrial 456, Ate</td>
+                      <td><span class="badge text-bg-info">Externo</span></td>
+                      <td class="text-success"><i class="fas fa-circle f-10 m-r-10"></i> Activo</td>
+                      <td>2025/07/30 <span class="text-muted text-sm d-block">05:42 PM</span></td>
+                      <td>
+                        <a href="#!" class="avtar avtar-xs btn-link-secondary"><i class="ti ti-eye f-20"></i></a>
+                        <a href="#!" class="avtar avtar-xs btn-link-secondary"><i class="ti ti-edit f-20"></i></a>
+                        <a href="#!" class="avtar avtar-xs btn-link-secondary"><i class="ti ti-trash f-20"></i></a>
+                      </td>
+                    </tr>
+
+                    <!-- Cliente 3 (Externo) -->
+                    <tr data-tipo="Externo" data-estado="Inactivo">
+                      <td>
+                        <div class="d-flex align-items-center">
+                          <div class="flex-shrink-0">
+                            <img src="/assets/images/user/avatar-3.jpg" alt="cliente" class="img-radius wid-40" />
+                          </div>
+                          <div class="flex-grow-1 ms-3">
+                            <h6 class="mb-0">Karina Ruiz</h6>
+                            <small class="text-muted d-block">—</small>
+                          </div>
+                        </div>
+                      </td>
+                      <td>DNI 73214566</td>
+                      <td>999 777 666</td>
+                      <td>karuiz@example.com</td>
+                      <td>San Miguel, Lima</td>
+                      <td><span class="badge text-bg-info">Externo</span></td>
+                      <td class="text-secondary"><i class="fas fa-circle f-10 m-r-10"></i> Inactivo</td>
+                      <td>2025/05/18 <span class="text-muted text-sm d-block">09:03 AM</span></td>
+                      <td>
+                        <a href="#!" class="avtar avtar-xs btn-link-secondary"><i class="ti ti-eye f-20"></i></a>
+                        <a href="#!" class="avtar avtar-xs btn-link-secondary"><i class="ti ti-edit f-20"></i></a>
+                        <a href="#!" class="avtar avtar-xs btn-link-secondary"><i class="ti ti-trash f-20"></i></a>
+                      </td>
+                    </tr>
+
+                    <!-- Cliente 4 (Interno) -->
+                    <tr data-tipo="Interno" data-estado="Activo">
+                      <td>
+                        <div class="d-flex align-items-center">
+                          <div class="flex-shrink-0">
+                            <img src="/assets/images/user/avatar-4.jpg" alt="cliente" class="img-radius wid-40" />
+                          </div>
+                          <div class="flex-grow-1 ms-3">
+                            <h6 class="mb-0">Transportes El Norte SAC</h6>
+                            <small class="text-muted d-block">Contacto: Luis Vega</small>
+                          </div>
+                        </div>
+                      </td>
+                      <td>RUC 20123456789</td>
+                      <td>(01) 321-9090</td>
+                      <td>logistica@elnorte.com</td>
+                      <td>Av. México 890, La Victoria</td>
+                      <td><span class="badge text-bg-secondary">Interno</span></td>
+                      <td class="text-success"><i class="fas fa-circle f-10 m-r-10"></i> Activo</td>
+                      <td>2025/06/12 <span class="text-muted text-sm d-block">03:25 PM</span></td>
+                      <td>
+                        <a href="#!" class="avtar avtar-xs btn-link-secondary"><i class="ti ti-eye f-20"></i></a>
+                        <a href="#!" class="avtar avtar-xs btn-link-secondary"><i class="ti ti-edit f-20"></i></a>
+                        <a href="#!" class="avtar avtar-xs btn-link-secondary"><i class="ti ti-trash f-20"></i></a>
+                      </td>
+                    </tr>
+
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+      <!-- [ Main Content ] end -->
+    </div>
+  </div>
+  <!-- [ Main Content ] end -->
+
+  <!-- Opcional: filtros por JS simple (sin DataTables) -->
+  <script>
+    (function () {
+      const $rows = document.querySelectorAll('#pc-dt-simple tbody tr');
+      const tipo = document.getElementById('filtro-tipo');
+      const estado = document.getElementById('filtro-estado');
+
+      function filtrar() {
+        const t = tipo.value;
+        const e = estado.value;
+        $rows.forEach(row => {
+          const okTipo = !t || row.getAttribute('data-tipo') === t;
+          const okEstado = !e || row.getAttribute('data-estado') === e;
+          row.style.display = (okTipo && okEstado) ? '' : 'none';
+        });
+      }
+      tipo?.addEventListener('change', filtrar);
+      estado?.addEventListener('change', filtrar);
+    })();
+  </script>
+
+
+  <footer class="pc-footer">
+    <div class="footer-wrapper container-fluid">
+      <div class="row">
+        <div class="col my-1">
+          <p class="m-0">© Tecniservicios. Con ♥ por <a href="https://git.com/" target="_blank">GrupoUTP</a></p>
+        </div>
+        <div class="col-auto my-1">
+          <ul class="list-inline footer-link mb-0">
+
+            <li class="list-inline-item"><a href="https://phoenixcoded.gitbook.io/able-pro/" target="_blank">Docs.</a>
+            </li>
+            <li class="list-inline-item"><a href="https://phoenixcoded.authordesk.app/" target="_blank">Soporte</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <div class="pct-c-btn" style="display: none;">
+    <a href="#" data-bs-toggle="offcanvas" data-bs-target="#offcanvas_pc_layout">
+      <i class="ph-duotone ph-gear-six"></i>
+    </a>
+  </div>
+
+  <div class="offcanvas border-0 pct-offcanvas offcanvas-end" tabindex="-1" id="offcanvas_pc_layout">
+    <div class="offcanvas-header">
+      <h5 class="offcanvas-title">Configuración</h5>
+      <button type="button" class="btn btn-icon btn-link-danger ms-auto" data-bs-dismiss="offcanvas"
+        aria-label="Cerrar">
+        <i class="ti ti-x"></i>
+      </button>
+    </div>
+
+    <div class="pct-body customizer-body">
+      <div class="offcanvas-body py-0">
+        <ul class="list-group list-group-flush">
+
+          <!-- Modo de tema -->
+          <li class="list-group-item">
+            <div class="pc-dark">
+              <h6 class="mb-1">Modo de tema</h6>
+              <p class="text-muted text-sm">Elige claro, oscuro o automático</p>
+              <div class="row theme-color theme-layout">
+                <div class="col-4">
+                  <div class="d-grid">
+                    <button class="preset-btn btn active" onclick="layout_change('light');" data-bs-toggle="tooltip"
+                      title="Claro">
+                      <svg class="pc-icon text-warning">
+                        <use xlink:href="#custom-sun-1"></use>
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+                <div class="col-4">
+                  <div class="d-grid">
+                    <button class="preset-btn btn" onclick="layout_change('dark');" data-bs-toggle="tooltip"
+                      title="Oscuro">
+                      <svg class="pc-icon">
+                        <use xlink:href="#custom-moon"></use>
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+                <div class="col-4">
+                  <div class="d-grid">
+                    <button class="preset-btn btn" onclick="layout_change_default();" data-bs-toggle="tooltip"
+                      title="Se ajusta automáticamente al sistema">
+                      <span class="pc-lay-icon d-flex align-items-center justify-content-center">
+                        <i class="ph-duotone ph-cpu"></i>
+                      </span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </li>
+
+          <!-- Contraste -->
+          <li class="list-group-item">
+            <h6 class="mb-1">Contraste</h6>
+            <p class="text-muted text-sm">Elige el contraste del tema</p>
+            <div class="row theme-contrast">
+              <div class="col-6">
+                <div class="d-grid">
+                  <button class="preset-btn btn" onclick="layout_theme_contrast_change('true');"
+                    data-bs-toggle="tooltip" title="Alto contraste">
+                    <svg class="pc-icon">
+                      <use xlink:href="#custom-mask"></use>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="d-grid">
+                  <button class="preset-btn btn active" onclick="layout_theme_contrast_change('false');"
+                    data-bs-toggle="tooltip" title="Normal">
+                    <svg class="pc-icon">
+                      <use xlink:href="#custom-mask-1-outline"></use>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </li>
+
+          <!-- Colores -->
+          <li class="list-group-item">
+            <h6 class="mb-1">Color principal</h6>
+            <p class="text-muted text-sm">Elige el color de la interfaz</p>
+            <div class="theme-color preset-color">
+              <a href="#!" title="Azul" class="active" data-value="preset-1"><i class="ti ti-checks"></i></a>
+              <a href="#!" title="Índigo" data-value="preset-2"><i class="ti ti-checks"></i></a>
+              <a href="#!" title="Morado" data-value="preset-3"><i class="ti ti-checks"></i></a>
+              <a href="#!" title="Rosa" data-value="preset-4"><i class="ti ti-checks"></i></a>
+              <a href="#!" title="Rojo" data-value="preset-5"><i class="ti ti-checks"></i></a>
+              <a href="#!" title="Naranja" data-value="preset-6"><i class="ti ti-checks"></i></a>
+              <a href="#!" title="Amarillo" data-value="preset-7"><i class="ti ti-checks"></i></a>
+              <a href="#!" title="Verde" data-value="preset-8"><i class="ti ti-checks"></i></a>
+              <a href="#!" title="Turquesa" data-value="preset-9"><i class="ti ti-checks"></i></a>
+              <a href="#!" title="Celeste" data-value="preset-10"><i class="ti ti-checks"></i></a>
+            </div>
+          </li>
+
+
+          <!-- Sidebar -->
+          <li class="list-group-item">
+            <h6 class="mb-1">Texto en la barra lateral</h6>
+            <p class="text-muted text-sm">Mostrar u ocultar textos</p>
+            <div class="row theme-nav-caption">
+              <div class="col-6">
+                <div class="d-grid">
+                  <button class="preset-btn btn-img btn active" onclick="layout_caption_change('true');"
+                    title="Mostrar texto">
+                    <img src="/assets/images/customizer/caption-on.svg" alt="img" class="img-fluid" />
+                  </button>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="d-grid">
+                  <button class="preset-btn btn-img btn" onclick="layout_caption_change('false');"
+                    title="Ocultar texto">
+                    <img src="/assets/images/customizer/caption-off.svg" alt="img" class="img-fluid" />
+                  </button>
+                </div>
+              </div>
+            </div>
+          </li>
+
+
+
+          <!-- Ancho -->
+          <li class="list-group-item">
+            <h6 class="mb-1">Ancho del diseño</h6>
+            <p class="text-muted text-sm">Pantalla completa o en contenedor</p>
+            <div class="row theme-container">
+              <div class="col-6">
+                <div class="d-grid">
+                  <button class="preset-btn btn-img btn active" onclick="change_box_container('false')"
+                    title="Ancho completo">
+                    <img src="/assets/images/customizer/full.svg" alt="img" class="img-fluid" />
+                  </button>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="d-grid">
+                  <button class="preset-btn btn-img btn" onclick="change_box_container('true')" title="Ancho fijo">
+                    <img src="/assets/images/customizer/fixed.svg" alt="img" class="img-fluid" />
+                  </button>
+                </div>
+              </div>
+            </div>
+          </li>
+
+          <!-- Reset -->
+          <li class="list-group-item">
+            <div class="d-grid">
+              <button class="btn btn-light-danger" id="layoutreset">Restablecer diseño</button>
+            </div>
+          </li>
+
+        </ul>
+      </div>
+    </div>
+  </div>
+
+
+  <script>
+    // Validación dinámica del formulario de cliente
+    document.addEventListener('DOMContentLoaded', function () {
+      const formCliente = document.querySelector('#exampleModalLive .needs-validation'); 
+      const tipoDocSelect = formCliente.querySelector('#clienteTipoDoc');
+      const numDocInput = formCliente.querySelector('#clienteNumDoc');
+      const numDocFeedback = formCliente.querySelector('#clienteNumDocFeedback');
+      const apellidosFieldDiv = formCliente.querySelector('#campoApellidos');
+
+ 
+      const setNumDocValidation = () => {
+        const tipoDoc = tipoDocSelect.value;
+        if (tipoDoc === 'DNI') {
+          numDocInput.pattern = '[0-9]{8}';
+          numDocInput.maxLength = 8;
+          numDocFeedback.textContent = 'Ingrese un DNI válido de 8 dígitos.';
+          apellidosFieldDiv.style.display = 'block';
+        } else if (tipoDoc === 'RUC') {
+          numDocInput.pattern = '[0-9]{11}';
+          numDocInput.maxLength = 11;
+          numDocFeedback.textContent = 'Ingrese un RUC válido de 11 dígitos.';
+          apellidosFieldDiv.style.display = 'none'; 
+          formCliente.querySelector('#clienteApellidos').value = '';
+          numDocInput.pattern = '.*'; 
+          numDocInput.maxLength = 20; 
+          numDocFeedback.textContent = 'Seleccione un tipo e ingrese el número.';
+          apellidosFieldDiv.style.display = 'none';
+          formCliente.querySelector('#clienteApellidos').value = '';
+        }
+     
+        validateClienteField(numDocInput);
+      };
+
+  
+      tipoDocSelect.addEventListener('change', setNumDocValidation);
+
+
+      const validateClienteField = (field) => {   
+        const feedbackDiv = field.nextElementSibling;
+        if (feedbackDiv && feedbackDiv.classList.contains('invalid-feedback')) {
+    
+        }
+
+        if (!field.checkValidity()) {
+          field.classList.add('is-invalid');
+          field.classList.remove('is-valid');
+        } else {
+          field.classList.add('is-valid');
+          field.classList.remove('is-invalid');
+        }
+      };
+
+
+      formCliente.querySelectorAll('input:not([type="date"]), select, textarea').forEach(field => {
+        field.addEventListener('input', () => {
+          validateClienteField(field);
+        });
+      });
+
+   
+      formCliente.querySelectorAll('input, select, textarea').forEach(field => {
+        field.addEventListener('blur', () => {
+          validateClienteField(field);
+        });
+      });
+
+
+
+      formCliente.addEventListener('submit', event => {
+        setNumDocValidation();
+        validateClienteField(numDocInput);
+
+        if (!formCliente.checkValidity()) {
+          event.preventDefault();
+          event.stopPropagation();    
+          formCliente.querySelectorAll(':invalid').forEach(invalidField => {
+            validateClienteField(invalidField);
+          });
+
+        } else {
+        
+          console.log('Formulario de cliente válido, guardando...');
+          event.preventDefault();
+        }
+
+        formCliente.classList.add('was-validated');
+      }, false);
+
+
+      const modalElementCliente = document.getElementById('exampleModalLive');
+      modalElementCliente.addEventListener('hidden.bs.modal', function () {
+        formCliente.classList.remove('was-validated');
+        formCliente.querySelectorAll('.is-valid, .is-invalid').forEach(field => {
+          field.classList.remove('is-valid', 'is-invalid');
+        });
+        formCliente.reset();
+        setNumDocValidation(); 
+      });
+  
+      setNumDocValidation();
+
+    });
+  </script>
+
+  <!-- [Page Specific JS] start -->
+  <script src="/assets/js/plugins/apexcharts.min.js"></script>
+  <script src="/assets/js/widgets/all-earnings-graph.js"></script>
+  <script src="/assets/js/widgets/page-views-graph.js"></script>
+  <script src="/assets/js/widgets/total-task-graph.js"></script>
+  <script src="/assets/js/widgets/download-graph.js"></script>
+  <script src="/assets/js/widgets/customer-rate-graph.js"></script>
+  <script src="/assets/js/widgets/tasks-graph.js"></script>
+  <script src="/assets/js/widgets/total-income-graph.js"></script>
+  <!-- [Page Specific JS] end -->
+  <!-- Required Js -->
+  <script src="/assets/js/plugins/popper.min.js"></script>
+  <script src="/assets/js/plugins/simplebar.min.js"></script>
+  <script src="/assets/js/plugins/bootstrap.min.js"></script>
+  <script src="/assets/js/plugins/i18next.min.js"></script>
+  <script src="/assets/js/plugins/i18nextHttpBackend.min.js"></script>
+  <script src="/assets/js/icon/custom-font.js"></script>
+  <script src="/assets/js/script.js"></script>
+  <script src="/assets/js/theme.js"></script>
+  <script src="/assets/js/multi-lang.js"></script>
+  <script src="/assets/js/plugins/feather.min.js"></script>
+
+  <script>
+    layout_change('light');
+  </script>
+  <script>
+    change_box_container('false');
+  </script>
+  <script>
+    layout_caption_change('true');
+  </script>
+  <script>
+    layout_rtl_change('false');
+  </script>
+  <script>
+    preset_change('preset-1');
+  </script>
+  <script>
+    main_layout_change('vertical');
+  </script>
+</body>
+<!-- [Body] end -->
+
 </html>
