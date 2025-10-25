@@ -533,94 +533,14 @@
                     <tr>
                       <th>Nombre</th>
                       <th>Rol</th>
-                      <th>Teléfono</th>
+
                       <th>Fecha de inicio</th>
                       <th>Estado</th>
                       <th>Acciones</th>
                     </tr>
                   </thead>
                   <tbody>
-                    <!-- Usuario 1 -->
-                    <tr>
-                      <td>
-                        <div class="d-flex align-items-center">
-                          <img src="/assets/images/user/avatar-1.jpg" alt="Imagen usuario" class="img-radius wid-40" />
-                          <div class="ms-3">
-                            <h6 class="mb-0">Airi Satou</h6>
-                          </div>
-                        </div>
-                      </td>
-                      <td><span class="badge text-bg-success">Administrador</span></td>
-                      <td>(123) 4567 890</td>
-                      <td>2023/02/07 <span class="text-muted text-sm d-block">09:05 PM</span></td>
-                      <td class="text-success"><i class="fas fa-circle f-10 m-r-10"></i> Activo</td>
-                      <td>
-                        <a href="#" class="avtar avtar-xs btn-link-secondary" data-bs-toggle="modal"
-                          data-bs-target="#modalDetalleUsuario1" title="Ver detalles">
-                          <i class="ti ti-eye f-20"></i>
-                        </a>
-                        <a href="#" class="avtar avtar-xs btn-link-secondary" title="Editar">
-                          <i class="ti ti-edit f-20"></i>
-                        </a>
-                        <a href="#" class="avtar avtar-xs btn-link-secondary" title="Eliminar">
-                          <i class="ti ti-trash f-20"></i>
-                        </a>
-                      </td>
-                    </tr>
-                    <!-- Usuario 2 -->
-                    <tr>
-                      <td>
-                        <div class="d-flex align-items-center">
-                          <img src="/assets/images/user/avatar-2.jpg" alt="Imagen usuario" class="img-radius wid-40" />
-                          <div class="ms-3">
-                            <h6 class="mb-0">Ashton Cox</h6>
-                          </div>
-                        </div>
-                      </td>
-                      <td><span class="badge text-bg-primary">Gestor inventario</span></td>
-                      <td>(321) 6543 210</td>
-                      <td>2023/02/01 <span class="text-muted text-sm d-block">02:14 PM</span></td>
-                      <td class="text-secondary"><i class="fas fa-circle f-10 m-r-10"></i> Inactivo</td>
-                      <td>
-                        <a href="#" class="avtar avtar-xs btn-link-secondary" data-bs-toggle="modal"
-                          data-bs-target="#modalDetalleUsuario2" title="Ver detalles">
-                          <i class="ti ti-eye f-20"></i>
-                        </a>
-                        <a href="#" class="avtar avtar-xs btn-link-secondary" title="Editar">
-                          <i class="ti ti-edit f-20"></i>
-                        </a>
-                        <a href="#" class="avtar avtar-xs btn-link-secondary" title="Eliminar">
-                          <i class="ti ti-trash f-20"></i>
-                        </a>
-                      </td>
-                    </tr>
-                    <!-- Usuario 3 -->
-                    <tr>
-                      <td>
-                        <div class="d-flex align-items-center">
-                          <img src="/assets/images/user/avatar-3.jpg" alt="Imagen usuario" class="img-radius wid-40" />
-                          <div class="ms-3">
-                            <h6 class="mb-0">Bradley Greer</h6>
-                          </div>
-                        </div>
-                      </td>
-                      <td><span class="badge text-bg-warning">Vendedor</span></td>
-                      <td>(555) 1234 567</td>
-                      <td>2023/01/22 <span class="text-muted text-sm d-block">10:32 AM</span></td>
-                      <td class="text-success"><i class="fas fa-circle f-10 m-r-10"></i> Activo</td>
-                      <td>
-                        <a href="#" class="avtar avtar-xs btn-link-secondary" data-bs-toggle="modal"
-                          data-bs-target="#modalDetalleUsuario3" title="Ver detalles">
-                          <i class="ti ti-eye f-20"></i>
-                        </a>
-                        <a href="#" class="avtar avtar-xs btn-link-secondary" title="Editar">
-                          <i class="ti ti-edit f-20"></i>
-                        </a>
-                        <a href="#" class="avtar avtar-xs btn-link-secondary" title="Eliminar">
-                          <i class="ti ti-trash f-20"></i>
-                        </a>
-                      </td>
-                    </tr>
+
                   </tbody>
                 </table>
               </div>
@@ -765,26 +685,28 @@
         </div>
       </div>
       <!-- Modal Detalle Usuario 1 -->
-      <div class="modal fade" id="modalDetalleUsuario1" tabindex="-1" aria-labelledby="modalDetalleUsuario1Label"
+      <div class="modal fade" id="modalDetalleUsuario" tabindex="-1" aria-labelledby="modalDetalleUsuarioLabel"
         aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title" id="modalDetalleUsuario1Label">Detalles de usuario</h5>
+              <h5 class="modal-title" id="modalDetalleUsuarioLabel">Detalles de usuario</h5>
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
             </div>
             <div class="modal-body">
               <div class="d-flex align-items-center mb-3">
-                <img src="/assets/images/user/avatar-1.jpg" alt="Imagen usuario" class="img-radius wid-60 me-3" />
+                <img id="detalleUsuarioImg" src="/assets/images/user/avatar-1.jpg" alt="Imagen usuario"
+                  class="img-radius wid-60 me-3" />
                 <div>
-                  <h5 class="mb-0">Airi Satou</h5>
-                  <span class="badge text-bg-success">Administrador</span>
+                  <h5 class="mb-0" id="detalleUsuarioNombre">—</h5>
+                  <span class="badge text-bg-secondary" id="detalleUsuarioRol">—</span>
                 </div>
               </div>
               <ul class="list-group list-group-flush">
-                <li class="list-group-item"><strong>Teléfono:</strong> (123) 4567 890</li>
-                <li class="list-group-item"><strong>Fecha de inicio:</strong> 2023/02/07 09:05 PM</li>
-                <li class="list-group-item"><strong>Estado:</strong> <span class="text-success">Activo</span></li>
+                <li class="list-group-item"><strong>Teléfono:</strong> <span id="detalleUsuarioTelefono">—</span></li>
+                <li class="list-group-item"><strong>Fecha de inicio:</strong> <span id="detalleUsuarioFecha">—</span>
+                </li>
+                <li class="list-group-item"><strong>Estado:</strong> <span id="detalleUsuarioEstado">—</span></li>
               </ul>
             </div>
             <div class="modal-footer">
@@ -793,64 +715,8 @@
           </div>
         </div>
       </div>
-      <!-- Modal Detalle Usuario 2 -->
-      <div class="modal fade" id="modalDetalleUsuario2" tabindex="-1" aria-labelledby="modalDetalleUsuario2Label"
-        aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="modalDetalleUsuario2Label">Detalles de usuario</h5>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
-            </div>
-            <div class="modal-body">
-              <div class="d-flex align-items-center mb-3">
-                <img src="/assets/images/user/avatar-2.jpg" alt="Imagen usuario" class="img-radius wid-60 me-3" />
-                <div>
-                  <h5 class="mb-0">Ashton Cox</h5>
-                  <span class="badge text-bg-primary">Gestor inventario</span>
-                </div>
-              </div>
-              <ul class="list-group list-group-flush">
-                <li class="list-group-item"><strong>Teléfono:</strong> (321) 6543 210</li>
-                <li class="list-group-item"><strong>Fecha de inicio:</strong> 2023/02/01 02:14 PM</li>
-                <li class="list-group-item"><strong>Estado:</strong> <span class="text-secondary">Inactivo</span></li>
-              </ul>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-            </div>
-          </div>
-        </div>
-      </div>
-      <!-- Modal Detalle Usuario 3 -->
-      <div class="modal fade" id="modalDetalleUsuario3" tabindex="-1" aria-labelledby="modalDetalleUsuario3Label"
-        aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="modalDetalleUsuario3Label">Detalles de usuario</h5>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
-            </div>
-            <div class="modal-body">
-              <div class="d-flex align-items-center mb-3">
-                <img src="/assets/images/user/avatar-3.jpg" alt="Imagen usuario" class="img-radius wid-60 me-3" />
-                <div>
-                  <h5 class="mb-0">Bradley Greer</h5>
-                  <span class="badge text-bg-warning">Vendedor</span>
-                </div>
-              </div>
-              <ul class="list-group list-group-flush">
-                <li class="list-group-item"><strong>Teléfono:</strong> (555) 1234 567</li>
-                <li class="list-group-item"><strong>Fecha de inicio:</strong> 2023/01/22 10:32 AM</li>
-                <li class="list-group-item"><strong>Estado:</strong> <span class="text-success">Activo</span></li>
-              </ul>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-            </div>
-          </div>
-        </div>
-      </div>
+
+
     </div>
   </div>
   <!-- [ Main Content ] end -->
@@ -1041,102 +907,11 @@
   </div>
 
 
-  <script> 
-    // Validación personalizada del formulario de agregar usuario
-    document.addEventListener('DOMContentLoaded', function () {
-      const form = document.querySelector('#modalAgregarUsuario .needs-validation');
-      const password = form.querySelector('#usuarioPassword');
-      const passwordConfirm = form.querySelector('#usuarioPasswordConfirm');
-      const confirmPasswordFeedback = form.querySelector('#confirmPasswordFeedback');
 
-      
-      const validateField = (field) => {
-      
-        if (field === passwordConfirm) {
-          if (password.value === passwordConfirm.value && passwordConfirm.value.length >= 6) {
-            passwordConfirm.classList.remove('is-invalid');
-            passwordConfirm.classList.add('is-valid');
-            confirmPasswordFeedback.textContent = ''; // Limpiar mensaje si estaba mal antes
-          } else {
-            passwordConfirm.classList.remove('is-valid');
-            passwordConfirm.classList.add('is-invalid');
-            if (passwordConfirm.value.length < 6) {
-              confirmPasswordFeedback.textContent = 'La contraseña debe tener al menos 6 caracteres.';
-            } else {
-              confirmPasswordFeedback.textContent = 'Las contraseñas no coinciden.';
-            }
-          }
-          return; 
-        }
-
-        if (!field.checkValidity()) {
-          field.classList.add('is-invalid');
-          field.classList.remove('is-valid');
-        } else {
-          field.classList.add('is-valid');
-          field.classList.remove('is-invalid');
-        }
-      };
-
-    
-      form.querySelectorAll('input:not([type="date"]), select, textarea').forEach(field => {
-        field.addEventListener('input', () => {
-        
-          if (field === password) {
-            validateField(passwordConfirm);
-          }
-          validateField(field);
-        });
-      });
-
-    
-      form.querySelectorAll('input, select, textarea').forEach(field => {
-        field.addEventListener('blur', () => {
-          validateField(field);
-         
-          if (field === password) {
-            validateField(passwordConfirm);
-          }
-        });
-      });
-
-
-   
-      form.addEventListener('submit', event => {
-        validateField(passwordConfirm);
-
-        if (!form.checkValidity()) {
-          event.preventDefault();
-          event.stopPropagation();
-
-
-          form.querySelectorAll('input:invalid, select:invalid, textarea:invalid').forEach(invalidField => {
-            validateField(invalidField);
-          });
-
-        } else {
-
-          console.log('Formulario válido, enviando datos...');
-          event.preventDefault();
-          ;
-        }
-
-        form.classList.add('was-validated');
-      }, false);
-
-      const modalElement = document.getElementById('modalAgregarUsuario');
-      modalElement.addEventListener('hidden.bs.modal', function () {
-        form.classList.remove('was-validated');
-        form.querySelectorAll('.is-valid, .is-invalid').forEach(field => {
-          field.classList.remove('is-valid', 'is-invalid');
-        });
-        form.reset();
-      });
-
-    });
-  </script>
 
   <!-- [Page Specific JS] start -->
+
+  <script src="/assets/js/js_Ajustes/Usuarios.js"></script>
   <script src="/assets/js/plugins/apexcharts.min.js"></script>
   <script src="/assets/js/widgets/all-earnings-graph.js"></script>
   <script src="/assets/js/widgets/page-views-graph.js"></script>

@@ -52,4 +52,7 @@ public class Persona {
 
   @Builder.Default
   private boolean deleted = false;
+
+
+
 }

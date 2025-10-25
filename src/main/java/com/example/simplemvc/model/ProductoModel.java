@@ -29,6 +29,7 @@ public class ProductoModel {
     }
   };
 
+
   public List<Producto> listarPublico(String q){
     if(q==null || q.isBlank()){
       return jdbc.query("SELECT id_producto, codigo, nombre, precio, publicar_online FROM productos WHERE publicar_online IS NULL OR publicar_online=1 ORDER BY id_producto DESC", mapper);
@@ -42,10 +43,10 @@ public class ProductoModel {
     return list.isEmpty()? Optional.empty() : Optional.of(list.get(0));
   }
 
+  
   public Long crear(Producto p){
     jdbc.update("INSERT INTO productos (codigo, nombre, precio, publicar_online) VALUES (?,?,?,?)",
-      p.getCodigo(), p.getNombre(), p.getPrecio(), p.getPublicarOnline());
-    // Devuelve el último ID (MySQL)
+    p.getCodigo(), p.getNombre(), p.getPrecio(), p.getPublicarOnline());
     Long id = jdbc.queryForObject("SELECT LAST_INSERT_ID()", Long.class);
     return id;
   }
