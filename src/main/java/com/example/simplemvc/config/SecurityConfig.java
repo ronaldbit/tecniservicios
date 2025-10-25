@@ -18,6 +18,8 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.config.annotation.web.configurers.FormLoginConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.intercept.RequestAuthorizationContext;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -51,33 +53,32 @@ public class SecurityConfig {
 
   @Bean
   @Order(1)
-  SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-    log.info("Base path de la aplicación: {}", basePath);
-    http
+  SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
+    return httpSecurity
         .cors(cors -> cors.configurationSource(corsConfigurationSource()))
         .csrf(AbstractHttpConfigurer::disable)
         .httpBasic(AbstractHttpConfigurer::disable)
         .formLogin(FormLoginConfigurer::disable)
         .sessionManagement(manager -> manager.sessionCreationPolicy(SessionCreationPolicy.NEVER))
-        .authorizeHttpRequests(auth -> {
-          auth
-              .requestMatchers(securityProperties.getPublicRoutes()).permitAll()
-              .anyRequest().authenticated();
+        .authorizeHttpRequests(
+            authRequest -> {
+              authRequest.requestMatchers(securityProperties.getPublicRoutes()).permitAll();
 
-          provideRoutes(securityProperties.getNoAdminOperationToSelfRoutes(), (method, paths) -> auth
-              .requestMatchers(method, paths).access(
-                  (authentication, object) -> new AuthorizationDecision(isAdminAndNotSelf(authentication, object))));
+              provideRoutes(securityProperties.getNoAdminOperationToSelfRoutes(),
+                  (method, paths) -> authRequest.requestMatchers(method, paths)
+                      .access((authentication, object) -> new AuthorizationDecision(
+                          isAdminAndNotSelf(authentication, object))));
 
-          provideRoutes(securityProperties.getAdminRoutes(), (method, paths) -> auth
-              .requestMatchers(method, paths).hasAuthority(UsuarioRol.ADMIN.name()));
+              provideRoutes(securityProperties.getAdminRoutes(),
+                  (method, paths) -> authRequest.requestMatchers(method, paths).hasRole("ADMIN"));
 
-          auth.anyRequest().authenticated();
-        })
+              authRequest.anyRequest().authenticated();
+            })
         .exceptionHandling((exceptionHandling) -> exceptionHandling
             .authenticationEntryPoint(this::manageNoAuthorized)
             .accessDeniedHandler(this::manageNoAuthorized))
-        .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
-    return http.build();
+        .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class)
+        .build();
   }
 
   @Bean
@@ -97,6 +98,12 @@ public class SecurityConfig {
     UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
     source.registerCorsConfiguration("/**", config);
     return source;
+  }
+
+  @Bean
+  PasswordEncoder passwordEncoder() {
+    PasswordEncoder encoder = new BCryptPasswordEncoder();
+    return encoder;
   }
 
   private void manageNoAuthorized(HttpServletRequest request, HttpServletResponse response, RuntimeException e)

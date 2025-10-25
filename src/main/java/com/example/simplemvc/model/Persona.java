@@ -4,7 +4,6 @@ import java.util.UUID;
 
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
-import org.hibernate.envers.Audited;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -19,7 +18,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Audited
 @Table(name = "persona", uniqueConstraints = {
     @UniqueConstraint(columnNames = "dni", name = "uk_persona_dni")
 })
@@ -32,7 +30,7 @@ import lombok.NoArgsConstructor;
 public class Persona {
   @Id
   @GeneratedValue(strategy = GenerationType.UUID)
-  @Column(columnDefinition = "UUID", updatable = false, nullable = false)
+  @Column( updatable = false, nullable = false)
   private UUID id;
 
   @Column(columnDefinition = "varchar(8)")

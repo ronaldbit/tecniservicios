@@ -9,6 +9,4 @@ import com.example.simplemvc.model.Usuario;
 
 public interface UsuarioRepository extends JpaRepository<Usuario, UUID> {
   Optional<Usuario> findByCorreo(String correo);
-
-  void restoreUsuarioByCorreo(String correo);
 }

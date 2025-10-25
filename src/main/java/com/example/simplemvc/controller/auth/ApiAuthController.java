@@ -1,5 +1,6 @@
 package com.example.simplemvc.controller.auth;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,7 +19,9 @@ import lombok.AllArgsConstructor;
 @RequestMapping("/api/auth")
 @AllArgsConstructor
 public class ApiAuthController {
+  @Autowired
   private final UsuarioService usuarioService;
+  @Autowired
   private final AuthService authService;
 
   @PostMapping("/login")

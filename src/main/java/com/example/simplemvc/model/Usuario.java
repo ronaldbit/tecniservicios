@@ -5,7 +5,6 @@ import java.util.UUID;
 
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
-import org.hibernate.envers.Audited;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -30,7 +29,6 @@ import lombok.Setter;
 import lombok.ToString;
 
 @Entity
-@Audited
 @Table(name = "usuario", uniqueConstraints = {
     @UniqueConstraint(columnNames = "correo", name = "uk_usuario_correo")
 })
@@ -46,7 +44,7 @@ import lombok.ToString;
 public class Usuario implements UserDetails {
   @Id
   @GeneratedValue(strategy = GenerationType.UUID)
-  @Column(columnDefinition = "UUID", updatable = false, nullable = false)
+  @Column(updatable = false, nullable = false)
   private UUID id;
 
   @ManyToOne

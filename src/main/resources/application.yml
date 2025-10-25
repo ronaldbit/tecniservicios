@@ -22,8 +22,8 @@ spring:
 
   jpa:
     open-in-view: false
-    propierties:
-      "[org.hibernate.envers.audit_table_suffix]": _log
+    hibernate:
+      ddl-auto: update
 
   image:
     path: /var/img
