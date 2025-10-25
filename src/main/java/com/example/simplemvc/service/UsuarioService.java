@@ -1,6 +1,9 @@
 package com.example.simplemvc.service;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
+import java.util.stream.Collectors;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -25,6 +28,26 @@ public class UsuarioService {
   private final PasswordEncoder passwordEncoder;
 
   private final PersonaService personaService;
+
+  public List<UsuarioDto> listaTodos() {
+    log.info("Obteniendo lista de todos los usuarios");
+
+    List<Usuario> usuarios = usuarioRepository.findAll();
+
+    return usuarios.stream().map(usuarioMapper::toDto).collect(Collectors.toList());
+  }
+
+  public UsuarioDto obtenerPorId(UUID id) {
+    log.info("Obteniendo usuario con ID: {}", id);
+
+    Usuario usuario = usuarioRepository.findById(id)
+        .orElseThrow(() -> {
+          log.error("Usuario con ID {} no encontrado.", id);
+          return new IllegalArgumentException("Usuario no encontrado.");
+        });
+
+    return usuarioMapper.toDto(usuario);
+  }
 
   public UsuarioDto crear(CrearUsuarioRequest request) {
     log.info("Creando usuario");
