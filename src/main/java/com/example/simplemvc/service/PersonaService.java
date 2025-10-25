@@ -1,6 +1,8 @@
 package com.example.simplemvc.service;
 
+import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
@@ -19,6 +21,23 @@ import lombok.extern.slf4j.Slf4j;
 public class PersonaService {
   private final PersonaRepository personaRepository;
   private final PersonaMapper personaMapper;
+
+  public List<PersonaDto> listaTodos() {
+    log.info("Obteniendo lista de personas");
+
+    List<Persona> personas = personaRepository.findAll();
+
+    return personas.stream().map(personaMapper::toDto).collect(Collectors.toList());
+  }
+
+  public PersonaDto obtenerPorId(UUID id) {
+    log.info("Obteniendo persona con ID: {}", id);
+
+    Persona persona = personaRepository.findById(id)
+        .orElseThrow(() -> new IllegalArgumentException("Persona no encontrada con ID: " + id));
+
+    return personaMapper.toDto(persona);
+  }
 
   public PersonaDto crear(CrearPersonaRequest request) {
     log.info("Creando persona");
