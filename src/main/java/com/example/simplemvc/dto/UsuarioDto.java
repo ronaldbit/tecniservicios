@@ -3,7 +3,6 @@ package com.example.simplemvc.dto;
 import java.util.List;
 import java.util.UUID;
 
-import com.example.simplemvc.model.Persona;
 import com.example.simplemvc.model.UsuarioRol;
 
 import lombok.AllArgsConstructor;
@@ -21,7 +20,7 @@ import lombok.ToString;
 @AllArgsConstructor
 public class UsuarioDto {
   private UUID id;
-  private Persona persona;
+  private PersonaDto persona;
   private String correo;
   private List<UsuarioRol> roles;
 }
