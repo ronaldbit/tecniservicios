@@ -1,4 +1,4 @@
-package com.example.simplemvc.controllers.tienda;
+package com.example.simplemvc.controller.tienda;
 
 import com.example.simplemvc.model.ProductoModel;
 import org.springframework.stereotype.Controller;

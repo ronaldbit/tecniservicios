@@ -1,4 +1,4 @@
-package com.example.simplemvc.controllers;
+package com.example.simplemvc.controller;
 
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;

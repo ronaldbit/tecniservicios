@@ -1,4 +1,4 @@
-package com.example.simplemvc.controllers.tienda.api;
+package com.example.simplemvc.controller.tienda.api;
 
 import com.example.simplemvc.model.ProductoModel;
 import com.example.simplemvc.model.Producto;

@@ -47,12 +47,7 @@ public class Persona {
   @Column(columnDefinition = "varchar(255)", nullable = false)
   private String direccion;
 
-  @Column(columnDefinition = "varchar(254)", nullable = false)
-  private String email;
-
   @Builder.Default
   private boolean deleted = false;
-
-
 
 }

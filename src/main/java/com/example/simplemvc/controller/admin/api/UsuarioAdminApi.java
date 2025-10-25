@@ -1,4 +1,4 @@
-package com.example.simplemvc.controllers.admin.api;
+package com.example.simplemvc.controller.admin.api;
 
 import com.example.simplemvc.model.UsuarioModel;
 import com.example.simplemvc.model.Usuario;
