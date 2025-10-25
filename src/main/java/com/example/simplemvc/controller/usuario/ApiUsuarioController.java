@@ -1,7 +1,6 @@
 package com.example.simplemvc.controller.usuario;
 
 import java.util.List;
-import java.util.UUID;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -28,7 +27,7 @@ public class ApiUsuarioController {
   }
 
   @GetMapping("/{id}")
-  public UsuarioDto obtenerPorId(@PathVariable UUID id) {
+  public UsuarioDto obtenerPorId(@PathVariable Long id) {
     return usuarioService.obtenerPorId(id);
   }
 

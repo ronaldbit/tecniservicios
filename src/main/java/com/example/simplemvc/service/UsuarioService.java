@@ -2,7 +2,6 @@ package com.example.simplemvc.service;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -37,7 +36,7 @@ public class UsuarioService {
     return usuarios.stream().map(usuarioMapper::toDto).collect(Collectors.toList());
   }
 
-  public UsuarioDto obtenerPorId(UUID id) {
+  public UsuarioDto obtenerPorId(Long id) {
     log.info("Obteniendo usuario con ID: {}", id);
 
     Usuario usuario = usuarioRepository.findById(id)
@@ -91,7 +90,7 @@ public class UsuarioService {
     return usuarioMapper.toDto(usuario);
   }
 
-  public UsuarioDto actualizar(UUID id, CrearUsuarioRequest request) {
+  public UsuarioDto actualizar(Long id, CrearUsuarioRequest request) {
     log.info("Actualizando usuario con ID: {}", id);
 
     Usuario usuario = usuarioRepository.findById(id)
@@ -100,7 +99,7 @@ public class UsuarioService {
           return new IllegalArgumentException("Usuario no encontrado.");
         });
 
-    usuario.setCorreo(request.getCorreo());    
+    usuario.setCorreo(request.getCorreo());
     usuario.setPassword(passwordEncoder.encode(request.getPassword()));
 
     usuario = usuarioRepository.save(usuario);

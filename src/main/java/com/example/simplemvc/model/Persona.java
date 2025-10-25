@@ -1,7 +1,5 @@
 package com.example.simplemvc.model;
 
-import java.util.UUID;
-
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
 
@@ -29,9 +27,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class Persona {
   @Id
-  @GeneratedValue(strategy = GenerationType.UUID)
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(updatable = false, nullable = false)
-  private UUID id;
+  private Long id;
 
   @Column(columnDefinition = "varchar(8)")
   private String dni;
@@ -48,4 +46,6 @@ public class Persona {
   @Builder.Default
   private boolean deleted = false;
 
+  public static class PersonaBuilder {
+  }
 }

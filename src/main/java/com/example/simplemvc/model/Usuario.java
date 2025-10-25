@@ -1,7 +1,6 @@
 package com.example.simplemvc.model;
 
 import java.util.List;
-import java.util.UUID;
 
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
@@ -15,7 +14,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 import lombok.AccessLevel;
@@ -40,9 +38,9 @@ import lombok.ToString;
 @NoArgsConstructor(force = true, access = AccessLevel.PROTECTED)
 public class Usuario implements UserDetails {
   @Id
-  @GeneratedValue(strategy = GenerationType.UUID)
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(updatable = false, nullable = false)
-  private UUID id;
+  private Long id;
 
   @ManyToOne
   @JoinColumn(name = "persona_id", nullable = false)
@@ -54,8 +52,8 @@ public class Usuario implements UserDetails {
   @Column(columnDefinition = "varchar(255)", nullable = false)
   private String password;
 
-  @OneToMany(mappedBy = "usuario")
-  private List<UsuarioRol> roles;
+  @JoinColumn(name = "rol_id", nullable = false)
+  private UsuarioRol rol;
 
   @Builder.Default
   private boolean deleted = false;
@@ -67,6 +65,9 @@ public class Usuario implements UserDetails {
 
   @Override
   public List<? extends GrantedAuthority> getAuthorities() {
-    return roles;
+    return List.of(rol);
+  }
+
+  public static class UsuarioBuilder {
   }
 }

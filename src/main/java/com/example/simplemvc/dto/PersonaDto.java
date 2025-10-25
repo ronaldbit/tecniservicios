@@ -1,7 +1,5 @@
 package com.example.simplemvc.dto;
 
-import java.util.UUID;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -17,7 +15,7 @@ import lombok.ToString;
 @AllArgsConstructor
 
 public class PersonaDto {
-  private UUID id;
+  private Long id;
   private String dni;
   private String nombre;
   private String apellido;

@@ -1,7 +1,5 @@
 package com.example.simplemvc.model;
 
-import java.util.UUID;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -17,8 +15,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name = "permisos", uniqueConstraints = {
-    @UniqueConstraint(columnNames = "path", name = "uk_permisos_path")
+@Table(name = "permiso", uniqueConstraints = {
+    @UniqueConstraint(columnNames = "path", name = "uk_permiso_path")
 })
 @Getter
 @Setter
@@ -27,8 +25,8 @@ import lombok.Setter;
 @AllArgsConstructor
 public class Permiso {
   @Id
-  @GeneratedValue(strategy = GenerationType.UUID)
-  private UUID id;
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
 
   private String path;
 

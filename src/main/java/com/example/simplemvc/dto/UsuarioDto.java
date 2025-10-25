@@ -1,8 +1,5 @@
 package com.example.simplemvc.dto;
 
-import java.util.List;
-import java.util.UUID;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -17,8 +14,8 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UsuarioDto {
-  private UUID id;
+  private Long id;
   private PersonaDto persona;
   private String correo;
-  private List<UsuarioRolDto> roles;
+  private UsuarioRolDto rol;
 }

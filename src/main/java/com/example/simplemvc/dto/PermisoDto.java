@@ -1,7 +1,5 @@
 package com.example.simplemvc.dto;
 
-import java.util.UUID;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -16,6 +14,6 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 public class PermisoDto {
-  private UUID id;
+  private Long id;
   private String path;
 }

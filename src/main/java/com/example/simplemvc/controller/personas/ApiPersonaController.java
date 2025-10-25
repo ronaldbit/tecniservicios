@@ -1,7 +1,6 @@
 package com.example.simplemvc.controller.personas;
 
 import java.util.List;
-import java.util.UUID;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,20 +27,24 @@ public class ApiPersonaController {
   public List<PersonaDto> lista() {
     return personaService.listaTodos();
   }
+
   @GetMapping("/{id}")
-  public PersonaDto obtenerPorId(@PathVariable UUID id) {
-    return personaService.obtenerPorId(id); 
+  public PersonaDto obtenerPorId(@PathVariable Long id) {
+    return personaService.obtenerPorId(id);
   }
+
   @PostMapping
   public PersonaDto crear(@RequestBody CrearPersonaRequest request) {
     return personaService.crear(request);
   }
+
   @PutMapping("/{id}")
-  public PersonaDto actualizar(@PathVariable UUID id, @RequestBody CrearPersonaRequest request) {
+  public PersonaDto actualizar(@PathVariable Long id, @RequestBody CrearPersonaRequest request) {
     return personaService.actualizar(id, request);
   }
+
   @DeleteMapping("/{id}")
-  public void eliminar(@PathVariable UUID id) {
+  public void eliminar(@PathVariable Long id) {
     personaService.eliminarPorId(id);
-  }  
+  }
 }

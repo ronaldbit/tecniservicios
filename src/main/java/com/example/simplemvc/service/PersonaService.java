@@ -1,7 +1,6 @@
 package com.example.simplemvc.service;
 
 import java.util.List;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
@@ -30,7 +29,7 @@ public class PersonaService {
     return personas.stream().map(personaMapper::toDto).collect(Collectors.toList());
   }
 
-  public PersonaDto obtenerPorId(UUID id) {
+  public PersonaDto obtenerPorId(Long id) {
     log.info("Obteniendo persona con ID: {}", id);
 
     Persona persona = personaRepository.findById(id)
@@ -50,7 +49,7 @@ public class PersonaService {
     return personaMapper.toDto(persona);
   }
 
-  public void eliminarPorId(UUID id) {
+  public void eliminarPorId(Long id) {
     log.info("Eliminando persona con ID: {}", id);
 
     personaRepository.deleteById(id);
@@ -58,13 +57,13 @@ public class PersonaService {
     log.info("Persona eliminada con ID: {}", id);
   }
 
-  public Persona obtenerEntidadPorId(UUID id) {
+  public Persona obtenerEntidadPorId(Long id) {
     log.info("Obteniendo persona con ID: {}", id);
 
     return personaRepository.findById(id).orElse(null);
   }
 
-  public PersonaDto actualizar(UUID id, CrearPersonaRequest request) {
+  public PersonaDto actualizar(Long id, CrearPersonaRequest request) {
     log.info("Actualizando persona con ID: {}", id);
 
     Persona personaExistente = personaRepository.findById(id)
@@ -79,5 +78,4 @@ public class PersonaService {
     return personaMapper.toDto(personaActualizada);
   }
 
-  
 }
