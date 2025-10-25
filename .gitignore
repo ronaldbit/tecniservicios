@@ -1,2 +1,47 @@
-.vscode/settings.json
-/target
+# Java
+target/
+!**/src/main/**/target/
+!**/src/test/**/target/
+*.class
+*.jar
+
+# STS
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+# IntelliJ IDEA
+.idea
+*.iws
+*.iml
+*.ipr
+
+# NetBeans
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+build/
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+# VS Code
+.vscode/**/*
+!.vscode/launch.json
+
+# Logs
+logs
+*.log
+
+# Env
+.env
+.env.*
+!.env.example
+
+# Var
+var/
