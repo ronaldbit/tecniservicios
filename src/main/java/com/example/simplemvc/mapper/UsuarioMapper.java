@@ -10,9 +10,10 @@ import com.example.simplemvc.request.CrearUsuarioRequest;
 import com.example.simplemvc.shared.mapper.CrudMapper;
 import com.example.simplemvc.shared.mapper.StringUtilsMapper;
 
-@Mapper(componentModel = "spring", uses = { StringUtilsMapper.class })
+@Mapper(componentModel = "spring", uses = { StringUtilsMapper.class,
+    UsuarioRolMapper.class,
+    PermisoMapper.class })
 public interface UsuarioMapper extends CrudMapper<Usuario, UsuarioDto, Usuario.UsuarioBuilder> {
-
 
   @ObjectFactory
   default Usuario.UsuarioBuilder userBuilderFromDto(UsuarioDto dto) {

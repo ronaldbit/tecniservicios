@@ -30,7 +30,7 @@ import lombok.NoArgsConstructor;
 public class Persona {
   @Id
   @GeneratedValue(strategy = GenerationType.UUID)
-  @Column( updatable = false, nullable = false)
+  @Column(updatable = false, nullable = false)
   private UUID id;
 
   @Column(columnDefinition = "varchar(8)")

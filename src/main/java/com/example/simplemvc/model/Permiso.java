@@ -1,9 +1,6 @@
 package com.example.simplemvc.model;
 
-import java.util.List;
 import java.util.UUID;
-
-import org.springframework.security.core.GrantedAuthority;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -11,10 +8,8 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
-import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -22,31 +17,25 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name = "usuario_rol", uniqueConstraints = {
-    @UniqueConstraint(columnNames = "name", name = "uk_usuario_rol_name")
+@Table(name = "permisos", uniqueConstraints = {
+    @UniqueConstraint(columnNames = "path", name = "uk_permisos_path")
 })
 @Getter
 @Setter
-@Builder(access = AccessLevel.PUBLIC)
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class UsuarioRol implements GrantedAuthority {
-
+public class Permiso {
   @Id
   @GeneratedValue(strategy = GenerationType.UUID)
   private UUID id;
 
-  private String name;
+  private String path;
 
   @ManyToOne
-  @JoinColumn(name = "usuario_id", nullable = false)
-  private Usuario usuario;
+  @JoinColumn(name = "rol_id", nullable = false)
+  private UsuarioRol rol;
 
-  @OneToMany(mappedBy = "rol")
-  private List<Permiso> permisos;
-
-  @Override
-  public String getAuthority() {
-    return "ROLE_" + this.name;
+  public static class PermisoBuilder {
   }
 }

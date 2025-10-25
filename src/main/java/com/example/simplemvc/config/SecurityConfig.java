@@ -27,7 +27,6 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import com.example.simplemvc.model.Usuario;
-import com.example.simplemvc.model.UsuarioRol;
 import com.example.simplemvc.shared.config.Route;
 import com.example.simplemvc.shared.filter.JwtRequestFilter;
 import com.example.simplemvc.shared.properties.SecurityProperties;
@@ -151,9 +150,9 @@ public class SecurityConfig {
 
     Usuario usuario = (Usuario) auth.getPrincipal();
 
-    if (!usuario.getAuthorities().contains(UsuarioRol.ADMIN)) {
-      return false;
-    }
+    // if (!usuario.getAuthorities().contains(UsuarioRol.ADMIN)) {
+    // return false;
+    // }
 
     String id = context.getVariables().get("id").toString();
 

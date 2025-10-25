@@ -16,9 +16,8 @@ import lombok.ToString;
 @EqualsAndHashCode
 @NoArgsConstructor
 @AllArgsConstructor
-public class UsuarioDto {
+public class UsuarioRolDto {
   private UUID id;
-  private PersonaDto persona;
-  private String correo;
-  private List<UsuarioRolDto> roles;
+  private String name;
+  private List<PermisoDto> permisos;
 }

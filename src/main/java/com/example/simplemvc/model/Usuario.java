@@ -8,21 +8,19 @@ import org.hibernate.annotations.SQLRestriction;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import com.example.simplemvc.shared.utils.converter.ListUsuarioRolAttributeConverter;
-
 import jakarta.persistence.Column;
-import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -36,11 +34,10 @@ import lombok.ToString;
 @SQLRestriction("deleted = false")
 @Getter
 @Setter
-@Builder
+@Builder(access = AccessLevel.PUBLIC)
 @ToString(exclude = "password")
-@EqualsAndHashCode
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor(force = true, access = AccessLevel.PROTECTED)
 public class Usuario implements UserDetails {
   @Id
   @GeneratedValue(strategy = GenerationType.UUID)
@@ -57,7 +54,7 @@ public class Usuario implements UserDetails {
   @Column(columnDefinition = "varchar(255)", nullable = false)
   private String password;
 
-  @Convert(converter = ListUsuarioRolAttributeConverter.class)
+  @OneToMany(mappedBy = "usuario")
   private List<UsuarioRol> roles;
 
   @Builder.Default
