@@ -31,6 +31,7 @@ mvn spring-boot:run
 -
 
 ## Rutas
+```bash
 mvc-simple-jdbc/
 ├─ pom.xml
 ├─ README.md
@@ -71,4 +72,6 @@ mvc-simple-jdbc/
 │     │     └─ errors/
 │     │        └─ 404.html
 └─ ...
+
+```
 

@@ -1,0 +1,21 @@
+services:
+  app:
+    build: .
+    container_name: tecniservicios_app
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_PROFILES_ACTIVE=prod
+
+  coder:
+    image: codercom/code-server:latest
+    container_name: coder_editor
+    restart: unless-stopped
+    ports:
+      - "9090:8080"
+    environment:
+      - PASSWORD=admin123
+    command: ["--auth", "password", "--bind-addr", "0.0.0.0:8080", "--disable-telemetry"]
+    volumes:
+      - .:/home/coder/project
