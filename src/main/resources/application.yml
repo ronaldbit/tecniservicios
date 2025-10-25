@@ -1,0 +1,95 @@
+spring:
+  config:
+    import:
+      - optional:classpath:.env[.properties]
+
+  application:
+    name: tecniservicios
+    version: v1
+
+  mvc:
+    servlet:
+      path: /api/${spring.api.version}
+
+  api:
+    version: v1
+
+  profiles:
+    active:
+      - test
+
+  datasource:
+    url: jdbc:mysql://${DB_URL}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+
+  jpa:
+    open-in-view: false
+    propierties:
+      "[org.hibernate.envers.audit_table_suffix]": _log
+
+  image:
+    path: /var/img
+
+security:
+  allowed-methods:
+    - GET
+    - POST
+    - PUT
+    - PATCH
+    - DELETE
+    - OPTIONS
+
+  allowed-headers:
+    - Authorization
+    - Origin
+    - Content-Type
+    - Accept
+    - Accept-Encoding
+    - Accept-Language
+
+  public-routes:
+    - /health
+    - /image/**
+    - /external-dependencies
+    - /auth/login
+
+  admin-routes:
+    - methods:
+      - GET
+      - POST
+      - DELETE
+      routes:
+      - /auth/register
+      - /user
+      - /user/{id}
+      - /user/email
+
+    - methods:
+      - PUT
+      routes:
+      - /user
+      - /user/profile-image/{id}
+
+    - methods:
+      - DELETE
+      routes:
+      - /client/{id}
+
+  no-admin-operation-to-self-routes:
+    - methods:
+      - PUT
+      routes:
+      - /user/{id:^(?!profile-image$).*$}
+      - /user/{id}/email
+
+  allowed-origins:
+    - "*"
+
+  allowed-credentials: false
+
+  exposed-headers:
+    - Content-Disposition
+
+  jwt:
+    secret: ${JWT_SECRET}
