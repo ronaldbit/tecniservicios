@@ -14,7 +14,10 @@
   <groupId>com.example</groupId>
   <artifactId>mvc-simple-jdbc</artifactId>
   <version>1.0.0</version>
+  <packaging>jar</packaging>
+
   <name>MVC Simple JDBC</name>
+
   <properties>
     <java.version>21</java.version>
   </properties>
