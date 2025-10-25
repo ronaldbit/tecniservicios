@@ -1,29 +1,39 @@
 package com.example.simplemvc.config;
 
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.web.SecurityFilterChain;
 
 import com.example.simplemvc.security.CustomAuthFailureHandler;
 import com.example.simplemvc.security.CustomAuthSuccessHandler;
 import com.example.simplemvc.security.DbUserDetailsService;
+import com.example.simplemvc.shared.filter.JwtRequestFilter;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Configuration
+@EnableWebSecurity
+@RequiredArgsConstructor
 public class SecurityConfig {
+  private final SecurityProperties securityProperties;
+  private final JwtRequestFilter jwtRequestFilter;
+  private final ObjectMapper objectMapper;
+  @Value("${spring.mvc.servlet.path}")
+  private String basePath;
 
   // El constructor sigue aquí, Spring inyectará los beans aunque no los usemos
   // temporalmente
   private final DbUserDetailsService uds;
   private final CustomAuthSuccessHandler success;
   private final CustomAuthFailureHandler failure;
-
-  public SecurityConfig(DbUserDetailsService uds, CustomAuthSuccessHandler success, CustomAuthFailureHandler failure) {
-    this.uds = uds;
-    this.success = success;
-    this.failure = failure;
-  }
 
   // ===================================================================
   // CONFIGURACIÓN TEMPORAL PARA TESTEO DE VISTAS
