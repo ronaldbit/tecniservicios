@@ -67,4 +67,10 @@ public class UsuarioService {
     log.info("Usuario creado con ID: {}", usuario.getId());
     return usuarioMapper.toDto(usuario);
   }
+
+  public Optional<Usuario> obtenerEntidadPorCorreo(String correo) {
+    log.info("Obteniendo usuario con correo: {}", correo);
+
+    return usuarioRepository.findByCorreo(correo);
+  }
 }

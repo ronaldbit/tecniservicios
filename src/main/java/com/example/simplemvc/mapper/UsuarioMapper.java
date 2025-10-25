@@ -18,6 +18,9 @@ public interface UsuarioMapper extends CrudMapper<Usuario, UsuarioDto, Usuario.U
     return Usuario.builder();
   }
 
+  @Mapping(target = "password", ignore = true)
+  Usuario toDomain(UsuarioDto dto);
+
   @Mapping(target = "id", ignore = true)
   @Mapping(target = "deleted", ignore = true)
   Usuario.UsuarioBuilder fromRequest(CrearUsuarioRequest request);

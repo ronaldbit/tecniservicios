@@ -9,10 +9,7 @@ spring:
 
   mvc:
     servlet:
-      path: /api/${spring.api.version}
-
-  api:
-    version: v1
+      path: /
 
   profiles:
     active:
@@ -56,32 +53,32 @@ security:
 
   admin-routes:
     - methods:
-      - GET
-      - POST
-      - DELETE
+        - GET
+        - POST
+        - DELETE
       routes:
-      - /auth/register
-      - /user
-      - /user/{id}
-      - /user/email
+        - /auth/register
+        - /user
+        - /user/{id}
+        - /user/email
 
     - methods:
-      - PUT
+        - PUT
       routes:
-      - /user
-      - /user/profile-image/{id}
+        - /user
+        - /user/profile-image/{id}
 
     - methods:
-      - DELETE
+        - DELETE
       routes:
-      - /client/{id}
+        - /client/{id}
 
   no-admin-operation-to-self-routes:
     - methods:
-      - PUT
+        - PUT
       routes:
-      - /user/{id:^(?!profile-image$).*$}
-      - /user/{id}/email
+        - /user/{id:^(?!profile-image$).*$}
+        - /user/{id}/email
 
   allowed-origins:
     - "*"
