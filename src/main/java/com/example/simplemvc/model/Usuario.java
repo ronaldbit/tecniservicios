@@ -26,6 +26,7 @@ import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.ToString;
 
 @Entity
@@ -36,6 +37,7 @@ import lombok.ToString;
 @SQLDelete(sql = "UPDATE usuario SET deleted = true WHERE id = ?")
 @SQLRestriction("deleted = false")
 @Getter
+@Setter
 @Builder
 @ToString(exclude = "password")
 @EqualsAndHashCode

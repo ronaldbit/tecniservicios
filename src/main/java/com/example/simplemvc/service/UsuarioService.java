@@ -1,0 +1,70 @@
+package com.example.simplemvc.service;
+
+import java.util.Optional;
+
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+
+import com.example.simplemvc.dto.UsuarioDto;
+import com.example.simplemvc.mapper.UsuarioMapper;
+import com.example.simplemvc.model.Persona;
+import com.example.simplemvc.model.Usuario;
+import com.example.simplemvc.repository.UsuarioRepository;
+import com.example.simplemvc.request.CrearUsuarioRequest;
+
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
+@Service
+@RequiredArgsConstructor
+public class UsuarioService {
+  private final UsuarioRepository usuarioRepository;
+  private final UsuarioMapper usuarioMapper;
+
+  private final PasswordEncoder passwordEncoder;
+
+  private final PersonaService personaService;
+
+  public UsuarioDto crear(CrearUsuarioRequest request) {
+    log.info("Creando usuario");
+
+    Persona persona = personaService.obtenerEntidadPorId(request.getPersonaId());
+    if (persona == null) {
+      log.error("No se puede crear el usuario. La persona con ID {} no existe.", request.getPersonaId());
+
+      throw new IllegalArgumentException("La persona asociada no existe.");
+    }
+
+    Optional<Usuario> prevUsuario = usuarioRepository.findByCorreo(request.getCorreo());
+
+    if (prevUsuario.isPresent() && prevUsuario.get().isDeleted() == false) {
+      log.error("No se puede crear el usuario. El correo {} ya está en uso.", request.getCorreo());
+
+      throw new IllegalArgumentException("El correo ya está en uso.");
+    }
+
+    if (prevUsuario.isPresent() && prevUsuario.get().isDeleted() == true) {
+      log.info("Restaurando usuario previamente eliminado con correo: {}", request.getCorreo());
+
+      Usuario usuarioEliminado = prevUsuario.get();
+      usuarioEliminado.setDeleted(false);
+      usuarioEliminado.setPersona(persona);
+      usuarioEliminado.setCorreo(request.getCorreo());
+      usuarioEliminado.setPassword(passwordEncoder.encode(request.getPassword()));
+
+      usuarioEliminado = usuarioRepository.save(usuarioEliminado);
+
+      log.info("Usuario restaurado con ID: {}", usuarioEliminado.getId());
+      return usuarioMapper.toDto(usuarioEliminado);
+    }
+
+    Usuario usuario = usuarioMapper.fromRequest(request).persona(persona)
+        .password(passwordEncoder.encode(request.getPassword())).build();
+
+    usuario = usuarioRepository.save(usuario);
+
+    log.info("Usuario creado con ID: {}", usuario.getId());
+    return usuarioMapper.toDto(usuario);
+  }
+}

@@ -38,4 +38,10 @@ public class PersonaService {
 
     log.info("Persona eliminada con ID: {}", id);
   }
+
+  public Persona obtenerEntidadPorId(UUID id) {
+    log.info("Obteniendo persona con ID: {}", id);
+
+    return personaRepository.findById(id).orElse(null);
+  }
 }

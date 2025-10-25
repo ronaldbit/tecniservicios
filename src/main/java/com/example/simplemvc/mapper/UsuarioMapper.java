@@ -1,18 +1,24 @@
 package com.example.simplemvc.mapper;
 
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.mapstruct.ObjectFactory;
-import org.springframework.security.core.userdetails.User;
 
 import com.example.simplemvc.dto.UsuarioDto;
+import com.example.simplemvc.model.Usuario;
+import com.example.simplemvc.request.CrearUsuarioRequest;
 import com.example.simplemvc.shared.mapper.CrudMapper;
 import com.example.simplemvc.shared.mapper.StringUtilsMapper;
 
 @Mapper(componentModel = "spring", uses = { StringUtilsMapper.class })
-public interface UsuarioMapper extends CrudMapper<User, UsuarioDto, User.UserBuilder> {
+public interface UsuarioMapper extends CrudMapper<Usuario, UsuarioDto, Usuario.UsuarioBuilder> {
 
   @ObjectFactory
-  default User.UserBuilder userBuilderFromDto(UsuarioDto dto) {
-    return User.builder();
+  default Usuario.UsuarioBuilder userBuilderFromDto(UsuarioDto dto) {
+    return Usuario.builder();
   }
+
+  @Mapping(target = "id", ignore = true)
+  @Mapping(target = "deleted", ignore = true)
+  Usuario.UsuarioBuilder fromRequest(CrearUsuarioRequest request);
 }
