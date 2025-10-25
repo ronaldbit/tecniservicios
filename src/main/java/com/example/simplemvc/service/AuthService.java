@@ -32,12 +32,12 @@ public class AuthService {
     }
 
     Usuario usuario = usuarioService.obtenerEntidadPorCorreo(request.getCorreo())
-        .orElseThrow(() -> new IllegalArgumentException("Credenciales inválidas."));
+        .orElseThrow(() -> new IllegalArgumentException("Usuario no encontrado"));
 
     if (!passwordEncoder.matches(request.getPassword(), usuario.getPassword())) {
       log.error("Error de autenticación: Contraseña inválida para el usuario con correo {}.", request.getCorreo());
 
-      throw new IllegalArgumentException("Credenciales inválidas.");
+      throw new IllegalArgumentException("Credenciales inválidas");
     }
 
     log.info("Usuario con correo {} autenticado exitosamente.", request.getCorreo());

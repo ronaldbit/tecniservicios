@@ -11,7 +11,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpMethod;
-import org.springframework.security.authorization.AuthorizationDecision;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -62,17 +61,18 @@ public class SecurityConfig {
         .sessionManagement(manager -> manager.sessionCreationPolicy(SessionCreationPolicy.NEVER))
         .authorizeHttpRequests(
             authRequest -> {
-              authRequest.requestMatchers(securityProperties.getPublicRoutes()).permitAll();
-
-              provideRoutes(securityProperties.getNoAdminOperationToSelfRoutes(),
-                  (method, paths) -> authRequest.requestMatchers(method, paths)
-                      .access((authentication, object) -> new AuthorizationDecision(
-                          isAdminAndNotSelf(authentication, object))));
-
-              provideRoutes(securityProperties.getAdminRoutes(),
-                  (method, paths) -> authRequest.requestMatchers(method, paths).hasRole("ADMIN"));
-
-              authRequest.anyRequest().authenticated();
+              // authRequest.requestMatchers(securityProperties.getPublicRoutes()).permitAll();
+              /**
+               * provideRoutes(securityProperties.getNoAdminOperationToSelfRoutes(),
+               * (method, paths) -> authRequest.requestMatchers(method, paths)
+               * .access((authentication, object) -> new AuthorizationDecision(
+               * isAdminAndNotSelf(authentication, object))));
+               * 
+               * provideRoutes(securityProperties.getAdminRoutes(),
+               * (method, paths) -> authRequest.requestMatchers(method,
+               * paths).hasRole("ADMIN"));
+               */
+              authRequest.anyRequest().permitAll();
             })
         .exceptionHandling((exceptionHandling) -> exceptionHandling
             .authenticationEntryPoint(this::manageNoAuthorized)

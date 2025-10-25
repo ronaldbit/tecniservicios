@@ -13,7 +13,7 @@ spring:
 
   profiles:
     active:
-      - test
+      - dev
 
   datasource:
     url: jdbc:mysql://${DB_URL}
@@ -46,6 +46,7 @@ security:
     - Accept-Language
 
   public-routes:
+    - /
     - /health
     - /auth/login
 
