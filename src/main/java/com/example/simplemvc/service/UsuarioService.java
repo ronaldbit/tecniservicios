@@ -91,6 +91,24 @@ public class UsuarioService {
     return usuarioMapper.toDto(usuario);
   }
 
+  public UsuarioDto actualizar(UUID id, CrearUsuarioRequest request) {
+    log.info("Actualizando usuario con ID: {}", id);
+
+    Usuario usuario = usuarioRepository.findById(id)
+        .orElseThrow(() -> {
+          log.error("Usuario con ID {} no encontrado.", id);
+          return new IllegalArgumentException("Usuario no encontrado.");
+        });
+
+    usuario.setCorreo(request.getCorreo());    
+    usuario.setPassword(passwordEncoder.encode(request.getPassword()));
+
+    usuario = usuarioRepository.save(usuario);
+
+    log.info("Usuario actualizado con ID: {}", usuario.getId());
+    return usuarioMapper.toDto(usuario);
+  }
+
   public Optional<Usuario> obtenerEntidadPorCorreo(String correo) {
     log.info("Obteniendo usuario con correo: {}", correo);
 

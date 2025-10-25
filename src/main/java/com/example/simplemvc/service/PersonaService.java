@@ -63,4 +63,21 @@ public class PersonaService {
 
     return personaRepository.findById(id).orElse(null);
   }
+
+  public PersonaDto actualizar(UUID id, CrearPersonaRequest request) {
+    log.info("Actualizando persona con ID: {}", id);
+
+    Persona personaExistente = personaRepository.findById(id)
+        .orElseThrow(() -> new IllegalArgumentException("Persona no encontrada con ID: " + id));
+
+    Persona.PersonaBuilder personaBuilder = personaMapper.fromRequest(request);
+    Persona personaActualizada = personaBuilder.id(personaExistente.getId()).build();
+
+    personaActualizada = personaRepository.save(personaActualizada);
+
+    log.info("Persona actualizada con ID: {}", personaActualizada.getId());
+    return personaMapper.toDto(personaActualizada);
+  }
+
+  
 }

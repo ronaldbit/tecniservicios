@@ -13,6 +13,7 @@ import com.example.simplemvc.shared.mapper.StringUtilsMapper;
 @Mapper(componentModel = "spring", uses = { StringUtilsMapper.class })
 public interface UsuarioMapper extends CrudMapper<Usuario, UsuarioDto, Usuario.UsuarioBuilder> {
 
+
   @ObjectFactory
   default Usuario.UsuarioBuilder userBuilderFromDto(UsuarioDto dto) {
     return Usuario.builder();
