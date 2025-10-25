@@ -47,8 +47,6 @@ security:
 
   public-routes:
     - /health
-    - /image/**
-    - /external-dependencies
     - /auth/login
 
   admin-routes:
@@ -58,20 +56,21 @@ security:
         - DELETE
       routes:
         - /auth/register
-        - /user
-        - /user/{id}
-        - /user/email
+        - /api/usuarios
+        - /usuarios
+        - /usuarios/{id}
+        - /usuarios/email
 
     - methods:
         - PUT
       routes:
-        - /user
-        - /user/profile-image/{id}
+        - /usuarios/{id}
+        - /usuarios/profile-image/{id}
 
     - methods:
         - DELETE
       routes:
-        - /client/{id}
+        - /api/clientes/{id}
 
   no-admin-operation-to-self-routes:
     - methods:
