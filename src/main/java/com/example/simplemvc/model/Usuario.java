@@ -1,102 +1,75 @@
 package com.example.simplemvc.model;
 
-import java.time.LocalDateTime;
+import java.util.List;
+import java.util.UUID;
 
-public class Usuario {
-    private Long idUsuario;
-    private Long idPersona;
-    private Long idSucursal;
-    private String nombreUsuario;
-    private String hashPass;
-    private Boolean activo;
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
-    private Long idRol;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.SQLRestriction;
+import org.hibernate.envers.Audited;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
-    public Usuario(Long idUsuario, Long idPersona, Long idSucursal, String nombreUsuario, String hashPass, Boolean activo,
-                   LocalDateTime createdAt, LocalDateTime updatedAt, Long idRol) {
-        this.idUsuario = idUsuario;
-        this.idPersona = idPersona;
-        this.idSucursal = idSucursal;
-        this.nombreUsuario = nombreUsuario;
-        this.hashPass = hashPass;
-        this.activo = activo;
-        this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
-        this.idRol = idRol;
-    }
+import com.example.simplemvc.shared.utils.converter.ListUsuarioRolAttributeConverter;
 
-    public Usuario() {}
+import jakarta.persistence.Column;
+import jakarta.persistence.Convert;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
-    public Long getIdUsuario() {
-        return idUsuario;
-    }
+@Entity
+@Audited
+@Table(name = "usuario", uniqueConstraints = {
+    @UniqueConstraint(columnNames = "correo", name = "uk_usuario_correo")
+})
+@SQLDelete(sql = "UPDATE usuario SET deleted = true WHERE id = ?")
+@SQLRestriction("deleted = false")
+@Getter
+@Builder
+@ToString(exclude = "password")
+@EqualsAndHashCode
+@NoArgsConstructor
+@AllArgsConstructor
+public class Usuario implements UserDetails {
+  @Id
+  @GeneratedValue(strategy = GenerationType.UUID)
+  @Column(columnDefinition = "UUID", updatable = false, nullable = false)
+  private UUID id;
 
-    public void setIdUsuario(Long idUsuario) {
-        this.idUsuario = idUsuario;
-    }
+  @ManyToOne
+  @JoinColumn(name = "persona_id", nullable = false)
+  private Persona persona;
 
-    public Long getIdPersona() {
-        return idPersona;
-    }
+  @Column(columnDefinition = "varchar(254)", nullable = false)
+  private String correo;
 
-    public void setIdPersona(Long idPersona) {
-        this.idPersona = idPersona;
-    }
+  @Column(columnDefinition = "varchar(255)", nullable = false)
+  private String password;
 
-    public Long getIdSucursal() {
-        return idSucursal;
-    }
+  @Convert(converter = ListUsuarioRolAttributeConverter.class)
+  private List<UsuarioRol> roles;
 
-    public void setIdSucursal(Long idSucursal) {
-        this.idSucursal = idSucursal;
-    }
+  @Builder.Default
+  private boolean deleted = false;
 
-    public String getNombreUsuario() {
-        return nombreUsuario;
-    }
+  @Override
+  public String getUsername() {
+    return correo;
+  }
 
-    public void setNombreUsuario(String nombreUsuario) {
-        this.nombreUsuario = nombreUsuario;
-    }
-
-    public String getHashPass() {
-        return hashPass;
-    }
-
-    public void setHashPass(String hashPass) {
-        this.hashPass = hashPass;
-    }
-
-    public Boolean getActivo() {
-        return activo;
-    }
-
-    public void setActivo(Boolean activo) {
-        this.activo = activo;
-    }
-
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public LocalDateTime getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(LocalDateTime updatedAt) {
-        this.updatedAt = updatedAt;
-    }
-
-    public Long getIdRol() {
-        return idRol;
-    }
-
-    public void setIdRol(Long idRol) {
-        this.idRol = idRol;
-    }
+  @Override
+  public List<? extends GrantedAuthority> getAuthorities() {
+    return roles;
+  }
 }

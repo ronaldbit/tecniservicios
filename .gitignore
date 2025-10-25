@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # Java
 target/
 !**/src/main/**/target/
@@ -46,7 +45,3 @@ logs
 
 # Var
 var/
-=======
-.vscode/settings.json
-*.class
->>>>>>> c9751d6 (Walter-7)
