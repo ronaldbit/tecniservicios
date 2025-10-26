@@ -1,4 +1,4 @@
-package com.example.simplemvc.controller.usuario;
+package com.example.simplemvc.controller;
 
 import java.util.List;
 

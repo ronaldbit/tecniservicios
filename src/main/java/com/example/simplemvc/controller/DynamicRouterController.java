@@ -24,9 +24,9 @@ public class DynamicRouterController {
 
   // Excluir: assets, api, captcha, favicon.ico, error, webjars, login
   @RequestMapping({
-      "/{p1:^(?!assets|assets_shop|api|captcha|favicon\\.ico$|error|errors$|webjars|login$).+}",
-      "/{p1:^(?!assets|assets_shop|api|captcha|favicon\\.ico$|error|errors$|webjars|login$).+}/{p2}",
-      "/{p1:^(?!assets|assets_shop|api|captcha|favicon\\.ico$|error|errors$|webjars|login$).+}/{p2}/{p3}"
+      "/{p1:^(?!assets|assets_shop|api|captcha|favicon\\.ico$|error|errors$|webjars$).+}",
+      "/{p1:^(?!assets|assets_shop|api|captcha|favicon\\.ico$|error|errors$|webjars$).+}/{p2}",
+      "/{p1:^(?!assets|assets_shop|api|captcha|favicon\\.ico$|error|errors$|webjars$).+}/{p2}/{p3}"
   })
   public String dynamic(@PathVariable String p1,
       @PathVariable(required = false) String p2,
@@ -34,26 +34,27 @@ public class DynamicRouterController {
       Model model) {
 
     String path = build(p1, p2, p3);
-    boolean admin = path.startsWith("admin/");
-    String tpl = admin ? path : "tienda/" + path;
 
-    if (exists("classpath:/templates/" + tpl + ".html"))
-      return tpl;
-    if (admin && exists("classpath:/templates/admin/index.html"))
-      return "admin/index";
+    if (exists("classpath:/templates/" + path + ".html")) {
+      return path;
+    }
 
     model.addAttribute("path", path);
     return "errors/404";
   }
 
-  private String build(String p1, String p2, String p3) {
+  private String build(String... paths) {
     StringBuilder sb = new StringBuilder();
-    if (p1 != null)
-      sb.append(p1);
-    if (p2 != null)
-      sb.append("/").append(p2);
-    if (p3 != null)
-      sb.append("/").append(p3);
+
+    for (String string : paths) {
+      if (string != null && !string.isEmpty()) {
+        if (sb.length() > 0) {
+          sb.append("/");
+        }
+        sb.append(string);
+      }
+    }
+
     return sb.toString().replaceAll("/+$", "");
   }
 

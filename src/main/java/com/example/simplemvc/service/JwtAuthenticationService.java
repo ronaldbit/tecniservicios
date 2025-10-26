@@ -13,13 +13,14 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.example.simplemvc.dto.UsuarioDto;
-import com.example.simplemvc.mapper.UsuarioMapper;
 import com.example.simplemvc.model.Usuario;
+import com.example.simplemvc.model.UsuarioMapper;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import lombok.RequiredArgsConstructor;
@@ -49,7 +50,7 @@ public final class JwtAuthenticationService {
               }
             })
         .subject(String.valueOf(usuario.getId()))
-        .signWith(getKey())
+        .signWith(getSigningKey(), SignatureAlgorithm.HS256)
         .compact();
 
     return jwt;
@@ -99,5 +100,10 @@ public final class JwtAuthenticationService {
     }
 
     return key;
+  }
+
+  private Key getSigningKey() {
+    byte[] keyBytes = Decoders.BASE64.decode(secretKey);
+    return Keys.hmacShaKeyFor(keyBytes);
   }
 }

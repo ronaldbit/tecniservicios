@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <title>Registro - Tienda</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="/assets/images/favicon.svg" type="image/x-icon" />
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+
+  <body class="min-h-screen flex items-center justify-center bg-gray-100">
+    <div class="w-full max-w-md bg-white rounded-2xl shadow-lg p-8">
+      <div class="text-center mb-6">
+        <a href="/" class="text-blue-600 font-bold text-2xl">TECNISERVICIOS</a>
+      </div>
+
+      <div class="text-center text-gray-500 text-sm mb-4 border-b pb-2">
+        <span>Registro Tienda</span>
+      </div>
+
+      <h4 class="text-center font-semibold text-lg mb-4">Crear nueva cuenta</h4>
+
+      <div id="error-msg" class="text-red-600 text-center mb-3 text-sm"></div>
+      <p
+        class="text-green-600 text-center mb-3 text-sm"
+        th:text="${message}"
+      ></p>
+
+      <form
+        method="post"
+        action="/api/auth/registro"
+        autocomplete="off"
+        class="space-y-4"
+      >
+        <input type="text" name="personaId" th:value="${persona.id}" />
+
+        <div class="flex gap-2">
+          <input
+            type="email"
+            name="correo"
+            placeholder="Correo electrónico"
+            required
+            class="w-1/2 border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+          />
+          <input
+            type="password"
+            name="password"
+            placeholder="Contraseña"
+            required
+            class="w-1/2 border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+          />
+        </div>
+
+        <div class="flex flex-col gap-3 mt-4">
+          <button
+            type="submit"
+            class="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 rounded-lg transition-colors"
+          >
+            Registrarse
+          </button>
+          <a
+            href="/tienda/login"
+            class="w-full bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium py-2 rounded-lg text-center transition-colors"
+          >
+            Volver al login
+          </a>
+        </div>
+      </form>
+    </div>
+  </body>
+</html>

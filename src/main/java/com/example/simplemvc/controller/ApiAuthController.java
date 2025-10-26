@@ -1,32 +1,34 @@
-package com.example.simplemvc.controller.auth;
+package com.example.simplemvc.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.example.simplemvc.dto.JwtDto;
+import com.example.simplemvc.dto.UsuarioDto;
+import com.example.simplemvc.request.CrearUsuarioRequest;
 import com.example.simplemvc.request.LoginUsuarioRequest;
 import com.example.simplemvc.service.AuthService;
+import com.example.simplemvc.service.UsuarioService;
 
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
-import lombok.RequiredArgsConstructor;
+import lombok.AllArgsConstructor;
 
 @Controller
-@RequestMapping("/auth")
-@RequiredArgsConstructor
-public class AuthController {
+@RequestMapping("/api/auth")
+@AllArgsConstructor
+public class ApiAuthController {
+  @Autowired
+  private final UsuarioService usuarioService;
+  @Autowired
   private final AuthService authService;
 
-  @GetMapping("/login")
-  public String loginView() {
-    return "tienda/login";
-  }
-
   @PostMapping("/login")
-  public String login(LoginUsuarioRequest request, HttpServletResponse response, Model model) {
+  public String login(@ModelAttribute LoginUsuarioRequest request, HttpServletResponse response, Model model) {
     try {
       JwtDto jwt = authService.login(request);
 
@@ -43,30 +45,20 @@ public class AuthController {
         model.addAttribute("message", "El login ha fallado");
       }
 
-      return "tienda/home";
+      return "/tienda/home";
     } catch (Exception e) {
       model.addAttribute("message", e.getMessage());
-      return "tienda/login";
+
+      return "auth/login";
     }
   }
 
-  @GetMapping("/admin/login")
-  public String adminLoginView() {
-    return "admin/login";
-  }
+  @PostMapping("/registro")
+  public String registro(@ModelAttribute CrearUsuarioRequest request, Model model) {
+    UsuarioDto usuario = usuarioService.crear(request);
 
-  @GetMapping("/forgot")
-  public String forgotView() {
-    return "auth/forgot";
-  }
+    model.addAttribute("usuario", usuario);
 
-  @GetMapping("/reset")
-  public String resetView() {
-    return "auth/reset";
-  }
-
-  @GetMapping("/registro")
-  public String registroView() {
-    return "tienda/registro";
+    return "/auth/login";
   }
 }

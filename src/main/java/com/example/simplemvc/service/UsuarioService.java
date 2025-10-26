@@ -8,9 +8,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.example.simplemvc.dto.UsuarioDto;
-import com.example.simplemvc.mapper.UsuarioMapper;
 import com.example.simplemvc.model.Persona;
 import com.example.simplemvc.model.Usuario;
+import com.example.simplemvc.model.UsuarioMapper;
 import com.example.simplemvc.repository.UsuarioRepository;
 import com.example.simplemvc.request.CrearUsuarioRequest;
 

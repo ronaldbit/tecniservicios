@@ -24,12 +24,10 @@
 
       <form
         method="post"
-        action="/auth/login"
+        action="/api/auth/login"
         autocomplete="off"
         class="space-y-4"
       >
-        <input type="hidden" name="scope" value="tienda" />
-
         <div>
           <input
             type="email"
@@ -101,7 +99,7 @@
             Acceder
           </button>
           <a
-            href="/tienda/registro"
+            href="/auth/registro-persona"
             class="w-full bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium py-2 rounded-lg text-center transition-colors"
           >
             Crear cuenta

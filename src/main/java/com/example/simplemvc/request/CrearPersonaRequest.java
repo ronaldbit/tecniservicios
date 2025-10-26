@@ -1,14 +1,8 @@
 package com.example.simplemvc.request;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.Data;
 
-@Getter
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
+@Data
 public class CrearPersonaRequest {
   private String dni;
   private String nombre;

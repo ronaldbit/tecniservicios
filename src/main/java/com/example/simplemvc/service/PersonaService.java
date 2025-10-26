@@ -6,8 +6,8 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 
 import com.example.simplemvc.dto.PersonaDto;
-import com.example.simplemvc.mapper.PersonaMapper;
 import com.example.simplemvc.model.Persona;
+import com.example.simplemvc.model.PersonaMapper;
 import com.example.simplemvc.repository.PersonaRepository;
 import com.example.simplemvc.request.CrearPersonaRequest;
 
@@ -39,14 +39,12 @@ public class PersonaService {
   }
 
   public PersonaDto crear(CrearPersonaRequest request) {
-    log.info("Creando persona");
-
     Persona persona = personaMapper.fromRequest(request).build();
 
-    persona = personaRepository.save(persona);
+    Persona saved = personaRepository.save(persona);
+    log.info("Persona creada con ID: {}", saved.getId());
 
-    log.info("Persona creada con ID: {}", persona.getId());
-    return personaMapper.toDto(persona);
+    return personaMapper.toDto(saved);
   }
 
   public void eliminarPorId(Long id) {

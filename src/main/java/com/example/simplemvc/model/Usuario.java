@@ -32,7 +32,7 @@ import lombok.ToString;
 @SQLRestriction("deleted = false")
 @Getter
 @Setter
-@Builder(builderClassName = "UsuarioBuilder", access = AccessLevel.PUBLIC)
+@Builder
 @ToString(exclude = "password")
 @AllArgsConstructor
 @NoArgsConstructor(force = true, access = AccessLevel.PROTECTED)
@@ -66,8 +66,5 @@ public class Usuario implements UserDetails {
   @Override
   public List<? extends GrantedAuthority> getAuthorities() {
     return List.of(rol);
-  }
-
-  public static class UsuarioBuilder {
   }
 }

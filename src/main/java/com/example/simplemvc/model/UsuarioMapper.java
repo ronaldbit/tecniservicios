@@ -1,11 +1,10 @@
-package com.example.simplemvc.mapper;
+package com.example.simplemvc.model;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.ObjectFactory;
 
 import com.example.simplemvc.dto.UsuarioDto;
-import com.example.simplemvc.model.Usuario;
 import com.example.simplemvc.request.CrearUsuarioRequest;
 import com.example.simplemvc.shared.mapper.CrudMapper;
 import com.example.simplemvc.shared.mapper.StringUtilsMapper;
@@ -16,7 +15,7 @@ import com.example.simplemvc.shared.mapper.StringUtilsMapper;
 public interface UsuarioMapper extends CrudMapper<Usuario, UsuarioDto, Usuario.UsuarioBuilder> {
 
   @ObjectFactory
-  default Usuario.UsuarioBuilder userBuilderFromDto(UsuarioDto dto) {
+  default Usuario.UsuarioBuilder createBuilder(UsuarioDto dto) {
     return Usuario.builder();
   }
 

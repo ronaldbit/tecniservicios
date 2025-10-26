@@ -11,7 +11,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
-import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -24,7 +23,7 @@ import lombok.Setter;
 })
 @Getter
 @Setter
-@Builder(builderClassName = "UsuarioRolBuilder", access = AccessLevel.PUBLIC)
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class UsuarioRol implements GrantedAuthority {
@@ -41,8 +40,5 @@ public class UsuarioRol implements GrantedAuthority {
   @Override
   public String getAuthority() {
     return "ROLE_" + this.nombre;
-  }
-
-  public static class UsuarioRolBuilder {
   }
 }

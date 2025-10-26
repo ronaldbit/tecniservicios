@@ -8,7 +8,6 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
-import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -21,7 +20,7 @@ import lombok.Setter;
 })
 @Getter
 @Setter
-@Builder(builderClassName = "PermisoBuilder", access = AccessLevel.PUBLIC)
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class Permiso {
@@ -35,6 +34,4 @@ public class Permiso {
   @JoinColumn(name = "rol_id", nullable = false)
   private UsuarioRol rol;
 
-  public static class PermisoBuilder {
-  }
 }
