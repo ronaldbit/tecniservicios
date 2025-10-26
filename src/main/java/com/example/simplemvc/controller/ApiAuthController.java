@@ -53,6 +53,30 @@ public class ApiAuthController {
     }
   }
 
+  @PostMapping("/admin/login")
+  public String adminLogin(@ModelAttribute LoginUsuarioRequest request, HttpServletResponse response, Model model) {
+    try {
+      JwtDto jwt = authService.login(request);
+      if (jwt != null) {
+        model.addAttribute("message", "Login exitoso. JWT: " + jwt.getJwt());
+        Cookie jwtCookie = new Cookie("JWT_TOKEN", jwt.getJwt());
+        jwtCookie.setHttpOnly(true);
+        jwtCookie.setPath("/");
+        jwtCookie.setMaxAge(24 * 60 * 60);
+        response.addCookie(jwtCookie);
+      } else {
+        model.addAttribute("message", "El login ha fallado");
+      }
+      return "/admin/Navegacion/General";
+    } catch (Exception e) {
+      model.addAttribute("message", e.getMessage());
+
+      return "admin/login";
+    }
+  }
+
+
+
   @PostMapping("/registro")
   public String registro(@ModelAttribute CrearUsuarioRequest request, Model model) {
     UsuarioDto usuario = usuarioService.crear(request);

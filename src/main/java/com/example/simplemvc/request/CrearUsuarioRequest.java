@@ -7,4 +7,5 @@ public class CrearUsuarioRequest {
   private Long personaId;
   private String correo;
   private String password;
+  private long rolId;
 }

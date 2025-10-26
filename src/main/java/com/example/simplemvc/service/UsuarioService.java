@@ -6,12 +6,15 @@ import java.util.stream.Collectors;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.example.simplemvc.dto.UsuarioDto;
 import com.example.simplemvc.model.Persona;
 import com.example.simplemvc.model.Usuario;
 import com.example.simplemvc.model.UsuarioMapper;
+import com.example.simplemvc.model.UsuarioRol;
 import com.example.simplemvc.repository.UsuarioRepository;
+import com.example.simplemvc.repository.UsuarioRolRepository;
 import com.example.simplemvc.request.CrearUsuarioRequest;
 
 import lombok.RequiredArgsConstructor;
@@ -23,6 +26,7 @@ import lombok.extern.slf4j.Slf4j;
 public class UsuarioService {
   private final UsuarioRepository usuarioRepository;
   private final UsuarioMapper usuarioMapper;
+  private final UsuarioRolRepository usuarioRolRepository;
 
   private final PasswordEncoder passwordEncoder;
 
@@ -51,12 +55,16 @@ public class UsuarioService {
   public UsuarioDto crear(CrearUsuarioRequest request) {
     log.info("Creando usuario");
 
+    log.info("Rol ID: {}", request.getRolId());
+
     Persona persona = personaService.obtenerEntidadPorId(request.getPersonaId());
     if (persona == null) {
       log.error("No se puede crear el usuario. La persona con ID {} no existe.", request.getPersonaId());
 
       throw new IllegalArgumentException("La persona asociada no existe.");
     }
+
+
 
     Optional<Usuario> prevUsuario = usuarioRepository.findByCorreo(request.getCorreo());
 
@@ -83,6 +91,14 @@ public class UsuarioService {
 
     Usuario usuario = usuarioMapper.fromRequest(request).persona(persona)
         .password(passwordEncoder.encode(request.getPassword())).build();
+
+    UsuarioRol rol = usuarioRolRepository.findById(request.getRolId())
+        .orElseThrow(() -> {
+          log.error("No se puede crear el usuario. El rol con ID {} no existe.", request.getRolId());
+          return new IllegalArgumentException("El rol especificado no existe.");
+        });
+
+    usuario.setRol(rol);
 
     usuario = usuarioRepository.save(usuario);
 

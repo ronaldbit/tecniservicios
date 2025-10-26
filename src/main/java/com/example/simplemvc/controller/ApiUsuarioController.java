@@ -32,7 +32,7 @@ public class ApiUsuarioController {
   }
 
   @PostMapping
-  public UsuarioDto crear(@RequestBody CrearUsuarioRequest request) {
+  public UsuarioDto crear(@RequestBody CrearUsuarioRequest request) {  
     return usuarioService.crear(request);
   }
 }

@@ -22,8 +22,9 @@ public interface PermisoMapper extends BasicMapper<Permiso, PermisoDto> {
 
     @Mapping(target = "rol", ignore = true)
     Permiso toDomain(PermisoDto dto);
+    PermisoDto toDto(Permiso entity);
 
     Permiso.PermisoBuilder fromRequest(CrearPermisoRequest request);
 
-    PermisoDto toDto(Permiso entity);
+
 }

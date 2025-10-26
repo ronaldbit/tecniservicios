@@ -23,7 +23,7 @@ public interface UsuarioRolMapper extends BasicMapper<UsuarioRol, UsuarioRolDto>
   @Mapping(target = "permisos", source = "permisos")
   UsuarioRolDto toDto(UsuarioRol entity);
 
-  @Mapping(target = "permisos", source = "permisos")
+  @Mapping(target = "permisos", ignore = true)
   UsuarioRol toDomain(UsuarioRolDto dto);
 
   UsuarioRol.UsuarioRolBuilder fromRequest(CrearUsuarioRol request);

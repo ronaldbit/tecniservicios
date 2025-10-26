@@ -1,10 +1,12 @@
 INSERT INTO usuario_rol (id, nombre) VALUES
     (1, 'ADMIN'),
-    (2, 'USER');
+    (2, 'USER'),
+    (3, 'CLIENTE');
 
 INSERT INTO permiso (id, path, rol_id) VALUES
     (1, '/admin/*', 1),
-    (2, '/user/*', 2);
+    (2, '/user/*', 2),
+    (3, '/*', 3);
 
 INSERT INTO persona (id, dni, nombre, apellido, direccion, deleted) VALUES
     (1, '12312312', 'Admin', 'User', 'Calle Admin, 1', false),
