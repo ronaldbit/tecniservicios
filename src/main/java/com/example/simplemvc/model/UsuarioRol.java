@@ -24,7 +24,7 @@ import lombok.Setter;
 })
 @Getter
 @Setter
-@Builder(access = AccessLevel.PUBLIC)
+@Builder(builderClassName = "UsuarioRolBuilder", access = AccessLevel.PUBLIC)
 @NoArgsConstructor
 @AllArgsConstructor
 public class UsuarioRol implements GrantedAuthority {

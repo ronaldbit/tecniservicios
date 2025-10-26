@@ -32,7 +32,7 @@ import lombok.ToString;
 @SQLRestriction("deleted = false")
 @Getter
 @Setter
-@Builder(access = AccessLevel.PUBLIC)
+@Builder(builderClassName = "UsuarioBuilder", access = AccessLevel.PUBLIC)
 @ToString(exclude = "password")
 @AllArgsConstructor
 @NoArgsConstructor(force = true, access = AccessLevel.PROTECTED)

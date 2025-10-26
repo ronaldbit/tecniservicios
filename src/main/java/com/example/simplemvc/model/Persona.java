@@ -10,6 +10,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -22,7 +23,7 @@ import lombok.NoArgsConstructor;
 @SQLDelete(sql = "UPDATE persona SET deleted = true WHERE id = ?")
 @SQLRestriction("deleted = false")
 @Getter
-@Builder
+@Builder(builderClassName = "PersonaBuilder", access = AccessLevel.PUBLIC)
 @NoArgsConstructor
 @AllArgsConstructor
 public class Persona {

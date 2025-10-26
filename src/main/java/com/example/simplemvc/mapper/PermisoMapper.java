@@ -9,7 +9,7 @@ import com.example.simplemvc.model.Permiso;
 import com.example.simplemvc.shared.mapper.BasicMapper;
 import com.example.simplemvc.shared.mapper.StringUtilsMapper;
 
-@Mapper(componentModel = "spring", uses = { StringUtilsMapper.class, UsuarioMapper.class,
+@Mapper(componentModel = "spring", uses = { StringUtilsMapper.class,
     UsuarioRolMapper.class })
 public interface PermisoMapper extends BasicMapper<Permiso, PermisoDto> {
 
