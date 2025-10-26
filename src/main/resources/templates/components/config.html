@@ -1,0 +1,237 @@
+<div
+  class="offcanvas border-0 pct-offcanvas offcanvas-end"
+  tabindex="-1"
+  id="offcanvas_pc_layout"
+  th:fragment="config(usuario)"
+>
+  <div class="offcanvas-header">
+    <h5 class="offcanvas-title">Configuración</h5>
+    <button
+      type="button"
+      class="btn btn-icon btn-link-danger ms-auto"
+      data-bs-dismiss="offcanvas"
+      aria-label="Cerrar"
+    >
+      <i class="ti ti-x"></i>
+    </button>
+  </div>
+
+  <div class="pct-body customizer-body">
+    <div class="offcanvas-body py-0">
+      <ul class="list-group list-group-flush">
+        <!-- Modo de tema -->
+        <li class="list-group-item">
+          <div class="pc-dark">
+            <h6 class="mb-1">Modo de tema</h6>
+            <p class="text-muted text-sm">Elige claro, oscuro o automático</p>
+            <div class="row theme-color theme-layout">
+              <div class="col-4">
+                <div class="d-grid">
+                  <button
+                    class="preset-btn btn active"
+                    onclick="layout_change('light');"
+                    data-bs-toggle="tooltip"
+                    title="Claro"
+                  >
+                    <svg class="pc-icon text-warning">
+                      <use xlink:href="#custom-sun-1"></use>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+              <div class="col-4">
+                <div class="d-grid">
+                  <button
+                    class="preset-btn btn"
+                    onclick="layout_change('dark');"
+                    data-bs-toggle="tooltip"
+                    title="Oscuro"
+                  >
+                    <svg class="pc-icon">
+                      <use xlink:href="#custom-moon"></use>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+              <div class="col-4">
+                <div class="d-grid">
+                  <button
+                    class="preset-btn btn"
+                    onclick="layout_change_default();"
+                    data-bs-toggle="tooltip"
+                    title="Se ajusta automáticamente al sistema"
+                  >
+                    <span
+                      class="pc-lay-icon d-flex align-items-center justify-content-center"
+                    >
+                      <i class="ph-duotone ph-cpu"></i>
+                    </span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </li>
+
+        <!-- Contraste -->
+        <li class="list-group-item">
+          <h6 class="mb-1">Contraste</h6>
+          <p class="text-muted text-sm">Elige el contraste del tema</p>
+          <div class="row theme-contrast">
+            <div class="col-6">
+              <div class="d-grid">
+                <button
+                  class="preset-btn btn"
+                  onclick="layout_theme_contrast_change('true');"
+                  data-bs-toggle="tooltip"
+                  title="Alto contraste"
+                >
+                  <svg class="pc-icon">
+                    <use xlink:href="#custom-mask"></use>
+                  </svg>
+                </button>
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="d-grid">
+                <button
+                  class="preset-btn btn active"
+                  onclick="layout_theme_contrast_change('false');"
+                  data-bs-toggle="tooltip"
+                  title="Normal"
+                >
+                  <svg class="pc-icon">
+                    <use xlink:href="#custom-mask-1-outline"></use>
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </div>
+        </li>
+
+        <!-- Colores -->
+        <li class="list-group-item">
+          <h6 class="mb-1">Color principal</h6>
+          <p class="text-muted text-sm">Elige el color de la interfaz</p>
+          <div class="theme-color preset-color">
+            <a href="#!" title="Azul" class="active" data-value="preset-1"
+              ><i class="ti ti-checks"></i
+            ></a>
+            <a href="#!" title="Índigo" data-value="preset-2"
+              ><i class="ti ti-checks"></i
+            ></a>
+            <a href="#!" title="Morado" data-value="preset-3"
+              ><i class="ti ti-checks"></i
+            ></a>
+            <a href="#!" title="Rosa" data-value="preset-4"
+              ><i class="ti ti-checks"></i
+            ></a>
+            <a href="#!" title="Rojo" data-value="preset-5"
+              ><i class="ti ti-checks"></i
+            ></a>
+            <a href="#!" title="Naranja" data-value="preset-6"
+              ><i class="ti ti-checks"></i
+            ></a>
+            <a href="#!" title="Amarillo" data-value="preset-7"
+              ><i class="ti ti-checks"></i
+            ></a>
+            <a href="#!" title="Verde" data-value="preset-8"
+              ><i class="ti ti-checks"></i
+            ></a>
+            <a href="#!" title="Turquesa" data-value="preset-9"
+              ><i class="ti ti-checks"></i
+            ></a>
+            <a href="#!" title="Celeste" data-value="preset-10"
+              ><i class="ti ti-checks"></i
+            ></a>
+          </div>
+        </li>
+
+        <!-- Sidebar -->
+        <li class="list-group-item">
+          <h6 class="mb-1">Texto en la barra lateral</h6>
+          <p class="text-muted text-sm">Mostrar u ocultar textos</p>
+          <div class="row theme-nav-caption">
+            <div class="col-6">
+              <div class="d-grid">
+                <button
+                  class="preset-btn btn-img btn active"
+                  onclick="layout_caption_change('true');"
+                  title="Mostrar texto"
+                >
+                  <img
+                    src="/assets/images/customizer/caption-on.svg"
+                    alt="img"
+                    class="img-fluid"
+                  />
+                </button>
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="d-grid">
+                <button
+                  class="preset-btn btn-img btn"
+                  onclick="layout_caption_change('false');"
+                  title="Ocultar texto"
+                >
+                  <img
+                    src="/assets/images/customizer/caption-off.svg"
+                    alt="img"
+                    class="img-fluid"
+                  />
+                </button>
+              </div>
+            </div>
+          </div>
+        </li>
+
+        <!-- Ancho -->
+        <li class="list-group-item">
+          <h6 class="mb-1">Ancho del diseño</h6>
+          <p class="text-muted text-sm">Pantalla completa o en contenedor</p>
+          <div class="row theme-container">
+            <div class="col-6">
+              <div class="d-grid">
+                <button
+                  class="preset-btn btn-img btn active"
+                  onclick="change_box_container('false')"
+                  title="Ancho completo"
+                >
+                  <img
+                    src="/assets/images/customizer/full.svg"
+                    alt="img"
+                    class="img-fluid"
+                  />
+                </button>
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="d-grid">
+                <button
+                  class="preset-btn btn-img btn"
+                  onclick="change_box_container('true')"
+                  title="Ancho fijo"
+                >
+                  <img
+                    src="/assets/images/customizer/fixed.svg"
+                    alt="img"
+                    class="img-fluid"
+                  />
+                </button>
+              </div>
+            </div>
+          </div>
+        </li>
+
+        <!-- Reset -->
+        <li class="list-group-item">
+          <div class="d-grid">
+            <button class="btn btn-light-danger" id="layoutreset">
+              Restablecer diseño
+            </button>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>

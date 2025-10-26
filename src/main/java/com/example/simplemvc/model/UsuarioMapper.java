@@ -22,11 +22,20 @@ public interface UsuarioMapper extends CrudMapper<Usuario, UsuarioDto, Usuario.U
   @Mapping(target = "password", ignore = true)
   @Mapping(target = "deleted", ignore = true)
   @Mapping(target = "persona", ignore = true)
+  @Mapping(target = "rol", ignore = true)
   Usuario toDomain(UsuarioDto dto);
 
   @Mapping(target = "id", ignore = true)
   @Mapping(target = "persona", ignore = true)
-  @Mapping(target = "rol", ignore = true)
+  @Mapping(target = "rol", source = "rolId")
   @Mapping(target = "deleted", ignore = true)
   Usuario.UsuarioBuilder fromRequest(CrearUsuarioRequest request);
+
+  default UsuarioRol mapUsuarioRol(Long rolId) {
+    if (rolId == null) {
+      return null;
+    }
+
+    return UsuarioRol.builder().id(rolId).build();
+  }
 }

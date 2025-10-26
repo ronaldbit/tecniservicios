@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html
+  lang="es"
+  xmlns:th="http://www.thymeleaf.org"
+  th:fragment="layout(content, usuario, titulo, path)"
+>
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui"
+    />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    <!-- [Favicon] icon -->
+    <link rel="icon" href="/assets/images/favicon.svg" type="image/x-icon" />
+    <!-- [Font] Family -->
+    <!-- [phosphor Icons] https://phosphoricons.com/ -->
+    <link rel="stylesheet" href="/assets/fonts/phosphor/duotone/style.css" />
+    <!-- [Tabler Icons] https://tablericons.com -->
+    <link rel="stylesheet" href="/assets/fonts/tabler-icons.min.css" />
+    <!-- [Feather Icons] https://feathericons.com -->
+    <link rel="stylesheet" href="/assets/fonts/feather.css" />
+    <!-- [Font Awesome Icons] https://fontawesome.com/icons -->
+    <link rel="stylesheet" href="/assets/fonts/fontawesome.css" />
+    <!-- [Material Icons] https://fonts.google.com/icons -->
+    <link rel="stylesheet" href="/assets/fonts/material.css" />
+
+    <!-- [Template CSS Files] -->
+    <link rel="stylesheet" href="/assets/css/style.css" id="main-style-link" />
+    <script src="/assets/js/tech-stack.js"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id="></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+      gtag("config", "");
+    </script>
+    <script type="text/javascript">
+      (function (c, l, a, r, i, t, y) {
+        c[a] =
+          c[a] ||
+          function () {
+            (c[a].q = c[a].q || []).push(arguments);
+          };
+        t = l.createElement(r);
+        t.async = 1;
+        t.src = "https://www.clarity.ms/tag/" + i;
+        y = l.getElementsByTagName(r)[0];
+        y.parentNode.insertBefore(t, y);
+      })(window, document, "clarity", "script", "");
+    </script>
+    <script
+      defer
+      src="https://phpstack-207002-5085356.cloudwaysapps.com/pixel/"
+    ></script>
+    <link rel="stylesheet" href="/assets/css/style-preset.css" />
+
+    <title th:text="${titulo ?: 'TecniServicios'}">TecniServicios</title>
+  </head>
+
+  <body
+    data-pc-preset="preset-1"
+    data-pc-sidebar-caption="true"
+    data-pc-layout="vertical"
+    data-pc-direction="ltr"
+    data-pc-theme_contrast=""
+    data-pc-theme="light"
+  >
+    <!-- [ Pre-loader ] start -->
+    <div class="loader-bg">
+      <div class="loader-track">
+        <div class="loader-fill"></div>
+      </div>
+    </div>
+
+    <nav
+      class="pc-sidebar"
+      th:replace="~{components/sidebar :: sidebar(${usuario})}"
+    ></nav>
+
+    <header
+      class="pc-header"
+      th:replace="~{components/header :: header(${usuario})}"
+    ></header>
+
+    <div class="pc-container" th:insert="${content}"></div>
+
+    <footer
+      class="pc-footer"
+      th:replace="~{components/footer :: footer(${usuario})}"
+    ></footer>
+
+    <div class="pct-c-btn">
+      <a
+        href="#"
+        data-bs-toggle="offcanvas"
+        data-bs-target="#offcanvas_pc_layout"
+      >
+        <i class="ph-duotone ph-gear-six"></i>
+      </a>
+    </div>
+
+    <div
+      class="offcanvas border-0 pct-offcanvas offcanvas-end"
+      tabindex="-1"
+      id="offcanvas_pc_layout"
+      th:replace="~{components/config :: config(${usuario})}"
+    ></div>
+
+    <!-- [Page Specific JS] start -->
+    <script src="/assets/js/plugins/apexcharts.min.js"></script>
+    <script src="/assets/js/widgets/all-earnings-graph.js"></script>
+    <script src="/assets/js/widgets/page-views-graph.js"></script>
+    <script src="/assets/js/widgets/total-task-graph.js"></script>
+    <script src="/assets/js/widgets/download-graph.js"></script>
+    <script src="/assets/js/widgets/customer-rate-graph.js"></script>
+    <script src="/assets/js/widgets/tasks-graph.js"></script>
+    <script src="/assets/js/widgets/total-income-graph.js"></script>
+    <!-- [Page Specific JS] end -->
+    <!-- Required Js -->
+    <script src="/assets/js/plugins/popper.min.js"></script>
+    <script src="/assets/js/plugins/simplebar.min.js"></script>
+    <script src="/assets/js/plugins/bootstrap.min.js"></script>
+    <script src="/assets/js/plugins/i18next.min.js"></script>
+    <script src="/assets/js/plugins/i18nextHttpBackend.min.js"></script>
+    <script src="/assets/js/icon/custom-font.js"></script>
+    <script src="/assets/js/script.js"></script>
+    <script src="/assets/js/theme.js"></script>
+    <script src="/assets/js/multi-lang.js"></script>
+    <script src="/assets/js/plugins/feather.min.js"></script>
+
+    <script>
+      layout_change("light");
+    </script>
+    <script>
+      change_box_container("false");
+    </script>
+    <script>
+      layout_caption_change("true");
+    </script>
+    <script>
+      layout_rtl_change("false");
+    </script>
+    <script>
+      preset_change("preset-1");
+    </script>
+    <script>
+      main_layout_change("vertical");
+    </script>
+  </body>
+</html>
