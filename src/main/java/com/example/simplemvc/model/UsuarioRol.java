@@ -23,7 +23,7 @@ public class UsuarioRol implements GrantedAuthority {
   private Long id;
   @Column(nullable = false, unique = true, length = 50)
   private String nombre;
-  @OneToMany(mappedBy = "rol", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+  @OneToMany(mappedBy = "rol", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
   private List<Permiso> permisos;
   @Override
   public String getAuthority() {

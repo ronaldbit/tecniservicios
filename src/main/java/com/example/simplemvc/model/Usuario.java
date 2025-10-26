@@ -52,6 +52,7 @@ public class Usuario implements UserDetails {
   @Column(columnDefinition = "varchar(255)", nullable = false)
   private String password;
 
+  @ManyToOne
   @JoinColumn(name = "rol_id", nullable = false)
   private UsuarioRol rol;
 
