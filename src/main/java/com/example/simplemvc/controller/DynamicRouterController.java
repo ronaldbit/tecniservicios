@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import jakarta.servlet.http.HttpServletRequest;
+
 @Controller
 public class DynamicRouterController {
 
@@ -20,42 +22,30 @@ public class DynamicRouterController {
     return "tienda/home";
   }
 
-  // NO mapear /admin/login ni /login aquí (los maneja AuthController)
-
-  // Excluir: assets, api, captcha, favicon.ico, error, webjars, login
-  @RequestMapping({
-      "/{p1:^(?!assets|assets_shop|api|captcha|favicon\\.ico$|error|errors$|webjars$).+}",
-      "/{p1:^(?!assets|assets_shop|api|captcha|favicon\\.ico$|error|errors$|webjars$).+}/{p2}",
-      "/{p1:^(?!assets|assets_shop|api|captcha|favicon\\.ico$|error|errors$|webjars$).+}/{p2}/{p3}"
-  })
-  public String dynamic(@PathVariable String p1,
-      @PathVariable(required = false) String p2,
-      @PathVariable(required = false) String p3,
+  @RequestMapping(value = "/{path:^(?!assets|assets_shop|api|captcha|favicon\\.ico$|error|errors$|webjars$).*}/**")
+  public String dynamic(
+      @PathVariable String path,
+      HttpServletRequest request,
       Model model) {
+    String requestURI = request.getRequestURI();
 
-    String path = build(p1, p2, p3);
-
-    if (exists("classpath:/templates/" + path + ".html")) {
-      return path;
+    if (requestURI.endsWith("/") && requestURI.length() > 1) {
+      String redirectPath = requestURI.substring(0, requestURI.length() - 1);
+      return "redirect:" + redirectPath;
     }
 
-    model.addAttribute("path", path);
-    return "errors/404";
-  }
+    String relativePath = requestURI.startsWith("/") ? requestURI.substring(1) : requestURI;
 
-  private String build(String... paths) {
-    StringBuilder sb = new StringBuilder();
-
-    for (String string : paths) {
-      if (string != null && !string.isEmpty()) {
-        if (sb.length() > 0) {
-          sb.append("/");
-        }
-        sb.append(string);
-      }
+    if (exists("classpath:/templates/" + relativePath + ".html")) {
+      return relativePath;
     }
 
-    return sb.toString().replaceAll("/+$", "");
+    if (exists("classpath:/templates/" + relativePath + "/index.html")) {
+      return relativePath + "/index";
+    }
+
+    model.addAttribute("path", relativePath);
+    return "/errors/404";
   }
 
   private boolean exists(String loc) {
