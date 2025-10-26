@@ -1,10 +1,12 @@
 package com.example.simplemvc.model;
 
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.mapstruct.ObjectFactory;
 import org.mapstruct.ReportingPolicy;
 
 import com.example.simplemvc.dto.UsuarioRolDto;
+import com.example.simplemvc.request.CrearUsuarioRol;
 import com.example.simplemvc.shared.config.LombokBuilderConfig;
 import com.example.simplemvc.shared.mapper.BasicMapper;
 import com.example.simplemvc.shared.mapper.StringUtilsMapper;
@@ -18,5 +20,11 @@ public interface UsuarioRolMapper extends BasicMapper<UsuarioRol, UsuarioRolDto>
     return UsuarioRol.builder();
   }
 
+  @Mapping(target = "permisos", source = "permisos")
+  UsuarioRolDto toDto(UsuarioRol entity);
+
+  @Mapping(target = "permisos", source = "permisos")
   UsuarioRol toDomain(UsuarioRolDto dto);
+
+  UsuarioRol.UsuarioRolBuilder fromRequest(CrearUsuarioRol request);
 }

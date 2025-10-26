@@ -23,15 +23,12 @@ public class PersonaService {
 
   public List<PersonaDto> listaTodos() {
     log.info("Obteniendo lista de personas");
-
     List<Persona> personas = personaRepository.findAll();
-
     return personas.stream().map(personaMapper::toDto).collect(Collectors.toList());
   }
 
   public PersonaDto obtenerPorId(Long id) {
     log.info("Obteniendo persona con ID: {}", id);
-
     Persona persona = personaRepository.findById(id)
         .orElseThrow(() -> new IllegalArgumentException("Persona no encontrada con ID: " + id));
 
@@ -40,24 +37,20 @@ public class PersonaService {
 
   public PersonaDto crear(CrearPersonaRequest request) {
     Persona persona = personaMapper.fromRequest(request).build();
-
     Persona saved = personaRepository.save(persona);
     log.info("Persona creada con ID: {}", saved.getId());
-
     return personaMapper.toDto(saved);
   }
 
   public void eliminarPorId(Long id) {
     log.info("Eliminando persona con ID: {}", id);
-
     personaRepository.deleteById(id);
-
-    log.info("Persona eliminada con ID: {}", id);
+    log.info("Persona eliminada con ID: {}", id);  
   }
 
+  
   public Persona obtenerEntidadPorId(Long id) {
     log.info("Obteniendo persona con ID: {}", id);
-
     return personaRepository.findById(id).orElse(null);
   }
 

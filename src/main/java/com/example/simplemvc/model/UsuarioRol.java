@@ -4,18 +4,8 @@ import java.util.List;
 
 import org.springframework.security.core.GrantedAuthority;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
-import jakarta.persistence.UniqueConstraint;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import jakarta.persistence.*;
+import lombok.*;
 
 @Entity
 @Table(name = "usuario_rol", uniqueConstraints = {
@@ -31,14 +21,12 @@ public class UsuarioRol implements GrantedAuthority {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
-
+  @Column(nullable = false, unique = true, length = 50)
   private String nombre;
-
-  @OneToMany(mappedBy = "rol")
+  @OneToMany(mappedBy = "rol", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
   private List<Permiso> permisos;
-
   @Override
   public String getAuthority() {
-    return "ROLE_" + this.nombre;
+    return "ROLE_" + this.nombre.toUpperCase();
   }
 }
