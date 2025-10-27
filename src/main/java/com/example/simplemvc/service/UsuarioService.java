@@ -16,6 +16,7 @@ import com.example.simplemvc.repository.UsuarioRepository;
 import com.example.simplemvc.repository.UsuarioRolRepository;
 import com.example.simplemvc.request.CrearUsuarioRequest;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -51,6 +52,7 @@ public class UsuarioService {
     return usuarioMapper.toDto(usuario);
   }
 
+  @Transactional
   public UsuarioDto crear(CrearUsuarioRequest request) {
     log.info("Creando usuario");
 
