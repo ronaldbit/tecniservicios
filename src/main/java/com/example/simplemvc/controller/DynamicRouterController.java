@@ -1,5 +1,7 @@
 package com.example.simplemvc.controller;
 
+import java.util.Arrays;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
@@ -9,13 +11,26 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.example.simplemvc.dto.UsuarioDto;
+import com.example.simplemvc.model.Usuario;
+import com.example.simplemvc.model.UsuarioMapper;
+import com.example.simplemvc.service.JwtAuthenticationService;
+
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
+import lombok.AllArgsConstructor;
 
 @Controller
+@AllArgsConstructor
 public class DynamicRouterController {
+  @Autowired
+  private final JwtAuthenticationService jwtAuthenticationService;
 
   @Autowired
-  private ResourceLoader loader;
+  private final UsuarioMapper usuarioMapper;
+
+  @Autowired
+  private final ResourceLoader loader;
 
   @GetMapping("/")
   public String homeView(Model model) {
@@ -34,6 +49,12 @@ public class DynamicRouterController {
       return "redirect:" + redirectPath;
     }
 
+    String redirectAuth = authMiddleware(request, model);
+
+    if (redirectAuth != null) {
+      return "redirect:" + redirectAuth;
+    }
+
     String relativePath = requestURI.startsWith("/") ? requestURI.substring(1) : requestURI;
 
     if (exists("classpath:/templates/" + relativePath + ".html")) {
@@ -46,6 +67,49 @@ public class DynamicRouterController {
 
     model.addAttribute("path", relativePath);
     return "/errors/404";
+  }
+
+  public boolean isAuthEntryPoint(String path) {
+    for (String authPath : Arrays.asList("/auth/login", "/auth/registro", "/auth/registro-persona")) {
+      if (path.equals(authPath)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  public String authMiddleware(HttpServletRequest request, Model model) {
+    String requestURI = request.getRequestURI();
+
+    Cookie[] cookies = request.getCookies();
+
+    String jwt = null;
+
+    for (Cookie cookie : cookies) {
+      if ("JWT_TOKEN".equals(cookie.getName())) {
+        jwt = cookie.getValue();
+        break;
+      }
+    }
+
+    Usuario usuario = jwtAuthenticationService.fromJwt(jwt);
+    UsuarioDto usuarioDto = usuarioMapper.toDto(usuario);
+
+    if (usuario == null) {
+      return null;
+    }
+
+    model.addAttribute("usuario", usuarioDto);
+
+    if (!isAuthEntryPoint(requestURI)) {
+      return null;
+    }
+
+    if (usuarioDto.getRol().getNombre().equals("ADMIN")) {
+      return "/dashboard";
+    }
+
+    return "/";
   }
 
   private boolean exists(String loc) {

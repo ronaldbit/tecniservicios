@@ -5,10 +5,12 @@ import java.util.List;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -52,7 +54,7 @@ public class Usuario implements UserDetails {
   @Column(columnDefinition = "varchar(255)", nullable = false)
   private String password;
 
-  @ManyToOne
+  @ManyToOne(fetch = FetchType.EAGER)
   @JoinColumn(name = "rol_id", nullable = false)
   private UsuarioRol rol;
 
@@ -66,6 +68,9 @@ public class Usuario implements UserDetails {
 
   @Override
   public List<? extends GrantedAuthority> getAuthorities() {
-    return List.of(rol);
+    if (rol == null || rol.getNombre() == null) {
+      return List.of();
+    }
+    return List.of(new SimpleGrantedAuthority(rol.getNombre()));
   }
 }

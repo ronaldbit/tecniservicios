@@ -72,8 +72,7 @@ public final class JwtAuthenticationService {
       return getClaim(
           jwt, claims -> usuarioMapper.toDomain(objectMapper.convertValue(claims.get("usuario"), UsuarioDto.class)));
     } catch (Exception e) {
-      log.error("Error al obtener el usuario del JWT", e);
-
+      log.error("Error al obtener el usuario del JWT");
       return null;
     }
   }

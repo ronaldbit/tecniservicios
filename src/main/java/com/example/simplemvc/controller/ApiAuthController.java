@@ -9,9 +9,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.example.simplemvc.dto.JwtDto;
 import com.example.simplemvc.dto.UsuarioDto;
+import com.example.simplemvc.model.Usuario;
 import com.example.simplemvc.request.CrearUsuarioRequest;
 import com.example.simplemvc.request.LoginUsuarioRequest;
 import com.example.simplemvc.service.AuthService;
+import com.example.simplemvc.service.JwtAuthenticationService;
 import com.example.simplemvc.service.UsuarioService;
 
 import jakarta.servlet.http.Cookie;
@@ -28,29 +30,39 @@ public class ApiAuthController {
   @Autowired
   private final AuthService authService;
 
+  @Autowired
+  private final JwtAuthenticationService jwtAuthenticationService;
+
   @PostMapping("/login")
   public String login(@ModelAttribute LoginUsuarioRequest request, HttpServletResponse response, Model model) {
     try {
       JwtDto jwt = authService.login(request);
 
-      if (jwt != null) {
-        model.addAttribute("message", "Login exitoso. JWT: " + jwt.getJwt());
-
-        Cookie jwtCookie = new Cookie("JWT_TOKEN", jwt.getJwt());
-        jwtCookie.setHttpOnly(true);
-        jwtCookie.setPath("/");
-        jwtCookie.setMaxAge(24 * 60 * 60);
-
-        response.addCookie(jwtCookie);
-      } else {
+      if (jwt == null) {
         model.addAttribute("message", "El login ha fallado");
+        return "/auth/login";
       }
+
+      model.addAttribute("message", "Login exitoso. JWT: " + jwt.getJwt());
+
+      Cookie jwtCookie = new Cookie("JWT_TOKEN", jwt.getJwt());
+      jwtCookie.setHttpOnly(true);
+      jwtCookie.setPath("/");
+      jwtCookie.setMaxAge(24 * 60 * 60);
+
+      response.addCookie(jwtCookie);
+
+      Usuario usuario = jwtAuthenticationService.fromJwt(jwt.getJwt());
+
+      model.addAttribute("usuario", usuario);
+
+      System.out.println("Usuario logueado: " + usuario.getCorreo());
 
       return "/tienda/home";
     } catch (Exception e) {
-      model.addAttribute("message", e.getMessage());
+      model.addAttribute("message", e.getMessage() + "b");
 
-      return "auth/login";
+      return "/auth/login";
     }
   }
 

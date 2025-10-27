@@ -22,7 +22,7 @@ public interface UsuarioMapper extends CrudMapper<Usuario, UsuarioDto, Usuario.U
   @Mapping(target = "password", ignore = true)
   @Mapping(target = "deleted", ignore = true)
   @Mapping(target = "persona", ignore = true)
-  @Mapping(target = "rol", ignore = true)
+  @Mapping(target = "rol", source = "rol")
   Usuario toDomain(UsuarioDto dto);
 
   @Mapping(target = "id", ignore = true)
