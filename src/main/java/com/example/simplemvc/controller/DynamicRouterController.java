@@ -1,6 +1,7 @@
 package com.example.simplemvc.controller;
 
 import java.util.Arrays;
+import java.util.HashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.Ordered;
@@ -22,6 +23,10 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
 
+import com.example.simplemvc.config.TemplateEngine;
+import java.util.Map;
+import java.util.List;
+
 @Controller
 @AllArgsConstructor
 public class DynamicRouterController {
@@ -35,9 +40,18 @@ public class DynamicRouterController {
   private final ResourceLoader loader;
 
   @GetMapping("/")
-  public String homeView(Model model) {
-    return "tienda/home";
+  public String homeView(Model model) throws Exception {
+      TemplateEngine engine = new TemplateEngine("src/main/resources/templates/tienda");
+
+      Map<String, Object> vars = new HashMap<>();
+      vars.put("titulo", "Bienvenido");
+      vars.put("mensaje", "Este mensaje solo aparece si showMessage es true");
+      vars.put("showMessage", true);
+      vars.put("users", List.of("Ronald", "User2", "Pedro"));
+
+      return engine.render("home.html", vars);
   }
+
 
   @RequestMapping(value = "/{path:^(?!assets|assets_shop|api|captcha|favicon\\.ico$|error|errors$|webjars$).*}/**")
   @Order(Ordered.LOWEST_PRECEDENCE)
