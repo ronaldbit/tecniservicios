@@ -4,8 +4,6 @@ import java.util.Arrays;
 import java.util.HashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.Ordered;
-import org.springframework.core.annotation.Order;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Controller;
@@ -54,7 +52,6 @@ public class DynamicRouterController {
 
 
   @RequestMapping(value = "/{path:^(?!assets|assets_shop|api|captcha|favicon\\.ico$|error|errors$|webjars$).*}/**")
-  @Order(Ordered.LOWEST_PRECEDENCE)
   public String dynamic(
       @PathVariable String path,
       HttpServletRequest request,
