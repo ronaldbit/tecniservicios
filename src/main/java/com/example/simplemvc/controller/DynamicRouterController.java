@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.example.simplemvc.dto.UsuarioDto;
 import com.example.simplemvc.model.Usuario;
@@ -21,9 +22,9 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
 
-import com.example.simplemvc.config.TemplateEngine;
 import java.util.Map;
 import java.util.List;
+import com.ronaldbit.Mopla;
 
 @Controller
 @AllArgsConstructor
@@ -38,8 +39,9 @@ public class DynamicRouterController {
   private final ResourceLoader loader;
 
   @GetMapping("/")
+  @ResponseBody
   public String homeView(Model model) throws Exception {
-      TemplateEngine engine = new TemplateEngine("src/main/resources/templates/tienda");
+      Mopla mopla = new Mopla("src/main/resources/templates/tienda");
 
       Map<String, Object> vars = new HashMap<>();
       vars.put("titulo", "Bienvenido");
@@ -47,9 +49,8 @@ public class DynamicRouterController {
       vars.put("showMessage", true);
       vars.put("users", List.of("Ronald", "User2", "Pedro"));
 
-      return engine.render("home.html", vars);
+      return mopla.render("home.html", vars);
   }
-
 
   @RequestMapping(value = "/{path:^(?!assets|assets_shop|api|captcha|favicon\\.ico$|error|errors$|webjars$).*}/**")
   public String dynamic(

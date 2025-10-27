@@ -1,3 +1,17 @@
+@extend("layout.html")
+
+@section("contenido")
+
+@if(showMessage)
+<p>@var(mensaje)</p>
+@endif
+
+<h3>Lista de usuarios:</h3>
+<ul>
+@foreach(user in users)
+  <li>@var(user)</li>
+@endforeach
+</ul>
 
       <div class="site__body">
         <div class="block-finder block">
@@ -8,19 +22,12 @@
               <div class="decor__center"></div>
             </div>
           </div>
-          <div
-            class="block-finder__image"
-            style="background-image: url('images/finder-1903x500.jpg')"
-          ></div>
+          <div class="block-finder__image" style="background-image: url('assets_shop/images/finder-1903x500.jpg')"></div>
           <div class="block-finder__body container container--max--xl">
             <div class="block-finder__title">Find Parts For Your Vehicle</div>
-            <div class="block-finder__subtitle">
-              Over hundreds of brands and tens of thousands of parts
-            </div>
+            <div class="block-finder__subtitle">Over hundreds of brands and tens of thousands of parts</div>
             <form class="block-finder__form">
-              <div
-                class="block-finder__form-control block-finder__form-control--select"
-              >
+              <div class="block-finder__form-control block-finder__form-control--select">
                 <select name="year" aria-label="Vehicle Year">
                   <option value="none">Select Year</option>
                   <option>2010</option>
@@ -437,7 +444,7 @@
                           <a href="product-full.html" class="image__body"
                             ><img
                               class="image__tag"
-                              src="images/products/product-2-245x245.jpg"
+                              src="assets_shop/images/products/product-2-245x245.jpg"
                               alt=""
                           /></a>
                         </div>
@@ -579,7 +586,7 @@
                           <a href="product-full.html" class="image__body"
                             ><img
                               class="image__tag"
-                              src="images/products/product-3-245x245.jpg"
+                              src="assets_shop/images/products/product-3-245x245.jpg"
                               alt=""
                           /></a>
                         </div>
@@ -725,7 +732,7 @@
                           <a href="product-full.html" class="image__body"
                             ><img
                               class="image__tag"
-                              src="images/products/product-4-245x245.jpg"
+                              src="assets_shop/images/products/product-4-245x245.jpg"
                               alt=""
                           /></a>
                         </div>
@@ -1008,7 +1015,7 @@
                           <a href="product-full.html" class="image__body"
                             ><img
                               class="image__tag"
-                              src="images/products/product-6-245x245.jpg"
+                              src="assets_shop/images/products/product-6-245x245.jpg"
                               alt=""
                           /></a>
                         </div>
@@ -1148,7 +1155,7 @@
                           <a href="product-full.html" class="image__body"
                             ><img
                               class="image__tag"
-                              src="images/products/product-7-245x245.jpg"
+                              src="assets_shop/images/products/product-7-245x245.jpg"
                               alt=""
                           /></a>
                         </div>
@@ -1280,7 +1287,7 @@
                           <a href="product-full.html" class="image__body"
                             ><img
                               class="image__tag"
-                              src="images/products/product-8-245x245.jpg"
+                              src="assets_shop/images/products/product-8-245x245.jpg"
                               alt=""
                           /></a>
                         </div>
@@ -1418,7 +1425,7 @@
                           <a href="product-full.html" class="image__body"
                             ><img
                               class="image__tag"
-                              src="images/products/product-9-245x245.jpg"
+                              src="assets_shop/images/products/product-9-245x245.jpg"
                               alt=""
                           /></a>
                         </div>
@@ -1558,7 +1565,7 @@
                           <a href="product-full.html" class="image__body"
                             ><img
                               class="image__tag"
-                              src="images/products/product-10-245x245.jpg"
+                              src="assets_shop/images/products/product-10-245x245.jpg"
                               alt=""
                           /></a>
                         </div>
@@ -1736,7 +1743,7 @@
               </div>
               <div
                 class="block-sale__image"
-                style="background-image: url('images/sale-1903x640.jpg')"
+                style="background-image: url('assets_shop/images/sale-1903x640.jpg')"
               ></div>
               <div class="container">
                 <div class="block-sale__carousel">
@@ -8515,4 +8522,4 @@
         </div>
         <div class="block-space block-space--layout--before-footer"></div>
       </div>
- 
+@endsection

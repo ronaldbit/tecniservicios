@@ -22,7 +22,7 @@ mvn spring-boot:run
 - API admin: `POST/PUT/DELETE /api/admin/products`
 
 ## Notas
-- 
+- Estados: 0 = eliminados | 1 = Inactivos | 2 = Activos
 -
 -
 -
