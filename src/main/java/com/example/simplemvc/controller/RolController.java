@@ -6,20 +6,20 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.example.simplemvc.service.UsuarioService;
+import com.example.simplemvc.service.UsuarioRolService;
 
 import lombok.AllArgsConstructor;
 
 @Controller
-@RequestMapping("/dashboard/ajustes/usuarios")
+@RequestMapping("/dashboard/ajustes/roles")
 @AllArgsConstructor
-public class UsuarioController {
+public class RolController {
   @Autowired
-  private final UsuarioService usuarioService;
+  private final UsuarioRolService usuarioRolService;
 
   @GetMapping
   public String lista(Model model) {
-    model.addAttribute("usuarios", usuarioService.listaTodos());
-    return "dashboard/ajustes/usuarios";
+    model.addAttribute("roles", usuarioRolService.listarRoles());
+    return "dashboard/ajustes/roles";
   }
 }
