@@ -1,6 +1,7 @@
 package com.example.simplemvc.controller;
 
 import java.util.Arrays;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
@@ -15,6 +16,7 @@ import com.example.simplemvc.dto.UsuarioDto;
 import com.example.simplemvc.model.Usuario;
 import com.example.simplemvc.model.UsuarioMapper;
 import com.example.simplemvc.service.JwtAuthenticationService;
+import com.example.simplemvc.service.UsuarioService;
 
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
@@ -31,6 +33,9 @@ public class DynamicRouterController {
 
   @Autowired
   private final ResourceLoader loader;
+
+  @Autowired
+  private final UsuarioService usuarioService;
 
   @GetMapping("/")
   public String homeView(Model model) {
@@ -56,6 +61,11 @@ public class DynamicRouterController {
     }
 
     String relativePath = requestURI.startsWith("/") ? requestURI.substring(1) : requestURI;
+
+    if (requestURI.equals("/dashboard/ajustes/usuarios")) {
+      List<UsuarioDto> usuarios = usuarioService.listaTodos();
+      model.addAttribute("usuarios", usuarios);
+    }
 
     if (exists("classpath:/templates/" + relativePath + ".html")) {
       return relativePath;

@@ -1,15 +1,20 @@
-<div class="pc-container" th:replace="~{dashboard/layout :: layout(~{::content}, ${usuario}, 'Inicio', '/dashboard')}">
-
+<div
+  class="pc-container"
+  th:replace="~{dashboard/layout :: layout(~{::content}, ${usuario}, 'Inicio', '/dashboard')}"
+>
   <div class="pc-content" th:fragment="content">
-
     <!-- [ breadcrumb ] start -->
     <div class="page-header">
       <div class="page-block">
         <div class="row align-items-center">
           <div class="col-md-12">
             <ul class="breadcrumb">
-              <li class="breadcrumb-item"><a href="../dashboard/index../.html">Inicio</a></li>
-              <li class="breadcrumb-item"><a href="javascript:void(0)">Clientes</a></li>
+              <li class="breadcrumb-item">
+                <a href="../dashboard/index../.html">Inicio</a>
+              </li>
+              <li class="breadcrumb-item">
+                <a href="javascript:void(0)">Clientes</a>
+              </li>
               <li class="breadcrumb-item" aria-current="page">Lista</li>
             </ul>
           </div>
@@ -27,19 +32,30 @@
     <div class="row">
       <div class="col-12">
         <div class="card table-card">
-          <div class="card-header d-flex align-items-center justify-content-between">
+          <div
+            class="card-header d-flex align-items-center justify-content-between"
+          >
             <div>
               <h5 class="mb-1">Gestión de clientes</h5>
-              <small class="text-muted d-block mb-2">Tipo: <strong>Interno</strong> (registrado por vendedor) /
-                <strong>Externo</strong> (compra en línea)</small>
-              <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModalLive">
+              <small class="text-muted d-block mb-2"
+                >Tipo: <strong>Interno</strong> (registrado por vendedor) /
+                <strong>Externo</strong> (compra en línea)</small
+              >
+              <button
+                type="button"
+                class="btn btn-primary"
+                data-bs-toggle="modal"
+                data-bs-target="#exampleModalLive"
+              >
                 <i class="ti ti-plus me-1"></i> Nuevo Cliente
               </button>
             </div>
 
             <div class="d-flex align-items-center">
-              <div class="me-2"> <label for="filtro-tipo" class="form-label visually-hidden">Filtrar por
-                  Tipo</label>
+              <div class="me-2">
+                <label for="filtro-tipo" class="form-label visually-hidden"
+                  >Filtrar por Tipo</label
+                >
                 <select class="form-select" id="filtro-tipo">
                   <option value="">Todos los tipos</option>
                   <option value="Interno">Interno</option>
@@ -48,8 +64,10 @@
                 </select>
               </div>
               <div>
-                <label for="filtro-estado" class="form-label visually-hidden">Filtrar por Estado</label> <select
-                  class="form-select" id="filtro-estado">
+                <label for="filtro-estado" class="form-label visually-hidden"
+                  >Filtrar por Estado</label
+                >
+                <select class="form-select" id="filtro-estado">
                   <option value="">Todos los estados</option>
                   <option value="Activo">Activo</option>
                   <option value="Inactivo">Inactivo</option>
@@ -57,121 +75,261 @@
               </div>
             </div>
           </div>
-          <div id="exampleModalLive" class="modal fade" tabindex="-1" role="dialog"
-            aria-labelledby="exampleModalLiveLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+          <div
+            id="exampleModalLive"
+            class="modal fade"
+            tabindex="-1"
+            role="dialog"
+            aria-labelledby="exampleModalLiveLabel"
+            aria-hidden="true"
+          >
+            <div
+              class="modal-dialog modal-dialog-centered modal-lg"
+              role="document"
+            >
               <form class="modal-content needs-validation" novalidate>
                 <div class="modal-header">
-                  <h5 class="modal-title" id="exampleModalLiveLabel">Añadir Nuevo Cliente</h5>
-                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  <h5 class="modal-title" id="exampleModalLiveLabel">
+                    Añadir Nuevo Cliente
+                  </h5>
+                  <button
+                    type="button"
+                    class="btn-close"
+                    data-bs-dismiss="modal"
+                    aria-label="Close"
+                  ></button>
                 </div>
                 <div class="modal-body">
                   <div class="row">
                     <div class="col-md-6">
                       <div class="mb-3">
-                        <label for="clienteTipoDoc" class="form-label">Tipo Documento</label>
-                        <select class="form-select" id="clienteTipoDoc" required>
-                          <option value="" selected disabled>Seleccionar...</option>
+                        <label for="clienteTipoDoc" class="form-label"
+                          >Tipo Documento</label
+                        >
+                        <select
+                          class="form-select"
+                          id="clienteTipoDoc"
+                          required
+                        >
+                          <option value="" selected disabled>
+                            Seleccionar...
+                          </option>
                           <option value="DNI">DNI</option>
                           <option value="RUC">RUC</option>
                         </select>
-                        <div class="invalid-feedback">Seleccione el tipo de documento.</div>
+                        <div class="invalid-feedback">
+                          Seleccione el tipo de documento.
+                        </div>
                       </div>
                       <div class="mb-3">
-                        <label for="clienteNumDoc" class="form-label">Número Documento</label>
-                        <input type="text" class="form-control" id="clienteNumDoc" required>
-                        <div class="invalid-feedback" id="clienteNumDocFeedback">Ingrese un número de documento
-                          válido.</div>
+                        <label for="clienteNumDoc" class="form-label"
+                          >Número Documento</label
+                        >
+                        <input
+                          type="text"
+                          class="form-control"
+                          id="clienteNumDoc"
+                          required
+                        />
+                        <div
+                          class="invalid-feedback"
+                          id="clienteNumDocFeedback"
+                        >
+                          Ingrese un número de documento válido.
+                        </div>
                       </div>
                       <div class="mb-3">
-                        <label for="clienteNombreRazon" class="form-label">Nombre / Razón Social</label>
-                        <input type="text" class="form-control" id="clienteNombreRazon" required>
-                        <div class="invalid-feedback">El nombre o razón social es obligatorio.</div>
+                        <label for="clienteNombreRazon" class="form-label"
+                          >Nombre / Razón Social</label
+                        >
+                        <input
+                          type="text"
+                          class="form-control"
+                          id="clienteNombreRazon"
+                          required
+                        />
+                        <div class="invalid-feedback">
+                          El nombre o razón social es obligatorio.
+                        </div>
                       </div>
-                      <div class="mb-3" id="campoApellidos" style="display: none;">
-                        <label for="clienteApellidos" class="form-label">Apellidos (Opcional)</label>
-                        <input type="text" class="form-control" id="clienteApellidos">
+                      <div
+                        class="mb-3"
+                        id="campoApellidos"
+                        style="display: none"
+                      >
+                        <label for="clienteApellidos" class="form-label"
+                          >Apellidos (Opcional)</label
+                        >
+                        <input
+                          type="text"
+                          class="form-control"
+                          id="clienteApellidos"
+                        />
                       </div>
                       <div class="mb-3">
-                        <label for="clienteNombreComercial" class="form-label">Nombre Comercial (Opcional)</label>
-                        <input type="text" class="form-control" id="clienteNombreComercial">
+                        <label for="clienteNombreComercial" class="form-label"
+                          >Nombre Comercial (Opcional)</label
+                        >
+                        <input
+                          type="text"
+                          class="form-control"
+                          id="clienteNombreComercial"
+                        />
                       </div>
                       <div class="mb-3">
-                        <label for="clienteContacto" class="form-label">Contacto Principal (Opcional)</label>
-                        <input type="text" class="form-control" id="clienteContacto"
-                          placeholder="Nombre de la persona de contacto">
+                        <label for="clienteContacto" class="form-label"
+                          >Contacto Principal (Opcional)</label
+                        >
+                        <input
+                          type="text"
+                          class="form-control"
+                          id="clienteContacto"
+                          placeholder="Nombre de la persona de contacto"
+                        />
                       </div>
                     </div>
                     <div class="col-md-6">
                       <div class="mb-3">
-                        <label for="clienteTelefono" class="form-label">Teléfono</label>
-                        <input type="tel" class="form-control" id="clienteTelefono" pattern="[0-9]{7,9}" required>
-                        <div class="invalid-feedback">Ingrese un teléfono válido (7 a 9 dígitos).</div>
+                        <label for="clienteTelefono" class="form-label"
+                          >Teléfono</label
+                        >
+                        <input
+                          type="tel"
+                          class="form-control"
+                          id="clienteTelefono"
+                          pattern="[0-9]{7,9}"
+                          required
+                        />
+                        <div class="invalid-feedback">
+                          Ingrese un teléfono válido (7 a 9 dígitos).
+                        </div>
                       </div>
                       <div class="mb-3">
-                        <label for="clienteEmail" class="form-label">Correo Electrónico</label>
-                        <input type="email" class="form-control" id="clienteEmail" required>
-                        <div class="invalid-feedback">Ingrese un correo electrónico válido.</div>
+                        <label for="clienteEmail" class="form-label"
+                          >Correo Electrónico</label
+                        >
+                        <input
+                          type="email"
+                          class="form-control"
+                          id="clienteEmail"
+                          required
+                        />
+                        <div class="invalid-feedback">
+                          Ingrese un correo electrónico válido.
+                        </div>
                       </div>
                       <div class="mb-3">
-                        <label for="clienteDireccion" class="form-label">Dirección Fiscal</label>
-                        <input type="text" class="form-control" id="clienteDireccion" required>
-                        <div class="invalid-feedback">La dirección es obligatoria.</div>
+                        <label for="clienteDireccion" class="form-label"
+                          >Dirección Fiscal</label
+                        >
+                        <input
+                          type="text"
+                          class="form-control"
+                          id="clienteDireccion"
+                          required
+                        />
+                        <div class="invalid-feedback">
+                          La dirección es obligatoria.
+                        </div>
                       </div>
                       <div class="mb-3">
-                        <label for="clienteTipo" class="form-label">Tipo Cliente</label>
+                        <label for="clienteTipo" class="form-label"
+                          >Tipo Cliente</label
+                        >
                         <select class="form-select" id="clienteTipo" required>
-                          <option value="" selected disabled>Seleccionar...</option>
+                          <option value="" selected disabled>
+                            Seleccionar...
+                          </option>
                           <option value="Interno">Interno</option>
                           <option value="Externo">Externo</option>
                           <option value="Online">Online</option>
                         </select>
-                        <div class="invalid-feedback">Seleccione el tipo de cliente.</div>
+                        <div class="invalid-feedback">
+                          Seleccione el tipo de cliente.
+                        </div>
                       </div>
                       <div class="row">
                         <div class="col-6">
                           <div class="mb-3">
-                            <label for="clienteLimiteCredito" class="form-label">Límite Crédito (S/)</label>
-                            <input type="number" class="form-control" id="clienteLimiteCredito" value="0.00" step="0.01"
-                              min="0" required>
-                            <div class="invalid-feedback">Ingrese un monto válido (>= 0).</div>
+                            <label for="clienteLimiteCredito" class="form-label"
+                              >Límite Crédito (S/)</label
+                            >
+                            <input
+                              type="number"
+                              class="form-control"
+                              id="clienteLimiteCredito"
+                              value="0.00"
+                              step="0.01"
+                              min="0"
+                              required
+                            />
+                            <div class="invalid-feedback">
+                              Ingrese un monto válido (>= 0).
+                            </div>
                           </div>
                         </div>
                         <div class="col-6">
                           <div class="mb-3">
-                            <label for="clienteDiasCredito" class="form-label">Días Crédito</label>
-                            <input type="number" class="form-control" id="clienteDiasCredito" value="0" step="1" min="0"
-                              required>
-                            <div class="invalid-feedback">Ingrese días válidos (>= 0).</div>
+                            <label for="clienteDiasCredito" class="form-label"
+                              >Días Crédito</label
+                            >
+                            <input
+                              type="number"
+                              class="form-control"
+                              id="clienteDiasCredito"
+                              value="0"
+                              step="1"
+                              min="0"
+                              required
+                            />
+                            <div class="invalid-feedback">
+                              Ingrese días válidos (>= 0).
+                            </div>
                           </div>
                         </div>
                       </div>
                       <div class="mb-3">
-                        <label for="clienteEstado" class="form-label">Estado</label>
+                        <label for="clienteEstado" class="form-label"
+                          >Estado</label
+                        >
                         <select class="form-select" id="clienteEstado" required>
                           <option value="Activo" selected>Activo</option>
                           <option value="Inactivo">Inactivo</option>
                         </select>
-                        <div class="invalid-feedback">Seleccione el estado del cliente.</div>
+                        <div class="invalid-feedback">
+                          Seleccione el estado del cliente.
+                        </div>
                       </div>
                     </div>
                   </div>
                   <div class="mb-3">
-                    <label for="clienteObservaciones" class="form-label">Observaciones (Opcional)</label>
-                    <textarea class="form-control" id="clienteObservaciones" rows="2"></textarea>
+                    <label for="clienteObservaciones" class="form-label"
+                      >Observaciones (Opcional)</label
+                    >
+                    <textarea
+                      class="form-control"
+                      id="clienteObservaciones"
+                      rows="2"
+                    ></textarea>
                   </div>
                 </div>
                 <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                  <button type="submit" class="btn btn-primary">Guardar Cliente</button>
+                  <button
+                    type="button"
+                    class="btn btn-secondary"
+                    data-bs-dismiss="modal"
+                  >
+                    Cancelar
+                  </button>
+                  <button type="submit" class="btn btn-primary">
+                    Guardar Cliente
+                  </button>
                 </div>
               </form>
             </div>
           </div>
 
           <div class="card-body pt-3">
-
-
             <div class="table-responsive">
               <table class="table table-hover" id="pc-dt-simple">
                 <thead>
@@ -193,7 +351,11 @@
                     <td>
                       <div class="d-flex align-items-center">
                         <div class="flex-shrink-0">
-                          <img src="/assets/images/user/avatar-1.jpg" alt="cliente" class="img-radius wid-40" />
+                          <img
+                            src="/assets/images/user/avatar-1.jpg"
+                            alt="cliente"
+                            class="img-radius wid-40"
+                          />
                         </div>
                         <div class="flex-grow-1 ms-3">
                           <h6 class="mb-0">Juan Pérez</h6>
@@ -205,13 +367,26 @@
                     <td>(01) 567-8901</td>
                     <td>juan.perez@example.com</td>
                     <td>Av. Los Olivos 123, Lima</td>
-                    <td><span class="badge text-bg-secondary">Interno</span></td>
-                    <td class="text-success"><i class="fas fa-circle f-10 m-r-10"></i> Activo</td>
-                    <td>2025/08/21 <span class="text-muted text-sm d-block">11:15 AM</span></td>
                     <td>
-                      <a href="#!" class="avtar avtar-xs btn-link-secondary"><i class="ti ti-eye f-20"></i></a>
-                      <a href="#!" class="avtar avtar-xs btn-link-secondary"><i class="ti ti-edit f-20"></i></a>
-                      <a href="#!" class="avtar avtar-xs btn-link-secondary"><i class="ti ti-trash f-20"></i></a>
+                      <span class="badge text-bg-secondary">Interno</span>
+                    </td>
+                    <td class="text-success">
+                      <i class="fas fa-circle f-10 m-r-10"></i> Activo
+                    </td>
+                    <td>
+                      2025/08/21
+                      <span class="text-muted text-sm d-block">11:15 AM</span>
+                    </td>
+                    <td>
+                      <a href="#!" class="avtar avtar-xs btn-link-secondary"
+                        ><i class="ti ti-eye f-20"></i
+                      ></a>
+                      <a href="#!" class="avtar avtar-xs btn-link-secondary"
+                        ><i class="ti ti-edit f-20"></i
+                      ></a>
+                      <a href="#!" class="avtar avtar-xs btn-link-secondary"
+                        ><i class="ti ti-trash f-20"></i
+                      ></a>
                     </td>
                   </tr>
 
@@ -220,11 +395,17 @@
                     <td>
                       <div class="d-flex align-items-center">
                         <div class="flex-shrink-0">
-                          <img src="/assets/images/user/avatar-2.jpg" alt="cliente" class="img-radius wid-40" />
+                          <img
+                            src="/assets/images/user/avatar-2.jpg"
+                            alt="cliente"
+                            class="img-radius wid-40"
+                          />
                         </div>
                         <div class="flex-grow-1 ms-3">
                           <h6 class="mb-0">Servicios ABC SAC</h6>
-                          <small class="text-muted d-block">Contacto: María Gómez</small>
+                          <small class="text-muted d-block"
+                            >Contacto: María Gómez</small
+                          >
                         </div>
                       </div>
                     </td>
@@ -233,12 +414,23 @@
                     <td>compras@serviciosabc.pe</td>
                     <td>Jr. Industrial 456, Ate</td>
                     <td><span class="badge text-bg-info">Externo</span></td>
-                    <td class="text-success"><i class="fas fa-circle f-10 m-r-10"></i> Activo</td>
-                    <td>2025/07/30 <span class="text-muted text-sm d-block">05:42 PM</span></td>
+                    <td class="text-success">
+                      <i class="fas fa-circle f-10 m-r-10"></i> Activo
+                    </td>
                     <td>
-                      <a href="#!" class="avtar avtar-xs btn-link-secondary"><i class="ti ti-eye f-20"></i></a>
-                      <a href="#!" class="avtar avtar-xs btn-link-secondary"><i class="ti ti-edit f-20"></i></a>
-                      <a href="#!" class="avtar avtar-xs btn-link-secondary"><i class="ti ti-trash f-20"></i></a>
+                      2025/07/30
+                      <span class="text-muted text-sm d-block">05:42 PM</span>
+                    </td>
+                    <td>
+                      <a href="#!" class="avtar avtar-xs btn-link-secondary"
+                        ><i class="ti ti-eye f-20"></i
+                      ></a>
+                      <a href="#!" class="avtar avtar-xs btn-link-secondary"
+                        ><i class="ti ti-edit f-20"></i
+                      ></a>
+                      <a href="#!" class="avtar avtar-xs btn-link-secondary"
+                        ><i class="ti ti-trash f-20"></i
+                      ></a>
                     </td>
                   </tr>
 
@@ -247,7 +439,11 @@
                     <td>
                       <div class="d-flex align-items-center">
                         <div class="flex-shrink-0">
-                          <img src="/assets/images/user/avatar-3.jpg" alt="cliente" class="img-radius wid-40" />
+                          <img
+                            src="/assets/images/user/avatar-3.jpg"
+                            alt="cliente"
+                            class="img-radius wid-40"
+                          />
                         </div>
                         <div class="flex-grow-1 ms-3">
                           <h6 class="mb-0">Karina Ruiz</h6>
@@ -260,12 +456,23 @@
                     <td>karuiz@example.com</td>
                     <td>San Miguel, Lima</td>
                     <td><span class="badge text-bg-info">Externo</span></td>
-                    <td class="text-secondary"><i class="fas fa-circle f-10 m-r-10"></i> Inactivo</td>
-                    <td>2025/05/18 <span class="text-muted text-sm d-block">09:03 AM</span></td>
+                    <td class="text-secondary">
+                      <i class="fas fa-circle f-10 m-r-10"></i> Inactivo
+                    </td>
                     <td>
-                      <a href="#!" class="avtar avtar-xs btn-link-secondary"><i class="ti ti-eye f-20"></i></a>
-                      <a href="#!" class="avtar avtar-xs btn-link-secondary"><i class="ti ti-edit f-20"></i></a>
-                      <a href="#!" class="avtar avtar-xs btn-link-secondary"><i class="ti ti-trash f-20"></i></a>
+                      2025/05/18
+                      <span class="text-muted text-sm d-block">09:03 AM</span>
+                    </td>
+                    <td>
+                      <a href="#!" class="avtar avtar-xs btn-link-secondary"
+                        ><i class="ti ti-eye f-20"></i
+                      ></a>
+                      <a href="#!" class="avtar avtar-xs btn-link-secondary"
+                        ><i class="ti ti-edit f-20"></i
+                      ></a>
+                      <a href="#!" class="avtar avtar-xs btn-link-secondary"
+                        ><i class="ti ti-trash f-20"></i
+                      ></a>
                     </td>
                   </tr>
 
@@ -274,11 +481,17 @@
                     <td>
                       <div class="d-flex align-items-center">
                         <div class="flex-shrink-0">
-                          <img src="/assets/images/user/avatar-4.jpg" alt="cliente" class="img-radius wid-40" />
+                          <img
+                            src="/assets/images/user/avatar-4.jpg"
+                            alt="cliente"
+                            class="img-radius wid-40"
+                          />
                         </div>
                         <div class="flex-grow-1 ms-3">
                           <h6 class="mb-0">Transportes El Norte SAC</h6>
-                          <small class="text-muted d-block">Contacto: Luis Vega</small>
+                          <small class="text-muted d-block"
+                            >Contacto: Luis Vega</small
+                          >
                         </div>
                       </div>
                     </td>
@@ -286,21 +499,32 @@
                     <td>(01) 321-9090</td>
                     <td>logistica@elnorte.com</td>
                     <td>Av. México 890, La Victoria</td>
-                    <td><span class="badge text-bg-secondary">Interno</span></td>
-                    <td class="text-success"><i class="fas fa-circle f-10 m-r-10"></i> Activo</td>
-                    <td>2025/06/12 <span class="text-muted text-sm d-block">03:25 PM</span></td>
                     <td>
-                      <a href="#!" class="avtar avtar-xs btn-link-secondary"><i class="ti ti-eye f-20"></i></a>
-                      <a href="#!" class="avtar avtar-xs btn-link-secondary"><i class="ti ti-edit f-20"></i></a>
-                      <a href="#!" class="avtar avtar-xs btn-link-secondary"><i class="ti ti-trash f-20"></i></a>
+                      <span class="badge text-bg-secondary">Interno</span>
+                    </td>
+                    <td class="text-success">
+                      <i class="fas fa-circle f-10 m-r-10"></i> Activo
+                    </td>
+                    <td>
+                      2025/06/12
+                      <span class="text-muted text-sm d-block">03:25 PM</span>
+                    </td>
+                    <td>
+                      <a href="#!" class="avtar avtar-xs btn-link-secondary"
+                        ><i class="ti ti-eye f-20"></i
+                      ></a>
+                      <a href="#!" class="avtar avtar-xs btn-link-secondary"
+                        ><i class="ti ti-edit f-20"></i
+                      ></a>
+                      <a href="#!" class="avtar avtar-xs btn-link-secondary"
+                        ><i class="ti ti-trash f-20"></i
+                      ></a>
                     </td>
                   </tr>
-
                 </tbody>
               </table>
             </div>
           </div>
-
         </div>
       </div>
     </div>
@@ -308,128 +532,124 @@
   </div>
 </div>
 
-
-
 <script>
   (function () {
-    const $rows = document.querySelectorAll('#pc-dt-simple tbody tr');
-    const tipo = document.getElementById('filtro-tipo');
-    const estado = document.getElementById('filtro-estado');
+    const $rows = document.querySelectorAll("#pc-dt-simple tbody tr");
+    const tipo = document.getElementById("filtro-tipo");
+    const estado = document.getElementById("filtro-estado");
 
     function filtrar() {
       const t = tipo.value;
       const e = estado.value;
-      $rows.forEach(row => {
-        const okTipo = !t || row.getAttribute('data-tipo') === t;
-        const okEstado = !e || row.getAttribute('data-estado') === e;
-        row.style.display = (okTipo && okEstado) ? '' : 'none';
+      $rows.forEach((row) => {
+        const okTipo = !t || row.getAttribute("data-tipo") === t;
+        const okEstado = !e || row.getAttribute("data-estado") === e;
+        row.style.display = okTipo && okEstado ? "" : "none";
       });
     }
-    tipo?.addEventListener('change', filtrar);
-    estado?.addEventListener('change', filtrar);
+    tipo?.addEventListener("change", filtrar);
+    estado?.addEventListener("change", filtrar);
   })();
 </script>
 
 <script>
   // Validación dinámica del formulario de cliente
-  document.addEventListener('DOMContentLoaded', function () {
-    const formCliente = document.querySelector('#exampleModalLive .needs-validation');
-    const tipoDocSelect = formCliente.querySelector('#clienteTipoDoc');
-    const numDocInput = formCliente.querySelector('#clienteNumDoc');
-    const numDocFeedback = formCliente.querySelector('#clienteNumDocFeedback');
-    const apellidosFieldDiv = formCliente.querySelector('#campoApellidos');
-
+  document.addEventListener("DOMContentLoaded", function () {
+    const formCliente = document.querySelector(
+      "#exampleModalLive .needs-validation"
+    );
+    const tipoDocSelect = formCliente.querySelector("#clienteTipoDoc");
+    const numDocInput = formCliente.querySelector("#clienteNumDoc");
+    const numDocFeedback = formCliente.querySelector("#clienteNumDocFeedback");
+    const apellidosFieldDiv = formCliente.querySelector("#campoApellidos");
 
     const setNumDocValidation = () => {
       const tipoDoc = tipoDocSelect.value;
-      if (tipoDoc === 'DNI') {
-        numDocInput.pattern = '[0-9]{8}';
+      if (tipoDoc === "DNI") {
+        numDocInput.pattern = "[0-9]{8}";
         numDocInput.maxLength = 8;
-        numDocFeedback.textContent = 'Ingrese un DNI válido de 8 dígitos.';
-        apellidosFieldDiv.style.display = 'block';
-      } else if (tipoDoc === 'RUC') {
-        numDocInput.pattern = '[0-9]{11}';
+        numDocFeedback.textContent = "Ingrese un DNI válido de 8 dígitos.";
+        apellidosFieldDiv.style.display = "block";
+      } else if (tipoDoc === "RUC") {
+        numDocInput.pattern = "[0-9]{11}";
         numDocInput.maxLength = 11;
-        numDocFeedback.textContent = 'Ingrese un RUC válido de 11 dígitos.';
-        apellidosFieldDiv.style.display = 'none';
-        formCliente.querySelector('#clienteApellidos').value = '';
-        numDocInput.pattern = '.*';
+        numDocFeedback.textContent = "Ingrese un RUC válido de 11 dígitos.";
+        apellidosFieldDiv.style.display = "none";
+        formCliente.querySelector("#clienteApellidos").value = "";
+        numDocInput.pattern = ".*";
         numDocInput.maxLength = 20;
-        numDocFeedback.textContent = 'Seleccione un tipo e ingrese el número.';
-        apellidosFieldDiv.style.display = 'none';
-        formCliente.querySelector('#clienteApellidos').value = '';
+        numDocFeedback.textContent = "Seleccione un tipo e ingrese el número.";
+        apellidosFieldDiv.style.display = "none";
+        formCliente.querySelector("#clienteApellidos").value = "";
       }
 
       validateClienteField(numDocInput);
     };
 
-
-    tipoDocSelect.addEventListener('change', setNumDocValidation);
-
+    tipoDocSelect.addEventListener("change", setNumDocValidation);
 
     const validateClienteField = (field) => {
       const feedbackDiv = field.nextElementSibling;
-      if (feedbackDiv && feedbackDiv.classList.contains('invalid-feedback')) {
-
+      if (feedbackDiv && feedbackDiv.classList.contains("invalid-feedback")) {
       }
 
       if (!field.checkValidity()) {
-        field.classList.add('is-invalid');
-        field.classList.remove('is-valid');
+        field.classList.add("is-invalid");
+        field.classList.remove("is-valid");
       } else {
-        field.classList.add('is-valid');
-        field.classList.remove('is-invalid');
+        field.classList.add("is-valid");
+        field.classList.remove("is-invalid");
       }
     };
 
-
-    formCliente.querySelectorAll('input:not([type="date"]), select, textarea').forEach(field => {
-      field.addEventListener('input', () => {
-        validateClienteField(field);
-      });
-    });
-
-
-    formCliente.querySelectorAll('input, select, textarea').forEach(field => {
-      field.addEventListener('blur', () => {
-        validateClienteField(field);
-      });
-    });
-
-
-
-    formCliente.addEventListener('submit', event => {
-      setNumDocValidation();
-      validateClienteField(numDocInput);
-
-      if (!formCliente.checkValidity()) {
-        event.preventDefault();
-        event.stopPropagation();
-        formCliente.querySelectorAll(':invalid').forEach(invalidField => {
-          validateClienteField(invalidField);
+    formCliente
+      .querySelectorAll('input:not([type="date"]), select, textarea')
+      .forEach((field) => {
+        field.addEventListener("input", () => {
+          validateClienteField(field);
         });
-
-      } else {
-
-        console.log('Formulario de cliente válido, guardando...');
-        event.preventDefault();
-      }
-
-      formCliente.classList.add('was-validated');
-    }, false);
-
-
-    const modalElementCliente = document.getElementById('exampleModalLive');
-    modalElementCliente.addEventListener('hidden.bs.modal', function () {
-      formCliente.classList.remove('was-validated');
-      formCliente.querySelectorAll('.is-valid, .is-invalid').forEach(field => {
-        field.classList.remove('is-valid', 'is-invalid');
       });
+
+    formCliente.querySelectorAll("input, select, textarea").forEach((field) => {
+      field.addEventListener("blur", () => {
+        validateClienteField(field);
+      });
+    });
+
+    formCliente.addEventListener(
+      "submit",
+      (event) => {
+        setNumDocValidation();
+        validateClienteField(numDocInput);
+
+        if (!formCliente.checkValidity()) {
+          event.preventDefault();
+          event.stopPropagation();
+          formCliente.querySelectorAll(":invalid").forEach((invalidField) => {
+            validateClienteField(invalidField);
+          });
+        } else {
+          console.log("Formulario de cliente válido, guardando...");
+          event.preventDefault();
+        }
+
+        formCliente.classList.add("was-validated");
+      },
+      false
+    );
+
+    const modalElementCliente = document.getElementById("exampleModalLive");
+    modalElementCliente.addEventListener("hidden.bs.modal", function () {
+      formCliente.classList.remove("was-validated");
+      formCliente
+        .querySelectorAll(".is-valid, .is-invalid")
+        .forEach((field) => {
+          field.classList.remove("is-valid", "is-invalid");
+        });
       formCliente.reset();
       setNumDocValidation();
     });
 
     setNumDocValidation();
-
   });
 </script>
