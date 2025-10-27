@@ -40,7 +40,7 @@ public class DynamicRouterController {
   @GetMapping("/")
   @ResponseBody
   public String homeView(Model model) throws Exception {
-    Mopla mopla = new Mopla("src/main/resources/templates/tienda");
+    Mopla mopla = new Mopla("src/main/resources/templates");
 
     Map<String, Object> vars = new HashMap<>();
     vars.put("titulo", "Bienvenido");
@@ -48,7 +48,7 @@ public class DynamicRouterController {
     vars.put("showMessage", true);
     vars.put("users", List.of("Ronald", "User2", "Pedro"));
 
-    return mopla.render("home.html", vars);
+    return mopla.render("index.html", vars);
   }
 
   @RequestMapping(value = "/{path:^(?!assets|assets_shop|api|captcha|favicon\\.ico$|error|errors$|webjars$).*}/**")
