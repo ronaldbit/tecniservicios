@@ -33,10 +33,35 @@
         class="space-y-4"
       >
         <div>
+          <select
+            name="tipoDocumentoId"
+            class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+          >
+            <option value="0" disabled selected>Tipo de Documento</option>
+            <option
+              th:each="tipo : ${tiposDocumento}"
+              th:value="${tipo.id}"
+              th:text="${tipo.codigo}"
+              th:disabled="${tipo.estado.name() != 'ACTIVO'}"
+            ></option>
+          </select>
+        </div>
+
+        <div>
           <input
             type="text"
-            name="dni"
-            placeholder="DNI"
+            name="numeroDocumento"
+            placeholder="Número de Documento"
+            required
+            class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+          />
+        </div>
+
+        <div>
+          <input
+            type="text"
+            name="tipoPersona"
+            placeholder="Tipo de Persona"
             required
             class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:outline-none"
           />
@@ -45,17 +70,47 @@
         <div class="flex gap-2">
           <input
             type="text"
-            name="nombre"
-            placeholder="Nombre"
+            name="nombres"
+            placeholder="Nombres"
             required
             class="w-1/2 border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:outline-none"
           />
           <input
             type="text"
-            name="apellido"
-            placeholder="Apellido"
+            name="apellidos"
+            placeholder="Apellidos"
             required
             class="w-1/2 border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+          />
+        </div>
+
+        <div>
+          <input
+            type="text"
+            name="razonSocial"
+            placeholder="Razón Social"
+            required
+            class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+          />
+        </div>
+
+        <div>
+          <input
+            type="email"
+            name="email"
+            placeholder="Email"
+            required
+            class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+          />
+        </div>
+
+        <div>
+          <input
+            type="text"
+            name="telefono"
+            placeholder="Teléfono"
+            required
+            class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:outline-none"
           />
         </div>
 

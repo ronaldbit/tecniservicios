@@ -1,8 +1,5 @@
 package com.example.simplemvc.dto;
 
-import java.time.LocalDateTime;
-import java.util.List;
-
 import com.example.simplemvc.model.enums.EstadoEntidad;
 
 import lombok.AllArgsConstructor;
@@ -16,13 +13,8 @@ import lombok.Setter;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class UsuarioDto {
+public class TipoDocumentoDto {
   private Long id;
-  private PersonaDto persona;
-  private SucursalDto sucursal;
-  private String nombreUsuario;
-  private List<RolDto> roles;
+  private String codigo;
   private EstadoEntidad estado;
-  private LocalDateTime fechaCreacion;
-  private LocalDateTime fechaActualizacion;
 }

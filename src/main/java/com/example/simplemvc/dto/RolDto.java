@@ -2,19 +2,20 @@ package com.example.simplemvc.dto;
 
 import java.util.List;
 
+import com.example.simplemvc.model.Permiso;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @Getter
-@Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class UsuarioRolDto {
+public class RolDto {
   private Long id;
   private String nombre;
-  private List<PermisoDto> permisos;
+  private String descripcion;
+  private List<Permiso> permisos;
 }

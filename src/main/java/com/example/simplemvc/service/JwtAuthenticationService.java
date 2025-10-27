@@ -20,7 +20,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import lombok.RequiredArgsConstructor;
@@ -50,7 +49,7 @@ public final class JwtAuthenticationService {
               }
             })
         .subject(String.valueOf(usuario.getId()))
-        .signWith(getSigningKey(), SignatureAlgorithm.HS256)
+        .signWith(getSigningKey())
         .compact();
 
     return jwt;
@@ -61,8 +60,6 @@ public final class JwtAuthenticationService {
       getClaims(jwt);
       return true;
     } catch (Exception e) {
-      log.error("Error while validating JWT", e);
-
       return false;
     }
   }

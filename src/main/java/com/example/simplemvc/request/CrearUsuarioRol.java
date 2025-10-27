@@ -6,6 +6,7 @@ import lombok.Data;
 
 @Data
 public class CrearUsuarioRol {
-    private String nombre;
-    private List<CrearPermisoRequest> permisos;
+  private String nombre;
+  private String descripcion;
+  private List<CrearPermisoRequest> permisos;
 }

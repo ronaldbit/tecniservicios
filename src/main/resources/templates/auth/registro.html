@@ -34,11 +34,26 @@
       >
         <input type="hidden" name="personaId" th:value="${persona.id}" />
 
+        <div>
+          <select
+            name="sucursalId"
+            class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+          >
+            <option value="0" selected>Seleccione Sucursal</option>
+            <option
+              th:each="sucursal : ${sucursales}"
+              th:value="${sucursal.id}"
+              th:text="${sucursal.nombre} + ' - (' + ${sucursal.empresa.nombreComercial} + ')'"
+              th:disabled="${sucursal.estado.name() != 'ACTIVO'}"
+            ></option>
+          </select>
+        </div>
+
         <div class="flex gap-2">
           <input
-            type="email"
-            name="correo"
-            placeholder="Correo electrónico"
+            type="text"
+            name="nombreUsuario"
+            placeholder="Nombre de usuario"
             required
             class="w-1/2 border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:outline-none"
           />

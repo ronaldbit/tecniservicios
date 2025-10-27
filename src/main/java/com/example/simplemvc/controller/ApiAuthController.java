@@ -56,7 +56,7 @@ public class ApiAuthController {
 
       model.addAttribute("usuario", usuario);
 
-      System.out.println("Usuario logueado: " + usuario.getCorreo());
+      System.out.println("Usuario logueado: " + usuario.getUsername());
 
       return "redirect:/auth/login";
     } catch (Exception e) {

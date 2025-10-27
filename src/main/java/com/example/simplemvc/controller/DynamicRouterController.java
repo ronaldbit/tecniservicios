@@ -2,6 +2,8 @@ package com.example.simplemvc.controller;
 
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
@@ -17,14 +19,11 @@ import com.example.simplemvc.dto.UsuarioDto;
 import com.example.simplemvc.model.Usuario;
 import com.example.simplemvc.model.UsuarioMapper;
 import com.example.simplemvc.service.JwtAuthenticationService;
+import com.ronaldbit.Mopla;
 
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
-
-import java.util.Map;
-import java.util.List;
-import com.ronaldbit.Mopla;
 
 @Controller
 @AllArgsConstructor
@@ -41,15 +40,15 @@ public class DynamicRouterController {
   @GetMapping("/")
   @ResponseBody
   public String homeView(Model model) throws Exception {
-      Mopla mopla = new Mopla("src/main/resources/templates/tienda");
+    Mopla mopla = new Mopla("src/main/resources/templates/tienda");
 
-      Map<String, Object> vars = new HashMap<>();
-      vars.put("titulo", "Bienvenido");
-      vars.put("mensaje", "Este mensaje solo aparece si showMessage es true");
-      vars.put("showMessage", true);
-      vars.put("users", List.of("Ronald", "User2", "Pedro"));
+    Map<String, Object> vars = new HashMap<>();
+    vars.put("titulo", "Bienvenido");
+    vars.put("mensaje", "Este mensaje solo aparece si showMessage es true");
+    vars.put("showMessage", true);
+    vars.put("users", List.of("Ronald", "User2", "Pedro"));
 
-      return mopla.render("home.html", vars);
+    return mopla.render("home.html", vars);
   }
 
   @RequestMapping(value = "/{path:^(?!assets|assets_shop|api|captcha|favicon\\.ico$|error|errors$|webjars$).*}/**")
@@ -120,7 +119,7 @@ public class DynamicRouterController {
       return null;
     }
 
-    if ("ADMIN".equals(usuarioDto.getRol().getNombre())) {
+    if (usuarioDto.getRoles().stream().anyMatch(role -> "ADMIN".equals(role.getNombre()))) {
       return "/dashboard";
     }
 

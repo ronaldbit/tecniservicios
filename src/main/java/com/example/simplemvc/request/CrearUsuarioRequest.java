@@ -5,6 +5,7 @@ import lombok.Data;
 @Data
 public class CrearUsuarioRequest {
   private Long personaId;
-  private String correo;
+  private Long sucursalId;
+  private String nombreUsuario;
   private String password;
 }

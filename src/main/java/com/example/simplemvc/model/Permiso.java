@@ -32,5 +32,5 @@ public class Permiso {
 
   @ManyToOne
   @JoinColumn(name = "rol_id", nullable = false)
-  private UsuarioRol rol;
+  private Rol rol;
 }

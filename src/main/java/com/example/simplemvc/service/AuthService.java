@@ -21,26 +21,26 @@ public class AuthService {
   private final UsuarioService usuarioService;
 
   public JwtDto login(LoginUsuarioRequest request) {
-    log.info("Iniciando sesión para el usuario con correo: {}", request.getCorreo());
+    log.info("Iniciando sesión para el usuario con nombre de usuario: {}", request.getNombreUsuario());
 
     try {
       getCurrentUsuarioService.get();
 
-      log.info("El usuario con correo {} ya ha iniciado sesión.", request.getCorreo());
+      log.info("El usuario con nombre de usuario {} ya ha iniciado sesión.", request.getNombreUsuario());
       throw new IllegalArgumentException("El usuario ya ha iniciado sesión.");
     } catch (Exception ignored) {
     }
 
-    Usuario usuario = usuarioService.obtenerEntidadPorCorreo(request.getCorreo())
+    Usuario usuario = usuarioService.obtenerEntidadPorNombreUsuario(request.getNombreUsuario())
         .orElseThrow(() -> new IllegalArgumentException("Usuario no encontrado"));
 
     if (!passwordEncoder.matches(request.getPassword(), usuario.getPassword())) {
-      log.error("Error de autenticación: Contraseña inválida para el usuario con correo {}.", request.getCorreo());
+      log.error("Error de autenticación: Contraseña inválida para el usuario con nombre de usuario {}.", request.getNombreUsuario());
 
       throw new IllegalArgumentException("Credenciales inválidas");
     }
 
-    log.info("Usuario con correo {} autenticado exitosamente.", request.getCorreo());
+    log.info("Usuario con nombre de usuario {} autenticado exitosamente.", request.getNombreUsuario());
 
     String jwt = jwtAuthenticationService.toJwt(usuario);
 

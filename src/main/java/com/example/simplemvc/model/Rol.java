@@ -1,9 +1,11 @@
 package com.example.simplemvc.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.security.core.GrantedAuthority;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -11,35 +13,36 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import jakarta.persistence.UniqueConstraint;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @Entity
-@Table(name = "usuario_rol", uniqueConstraints = {
-    @UniqueConstraint(columnNames = "nombre", name = "uk_usuario_rol_nombre")
+@Table(name = "rol", uniqueConstraints = {
+    @jakarta.persistence.UniqueConstraint(columnNames = "nombre", name = "rol_nombre")
 })
-@Getter
-@Setter
+@Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class UsuarioRol implements GrantedAuthority {
-
+public class Rol implements GrantedAuthority {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
+  @Column(columnDefinition = "varchar(80)", nullable = false)
   private String nombre;
 
+  @Column(columnDefinition = "varchar(200)", nullable = true)
+  private String descripcion;
+
+  @Builder.Default
   @OneToMany(mappedBy = "rol", fetch = FetchType.EAGER)
-  private List<Permiso> permisos;
+  private List<Permiso> permisos = new ArrayList<>();
 
   @Override
   public String getAuthority() {
-    return "ROLE_" + this.nombre.toUpperCase();
+    return "ROLE_" + nombre.toUpperCase();
   }
 }

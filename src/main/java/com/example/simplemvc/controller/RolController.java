@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.example.simplemvc.model.Usuario;
 import com.example.simplemvc.model.UsuarioMapper;
 import com.example.simplemvc.service.GetCurrentUsuarioService;
-import com.example.simplemvc.service.UsuarioRolService;
+import com.example.simplemvc.service.RolService;
 
 import lombok.AllArgsConstructor;
 
@@ -18,7 +18,7 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class RolController {
   @Autowired
-  private final UsuarioRolService usuarioRolService;
+  private final RolService rolService;
 
   @Autowired
   private final GetCurrentUsuarioService getCurrentUsuarioService;
@@ -31,7 +31,7 @@ public class RolController {
     Usuario currentUsuario = getCurrentUsuarioService.get();
 
     model.addAttribute("usuario", usuarioMapper.toDto(currentUsuario));
-    model.addAttribute("roles", usuarioRolService.listarRoles());
+    model.addAttribute("roles", rolService.lista());
     return "dashboard/ajustes/roles";
   }
 }

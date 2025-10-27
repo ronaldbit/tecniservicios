@@ -8,9 +8,9 @@ import org.springframework.stereotype.Service;
 import com.example.simplemvc.dto.PermisoDto;
 import com.example.simplemvc.model.Permiso;
 import com.example.simplemvc.model.PermisoMapper;
-import com.example.simplemvc.model.UsuarioRol;
+import com.example.simplemvc.model.Rol;
 import com.example.simplemvc.repository.PermisoRepository;
-import com.example.simplemvc.repository.UsuarioRolRepository;
+import com.example.simplemvc.repository.RolRepository;
 import com.example.simplemvc.request.CrearPermisoRequest;
 
 import lombok.RequiredArgsConstructor;
@@ -22,7 +22,7 @@ import lombok.extern.slf4j.Slf4j;
 public class PermisoService {
     private final PermisoRepository permisoRepository;
     private final PermisoMapper permisoMapper;
-    private final UsuarioRolRepository usuarioRolRepository;
+    private final RolRepository rolRepository;
 
     public List<PermisoDto> obtenerPermisosPorRolId(Long rolId) {
         log.info("Obteniendo permisos para el rol con ID: {}", rolId);
@@ -41,7 +41,7 @@ public class PermisoService {
 
     public void crearPermiso(CrearPermisoRequest request) {
         log.info("Creando permiso con path: {} para rol ID: {}", request.getPath(), request.getRolId());
-        UsuarioRol rolAsociado = usuarioRolRepository.findById(request.getRolId())
+        Rol rolAsociado = rolRepository.findById(request.getRolId())
                 .orElseThrow(() -> new IllegalArgumentException("Rol no encontrado con ID: " + request.getRolId()));
         Permiso permiso = permisoMapper.fromRequest(request).build();
         permiso.setRol(rolAsociado);

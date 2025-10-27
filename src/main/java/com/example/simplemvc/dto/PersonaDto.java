@@ -12,8 +12,13 @@ import lombok.NoArgsConstructor;
 
 public class PersonaDto {
   private Long id;
-  private String dni;
-  private String nombre;
-  private String apellido;
+  private TipoDocumentoDto tipoDocumento;
+  private String numeroDocumento;
+  private String tipoPersona;
+  private String nombres;
+  private String apellidos;
+  private String razonSocial;
+  private String email;
+  private String telefono;
   private String direccion;
 }
