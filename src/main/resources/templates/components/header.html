@@ -263,8 +263,8 @@
                     />
                   </div>
                   <div class="flex-grow-1 ms-3">
-                    <h6 class="mb-1">Ronald Ramos 🖖</h6>
-                    <span>ronald@tecniservicios.com</span>
+                    <h6 class="mb-1" th:text="${usuario?.persona?.nombre + '🖖' ?: 'Invitado'}"></h6>
+                    <span th:text="${usuario?.correo ?: 'Sin correo'}"></span>
                   </div>
                 </div>
                 <hr class="border-secondary border-opacity-50" />
@@ -277,7 +277,7 @@
                         <svg class="pc-icon text-muted me-2">
                           <use xlink:href="#custom-notification-outline"></use>
                         </svg>
-                        Notificaciónes
+                        Notificaciones
                       </h5>
                       <div
                         class="form-check form-switch form-check-reverse m-0"

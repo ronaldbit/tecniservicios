@@ -58,9 +58,9 @@ public class ApiAuthController {
 
       System.out.println("Usuario logueado: " + usuario.getCorreo());
 
-      return "/auth/login";
+      return "redirect:/auth/login";
     } catch (Exception e) {
-      model.addAttribute("message", e.getMessage() + "b");
+      model.addAttribute("message", e.getMessage());
     }
 
     return "/auth/login";

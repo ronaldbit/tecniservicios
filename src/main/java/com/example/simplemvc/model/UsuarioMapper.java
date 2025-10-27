@@ -13,7 +13,7 @@ import com.example.simplemvc.shared.mapper.StringUtilsMapper;
     UsuarioRolMapper.class,
     PermisoMapper.class })
 public interface UsuarioMapper extends CrudMapper<Usuario, UsuarioDto, Usuario.UsuarioBuilder> {
-  
+
   @ObjectFactory
   default Usuario.UsuarioBuilder createBuilder(UsuarioDto dto) {
     return Usuario.builder();
@@ -21,7 +21,7 @@ public interface UsuarioMapper extends CrudMapper<Usuario, UsuarioDto, Usuario.U
 
   @Mapping(target = "password", ignore = true)
   @Mapping(target = "deleted", ignore = true)
-  @Mapping(target = "persona", ignore = true)
+  @Mapping(target = "persona", source = "persona")
   @Mapping(target = "rol", source = "rol")
   Usuario toDomain(UsuarioDto dto);
 
