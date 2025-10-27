@@ -11,7 +11,7 @@ import com.example.simplemvc.shared.mapper.StringUtilsMapper;
 @Mapper(componentModel = "spring", uses = {
     StringUtilsMapper.class })
 public interface PersonaMapper extends BasicMapper<Persona, PersonaDto> {
-
+  
   @Mapping(target = "id", ignore = true)
   @Mapping(target = "deleted", ignore = true)
   Persona.PersonaBuilder fromRequest(CrearPersonaRequest request);

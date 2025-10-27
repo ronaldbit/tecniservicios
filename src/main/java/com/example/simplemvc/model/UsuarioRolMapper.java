@@ -14,7 +14,7 @@ import com.example.simplemvc.shared.mapper.StringUtilsMapper;
 @Mapper(componentModel = "spring", uses = { StringUtilsMapper.class,
     PermisoMapper.class }, unmappedSourcePolicy = ReportingPolicy.IGNORE, config = LombokBuilderConfig.class)
 public interface UsuarioRolMapper extends BasicMapper<UsuarioRol, UsuarioRolDto> {
-
+  
   @ObjectFactory
   default UsuarioRol.UsuarioRolBuilder createBuilder(UsuarioRolDto dto) {
     return UsuarioRol.builder();

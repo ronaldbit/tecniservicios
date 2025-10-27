@@ -13,7 +13,7 @@ import com.example.simplemvc.shared.mapper.StringUtilsMapper;
     UsuarioRolMapper.class,
     PermisoMapper.class })
 public interface UsuarioMapper extends CrudMapper<Usuario, UsuarioDto, Usuario.UsuarioBuilder> {
-
+  
   @ObjectFactory
   default Usuario.UsuarioBuilder createBuilder(UsuarioDto dto) {
     return Usuario.builder();

@@ -14,7 +14,7 @@ import com.example.simplemvc.shared.mapper.StringUtilsMapper;
 @Mapper(componentModel = "spring", uses = {
     StringUtilsMapper.class }, unmappedSourcePolicy = ReportingPolicy.IGNORE, config = LombokBuilderConfig.class)
 public interface PermisoMapper extends BasicMapper<Permiso, PermisoDto> {
-
+  
   @ObjectFactory
   default Permiso.PermisoBuilder createBuilder(PermisoDto dto) {
     return Permiso.builder();
