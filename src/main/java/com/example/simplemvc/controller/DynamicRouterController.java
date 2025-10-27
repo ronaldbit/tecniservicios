@@ -99,10 +99,12 @@ public class DynamicRouterController {
 
     String jwt = null;
 
-    for (Cookie cookie : cookies) {
-      if ("JWT_TOKEN".equals(cookie.getName())) {
-        jwt = cookie.getValue();
-        break;
+    if (cookies != null) {
+      for (Cookie cookie : cookies) {
+        if ("JWT_TOKEN".equals(cookie.getName())) {
+          jwt = cookie.getValue();
+          break;
+        }
       }
     }
 

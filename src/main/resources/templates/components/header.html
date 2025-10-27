@@ -265,9 +265,9 @@
                   <div class="flex-grow-1 ms-3">
                     <h6
                       class="mb-1"
-                      th:text="${usuario?.persona?.nombre + '🖖' ?: 'Invitado'}"
+                      th:text="${usuario?.persona?.nombres + ' ' + usuario?.persona?.apellidos + ' 🖖' ?: 'Invitado'}"
                     ></h6>
-                    <span th:text="${usuario?.correo ?: 'Sin correo'}"></span>
+                    <span th:text="${usuario?.nombreUsuario ?: ''}"></span>
                   </div>
                 </div>
                 <hr class="border-secondary border-opacity-50" />
