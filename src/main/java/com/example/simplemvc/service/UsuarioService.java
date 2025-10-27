@@ -54,8 +54,6 @@ public class UsuarioService {
   public UsuarioDto crear(CrearUsuarioRequest request) {
     log.info("Creando usuario");
 
-    log.info("Rol ID: {}", request.getRolId());
-
     Persona persona = personaService.obtenerEntidadPorId(request.getPersonaId());
     if (persona == null) {
       log.error("No se puede crear el usuario. La persona con ID {} no existe.", request.getPersonaId());
@@ -86,16 +84,14 @@ public class UsuarioService {
       return usuarioMapper.toDto(usuarioEliminado);
     }
 
-    Usuario usuario = usuarioMapper.fromRequest(request).persona(persona)
-        .password(passwordEncoder.encode(request.getPassword())).build();
-
-    UsuarioRol rol = usuarioRolRepository.findById(request.getRolId())
+    UsuarioRol rol = usuarioRolRepository.findByNombre("USER")
         .orElseThrow(() -> {
-          log.error("No se puede crear el usuario. El rol con ID {} no existe.", request.getRolId());
+          log.error("No se puede crear el usuario. El rol USUARIO no existe.");
           return new IllegalArgumentException("El rol especificado no existe.");
         });
 
-    usuario.setRol(rol);
+    Usuario usuario = usuarioMapper.fromRequest(request).persona(persona).rol(rol)
+        .password(passwordEncoder.encode(request.getPassword())).build();
 
     usuario = usuarioRepository.save(usuario);
 

@@ -24,6 +24,7 @@ import lombok.AllArgsConstructor;
 public class ApiAuthController {
   @Autowired
   private final UsuarioService usuarioService;
+
   @Autowired
   private final AuthService authService;
 
@@ -74,8 +75,6 @@ public class ApiAuthController {
       return "admin/login";
     }
   }
-
-
 
   @PostMapping("/registro")
   public String registro(@ModelAttribute CrearUsuarioRequest request, Model model) {
