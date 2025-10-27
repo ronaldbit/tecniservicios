@@ -263,7 +263,10 @@
                     />
                   </div>
                   <div class="flex-grow-1 ms-3">
-                    <h6 class="mb-1" th:text="${usuario?.persona?.nombre + '🖖' ?: 'Invitado'}"></h6>
+                    <h6
+                      class="mb-1"
+                      th:text="${usuario?.persona?.nombre + '🖖' ?: 'Invitado'}"
+                    ></h6>
                     <span th:text="${usuario?.correo ?: 'Sin correo'}"></span>
                   </div>
                 </div>
