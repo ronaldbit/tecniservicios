@@ -16,7 +16,8 @@ spring:
       - dev
 
   datasource:
-    url: jdbc:mysql://${DB_URL}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://${DB_HOST}:${DB_PORT}/${DB_NAME}?useSSL=false&serverTimezone=America/Lima
     username: ${DB_USERNAME}
     password: ${DB_PASSWORD}
 
@@ -25,6 +26,9 @@ spring:
     open-in-view: false
     hibernate:
       ddl-auto: create-drop
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
 
   image:
     path: /var/img
