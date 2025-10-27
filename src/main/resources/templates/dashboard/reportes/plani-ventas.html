@@ -1,192 +1,188 @@
 <div class="pc-container" th:replace="~{dashboard/layout :: layout(~{::content}, ${usuario}, 'Inicio', '/dashboard')}">
     <div class="pc-content" th:fragment="content">
         <!-- [ Main Content ] start -->
-        <div class="pc-container">
-            <div class="pc-content">
-                <div class="page-header">
-                    <div class="page-block">
-                        <div class="row align-items-center">
-                            <div class="col-md-12">
-                                <div class="page-header-title">
-                                    <h5 class="m-b-10">Reporte: Planilla de Ventas</h5>
-                                </div>
-                                <ul class="breadcrumb">
-                                    <li class="breadcrumb-item"><a href="../index.html">Reportes</a></li>
-                                    <li class="breadcrumb-item" aria-current="page">Planilla de ventas</li>
-                                </ul>
-                            </div>
+        <div class="page-header">
+            <div class="page-block">
+                <div class="row align-items-center">
+                    <div class="col-md-12">
+                        <div class="page-header-title">
+                            <h5 class="m-b-10">Reporte: Planilla de Ventas</h5>
                         </div>
+                        <ul class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="../index.html">Reportes</a></li>
+                            <li class="breadcrumb-item" aria-current="page">Planilla de ventas</li>
+                        </ul>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-12">
-                        <div class="card">
-                            <div class="card-body">
-                                <form class="row g-3 align-items-end">
-                                    <div class="col-md-3">
-                                        <label for="fechaInicio" class="form-label">Fecha Inicio</label>
-                                        <input type="date" class="form-control" id="fechaInicio" value="2025-10-23">
-                                    </div>
-                                    <div class="col-md-3">
-                                        <label for="fechaFin" class="form-label">Fecha Fin</label>
-                                        <input type="date" class="form-control" id="fechaFin" value="2025-10-23">
-                                    </div>
-                                    <div class="col-md-3">
-                                        <label for="filtroUsuario" class="form-label">Usuario/Vendedor</label>
-                                        <select id="filtroUsuario" class="form-select">
-                                            <option value="todos" selected>Todos los Usuarios</option>
-                                            <option value="rramos">Ronald Ramos</option>
-                                            <option value="agomez">Ana Gómez</option>
-                                        </select>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <button type="submit" class="btn btn-primary w-100">
-                                            <i class="ti ti-filter me-1"></i> Filtrar
-                                        </button>
-                                    </div>
-                                </form>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <form class="row g-3 align-items-end">
+                            <div class="col-md-3">
+                                <label for="fechaInicio" class="form-label">Fecha Inicio</label>
+                                <input type="date" class="form-control" id="fechaInicio" value="2025-10-23">
                             </div>
+                            <div class="col-md-3">
+                                <label for="fechaFin" class="form-label">Fecha Fin</label>
+                                <input type="date" class="form-control" id="fechaFin" value="2025-10-23">
+                            </div>
+                            <div class="col-md-3">
+                                <label for="filtroUsuario" class="form-label">Usuario/Vendedor</label>
+                                <select id="filtroUsuario" class="form-select">
+                                    <option value="todos" selected>Todos los Usuarios</option>
+                                    <option value="rramos">Ronald Ramos</option>
+                                    <option value="agomez">Ana Gómez</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <button type="submit" class="btn btn-primary w-100">
+                                    <i class="ti ti-filter me-1"></i> Filtrar
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12">
+                <div class="card table-card">
+                    <div class="card-header d-flex align-items-center justify-content-between">
+                        <h5 class="mb-0">Detalle de Ventas del Periodo</h5>
+                        <div class="btn-page">
+                            <button type="button" class="btn btn-outline-secondary">
+                                <i class="ti ti-printer me-1"></i> Imprimir
+                            </button>
+                            <button type="button" class="btn btn-outline-success">
+                                <i class="ti ti-file-spreadsheet me-1"></i> Exportar Excel
+                            </button>
                         </div>
                     </div>
-
-                    <div class="col-12">
-                        <div class="card table-card">
-                            <div class="card-header d-flex align-items-center justify-content-between">
-                                <h5 class="mb-0">Detalle de Ventas del Periodo</h5>
-                                <div class="btn-page">
-                                    <button type="button" class="btn btn-outline-secondary">
-                                        <i class="ti ti-printer me-1"></i> Imprimir
-                                    </button>
-                                    <button type="button" class="btn btn-outline-success">
-                                        <i class="ti ti-file-spreadsheet me-1"></i> Exportar Excel
-                                    </button>
-                                </div>
-                            </div>
-                            <div class="card-body pt-3">
-                                <div class="table-responsive">
-                                    <table class="table table-hover" id="pc-dt-simple">
-                                        <thead>
-                                            <tr>
-                                                <th>Fecha y Hora</th>
-                                                <th>Documento</th>
-                                                <th>Cliente</th>
-                                                <th>Usuario</th>
-                                                <th class="text-end">Subtotal (S/)</th>
-                                                <th class="text-end">IGV (S/)</th>
-                                                <th class="text-end">Total (S/)</th>
-                                                <th>Pago</th>
-                                                <th>Estado</th>
-                                                <th>Acción</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>23/10/2025 15:30:10</td>
-                                                <td>FAC-001-159</td>
-                                                <td>Taller "El Rápido" SRL</td>
-                                                <td>R. Ramos</td>
-                                                <td class="text-end">716.10</td>
-                                                <td class="text-end">128.90</td>
-                                                <td class="text-end fw-bold">845.00</td>
-                                                <td>Crédito</td>
-                                                <td><span class="badge text-bg-warning">Pendiente</span></td>
-                                                <td>
-                                                    <a href="#!" class="avtar avtar-xs btn-link-secondary"
-                                                        title="Ver Detalle"><i class="ti ti-eye f-20"></i></a>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>23/10/2025 11:15:30</td>
-                                                <td>BV-001-316</td>
-                                                <td>Ana Gómez</td>
-                                                <td>R. Ramos</td>
-                                                <td class="text-end">110.00</td>
-                                                <td class="text-end">19.80</td>
-                                                <td class="text-end fw-bold">129.80</td>
-                                                <td>Efectivo</td>
-                                                <td><span class="badge text-bg-success">Pagado</span></td>
-                                                <td>
-                                                    <a href="#!" class="avtar avtar-xs btn-link-secondary"
-                                                        title="Ver Detalle"><i class="ti ti-eye f-20"></i></a>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>23/10/2025 10:12:05</td>
-                                                <td>FAC-001-158</td>
-                                                <td>Juan Pérez</td>
-                                                <td>R. Ramos</td>
-                                                <td class="text-end">143.22</td>
-                                                <td class="text-end">25.78</td>
-                                                <td class="text-end fw-bold">169.00</td>
-                                                <td>Yape</td>
-                                                <td><span class="badge text-bg-success">Pagado</span></td>
-                                                <td>
-                                                    <a href="#!" class="avtar avtar-xs btn-link-secondary"
-                                                        title="Ver Detalle"><i class="ti ti-eye f-20"></i></a>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>23/10/2025 09:35:22</td>
-                                                <td>BV-001-315</td>
-                                                <td>Consumidor Final</td>
-                                                <td>R. Ramos</td>
-                                                <td class="text-end">81.27</td>
-                                                <td class="text-end">14.63</td>
-                                                <td class="text-end fw-bold">95.90</td>
-                                                <td>Efectivo</td>
-                                                <td><span class="badge text-bg-success">Pagado</span></td>
-                                                <td>
-                                                    <a href="#!" class="avtar avtar-xs btn-link-secondary"
-                                                        title="Ver Detalle"><i class="ti ti-eye f-20"></i></a>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>23/10/2025 09:10:00</td>
-                                                <td>FAC-001-157</td>
-                                                <td>Transportes del Sur</td>
-                                                <td>A. Gómez</td>
-                                                <td class="text-end">304.07</td>
-                                                <td class="text-end">54.73</td>
-                                                <td class="text-end fw-bold">358.80</td>
-                                                <td>Efectivo</td>
-                                                <td><span class="badge text-bg-danger">Anulado</span></td>
-                                                <td>
-                                                    <a href="#!" class="avtar avtar-xs btn-link-secondary"
-                                                        title="Ver Detalle"><i class="ti ti-eye f-20"></i></a>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                        <tfoot>
-                                            <tr class="table-light fw-bold fs-5">
-                                                <td colspan="6" class="text-end">TOTAL VENTAS (Válidas):</td>
-                                                <td class="text-end"><strong>S/ 1,239.70</strong></td>
-                                                <td colspan="3"></td>
-                                            </tr>
-                                            <tr class="table-light fw-bold">
-                                                <td colspan="6" class="text-end">Total Anuladas:</td>
-                                                <td class="text-end text-danger">S/ 358.80</td>
-                                                <td colspan="3"></td>
-                                            </tr>
-                                            <tr class="table-light fw-bold">
-                                                <td colspan="6" class="text-end">Total Notas de Crédito:</td>
-                                                <td class="text-end text-warning">S/ 0.00</td>
-                                                <td colspan="3"></td>
-                                            </tr>
-                                            <tr class="table-light fw-bold">
-                                                <td colspan="6" class="text-end">Total Cobrado (Efectivo/Digital):</td>
-                                                <td class="text-end text-success">S/ 394.70</td>
-                                                <td colspan="3"></td>
-                                            </tr>
-                                            <tr class="table-light fw-bold">
-                                                <td colspan="6" class="text-end">Total Pendiente de Cobro (Crédito):
-                                                </td>
-                                                <td class="text-end text-warning">S/ 845.00</td>
-                                                <td colspan="3"></td>
-                                            </tr>
-                                        </tfoot>
-                                    </table>
-                                </div>
-                            </div>
+                    <div class="card-body pt-3">
+                        <div class="table-responsive">
+                            <table class="table table-hover" id="pc-dt-simple">
+                                <thead>
+                                    <tr>
+                                        <th>Fecha y Hora</th>
+                                        <th>Documento</th>
+                                        <th>Cliente</th>
+                                        <th>Usuario</th>
+                                        <th class="text-end">Subtotal (S/)</th>
+                                        <th class="text-end">IGV (S/)</th>
+                                        <th class="text-end">Total (S/)</th>
+                                        <th>Pago</th>
+                                        <th>Estado</th>
+                                        <th>Acción</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>23/10/2025 15:30:10</td>
+                                        <td>FAC-001-159</td>
+                                        <td>Taller "El Rápido" SRL</td>
+                                        <td>R. Ramos</td>
+                                        <td class="text-end">716.10</td>
+                                        <td class="text-end">128.90</td>
+                                        <td class="text-end fw-bold">845.00</td>
+                                        <td>Crédito</td>
+                                        <td><span class="badge text-bg-warning">Pendiente</span></td>
+                                        <td>
+                                            <a href="#!" class="avtar avtar-xs btn-link-secondary"
+                                                title="Ver Detalle"><i class="ti ti-eye f-20"></i></a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>23/10/2025 11:15:30</td>
+                                        <td>BV-001-316</td>
+                                        <td>Ana Gómez</td>
+                                        <td>R. Ramos</td>
+                                        <td class="text-end">110.00</td>
+                                        <td class="text-end">19.80</td>
+                                        <td class="text-end fw-bold">129.80</td>
+                                        <td>Efectivo</td>
+                                        <td><span class="badge text-bg-success">Pagado</span></td>
+                                        <td>
+                                            <a href="#!" class="avtar avtar-xs btn-link-secondary"
+                                                title="Ver Detalle"><i class="ti ti-eye f-20"></i></a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>23/10/2025 10:12:05</td>
+                                        <td>FAC-001-158</td>
+                                        <td>Juan Pérez</td>
+                                        <td>R. Ramos</td>
+                                        <td class="text-end">143.22</td>
+                                        <td class="text-end">25.78</td>
+                                        <td class="text-end fw-bold">169.00</td>
+                                        <td>Yape</td>
+                                        <td><span class="badge text-bg-success">Pagado</span></td>
+                                        <td>
+                                            <a href="#!" class="avtar avtar-xs btn-link-secondary"
+                                                title="Ver Detalle"><i class="ti ti-eye f-20"></i></a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>23/10/2025 09:35:22</td>
+                                        <td>BV-001-315</td>
+                                        <td>Consumidor Final</td>
+                                        <td>R. Ramos</td>
+                                        <td class="text-end">81.27</td>
+                                        <td class="text-end">14.63</td>
+                                        <td class="text-end fw-bold">95.90</td>
+                                        <td>Efectivo</td>
+                                        <td><span class="badge text-bg-success">Pagado</span></td>
+                                        <td>
+                                            <a href="#!" class="avtar avtar-xs btn-link-secondary"
+                                                title="Ver Detalle"><i class="ti ti-eye f-20"></i></a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>23/10/2025 09:10:00</td>
+                                        <td>FAC-001-157</td>
+                                        <td>Transportes del Sur</td>
+                                        <td>A. Gómez</td>
+                                        <td class="text-end">304.07</td>
+                                        <td class="text-end">54.73</td>
+                                        <td class="text-end fw-bold">358.80</td>
+                                        <td>Efectivo</td>
+                                        <td><span class="badge text-bg-danger">Anulado</span></td>
+                                        <td>
+                                            <a href="#!" class="avtar avtar-xs btn-link-secondary"
+                                                title="Ver Detalle"><i class="ti ti-eye f-20"></i></a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                                <tfoot>
+                                    <tr class="table-light fw-bold fs-5">
+                                        <td colspan="6" class="text-end">TOTAL VENTAS (Válidas):</td>
+                                        <td class="text-end"><strong>S/ 1,239.70</strong></td>
+                                        <td colspan="3"></td>
+                                    </tr>
+                                    <tr class="table-light fw-bold">
+                                        <td colspan="6" class="text-end">Total Anuladas:</td>
+                                        <td class="text-end text-danger">S/ 358.80</td>
+                                        <td colspan="3"></td>
+                                    </tr>
+                                    <tr class="table-light fw-bold">
+                                        <td colspan="6" class="text-end">Total Notas de Crédito:</td>
+                                        <td class="text-end text-warning">S/ 0.00</td>
+                                        <td colspan="3"></td>
+                                    </tr>
+                                    <tr class="table-light fw-bold">
+                                        <td colspan="6" class="text-end">Total Cobrado (Efectivo/Digital):</td>
+                                        <td class="text-end text-success">S/ 394.70</td>
+                                        <td colspan="3"></td>
+                                    </tr>
+                                    <tr class="table-light fw-bold">
+                                        <td colspan="6" class="text-end">Total Pendiente de Cobro (Crédito):
+                                        </td>
+                                        <td class="text-end text-warning">S/ 845.00</td>
+                                        <td colspan="3"></td>
+                                    </tr>
+                                </tfoot>
+                            </table>
                         </div>
                     </div>
                 </div>
@@ -196,6 +192,3 @@
         <!-- [ Main Content ] end -->
     </div>
 </div>
-
-
-

@@ -1,178 +1,174 @@
 <div class="pc-container" th:replace="~{dashboard/layout :: layout(~{::content}, ${usuario}, 'Inicio', '/dashboard')}">
     <div class="pc-content" th:fragment="content">
         <!-- [ Main Content ] start -->
-        <div class="pc-container">
-            <div class="pc-content">
-                <div class="page-header">
-                    <div class="page-block">
-                        <div class="row align-items-center">
-                            <div class="col-md-12">
-                                <div class="page-header-title">
-                                    <h5 class="m-b-10">Reporte: Kardex</h5>
-                                </div>
-                                <ul class="breadcrumb">
-                                    <li class="breadcrumb-item"><a href="../index.html">Reportes</a></li>
-                                    <li class="breadcrumb-item" aria-current="page">Kardex</li>
-                                </ul>
+        <div class="page-header">
+            <div class="page-block">
+                <div class="row align-items-center">
+                    <div class="col-md-12">
+                        <div class="page-header-title">
+                            <h5 class="m-b-10">Reporte: Kardex</h5>
+                        </div>
+                        <ul class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="../index.html">Reportes</a></li>
+                            <li class="breadcrumb-item" aria-current="page">Kardex</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <form class="row g-3 align-items-end">
+                            <div class="col-md-4">
+                                <label for="filtroProducto" class="form-label">Producto/Servicio</label>
+                                <input type="text" class="form-control" id="filtroProducto"
+                                    placeholder="Buscar por SKU o Nombre...">
                             </div>
+                            <div class="col-md-3">
+                                <label for="fechaInicio" class="form-label">Fecha Inicio</label>
+                                <input type="date" class="form-control" id="fechaInicio" value="2025-10-01">
+                            </div>
+                            <div class="col-md-3">
+                                <label for="fechaFin" class="form-label">Fecha Fin</label>
+                                <input type="date" class="form-control" id="fechaFin" value="2025-10-23">
+                            </div>
+                            <div class="col-md-2">
+                                <button type="submit" class="btn btn-primary w-100">
+                                    <i class="ti ti-filter me-1"></i> Filtrar
+                                </button>
+                            </div>
+                        </form>
+                        <div class="mt-3" id="productoSeleccionadoInfo" style="display: none;">
+                            <h6>Producto Seleccionado: <strong id="nombreProductoSeleccionado">Castrol GTX
+                                    20W-50</strong></h6>
+                            <p class="mb-0">SKU: <strong id="skuProductoSeleccionado">LUB-0001</strong> | Stock
+                                Actual Total: <strong id="stockActualProducto">52</strong></p>
                         </div>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-12">
-                        <div class="card">
-                            <div class="card-body">
-                                <form class="row g-3 align-items-end">
-                                    <div class="col-md-4">
-                                        <label for="filtroProducto" class="form-label">Producto/Servicio</label>
-                                        <input type="text" class="form-control" id="filtroProducto"
-                                            placeholder="Buscar por SKU o Nombre...">
-                                    </div>
-                                    <div class="col-md-3">
-                                        <label for="fechaInicio" class="form-label">Fecha Inicio</label>
-                                        <input type="date" class="form-control" id="fechaInicio" value="2025-10-01">
-                                    </div>
-                                    <div class="col-md-3">
-                                        <label for="fechaFin" class="form-label">Fecha Fin</label>
-                                        <input type="date" class="form-control" id="fechaFin" value="2025-10-23">
-                                    </div>
-                                    <div class="col-md-2">
-                                        <button type="submit" class="btn btn-primary w-100">
-                                            <i class="ti ti-filter me-1"></i> Filtrar
-                                        </button>
-                                    </div>
-                                </form>
-                                <div class="mt-3" id="productoSeleccionadoInfo" style="display: none;">
-                                    <h6>Producto Seleccionado: <strong id="nombreProductoSeleccionado">Castrol GTX
-                                            20W-50</strong></h6>
-                                    <p class="mb-0">SKU: <strong id="skuProductoSeleccionado">LUB-0001</strong> | Stock
-                                        Actual Total: <strong id="stockActualProducto">52</strong></p>
-                                </div>
-                            </div>
+            </div>
+
+            <div class="col-12">
+                <div class="card table-card">
+                    <div class="card-header d-flex align-items-center justify-content-between">
+                        <h5 class="mb-0">Historial de Movimientos (Kardex Físico)</h5>
+                        <div class="btn-page">
+                            <button type="button" class="btn btn-outline-secondary">
+                                <i class="ti ti-printer me-1"></i> Imprimir Kardex
+                            </button>
+                            <button type="button" class="btn btn-outline-success">
+                                <i class="ti ti-file-spreadsheet me-1"></i> Exportar Excel
+                            </button>
                         </div>
                     </div>
-
-                    <div class="col-12">
-                        <div class="card table-card">
-                            <div class="card-header d-flex align-items-center justify-content-between">
-                                <h5 class="mb-0">Historial de Movimientos (Kardex Físico)</h5>
-                                <div class="btn-page">
-                                    <button type="button" class="btn btn-outline-secondary">
-                                        <i class="ti ti-printer me-1"></i> Imprimir Kardex
-                                    </button>
-                                    <button type="button" class="btn btn-outline-success">
-                                        <i class="ti ti-file-spreadsheet me-1"></i> Exportar Excel
-                                    </button>
-                                </div>
-                            </div>
-                            <div class="card-body pt-3">
-                                <div class="table-responsive">
-                                    <table class="table table-hover" id="pc-dt-simple">
-                                        <thead>
-                                            <tr>
-                                                <th>Fecha</th>
-                                                <th>Tipo Mov.</th>
-                                                <th>Referencia</th>
-                                                <th>Almacén</th>
-                                                <th class="text-center">Entrada</th>
-                                                <th class="text-center">Salida</th>
-                                                <th class="text-center">Saldo</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr class="table-secondary">
-                                                <td colspan="6"><strong>Saldo Inicial al 01/10/2025</strong></td>
-                                                <td class="text-center fw-bold"><strong>25</strong></td>
-                                            </tr>
-                                            <tr>
-                                                <td>05/10/2025</td>
-                                                <td>Compra</td>
-                                                <td>OC-00152</td>
-                                                <td>Almacén Central</td>
-                                                <td class="text-center text-success">+ 50</td>
-                                                <td class="text-center">-</td>
-                                                <td class="text-center fw-bold">75</td>
-                                            </tr>
-                                            <tr>
-                                                <td>10/10/2025</td>
-                                                <td>Venta</td>
-                                                <td>FAC-001-145</td>
-                                                <td>Almacén Central</td>
-                                                <td class="text-center">-</td>
-                                                <td class="text-center text-danger">- 5</td>
-                                                <td class="text-center fw-bold">70</td>
-                                            </tr>
-                                            <tr>
-                                                <td>12/10/2025</td>
-                                                <td>Traslado Interno</td>
-                                                <td>TR-0034</td>
-                                                <td>Almacén Central</td>
-                                                <td class="text-center">-</td>
-                                                <td class="text-center text-warning">- 20</td>
-                                                <td class="text-center fw-bold">50</td>
-                                            </tr>
-                                            <tr>
-                                                <td>12/10/2025</td>
-                                                <td>Traslado Interno</td>
-                                                <td>TR-0034</td>
-                                                <td>Tienda Miraflores</td>
-                                                <td class="text-center text-warning">+ 20</td>
-                                                <td class="text-center">-</td>
-                                                <td class="text-center fw-bold">20</td>
-                                            </tr>
-                                            <tr>
-                                                <td>18/10/2025</td>
-                                                <td>Venta</td>
-                                                <td>BV-001-290</td>
-                                                <td>Almacén Central</td>
-                                                <td class="text-center">-</td>
-                                                <td class="text-center text-danger">- 15</td>
-                                                <td class="text-center fw-bold">35</td>
-                                            </tr>
-                                            <tr>
-                                                <td>21/10/2025</td>
-                                                <td>Ajuste Inventario</td>
-                                                <td>AJ-0005</td>
-                                                <td>Tienda Miraflores</td>
-                                                <td class="text-center">-</td>
-                                                <td class="text-center text-danger">- 2</td>
-                                                <td class="text-center fw-bold">18</td>
-                                            </tr>
-                                            <tr>
-                                                <td>23/10/2025</td>
-                                                <td>Venta</td>
-                                                <td>BV-001-315</td>
-                                                <td>Tienda Miraflores</td>
-                                                <td class="text-center">-</td>
-                                                <td class="text-center text-danger">- 1</td>
-                                                <td class="text-center fw-bold">17</td>
-                                            </tr>
-                                        </tbody>
-                                        <tfoot>
-                                            <tr class="table-light fw-bold">
-                                                <td colspan="4" class="text-end">Total Entradas:</td>
-                                                <td class="text-center text-success">70</td>
-                                                <td></td>
-                                                <td></td>
-                                            </tr>
-                                            <tr class="table-light fw-bold">
-                                                <td colspan="4" class="text-end">Total Salidas:</td>
-                                                <td></td>
-                                                <td class="text-center text-danger">43</td>
-                                                <td></td>
-                                            </tr>
-                                            <tr class="table-light fw-bold fs-5">
-                                                <td colspan="6" class="text-end">Saldo Final al 23/10/2025:</td>
-                                                <td class="text-center"><strong>52</strong></td>
-                                            </tr>
-                                        </tfoot>
-                                    </table>
-                                </div>
-                                <p class="text-muted mt-2">Nota: El saldo se muestra por almacén si aplica, el saldo
-                                    final
-                                    es el total.</p>
-                            </div>
+                    <div class="card-body pt-3">
+                        <div class="table-responsive">
+                            <table class="table table-hover" id="pc-dt-simple">
+                                <thead>
+                                    <tr>
+                                        <th>Fecha</th>
+                                        <th>Tipo Mov.</th>
+                                        <th>Referencia</th>
+                                        <th>Almacén</th>
+                                        <th class="text-center">Entrada</th>
+                                        <th class="text-center">Salida</th>
+                                        <th class="text-center">Saldo</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="table-secondary">
+                                        <td colspan="6"><strong>Saldo Inicial al 01/10/2025</strong></td>
+                                        <td class="text-center fw-bold"><strong>25</strong></td>
+                                    </tr>
+                                    <tr>
+                                        <td>05/10/2025</td>
+                                        <td>Compra</td>
+                                        <td>OC-00152</td>
+                                        <td>Almacén Central</td>
+                                        <td class="text-center text-success">+ 50</td>
+                                        <td class="text-center">-</td>
+                                        <td class="text-center fw-bold">75</td>
+                                    </tr>
+                                    <tr>
+                                        <td>10/10/2025</td>
+                                        <td>Venta</td>
+                                        <td>FAC-001-145</td>
+                                        <td>Almacén Central</td>
+                                        <td class="text-center">-</td>
+                                        <td class="text-center text-danger">- 5</td>
+                                        <td class="text-center fw-bold">70</td>
+                                    </tr>
+                                    <tr>
+                                        <td>12/10/2025</td>
+                                        <td>Traslado Interno</td>
+                                        <td>TR-0034</td>
+                                        <td>Almacén Central</td>
+                                        <td class="text-center">-</td>
+                                        <td class="text-center text-warning">- 20</td>
+                                        <td class="text-center fw-bold">50</td>
+                                    </tr>
+                                    <tr>
+                                        <td>12/10/2025</td>
+                                        <td>Traslado Interno</td>
+                                        <td>TR-0034</td>
+                                        <td>Tienda Miraflores</td>
+                                        <td class="text-center text-warning">+ 20</td>
+                                        <td class="text-center">-</td>
+                                        <td class="text-center fw-bold">20</td>
+                                    </tr>
+                                    <tr>
+                                        <td>18/10/2025</td>
+                                        <td>Venta</td>
+                                        <td>BV-001-290</td>
+                                        <td>Almacén Central</td>
+                                        <td class="text-center">-</td>
+                                        <td class="text-center text-danger">- 15</td>
+                                        <td class="text-center fw-bold">35</td>
+                                    </tr>
+                                    <tr>
+                                        <td>21/10/2025</td>
+                                        <td>Ajuste Inventario</td>
+                                        <td>AJ-0005</td>
+                                        <td>Tienda Miraflores</td>
+                                        <td class="text-center">-</td>
+                                        <td class="text-center text-danger">- 2</td>
+                                        <td class="text-center fw-bold">18</td>
+                                    </tr>
+                                    <tr>
+                                        <td>23/10/2025</td>
+                                        <td>Venta</td>
+                                        <td>BV-001-315</td>
+                                        <td>Tienda Miraflores</td>
+                                        <td class="text-center">-</td>
+                                        <td class="text-center text-danger">- 1</td>
+                                        <td class="text-center fw-bold">17</td>
+                                    </tr>
+                                </tbody>
+                                <tfoot>
+                                    <tr class="table-light fw-bold">
+                                        <td colspan="4" class="text-end">Total Entradas:</td>
+                                        <td class="text-center text-success">70</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr class="table-light fw-bold">
+                                        <td colspan="4" class="text-end">Total Salidas:</td>
+                                        <td></td>
+                                        <td class="text-center text-danger">43</td>
+                                        <td></td>
+                                    </tr>
+                                    <tr class="table-light fw-bold fs-5">
+                                        <td colspan="6" class="text-end">Saldo Final al 23/10/2025:</td>
+                                        <td class="text-center"><strong>52</strong></td>
+                                    </tr>
+                                </tfoot>
+                            </table>
                         </div>
+                        <p class="text-muted mt-2">Nota: El saldo se muestra por almacén si aplica, el saldo
+                            final
+                            es el total.</p>
                     </div>
                 </div>
             </div>
@@ -191,5 +187,3 @@
         <!-- [ Main Content ] end -->
     </div>
 </div>
-
-

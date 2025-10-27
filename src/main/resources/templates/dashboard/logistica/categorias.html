@@ -1,148 +1,146 @@
 <div class="pc-container" th:replace="~{dashboard/layout :: layout(~{::content}, ${usuario}, 'Inicio', '/dashboard')}">
    <div class="pc-content" th:fragment="content">
       <!-- [ Main Content ] start -->
-      <div class="pc-container">
-         <div class="pc-content">
-            <div class="page-header">
-               <div class="page-block">
-                  <div class="row align-items-center">
-                     <div class="col-md-12">
-                        <div class="page-header-title">
-                           <h5 class="m-b-10">Categorías de Productos</h5>
-                        </div>
-                        <ul class="breadcrumb">
-                           <li class="breadcrumb-item"><a href="../index.html">Logística</a></li>
-                           <li class="breadcrumb-item"><a href="#!">Almacen</a></li>
-                           <li class="breadcrumb-item" aria-current="page">Categorías</li>
-                        </ul>
+      <div class="pc-content">
+         <div class="page-header">
+            <div class="page-block">
+               <div class="row align-items-center">
+                  <div class="col-md-12">
+                     <div class="page-header-title">
+                        <h5 class="m-b-10">Categorías de Productos</h5>
                      </div>
+                     <ul class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="../index.html">Logística</a></li>
+                        <li class="breadcrumb-item"><a href="#!">Almacen</a></li>
+                        <li class="breadcrumb-item" aria-current="page">Categorías</li>
+                     </ul>
                   </div>
                </div>
             </div>
-            <div class="row">
-               <div class="col-12">
-                  <div class="card table-card">
-                     <div class="card-header d-flex align-items-center justify-content-between">
-                        <h5 class="mb-0">Listado de Categorías</h5>
-                        <div class="btn-page">
-                           <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                              data-bs-target="#modalCategoria">
-                              <i class="ti ti-plus me-1"></i> Nueva Categoría
-                           </button>
-                        </div>
+         </div>
+         <div class="row">
+            <div class="col-12">
+               <div class="card table-card">
+                  <div class="card-header d-flex align-items-center justify-content-between">
+                     <h5 class="mb-0">Listado de Categorías</h5>
+                     <div class="btn-page">
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                           data-bs-target="#modalCategoria">
+                           <i class="ti ti-plus me-1"></i> Nueva Categoría
+                        </button>
                      </div>
-                     <div class="card-body pt-3">
-                        <div class="table-responsive">
-                           <table class="table table-hover" id="pc-dt-simple">
-                              <thead>
-                                 <tr>
-                                    <th>Nombre de Categoría</th>
-                                    <th>Descripción</th>
-                                    <th>N° de Productos</th>
-                                    <th>Estado</th>
-                                    <th>Acciones</th>
-                                 </tr>
-                              </thead>
-                              <tbody>
+                  </div>
+                  <div class="card-body pt-3">
+                     <div class="table-responsive">
+                        <table class="table table-hover" id="pc-dt-simple">
+                           <thead>
+                              <tr>
+                                 <th>Nombre de Categoría</th>
+                                 <th>Descripción</th>
+                                 <th>N° de Productos</th>
+                                 <th>Estado</th>
+                                 <th>Acciones</th>
+                              </tr>
+                           </thead>
+                           <tbody>
 
-                                 <tr>
-                                    <td>
-                                       <h6 class="mb-0">Motor</h6>
-                                    </td>
-                                    <td>Aceites y lubricantes para motor.</td>
-                                    <td>12</td>
-                                    <td><span class="badge text-bg-success">Activo</span></td>
-                                    <td>
-                                       <a href="#!" class="avtar avtar-xs btn-link-secondary" data-bs-toggle="modal"
-                                          data-bs-target="#modalCategoria" title="Editar">
-                                          <i class="ti ti-edit f-20"></i>
-                                       </a>
-                                       <a href="#!" class="avtar avtar-xs btn-link-secondary" data-bs-toggle="tooltip"
-                                          title="Eliminar">
-                                          <i class="ti ti-trash f-20"></i>
-                                       </a>
-                                    </td>
-                                 </tr>
+                              <tr>
+                                 <td>
+                                    <h6 class="mb-0">Motor</h6>
+                                 </td>
+                                 <td>Aceites y lubricantes para motor.</td>
+                                 <td>12</td>
+                                 <td><span class="badge text-bg-success">Activo</span></td>
+                                 <td>
+                                    <a href="#!" class="avtar avtar-xs btn-link-secondary" data-bs-toggle="modal"
+                                       data-bs-target="#modalCategoria" title="Editar">
+                                       <i class="ti ti-edit f-20"></i>
+                                    </a>
+                                    <a href="#!" class="avtar avtar-xs btn-link-secondary" data-bs-toggle="tooltip"
+                                       title="Eliminar">
+                                       <i class="ti ti-trash f-20"></i>
+                                    </a>
+                                 </td>
+                              </tr>
 
-                                 <tr>
-                                    <td>
-                                       <h6 class="mb-0">Transmisión</h6>
-                                    </td>
-                                    <td>Aceites para cajas de cambio y diferenciales.</td>
-                                    <td>5</td>
-                                    <td><span class="badge text-bg-success">Activo</span></td>
-                                    <td>
-                                       <a href="#!" class="avtar avtar-xs btn-link-secondary" data-bs-toggle="modal"
-                                          data-bs-target="#modalCategoria" title="Editar">
-                                          <i class="ti ti-edit f-20"></i>
-                                       </a>
-                                       <a href="#!" class="avtar avtar-xs btn-link-secondary" data-bs-toggle="tooltip"
-                                          title="Eliminar">
-                                          <i class="ti ti-trash f-20"></i>
-                                       </a>
-                                    </td>
-                                 </tr>
+                              <tr>
+                                 <td>
+                                    <h6 class="mb-0">Transmisión</h6>
+                                 </td>
+                                 <td>Aceites para cajas de cambio y diferenciales.</td>
+                                 <td>5</td>
+                                 <td><span class="badge text-bg-success">Activo</span></td>
+                                 <td>
+                                    <a href="#!" class="avtar avtar-xs btn-link-secondary" data-bs-toggle="modal"
+                                       data-bs-target="#modalCategoria" title="Editar">
+                                       <i class="ti ti-edit f-20"></i>
+                                    </a>
+                                    <a href="#!" class="avtar avtar-xs btn-link-secondary" data-bs-toggle="tooltip"
+                                       title="Eliminar">
+                                       <i class="ti ti-trash f-20"></i>
+                                    </a>
+                                 </td>
+                              </tr>
 
-                                 <tr>
-                                    <td>
-                                       <h6 class="mb-0">Diésel</h6>
-                                    </td>
-                                    <td>Lubricantes para vehículos pesados.</td>
-                                    <td>8</td>
-                                    <td><span class="badge text-bg-success">Activo</span></td>
-                                    <td>
-                                       <a href="#!" class="avtar avtar-xs btn-link-secondary" data-bs-toggle="modal"
-                                          data-bs-target="#modalCategoria" title="Editar">
-                                          <i class="ti ti-edit f-20"></i>
-                                       </a>
-                                       <a href="#!" class="avtar avtar-xs btn-link-secondary" data-bs-toggle="tooltip"
-                                          title="Eliminar">
-                                          <i class="ti ti-trash f-20"></i>
-                                       </a>
-                                    </td>
-                                 </tr>
+                              <tr>
+                                 <td>
+                                    <h6 class="mb-0">Diésel</h6>
+                                 </td>
+                                 <td>Lubricantes para vehículos pesados.</td>
+                                 <td>8</td>
+                                 <td><span class="badge text-bg-success">Activo</span></td>
+                                 <td>
+                                    <a href="#!" class="avtar avtar-xs btn-link-secondary" data-bs-toggle="modal"
+                                       data-bs-target="#modalCategoria" title="Editar">
+                                       <i class="ti ti-edit f-20"></i>
+                                    </a>
+                                    <a href="#!" class="avtar avtar-xs btn-link-secondary" data-bs-toggle="tooltip"
+                                       title="Eliminar">
+                                       <i class="ti ti-trash f-20"></i>
+                                    </a>
+                                 </td>
+                              </tr>
 
-                                 <tr>
-                                    <td>
-                                       <h6 class="mb-0">Hidráulico</h6>
-                                    </td>
-                                    <td>Fluidos para sistemas hidráulicos.</td>
-                                    <td>3</td>
-                                    <td><span class="badge text-bg-success">Activo</span></td>
-                                    <td>
-                                       <a href="#!" class="avtar avtar-xs btn-link-secondary" data-bs-toggle="modal"
-                                          data-bs-target="#modalCategoria" title="Editar">
-                                          <i class="ti ti-edit f-20"></i>
-                                       </a>
-                                       <a href="#!" class="avtar avtar-xs btn-link-secondary" data-bs-toggle="tooltip"
-                                          title="Eliminar">
-                                          <i class="ti ti-trash f-20"></i>
-                                       </a>
-                                    </td>
-                                 </tr>
+                              <tr>
+                                 <td>
+                                    <h6 class="mb-0">Hidráulico</h6>
+                                 </td>
+                                 <td>Fluidos para sistemas hidráulicos.</td>
+                                 <td>3</td>
+                                 <td><span class="badge text-bg-success">Activo</span></td>
+                                 <td>
+                                    <a href="#!" class="avtar avtar-xs btn-link-secondary" data-bs-toggle="modal"
+                                       data-bs-target="#modalCategoria" title="Editar">
+                                       <i class="ti ti-edit f-20"></i>
+                                    </a>
+                                    <a href="#!" class="avtar avtar-xs btn-link-secondary" data-bs-toggle="tooltip"
+                                       title="Eliminar">
+                                       <i class="ti ti-trash f-20"></i>
+                                    </a>
+                                 </td>
+                              </tr>
 
-                                 <tr>
-                                    <td>
-                                       <h6 class="mb-0">Filtros (Antiguo)</h6>
-                                    </td>
-                                    <td>Categoría descontinuada.</td>
-                                    <td>0</td>
-                                    <td><span class="badge text-bg-secondary">Inactivo</span></td>
-                                    <td>
-                                       <a href="#!" class="avtar avtar-xs btn-link-secondary" data-bs-toggle="modal"
-                                          data-bs-target="#modalCategoria" title="Editar">
-                                          <i class="ti ti-edit f-20"></i>
-                                       </a>
-                                       <a href="#!" class="avtar avtar-xs btn-link-secondary" data-bs-toggle="tooltip"
-                                          title="Eliminar">
-                                          <i class="ti ti-trash f-20"></i>
-                                       </a>
-                                    </td>
-                                 </tr>
+                              <tr>
+                                 <td>
+                                    <h6 class="mb-0">Filtros (Antiguo)</h6>
+                                 </td>
+                                 <td>Categoría descontinuada.</td>
+                                 <td>0</td>
+                                 <td><span class="badge text-bg-secondary">Inactivo</span></td>
+                                 <td>
+                                    <a href="#!" class="avtar avtar-xs btn-link-secondary" data-bs-toggle="modal"
+                                       data-bs-target="#modalCategoria" title="Editar">
+                                       <i class="ti ti-edit f-20"></i>
+                                    </a>
+                                    <a href="#!" class="avtar avtar-xs btn-link-secondary" data-bs-toggle="tooltip"
+                                       title="Eliminar">
+                                       <i class="ti ti-trash f-20"></i>
+                                    </a>
+                                 </td>
+                              </tr>
 
-                              </tbody>
-                           </table>
-                        </div>
+                           </tbody>
+                        </table>
                      </div>
                   </div>
                </div>

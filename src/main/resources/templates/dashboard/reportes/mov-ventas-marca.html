@@ -1,175 +1,170 @@
 <div class="pc-container" th:replace="~{dashboard/layout :: layout(~{::content}, ${usuario}, 'Inicio', '/dashboard')}">
     <div class="pc-content" th:fragment="content">
         <!-- [ Main Content ] start -->
-        <div class="pc-container">
-            <div class="pc-content">
-                <div class="page-header">
-                    <div class="page-block">
-                        <div class="row align-items-center">
-                            <div class="col-md-12">
-                                <div class="page-header-title">
-                                    <h5 class="m-b-10">Reporte: Movimiento de Ventas por Marca</h5>
-                                </div>
-                                <ul class="breadcrumb">
-                                    <li class="breadcrumb-item"><a href="../index.html">Reportes</a></li>
-                                    <li class="breadcrumb-item" aria-current="page">Mov. de ventas por marca</li>
-                                </ul>
-                            </div>
+        <div class="page-header">
+            <div class="page-block">
+                <div class="row align-items-center">
+                    <div class="col-md-12">
+                        <div class="page-header-title">
+                            <h5 class="m-b-10">Reporte: Movimiento de Ventas por Marca</h5>
                         </div>
+                        <ul class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="../index.html">Reportes</a></li>
+                            <li class="breadcrumb-item" aria-current="page">Mov. de ventas por marca</li>
+                        </ul>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-12">
-                        <div class="card">
-                            <div class="card-body">
-                                <form class="row g-3 align-items-end">
-                                    <div class="col-md-4">
-                                        <label for="filtroMarcaReporte" class="form-label">Marca</label>
-                                        <select id="filtroMarcaReporte" class="form-select">
-                                            <option value="todas" selected>Todas las Marcas</option>
-                                            <option value="castrol">Castrol</option>
-                                            <option value="shell">Shell</option>
-                                            <option value="mobil">Mobil</option>
-                                            <option value="total">Total</option>
-                                            <option value="valvoline">Valvoline</option>
-                                            <option value="chevron">Chevron</option>
-                                        </select>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <label for="fechaInicioMarca" class="form-label">Fecha Inicio</label>
-                                        <input type="date" class="form-control" id="fechaInicioMarca"
-                                            value="2025-10-01">
-                                    </div>
-                                    <div class="col-md-3">
-                                        <label for="fechaFinMarca" class="form-label">Fecha Fin</label>
-                                        <input type="date" class="form-control" id="fechaFinMarca" value="2025-10-23">
-                                    </div>
-                                    <div class="col-md-2">
-                                        <button type="submit" class="btn btn-primary w-100">
-                                            <i class="ti ti-filter me-1"></i> Filtrar
-                                        </button>
-                                    </div>
-                                </form>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <form class="row g-3 align-items-end">
+                            <div class="col-md-4">
+                                <label for="filtroMarcaReporte" class="form-label">Marca</label>
+                                <select id="filtroMarcaReporte" class="form-select">
+                                    <option value="todas" selected>Todas las Marcas</option>
+                                    <option value="castrol">Castrol</option>
+                                    <option value="shell">Shell</option>
+                                    <option value="mobil">Mobil</option>
+                                    <option value="total">Total</option>
+                                    <option value="valvoline">Valvoline</option>
+                                    <option value="chevron">Chevron</option>
+                                </select>
                             </div>
+                            <div class="col-md-3">
+                                <label for="fechaInicioMarca" class="form-label">Fecha Inicio</label>
+                                <input type="date" class="form-control" id="fechaInicioMarca" value="2025-10-01">
+                            </div>
+                            <div class="col-md-3">
+                                <label for="fechaFinMarca" class="form-label">Fecha Fin</label>
+                                <input type="date" class="form-control" id="fechaFinMarca" value="2025-10-23">
+                            </div>
+                            <div class="col-md-2">
+                                <button type="submit" class="btn btn-primary w-100">
+                                    <i class="ti ti-filter me-1"></i> Filtrar
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12">
+                <div class="card table-card">
+                    <div class="card-header d-flex align-items-center justify-content-between">
+                        <h5 class="mb-0">Resumen de Ventas por Marca</h5>
+                        <div class="btn-page">
+                            <button type="button" class="btn btn-outline-secondary">
+                                <i class="ti ti-printer me-1"></i> Imprimir
+                            </button>
+                            <button type="button" class="btn btn-outline-success">
+                                <i class="ti ti-file-spreadsheet me-1"></i> Exportar Excel
+                            </button>
                         </div>
                     </div>
-
-                    <div class="col-12">
-                        <div class="card table-card">
-                            <div class="card-header d-flex align-items-center justify-content-between">
-                                <h5 class="mb-0">Resumen de Ventas por Marca</h5>
-                                <div class="btn-page">
-                                    <button type="button" class="btn btn-outline-secondary">
-                                        <i class="ti ti-printer me-1"></i> Imprimir
-                                    </button>
-                                    <button type="button" class="btn btn-outline-success">
-                                        <i class="ti ti-file-spreadsheet me-1"></i> Exportar Excel
-                                    </button>
-                                </div>
-                            </div>
-                            <div class="card-body pt-3">
-                                <div class="table-responsive">
-                                    <table class="table table-hover" id="pc-dt-simple">
-                                        <thead>
-                                            <tr>
-                                                <th>Marca</th>
-                                                <th class="text-center">Unidades Vendidas</th>
-                                                <th class="text-end">Ingreso Total (S/)</th>
-                                                <th class="text-end">Costo Total (S/) *</th>
-                                                <th class="text-end">Margen Bruto (S/) *</th>
-                                                <th class="text-end">Margen (%) *</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>
-                                                    <div class="d-flex align-items-center">
-                                                        <div class="flex-shrink-0">
-                                                            <img src="/assets/images/user/avatar-1.jpg" alt="Logo"
-                                                                class="img-radius wid-40" />
-                                                        </div>
-                                                        <div class="flex-grow-1 ms-3">
-                                                            <h6 class="mb-0">Castrol</h6>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td class="text-center">150</td>
-                                                <td class="text-end">14,850.50</td>
-                                                <td class="text-end">9,652.83</td>
-                                                <td class="text-end text-success">5,197.67</td>
-                                                <td class="text-end text-success">35.0%</td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <div class="d-flex align-items-center">
-                                                        <div class="flex-shrink-0">
-                                                            <img src="/assets/images/user/avatar-1.jpg" alt="Logo"
-                                                                class="img-radius wid-40" />
-                                                        </div>
-                                                        <div class="flex-grow-1 ms-3">
-                                                            <h6 class="mb-0">Shell</h6>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td class="text-center">120</td>
-                                                <td class="text-end">18,500.00</td>
-                                                <td class="text-end">12,950.00</td>
-                                                <td class="text-end text-success">5,550.00</td>
-                                                <td class="text-end text-success">30.0%</td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <div class="d-flex align-items-center">
-                                                        <div class="flex-shrink-0">
-                                                            <img src="/assets/images/user/avatar-1.jpg" alt="Logo"
-                                                                class="img-radius wid-40" />
-                                                        </div>
-                                                        <div class="flex-grow-1 ms-3">
-                                                            <h6 class="mb-0">Mobil</h6>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td class="text-center">90</td>
-                                                <td class="text-end">8,950.00</td>
-                                                <td class="text-end">5,817.50</td>
-                                                <td class="text-end text-success">3,132.50</td>
-                                                <td class="text-end text-success">35.0%</td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <div class="d-flex align-items-center">
-                                                        <div class="flex-shrink-0">
-                                                            <img src="/assets/images/user/avatar-1.jpg" alt="Logo"
-                                                                class="img-radius wid-40" />
-                                                        </div>
-                                                        <div class="flex-grow-1 ms-3">
-                                                            <h6 class="mb-0">Chevron</h6>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td class="text-center">75</td>
-                                                <td class="text-end">9,850.00</td>
-                                                <td class="text-end">7,387.50</td>
-                                                <td class="text-end text-success">2,462.50</td>
-                                                <td class="text-end text-success">25.0%</td>
-                                            </tr>
-                                        </tbody>
-                                        <tfoot>
-                                            <tr class="table-light fw-bold fs-5">
-                                                <td class="text-end">TOTALES:</td>
-                                                <td class="text-center"><strong>435</strong></td>
-                                                <td class="text-end"><strong>S/ 52,150.50</strong></td>
-                                                <td class="text-end"><strong>S/ 35,807.83</strong></td>
-                                                <td class="text-end"><strong>S/ 16,342.67</strong></td>
-                                                <td class="text-end"><strong>31.3%</strong> (Promedio)</td>
-                                            </tr>
-                                        </tfoot>
-                                    </table>
-                                    <p class="text-muted mt-2">* Columnas opcionales. Requieren registrar el costo de
-                                        los
-                                        productos.</p>
-                                </div>
-                            </div>
+                    <div class="card-body pt-3">
+                        <div class="table-responsive">
+                            <table class="table table-hover" id="pc-dt-simple">
+                                <thead>
+                                    <tr>
+                                        <th>Marca</th>
+                                        <th class="text-center">Unidades Vendidas</th>
+                                        <th class="text-end">Ingreso Total (S/)</th>
+                                        <th class="text-end">Costo Total (S/) *</th>
+                                        <th class="text-end">Margen Bruto (S/) *</th>
+                                        <th class="text-end">Margen (%) *</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                <div class="flex-shrink-0">
+                                                    <img src="/assets/images/user/avatar-1.jpg" alt="Logo"
+                                                        class="img-radius wid-40" />
+                                                </div>
+                                                <div class="flex-grow-1 ms-3">
+                                                    <h6 class="mb-0">Castrol</h6>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="text-center">150</td>
+                                        <td class="text-end">14,850.50</td>
+                                        <td class="text-end">9,652.83</td>
+                                        <td class="text-end text-success">5,197.67</td>
+                                        <td class="text-end text-success">35.0%</td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                <div class="flex-shrink-0">
+                                                    <img src="/assets/images/user/avatar-1.jpg" alt="Logo"
+                                                        class="img-radius wid-40" />
+                                                </div>
+                                                <div class="flex-grow-1 ms-3">
+                                                    <h6 class="mb-0">Shell</h6>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="text-center">120</td>
+                                        <td class="text-end">18,500.00</td>
+                                        <td class="text-end">12,950.00</td>
+                                        <td class="text-end text-success">5,550.00</td>
+                                        <td class="text-end text-success">30.0%</td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                <div class="flex-shrink-0">
+                                                    <img src="/assets/images/user/avatar-1.jpg" alt="Logo"
+                                                        class="img-radius wid-40" />
+                                                </div>
+                                                <div class="flex-grow-1 ms-3">
+                                                    <h6 class="mb-0">Mobil</h6>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="text-center">90</td>
+                                        <td class="text-end">8,950.00</td>
+                                        <td class="text-end">5,817.50</td>
+                                        <td class="text-end text-success">3,132.50</td>
+                                        <td class="text-end text-success">35.0%</td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                <div class="flex-shrink-0">
+                                                    <img src="/assets/images/user/avatar-1.jpg" alt="Logo"
+                                                        class="img-radius wid-40" />
+                                                </div>
+                                                <div class="flex-grow-1 ms-3">
+                                                    <h6 class="mb-0">Chevron</h6>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="text-center">75</td>
+                                        <td class="text-end">9,850.00</td>
+                                        <td class="text-end">7,387.50</td>
+                                        <td class="text-end text-success">2,462.50</td>
+                                        <td class="text-end text-success">25.0%</td>
+                                    </tr>
+                                </tbody>
+                                <tfoot>
+                                    <tr class="table-light fw-bold fs-5">
+                                        <td class="text-end">TOTALES:</td>
+                                        <td class="text-center"><strong>435</strong></td>
+                                        <td class="text-end"><strong>S/ 52,150.50</strong></td>
+                                        <td class="text-end"><strong>S/ 35,807.83</strong></td>
+                                        <td class="text-end"><strong>S/ 16,342.67</strong></td>
+                                        <td class="text-end"><strong>31.3%</strong> (Promedio)</td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                            <p class="text-muted mt-2">* Columnas opcionales. Requieren registrar el costo de
+                                los
+                                productos.</p>
                         </div>
                     </div>
                 </div>
@@ -178,4 +173,3 @@
         <!-- [ Main Content ] end -->
     </div>
 </div>
-

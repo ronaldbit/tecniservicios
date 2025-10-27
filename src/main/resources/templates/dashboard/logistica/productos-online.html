@@ -2,290 +2,285 @@
    <div class="pc-content" th:fragment="content">
       <!-- [ Main Content ] start -->
 
-      <div class="pc-container">
-         <div class="pc-content">
-            <div class="page-header">
-               <div class="page-block">
-                  <div class="row align-items-center">
-                     <div class="col-md-12">
-                        <div class="page-header-title">
-                           <h5 class="m-b-10">Productos Online</h5>
-                        </div>
-                        <ul class="breadcrumb">
-                           <li class="breadcrumb-item"><a href="../index.html">Logística</a></li>
-                           <li class="breadcrumb-item"><a href="#!">Almacen</a></li>
-                           <li class="breadcrumb-item" aria-current="page">Productos Online</li>
-                        </ul>
-                     </div>
+      <div class="page-header">
+         <div class="page-block">
+            <div class="row align-items-center">
+               <div class="col-md-12">
+                  <div class="page-header-title">
+                     <h5 class="m-b-10">Productos Online</h5>
                   </div>
+                  <ul class="breadcrumb">
+                     <li class="breadcrumb-item"><a href="../index.html">Logística</a></li>
+                     <li class="breadcrumb-item"><a href="#!">Almacen</a></li>
+                     <li class="breadcrumb-item" aria-current="page">Productos Online</li>
+                  </ul>
                </div>
             </div>
-            <div class="row">
-               <div class="col-12">
-                  <div class="card table-card">
-                     <div class="card-header d-flex align-items-center justify-content-between">
-                        <h5 class="mb-0">Gestión de Tienda Online</h5>
+         </div>
+      </div>
+      <div class="row">
+         <div class="col-12">
+            <div class="card table-card">
+               <div class="card-header d-flex align-items-center justify-content-between">
+                  <h5 class="mb-0">Gestión de Tienda Online</h5>
 
 
 
 
 
 
-                        <div class="d-flex">
+                  <div class="d-flex">
 
-                           <select class="form-select me-2" style="width: 200px;">
-                              <option value="">Todas las categorías</option>
-                              <option value="motor">Motor</option>
-                              <option value="transmision">Transmisión</option>
-                              <option value="diesel">Diésel</option>
-                           </select>
-                           <select class="form-select" style="width: 200px;">
-                              <option value="">Todos los estados</option>
-                              <option value="publicado">Publicados</option>
-                              <option value="oculto">Ocultos</option>
-                           </select>
-                        </div>
+                     <select class="form-select me-2" style="width: 200px;">
+                        <option value="">Todas las categorías</option>
+                        <option value="motor">Motor</option>
+                        <option value="transmision">Transmisión</option>
+                        <option value="diesel">Diésel</option>
+                     </select>
+                     <select class="form-select" style="width: 200px;">
+                        <option value="">Todos los estados</option>
+                        <option value="publicado">Publicados</option>
+                        <option value="oculto">Ocultos</option>
+                     </select>
+                  </div>
 
-                        <!--MODAL DE GESTION DE PRODUCTOS ONLINE-->
-                        <div id="exampleModalLive" class="modal fade" tabindex="-1" role="dialog"
-                           aria-labelledby="exampleModalLiveLabel" aria-hidden="true">
+                  <!--MODAL DE GESTION DE PRODUCTOS ONLINE-->
+                  <div id="exampleModalLive" class="modal fade" tabindex="-1" role="dialog"
+                     aria-labelledby="exampleModalLiveLabel" aria-hidden="true">
 
-                           <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-                              <div class="modal-content">
+                     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                        <div class="modal-content">
 
-                                 <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLiveLabel">Publicar Producto en Tienda
-                                       Online
-                                    </h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                       aria-label="Close"></button>
-                                 </div>
+                           <div class="modal-header">
+                              <h5 class="modal-title" id="exampleModalLiveLabel">Publicar Producto en Tienda
+                                 Online
+                              </h5>
+                              <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                 aria-label="Close"></button>
+                           </div>
 
-                                 <div class="modal-body">
-                                    <div class="row">
+                           <div class="modal-body">
+                              <div class="row">
 
-                                       <div class="col-md-5" style="border-right: 1px solid #ddd;">
+                                 <div class="col-md-5" style="border-right: 1px solid #ddd;">
 
-                                          <div class="mb-3">
-                                             <label for="buscarProducto" class="form-label">1. Buscar Producto</label>
-                                             <input type="text" class="form-control" id="buscarProducto"
-                                                placeholder="Buscar por SKU o Nombre...">
+                                    <div class="mb-3">
+                                       <label for="buscarProducto" class="form-label">1. Buscar Producto</label>
+                                       <input type="text" class="form-control" id="buscarProducto"
+                                          placeholder="Buscar por SKU o Nombre...">
+                                    </div>
+
+                                    <p class="text-muted">Productos no publicados:</p>
+                                    <div class="list-group" style="max-height: 400px; overflow-y: auto;">
+
+                                       <a href="#"
+                                          class="list-group-item list-group-item-action d-flex align-items-center">
+                                          <div class="flex-shrink-0">
+                                             <img src="/assets/images/user/avatar-1.jpg" alt="Producto"
+                                                class="img-fluid rounded" style="width: 40px; height: 40px;">
                                           </div>
-
-                                          <p class="text-muted">Productos no publicados:</p>
-                                          <div class="list-group" style="max-height: 400px; overflow-y: auto;">
-
-                                             <a href="#"
-                                                class="list-group-item list-group-item-action d-flex align-items-center">
-                                                <div class="flex-shrink-0">
-                                                   <img src="/assets/images/user/avatar-1.jpg" alt="Producto"
-                                                      class="img-fluid rounded" style="width: 40px; height: 40px;">
-                                                </div>
-                                                <div class="flex-grow-1 ms-3">
-                                                   <h6 class="mb-0">Castrol GTX 20W-50</h6>
-                                                   <small class="text-muted d-block">SKU: LUB-0001</small>
-                                                </div>
-                                             </a>
-
-                                             <a href="#"
-                                                class="list-group-item list-group-item-action d-flex align-items-center">
-                                                <div class="flex-shrink-0">
-                                                   <img src="/assets/images/user/avatar-1.jpg" alt="Producto"
-                                                      class="img-fluid rounded" style="width: 40px; height: 40px;">
-                                                </div>
-                                                <div class="flex-grow-1 ms-3">
-                                                   <h6 class="mb-0">Shell Helix Ultra 5W-40</h6>
-                                                   <small class="text-muted d-block">SKU: LUB-0002</small>
-                                                </div>
-                                             </a>
-
-                                             <a href="#"
-                                                class="list-group-item list-group-item-action d-flex align-items-center">
-                                                <div class="flex-shrink-0">
-                                                   <img src="/assets/images/user/avatar-1.jpg" alt="Producto"
-                                                      class="img-fluid rounded" style="width: 40px; height: 40px;">
-                                                </div>
-                                                <div class="flex-grow-1 ms-3">
-                                                   <h6 class="mb-0">Valvoline MaxLife 10W-40</h6>
-                                                   <small class="text-muted d-block">SKU: LUB-0005</small>
-                                                </div>
-                                             </a>
-
+                                          <div class="flex-grow-1 ms-3">
+                                             <h6 class="mb-0">Castrol GTX 20W-50</h6>
+                                             <small class="text-muted d-block">SKU: LUB-0001</small>
                                           </div>
-                                       </div>
+                                       </a>
 
-                                       <div class="col-md-7">
-                                          <h6 class="mb-3">2. Configurar para la Tienda</h6>
+                                       <a href="#"
+                                          class="list-group-item list-group-item-action d-flex align-items-center">
+                                          <div class="flex-shrink-0">
+                                             <img src="/assets/images/user/avatar-1.jpg" alt="Producto"
+                                                class="img-fluid rounded" style="width: 40px; height: 40px;">
+                                          </div>
+                                          <div class="flex-grow-1 ms-3">
+                                             <h6 class="mb-0">Shell Helix Ultra 5W-40</h6>
+                                             <small class="text-muted d-block">SKU: LUB-0002</small>
+                                          </div>
+                                       </a>
 
-                                          <form>
-                                             <div class="mb-3">
-                                                <label for="onlinePrecio" class="form-label">Precio Online (S/)</label>
-                                                <input type="number" class="form-control" id="onlinePrecio"
-                                                   placeholder="95.90">
-                                                <small class="form-text text-muted">Deja en blanco para usar el precio
-                                                   estándar (S/ 95.90).</small>
-                                             </div>
-
-                                             <div class="mb-3">
-                                                <label for="onlineDesc" class="form-label">Descripción para la
-                                                   Tienda</label>
-                                                <textarea class="form-control" id="onlineDesc" rows="5"
-                                                   placeholder="Añade una descripción detallada..."></textarea>
-                                             </div>
-
-                                             <div class="mb-3">
-                                                <label class="form-label">Galería de Imágenes</label>
-                                                <input class="form-control" type="file" id="onlineImagenes" multiple>
-                                                <small class="form-text text-muted">Puedes subir múltiples imágenes para
-                                                   la
-                                                   galería.</small>
-                                             </div>
-
-                                             <div class="mb-3">
-                                                <label class="form-label">Opciones de Publicación</label>
-                                                <div class="form-check form-switch">
-                                                   <input class="form-check-input" type="checkbox" role="switch"
-                                                      id="onlineVisible" checked>
-                                                   <label class="form-check-label" for="onlineVisible">Publicar en la
-                                                      tienda online</label>
-                                                </div>
-                                                <div class="form-check form-switch">
-                                                   <input class="form-check-input" type="checkbox" role="switch"
-                                                      id="onlineDestacado">
-                                                   <label class="form-check-label" for="onlineDestacado">Marcar como
-                                                      producto destacado</label>
-                                                </div>
-                                             </div>
-                                          </form>
-                                       </div>
+                                       <a href="#"
+                                          class="list-group-item list-group-item-action d-flex align-items-center">
+                                          <div class="flex-shrink-0">
+                                             <img src="/assets/images/user/avatar-1.jpg" alt="Producto"
+                                                class="img-fluid rounded" style="width: 40px; height: 40px;">
+                                          </div>
+                                          <div class="flex-grow-1 ms-3">
+                                             <h6 class="mb-0">Valvoline MaxLife 10W-40</h6>
+                                             <small class="text-muted d-block">SKU: LUB-0005</small>
+                                          </div>
+                                       </a>
 
                                     </div>
                                  </div>
 
-                                 <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary"
-                                       data-bs-dismiss="modal">Cancelar</button>
-                                    <button type="button" class="btn btn-primary">Publicar Producto</button>
+                                 <div class="col-md-7">
+                                    <h6 class="mb-3">2. Configurar para la Tienda</h6>
+
+                                    <form>
+                                       <div class="mb-3">
+                                          <label for="onlinePrecio" class="form-label">Precio Online (S/)</label>
+                                          <input type="number" class="form-control" id="onlinePrecio"
+                                             placeholder="95.90">
+                                          <small class="form-text text-muted">Deja en blanco para usar el precio
+                                             estándar (S/ 95.90).</small>
+                                       </div>
+
+                                       <div class="mb-3">
+                                          <label for="onlineDesc" class="form-label">Descripción para la
+                                             Tienda</label>
+                                          <textarea class="form-control" id="onlineDesc" rows="5"
+                                             placeholder="Añade una descripción detallada..."></textarea>
+                                       </div>
+
+                                       <div class="mb-3">
+                                          <label class="form-label">Galería de Imágenes</label>
+                                          <input class="form-control" type="file" id="onlineImagenes" multiple>
+                                          <small class="form-text text-muted">Puedes subir múltiples imágenes para
+                                             la
+                                             galería.</small>
+                                       </div>
+
+                                       <div class="mb-3">
+                                          <label class="form-label">Opciones de Publicación</label>
+                                          <div class="form-check form-switch">
+                                             <input class="form-check-input" type="checkbox" role="switch"
+                                                id="onlineVisible" checked>
+                                             <label class="form-check-label" for="onlineVisible">Publicar en la
+                                                tienda online</label>
+                                          </div>
+                                          <div class="form-check form-switch">
+                                             <input class="form-check-input" type="checkbox" role="switch"
+                                                id="onlineDestacado">
+                                             <label class="form-check-label" for="onlineDestacado">Marcar como
+                                                producto destacado</label>
+                                          </div>
+                                       </div>
+                                    </form>
                                  </div>
 
                               </div>
                            </div>
-                        </div>
-                        <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                           data-bs-target="#exampleModalLive">
-                           <i class="ti ti-plus me-1"></i> Publicar Nuevo Producto
-                        </button>
-                        <!--FIN MODAL DE GESTION DE PRODUCTOS ONLINE-->
 
+                           <div class="modal-footer">
+                              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                              <button type="button" class="btn btn-primary">Publicar Producto</button>
+                           </div>
 
-                     </div>
-                     <div class="card-body pt-3">
-                        <div class="table-responsive">
-                           <table class="table table-hover" id="pc-dt-simple">
-                              <thead>
-                                 <tr>
-                                    <th>Producto</th>
-                                    <th>SKU</th>
-                                    <th>Precio Online</th>
-                                    <th>Stock Total</th>
-                                    <th>Visibilidad</th>
-                                    <th>Destacado</th>
-                                    <th>Acciones</th>
-                                 </tr>
-                              </thead>
-                              <tbody>
-
-                                 <tr>
-                                    <td>
-                                       <div class="d-flex align-items-center">
-                                          <div class="flex-shrink-0">
-                                             <img src="/assets/images/user/avatar-1.jpg" alt="Castrol GTX 20W-50"
-                                                class="img-radius wid-40" />
-                                          </div>
-                                          <div class="flex-grow-1 ms-3">
-                                             <h6 class="mb-0">Castrol GTX 20W-50</h6>
-                                          </div>
-                                       </div>
-                                    </td>
-                                    <td>LUB-0001</td>
-                                    <td>S/ 95.90</td>
-                                    <td>35</td>
-                                    <td><span class="badge text-bg-success">Publicado</span></td>
-                                    <td><span class="badge text-bg-light">No</span></td>
-                                    <td>
-                                       <a href="#!" class="avtar avtar-xs btn-link-secondary" data-bs-toggle="modal"
-                                          data-bs-target="#modalOnlineSettings" title="Ajustes Online">
-                                          <i class="ti ti-settings-cog f-20"></i>
-                                       </a>
-                                       <a href="#!" class="avtar avtar-xs btn-link-secondary" data-bs-toggle="tooltip"
-                                          title="Ver en la Tienda">
-                                          <i class="ti ti-external-link f-20"></i>
-                                       </a>
-                                    </td>
-                                 </tr>
-
-                                 <tr>
-                                    <td>
-                                       <div class="d-flex align-items-center">
-                                          <div class="flex-shrink-0">
-                                             <img src="/assets/images/user/avatar-1.jpg" alt="Shell Helix Ultra 5W-40"
-                                                class="img-radius wid-40" />
-                                          </div>
-                                          <div class="flex-grow-1 ms-3">
-                                             <h6 class="mb-0">Shell Helix Ultra 5W-40</h6>
-                                          </div>
-                                       </div>
-                                    </td>
-                                    <td>LUB-0002</td>
-                                    <td>S/ 169.00</td>
-                                    <td>18</td>
-                                    <td><span class="badge text-bg-secondary">Oculto</span></td>
-                                    <td><span class="badge text-bg-light">No</span></td>
-                                    <td>
-                                       <a href="#!" class="avtar avtar-xs btn-link-secondary" data-bs-toggle="modal"
-                                          data-bs-target="#modalOnlineSettings" title="Ajustes Online">
-                                          <i class="ti ti-settings-cog f-20"></i>
-                                       </a>
-                                       <a href="#!" class="avtar avtar-xs btn-link-secondary" data-bs-toggle="tooltip"
-                                          title="Ver en la Tienda">
-                                          <i class="ti ti-external-link f-20"></i>
-                                       </a>
-                                    </td>
-                                 </tr>
-
-                                 <tr>
-                                    <td>
-                                       <div class="d-flex align-items-center">
-                                          <div class="flex-shrink-0">
-                                             <img src="/assets/images/user/avatar-1.jpg" alt="Mobil 1 0W-20"
-                                                class="img-radius wid-40" />
-                                          </div>
-                                          <div class="flex-grow-1 ms-3">
-                                             <h6 class="mb-0">Mobil 1 0W-20</h6>
-                                          </div>
-                                       </div>
-                                    </td>
-                                    <td>LUB-0003</td>
-                                    <td>S/ 55.00 <small class="text-muted d-block">(Tienda: S/ 54.50)</small></td>
-                                    <td><span class="text-danger">0</span></td>
-                                    <td><span class="badge text-bg-success">Publicado</span></td>
-                                    <td><span class="badge text-bg-info">Sí</span></td>
-                                    <td>
-                                       <a href="#!" class="avtar avtar-xs btn-link-secondary" data-bs-toggle="modal"
-                                          data-bs-target="#modalOnlineSettings" title="Ajustes Online">
-                                          <i class="ti ti-settings-cog f-20"></i>
-                                       </a>
-                                       <a href="#!" class="avtar avtar-xs btn-link-secondary" data-bs-toggle="tooltip"
-                                          title="Ver en la Tienda">
-                                          <i class="ti ti-external-link f-20"></i>
-                                       </a>
-                                    </td>
-                                 </tr>
-
-                              </tbody>
-                           </table>
                         </div>
                      </div>
+                  </div>
+                  <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                     data-bs-target="#exampleModalLive">
+                     <i class="ti ti-plus me-1"></i> Publicar Nuevo Producto
+                  </button>
+                  <!--FIN MODAL DE GESTION DE PRODUCTOS ONLINE-->
+
+
+               </div>
+               <div class="card-body pt-3">
+                  <div class="table-responsive">
+                     <table class="table table-hover" id="pc-dt-simple">
+                        <thead>
+                           <tr>
+                              <th>Producto</th>
+                              <th>SKU</th>
+                              <th>Precio Online</th>
+                              <th>Stock Total</th>
+                              <th>Visibilidad</th>
+                              <th>Destacado</th>
+                              <th>Acciones</th>
+                           </tr>
+                        </thead>
+                        <tbody>
+
+                           <tr>
+                              <td>
+                                 <div class="d-flex align-items-center">
+                                    <div class="flex-shrink-0">
+                                       <img src="/assets/images/user/avatar-1.jpg" alt="Castrol GTX 20W-50"
+                                          class="img-radius wid-40" />
+                                    </div>
+                                    <div class="flex-grow-1 ms-3">
+                                       <h6 class="mb-0">Castrol GTX 20W-50</h6>
+                                    </div>
+                                 </div>
+                              </td>
+                              <td>LUB-0001</td>
+                              <td>S/ 95.90</td>
+                              <td>35</td>
+                              <td><span class="badge text-bg-success">Publicado</span></td>
+                              <td><span class="badge text-bg-light">No</span></td>
+                              <td>
+                                 <a href="#!" class="avtar avtar-xs btn-link-secondary" data-bs-toggle="modal"
+                                    data-bs-target="#modalOnlineSettings" title="Ajustes Online">
+                                    <i class="ti ti-settings-cog f-20"></i>
+                                 </a>
+                                 <a href="#!" class="avtar avtar-xs btn-link-secondary" data-bs-toggle="tooltip"
+                                    title="Ver en la Tienda">
+                                    <i class="ti ti-external-link f-20"></i>
+                                 </a>
+                              </td>
+                           </tr>
+
+                           <tr>
+                              <td>
+                                 <div class="d-flex align-items-center">
+                                    <div class="flex-shrink-0">
+                                       <img src="/assets/images/user/avatar-1.jpg" alt="Shell Helix Ultra 5W-40"
+                                          class="img-radius wid-40" />
+                                    </div>
+                                    <div class="flex-grow-1 ms-3">
+                                       <h6 class="mb-0">Shell Helix Ultra 5W-40</h6>
+                                    </div>
+                                 </div>
+                              </td>
+                              <td>LUB-0002</td>
+                              <td>S/ 169.00</td>
+                              <td>18</td>
+                              <td><span class="badge text-bg-secondary">Oculto</span></td>
+                              <td><span class="badge text-bg-light">No</span></td>
+                              <td>
+                                 <a href="#!" class="avtar avtar-xs btn-link-secondary" data-bs-toggle="modal"
+                                    data-bs-target="#modalOnlineSettings" title="Ajustes Online">
+                                    <i class="ti ti-settings-cog f-20"></i>
+                                 </a>
+                                 <a href="#!" class="avtar avtar-xs btn-link-secondary" data-bs-toggle="tooltip"
+                                    title="Ver en la Tienda">
+                                    <i class="ti ti-external-link f-20"></i>
+                                 </a>
+                              </td>
+                           </tr>
+
+                           <tr>
+                              <td>
+                                 <div class="d-flex align-items-center">
+                                    <div class="flex-shrink-0">
+                                       <img src="/assets/images/user/avatar-1.jpg" alt="Mobil 1 0W-20"
+                                          class="img-radius wid-40" />
+                                    </div>
+                                    <div class="flex-grow-1 ms-3">
+                                       <h6 class="mb-0">Mobil 1 0W-20</h6>
+                                    </div>
+                                 </div>
+                              </td>
+                              <td>LUB-0003</td>
+                              <td>S/ 55.00 <small class="text-muted d-block">(Tienda: S/ 54.50)</small></td>
+                              <td><span class="text-danger">0</span></td>
+                              <td><span class="badge text-bg-success">Publicado</span></td>
+                              <td><span class="badge text-bg-info">Sí</span></td>
+                              <td>
+                                 <a href="#!" class="avtar avtar-xs btn-link-secondary" data-bs-toggle="modal"
+                                    data-bs-target="#modalOnlineSettings" title="Ajustes Online">
+                                    <i class="ti ti-settings-cog f-20"></i>
+                                 </a>
+                                 <a href="#!" class="avtar avtar-xs btn-link-secondary" data-bs-toggle="tooltip"
+                                    title="Ver en la Tienda">
+                                    <i class="ti ti-external-link f-20"></i>
+                                 </a>
+                              </td>
+                           </tr>
+
+                        </tbody>
+                     </table>
                   </div>
                </div>
             </div>

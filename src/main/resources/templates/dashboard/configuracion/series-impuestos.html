@@ -1,148 +1,141 @@
 <div class="pc-container" th:replace="~{dashboard/layout :: layout(~{::content}, ${usuario}, 'Inicio', '/dashboard')}">
    <div class="pc-content" th:fragment="content">
       <!-- [ Main Content ] start -->
-      <div class="pc-container">
-         <div class="pc-content">
-            <div class="row">
-               <div class="col-12">
-                  <div class="card">
-                     <div class="card-header d-flex align-items-center justify-content-between">
-                        <h5 class="mb-0">Gestión de Impuestos</h5>
-                        <div class="btn-page">
-                           <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                              data-bs-target="#modalImpuesto">
-                              Añadir Impuesto +
-                           </button>
-                        </div>
-                     </div>
-                     <div class="card-body">
-                        <div class="table-responsive">
-                           <table class="table table-hover" id="pc-dt-simple">
-                              <thead>
-                                 <tr>
-                                    <th>Nombre del Impuesto</th>
-                                    <th>Porcentaje (%)</th>
-                                    <th>Estado</th>
-                                    <th>Acciones</th>
-                                 </tr>
-                              </thead>
-                              <tbody>
-                                 <tr>
-                                    <td>
-                                       <h6 class="mb-0">IGV</h6>
-                                       <small class="text-muted d-block">Impuesto General a las Ventas</small>
-                                    </td>
-                                    <td>18.00 %</td>
-                                    <td><span class="badge text-bg-success">Activo</span></td>
-                                    <td>
-                                       <a href="#!" class="avtar avtar-xs btn-link-secondary" data-bs-toggle="modal"
-                                          data-bs-target="#modalImpuesto">
-                                          <i class="ti ti-edit f-20"></i>
-                                       </a>
-                                       <a href="#!" class="avtar avtar-xs btn-link-secondary">
-                                          <i class="ti ti-trash f-20"></i>
-                                       </a>
-                                    </td>
-                                 </tr>
+      <div class="row">
+         <div class="col-12">
+            <div class="card">
+               <div class="card-header d-flex align-items-center justify-content-between">
+                  <h5 class="mb-0">Gestión de Impuestos</h5>
+                  <div class="btn-page">
+                     <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                        data-bs-target="#modalImpuesto">
+                        Añadir Impuesto +
+                     </button>
+                  </div>
+               </div>
+               <div class="card-body">
+                  <div class="table-responsive">
+                     <table class="table table-hover" id="pc-dt-simple">
+                        <thead>
+                           <tr>
+                              <th>Nombre del Impuesto</th>
+                              <th>Porcentaje (%)</th>
+                              <th>Estado</th>
+                              <th>Acciones</th>
+                           </tr>
+                        </thead>
+                        <tbody>
+                           <tr>
+                              <td>
+                                 <h6 class="mb-0">IGV</h6>
+                                 <small class="text-muted d-block">Impuesto General a las Ventas</small>
+                              </td>
+                              <td>18.00 %</td>
+                              <td><span class="badge text-bg-success">Activo</span></td>
+                              <td>
+                                 <a href="#!" class="avtar avtar-xs btn-link-secondary" data-bs-toggle="modal"
+                                    data-bs-target="#modalImpuesto">
+                                    <i class="ti ti-edit f-20"></i>
+                                 </a>
+                                 <a href="#!" class="avtar avtar-xs btn-link-secondary">
+                                    <i class="ti ti-trash f-20"></i>
+                                 </a>
+                              </td>
+                           </tr>
 
-                                 <tr>
-                                    <td>
-                                       <h6 class="mb-0">Exonerado</h6>
-                                       <small class="text-muted d-block">Tasa 0%</small>
-                                    </td>
-                                    <td>0.00 %</td>
-                                    <td><span class="badge text-bg-success">Activo</span></td>
-                                    <td>
-                                       <a href="#!" class="avtar avtar-xs btn-link-secondary" data-bs-toggle="modal"
-                                          data-bs-target="#modalImpuesto">
-                                          <i class="ti ti-edit f-20"></i>
-                                       </a>
-                                       <a href="#!" class="avtar avtar-xs btn-link-secondary">
-                                          <i class="ti ti-trash f-20"></i>
-                                       </a>
-                                    </td>
-                                 </tr>
+                           <tr>
+                              <td>
+                                 <h6 class="mb-0">Exonerado</h6>
+                                 <small class="text-muted d-block">Tasa 0%</small>
+                              </td>
+                              <td>0.00 %</td>
+                              <td><span class="badge text-bg-success">Activo</span></td>
+                              <td>
+                                 <a href="#!" class="avtar avtar-xs btn-link-secondary" data-bs-toggle="modal"
+                                    data-bs-target="#modalImpuesto">
+                                    <i class="ti ti-edit f-20"></i>
+                                 </a>
+                                 <a href="#!" class="avtar avtar-xs btn-link-secondary">
+                                    <i class="ti ti-trash f-20"></i>
+                                 </a>
+                              </td>
+                           </tr>
 
-                                 <tr>
-                                    <td>
-                                       <h6 class="mb-0">Percepción</h6>
-                                       <small class="text-muted d-block">Régimen anterior</small>
-                                    </td>
-                                    <td>2.00 %</td>
-                                    <td><span class="badge text-bg-secondary">Inactivo</span></td>
-                                    <td>
-                                       <a href="#!" class="avtar avtar-xs btn-link-secondary" data-bs-toggle="modal"
-                                          data-bs-target="#modalImpuesto">
-                                          <i class="ti ti-edit f-20"></i>
-                                       </a>
-                                       <a href="#!" class="avtar avtar-xs btn-link-secondary">
-                                          <i class="ti ti-trash f-20"></i>
-                                       </a>
-                                    </td>
-                                 </tr>
+                           <tr>
+                              <td>
+                                 <h6 class="mb-0">Percepción</h6>
+                                 <small class="text-muted d-block">Régimen anterior</small>
+                              </td>
+                              <td>2.00 %</td>
+                              <td><span class="badge text-bg-secondary">Inactivo</span></td>
+                              <td>
+                                 <a href="#!" class="avtar avtar-xs btn-link-secondary" data-bs-toggle="modal"
+                                    data-bs-target="#modalImpuesto">
+                                    <i class="ti ti-edit f-20"></i>
+                                 </a>
+                                 <a href="#!" class="avtar avtar-xs btn-link-secondary">
+                                    <i class="ti ti-trash f-20"></i>
+                                 </a>
+                              </td>
+                           </tr>
 
-                              </tbody>
-                           </table>
-                        </div>
-                     </div>
+                        </tbody>
+                     </table>
                   </div>
                </div>
             </div>
-
-            <div class="modal fade" id="modalImpuesto" tabindex="-1" aria-labelledby="modalImpuestoLabel"
-               aria-hidden="true">
-               <div class="modal-dialog modal-dialog-centered">
-                  <div class="modal-content">
-                     <div class="modal-header">
-                        <h5 class="modal-title" id="modalImpuestoLabel">Añadir/Editar Impuesto</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                     </div>
-                     <form class="needs-validation" novalidate>
-                        <div class="modal-body">
-                           <div class="mb-3">
-                              <label for="impuestoNombre" class="form-label">Nombre del Impuesto</label>
-                              <input type="text" class="form-control" id="impuestoNombre" placeholder="Ej: IGV"
-                                 required>
-                              <div class="invalid-feedback">
-                                 El nombre del impuesto es obligatorio.
-                              </div>
-                           </div>
-
-                           <div class="mb-3">
-                              <label for="impuestoDesc" class="form-label">Descripción corta (Opcional)</label>
-                              <input type="text" class="form-control" id="impuestoDesc"
-                                 placeholder="Ej: Impuesto General a las Ventas">
-                           </div>
-
-                           <div class="mb-3">
-                              <label for="impuestoPorcentaje" class="form-label">Porcentaje (%)</label>
-                              <input type="number" class="form-control" id="impuestoPorcentaje" placeholder="Ej: 18"
-                                 step="0.01" required min="0">
-                              <div class="invalid-feedback">
-                                 Ingrese un porcentaje válido (mayor o igual a 0).
-                              </div>
-                           </div>
-
-                           <div class="mb-3">
-                              <label class="form-label">Estado</label>
-                              <div class="form-check form-switch">
-                                 <input class="form-check-input" type="checkbox" role="switch" id="impuestoEstado"
-                                    checked>
-                                 <label class="form-check-label" for="impuestoEstado">Activo</label>
-                              </div>
-                           </div>
-                        </div>
-                        <div class="modal-footer">
-                           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                           <button type="submit" class="btn btn-primary">Guardar Cambios</button>
-                        </div>
-                     </form>
-                  </div>
-               </div>
-            </div>
-
          </div>
       </div>
+
+      <div class="modal fade" id="modalImpuesto" tabindex="-1" aria-labelledby="modalImpuestoLabel" aria-hidden="true">
+         <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+               <div class="modal-header">
+                  <h5 class="modal-title" id="modalImpuestoLabel">Añadir/Editar Impuesto</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+               </div>
+               <form class="needs-validation" novalidate>
+                  <div class="modal-body">
+                     <div class="mb-3">
+                        <label for="impuestoNombre" class="form-label">Nombre del Impuesto</label>
+                        <input type="text" class="form-control" id="impuestoNombre" placeholder="Ej: IGV" required>
+                        <div class="invalid-feedback">
+                           El nombre del impuesto es obligatorio.
+                        </div>
+                     </div>
+
+                     <div class="mb-3">
+                        <label for="impuestoDesc" class="form-label">Descripción corta (Opcional)</label>
+                        <input type="text" class="form-control" id="impuestoDesc"
+                           placeholder="Ej: Impuesto General a las Ventas">
+                     </div>
+
+                     <div class="mb-3">
+                        <label for="impuestoPorcentaje" class="form-label">Porcentaje (%)</label>
+                        <input type="number" class="form-control" id="impuestoPorcentaje" placeholder="Ej: 18"
+                           step="0.01" required min="0">
+                        <div class="invalid-feedback">
+                           Ingrese un porcentaje válido (mayor o igual a 0).
+                        </div>
+                     </div>
+
+                     <div class="mb-3">
+                        <label class="form-label">Estado</label>
+                        <div class="form-check form-switch">
+                           <input class="form-check-input" type="checkbox" role="switch" id="impuestoEstado" checked>
+                           <label class="form-check-label" for="impuestoEstado">Activo</label>
+                        </div>
+                     </div>
+                  </div>
+                  <div class="modal-footer">
+                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                     <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+                  </div>
+               </form>
+            </div>
+         </div>
+      </div>
+
       <!-- [ Main Content ] end -->
    </div>
 </div>

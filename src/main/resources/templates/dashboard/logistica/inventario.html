@@ -2,192 +2,190 @@
    <div class="pc-content" th:fragment="content">
 
       <!-- [ Main Content ] start -->
-      <div class="pc-container">
-         <div class="pc-content">
-            <div class="page-header">
-               <div class="page-block">
-                  <div class="row align-items-center">
-                     <div class="col-md-12">
-                        <div class="page-header-title">
-                           <h5 class="m-b-10">Inventario</h5>
-                        </div>
-                        <ul class="breadcrumb">
-                           <li class="breadcrumb-item"><a href="../index.html">Logística</a></li>
-                           <li class="breadcrumb-item"><a href="#!">Almacen</a></li>
-                           <li class="breadcrumb-item" aria-current="page">Inventario</li>
-                        </ul>
-                     </div>
+
+      <div class="page-header">
+         <div class="page-block">
+            <div class="row align-items-center">
+               <div class="col-md-12">
+                  <div class="page-header-title">
+                     <h5 class="m-b-10">Inventario</h5>
                   </div>
+                  <ul class="breadcrumb">
+                     <li class="breadcrumb-item"><a href="../index.html">Logística</a></li>
+                     <li class="breadcrumb-item"><a href="#!">Almacen</a></li>
+                     <li class="breadcrumb-item" aria-current="page">Inventario</li>
+                  </ul>
                </div>
             </div>
-            <div class="row">
-               <div class="col-12">
-                  <div class="card table-card">
-                     <div class="card-header d-flex align-items-center justify-content-between">
-                        <h5 class="mb-0">Control de Inventario</h5>
-                        <div class="btn-page">
-                           <button type="button" class="btn btn-warning" data-bs-toggle="modal"
-                              data-bs-target="#modalAjusteStock">
-                              <i class="ti ti-arrows-sort me-1"></i> Registrar Ajuste
-                           </button>
-                           <button type="button" class="btn btn-primary">
-                              <i class="ti ti-download me-1"></i> Exportar
-                           </button>
-                        </div>
-                     </div>
-                     <div class="card-body pt-3">
-                        <div class="table-responsive">
-                           <table class="table table-hover" id="pc-dt-simple">
-                              <thead>
-                                 <tr>
-                                    <th>Producto</th>
-                                    <th>Categoría</th>
-                                    <th>Almacén / Ubicación</th>
-                                    <th>Stock Mínimo</th>
-                                    <th>Stock Actual</th>
-                                    <th>Estado de Stock</th>
-                                    <th>Acciones</th>
-                                 </tr>
-                              </thead>
-                              <tbody>
+         </div>
+      </div>
+      <div class="row">
+         <div class="col-12">
+            <div class="card table-card">
+               <div class="card-header d-flex align-items-center justify-content-between">
+                  <h5 class="mb-0">Control de Inventario</h5>
+                  <div class="btn-page">
+                     <button type="button" class="btn btn-warning" data-bs-toggle="modal"
+                        data-bs-target="#modalAjusteStock">
+                        <i class="ti ti-arrows-sort me-1"></i> Registrar Ajuste
+                     </button>
+                     <button type="button" class="btn btn-primary">
+                        <i class="ti ti-download me-1"></i> Exportar
+                     </button>
+                  </div>
+               </div>
+               <div class="card-body pt-3">
+                  <div class="table-responsive">
+                     <table class="table table-hover" id="pc-dt-simple">
+                        <thead>
+                           <tr>
+                              <th>Producto</th>
+                              <th>Categoría</th>
+                              <th>Almacén / Ubicación</th>
+                              <th>Stock Mínimo</th>
+                              <th>Stock Actual</th>
+                              <th>Estado de Stock</th>
+                              <th>Acciones</th>
+                           </tr>
+                        </thead>
+                        <tbody>
 
-                                 <tr>
-                                    <td>
-                                       <div class="d-flex align-items-center">
-                                          <div class="flex-shrink-0">
-                                             <img src="/assets/images/user/avatar-1.jpg" alt="Castrol GTX 20W-50"
-                                                class="img-radius wid-40" />
-                                          </div>
-                                          <div class="flex-grow-1 ms-3">
-                                             <h6 class="mb-0">Castrol GTX 20W-50</h6>
-                                             <small class="text-muted d-block">SKU: LUB-0001</small>
-                                          </div>
-                                       </div>
-                                    </td>
-                                    <td><span class="badge text-bg-light">Motor</span></td>
-                                    <td>Almacén Central</td>
-                                    <td>10</td>
-                                    <td>
-                                       <h6 class="mb-0">35</h6>
-                                    </td>
-                                    <td><span class="badge text-bg-success">En Stock</span></td>
-                                    <td>
-                                       <a href="#!" class="avtar avtar-xs btn-link-secondary" data-bs-toggle="tooltip"
-                                          title="Ver Movimientos (Kardex)">
-                                          <i class="ti ti-report-analytics f-20"></i>
-                                       </a>
-                                       <a href="#!" class="avtar avtar-xs btn-link-secondary" data-bs-toggle="modal"
-                                          data-bs-target="#modalAjusteStock" title="Ajustar Stock">
-                                          <i class="ti ti-arrows-sort f-20"></i>
-                                       </a>
-                                    </td>
-                                 </tr>
+                           <tr>
+                              <td>
+                                 <div class="d-flex align-items-center">
+                                    <div class="flex-shrink-0">
+                                       <img src="/assets/images/user/avatar-1.jpg" alt="Castrol GTX 20W-50"
+                                          class="img-radius wid-40" />
+                                    </div>
+                                    <div class="flex-grow-1 ms-3">
+                                       <h6 class="mb-0">Castrol GTX 20W-50</h6>
+                                       <small class="text-muted d-block">SKU: LUB-0001</small>
+                                    </div>
+                                 </div>
+                              </td>
+                              <td><span class="badge text-bg-light">Motor</span></td>
+                              <td>Almacén Central</td>
+                              <td>10</td>
+                              <td>
+                                 <h6 class="mb-0">35</h6>
+                              </td>
+                              <td><span class="badge text-bg-success">En Stock</span></td>
+                              <td>
+                                 <a href="#!" class="avtar avtar-xs btn-link-secondary" data-bs-toggle="tooltip"
+                                    title="Ver Movimientos (Kardex)">
+                                    <i class="ti ti-report-analytics f-20"></i>
+                                 </a>
+                                 <a href="#!" class="avtar avtar-xs btn-link-secondary" data-bs-toggle="modal"
+                                    data-bs-target="#modalAjusteStock" title="Ajustar Stock">
+                                    <i class="ti ti-arrows-sort f-20"></i>
+                                 </a>
+                              </td>
+                           </tr>
 
-                                 <tr>
-                                    <td>
-                                       <div class="d-flex align-items-center">
-                                          <div class="flex-shrink-0">
-                                             <img src="/assets/images/user/avatar-1.jpg" alt="Delo 400 15W-40"
-                                                class="img-radius wid-40" />
-                                          </div>
-                                          <div class="flex-grow-1 ms-3">
-                                             <h6 class="mb-0">Delo 400 15W-40</h6>
-                                             <small class="text-muted d-block">SKU: LUB-0201</small>
-                                          </div>
-                                       </div>
-                                    </td>
-                                    <td><span class="badge text-bg-light">Diésel</span></td>
-                                    <td>Tienda Callao</td>
-                                    <td>10</td>
-                                    <td>
-                                       <h6 class="mb-0 text-warning">7</h6>
-                                    </td>
-                                    <td><span class="badge text-bg-warning">Stock Bajo</span></td>
-                                    <td>
-                                       <a href="#!" class="avtar avtar-xs btn-link-secondary" data-bs-toggle="tooltip"
-                                          title="Ver Movimientos (Kardex)">
-                                          <i class="ti ti-report-analytics f-20"></i>
-                                       </a>
-                                       <a href="#!" class="avtar avtar-xs btn-link-secondary" data-bs-toggle="modal"
-                                          data-bs-target="#modalAjusteStock" title="Ajustar Stock">
-                                          <i class="ti ti-arrows-sort f-20"></i>
-                                       </a>
-                                    </td>
-                                 </tr>
+                           <tr>
+                              <td>
+                                 <div class="d-flex align-items-center">
+                                    <div class="flex-shrink-0">
+                                       <img src="/assets/images/user/avatar-1.jpg" alt="Delo 400 15W-40"
+                                          class="img-radius wid-40" />
+                                    </div>
+                                    <div class="flex-grow-1 ms-3">
+                                       <h6 class="mb-0">Delo 400 15W-40</h6>
+                                       <small class="text-muted d-block">SKU: LUB-0201</small>
+                                    </div>
+                                 </div>
+                              </td>
+                              <td><span class="badge text-bg-light">Diésel</span></td>
+                              <td>Tienda Callao</td>
+                              <td>10</td>
+                              <td>
+                                 <h6 class="mb-0 text-warning">7</h6>
+                              </td>
+                              <td><span class="badge text-bg-warning">Stock Bajo</span></td>
+                              <td>
+                                 <a href="#!" class="avtar avtar-xs btn-link-secondary" data-bs-toggle="tooltip"
+                                    title="Ver Movimientos (Kardex)">
+                                    <i class="ti ti-report-analytics f-20"></i>
+                                 </a>
+                                 <a href="#!" class="avtar avtar-xs btn-link-secondary" data-bs-toggle="modal"
+                                    data-bs-target="#modalAjusteStock" title="Ajustar Stock">
+                                    <i class="ti ti-arrows-sort f-20"></i>
+                                 </a>
+                              </td>
+                           </tr>
 
-                                 <tr>
-                                    <td>
-                                       <div class="d-flex align-items-center">
-                                          <div class="flex-shrink-0">
-                                             <img src="/assets/images/user/avatar-1.jpg" alt="Mobil 1 0W-20"
-                                                class="img-radius wid-40" />
-                                          </div>
-                                          <div class="flex-grow-1 ms-3">
-                                             <h6 class="mb-0">Mobil 1 0W-20</h6>
-                                             <small class="text-muted d-block">SKU: LUB-0003</small>
-                                          </div>
-                                       </div>
-                                    </td>
-                                    <td><span class="badge text-bg-light">Motor</span></td>
-                                    <td>Tienda Miraflores</td>
-                                    <td>5</td>
-                                    <td>
-                                       <h6 class="mb-0 text-danger">0</h6>
-                                    </td>
-                                    <td><span class="badge text-bg-danger">Sin Stock</span></td>
-                                    <td>
-                                       <a href="#!" class="avtar avtar-xs btn-link-secondary" data-bs-toggle="tooltip"
-                                          title="Ver Movimientos (Kardex)">
-                                          <i class="ti ti-report-analytics f-20"></i>
-                                       </a>
-                                       <a href="#!" class="avtar avtar-xs btn-link-secondary" data-bs-toggle="modal"
-                                          data-bs-target="#modalAjusteStock" title="Ajustar Stock">
-                                          <i class="ti ti-arrows-sort f-20"></i>
-                                       </a>
-                                    </td>
-                                 </tr>
+                           <tr>
+                              <td>
+                                 <div class="d-flex align-items-center">
+                                    <div class="flex-shrink-0">
+                                       <img src="/assets/images/user/avatar-1.jpg" alt="Mobil 1 0W-20"
+                                          class="img-radius wid-40" />
+                                    </div>
+                                    <div class="flex-grow-1 ms-3">
+                                       <h6 class="mb-0">Mobil 1 0W-20</h6>
+                                       <small class="text-muted d-block">SKU: LUB-0003</small>
+                                    </div>
+                                 </div>
+                              </td>
+                              <td><span class="badge text-bg-light">Motor</span></td>
+                              <td>Tienda Miraflores</td>
+                              <td>5</td>
+                              <td>
+                                 <h6 class="mb-0 text-danger">0</h6>
+                              </td>
+                              <td><span class="badge text-bg-danger">Sin Stock</span></td>
+                              <td>
+                                 <a href="#!" class="avtar avtar-xs btn-link-secondary" data-bs-toggle="tooltip"
+                                    title="Ver Movimientos (Kardex)">
+                                    <i class="ti ti-report-analytics f-20"></i>
+                                 </a>
+                                 <a href="#!" class="avtar avtar-xs btn-link-secondary" data-bs-toggle="modal"
+                                    data-bs-target="#modalAjusteStock" title="Ajustar Stock">
+                                    <i class="ti ti-arrows-sort f-20"></i>
+                                 </a>
+                              </td>
+                           </tr>
 
-                                 <tr>
-                                    <td>
-                                       <div class="d-flex align-items-center">
-                                          <div class="flex-shrink-0">
-                                             <img src="/assets/images/user/avatar-1.jpg" alt="Castrol GTX 20W-50"
-                                                class="img-radius wid-40" />
-                                          </div>
-                                          <div class="flex-grow-1 ms-3">
-                                             <h6 class="mb-0">Castrol GTX 20W-50</h6>
-                                             <small class="text-muted d-block">SKU: LUB-0001</small>
-                                          </div>
-                                       </div>
-                                    </td>
-                                    <td><span class="badge text-bg-light">Motor</span></td>
-                                    <td>Tienda Miraflores</td>
-                                    <td>5</td>
-                                    <td>
-                                       <h6 class="mb-0">12</h6>
-                                    </td>
-                                    <td><span class="badge text-bg-success">En Stock</span></td>
-                                    <td>
-                                       <a href="#!" class="avtar avtar-xs btn-link-secondary" data-bs-toggle="tooltip"
-                                          title="Ver Movimientos (Kardex)">
-                                          <i class="ti ti-report-analytics f-20"></i>
-                                       </a>
-                                       <a href="#!" class="avtar avtar-xs btn-link-secondary" data-bs-toggle="modal"
-                                          data-bs-target="#modalAjusteStock" title="Ajustar Stock">
-                                          <i class="ti ti-arrows-sort f-20"></i>
-                                       </a>
-                                    </td>
-                                 </tr>
+                           <tr>
+                              <td>
+                                 <div class="d-flex align-items-center">
+                                    <div class="flex-shrink-0">
+                                       <img src="/assets/images/user/avatar-1.jpg" alt="Castrol GTX 20W-50"
+                                          class="img-radius wid-40" />
+                                    </div>
+                                    <div class="flex-grow-1 ms-3">
+                                       <h6 class="mb-0">Castrol GTX 20W-50</h6>
+                                       <small class="text-muted d-block">SKU: LUB-0001</small>
+                                    </div>
+                                 </div>
+                              </td>
+                              <td><span class="badge text-bg-light">Motor</span></td>
+                              <td>Tienda Miraflores</td>
+                              <td>5</td>
+                              <td>
+                                 <h6 class="mb-0">12</h6>
+                              </td>
+                              <td><span class="badge text-bg-success">En Stock</span></td>
+                              <td>
+                                 <a href="#!" class="avtar avtar-xs btn-link-secondary" data-bs-toggle="tooltip"
+                                    title="Ver Movimientos (Kardex)">
+                                    <i class="ti ti-report-analytics f-20"></i>
+                                 </a>
+                                 <a href="#!" class="avtar avtar-xs btn-link-secondary" data-bs-toggle="modal"
+                                    data-bs-target="#modalAjusteStock" title="Ajustar Stock">
+                                    <i class="ti ti-arrows-sort f-20"></i>
+                                 </a>
+                              </td>
+                           </tr>
 
-                              </tbody>
-                           </table>
-                        </div>
-                     </div>
+                        </tbody>
+                     </table>
                   </div>
                </div>
             </div>
          </div>
       </div>
+
       <div class="modal fade" id="modalAjusteStock" tabindex="-1" aria-labelledby="modalAjusteStockLabel"
          aria-hidden="true">
          <div class="modal-dialog modal-dialog-centered">

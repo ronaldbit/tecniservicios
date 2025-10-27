@@ -1,443 +1,427 @@
 <div class="pc-container" th:replace="~{dashboard/layout :: layout(~{::content}, ${usuario}, 'Inicio', '/dashboard')}">
   <div class="pc-content" th:fragment="content">
     <!-- [ Main Content ] start -->
-    <div class="pc-container">
-      <div class="pc-content">
-        <!-- [ breadcrumb ] start -->
-        <div class="page-header">
-          <div class="page-block">
-            <div class="row align-items-center">
-              <div class="col-md-12">
-                <ul class="breadcrumb">
-                  <li class="breadcrumb-item"><a href="../index.html">Inicio</a></li>
-                  <li class="breadcrumb-item"><a href="javascript:void(0)">Productos</a></li>
-                  <li class="breadcrumb-item" aria-current="page">Lista</li>
-                </ul>
-              </div>
-              <div class="col-md-12">
-                <div class="page-header-title">
-                  <h2 class="mb-0">Lista de productos</h2>
-                </div>
-              </div>
+    <div class="page-header">
+      <div class="page-block">
+        <div class="row align-items-center">
+          <div class="col-md-12">
+            <ul class="breadcrumb">
+              <li class="breadcrumb-item"><a href="../index.html">Inicio</a></li>
+              <li class="breadcrumb-item"><a href="javascript:void(0)">Productos</a></li>
+              <li class="breadcrumb-item" aria-current="page">Lista</li>
+            </ul>
+          </div>
+          <div class="col-md-12">
+            <div class="page-header-title">
+              <h2 class="mb-0">Lista de productos</h2>
             </div>
           </div>
         </div>
-        <!-- [ breadcrumb ] end -->
-
-
-
-
-        <!-- [ Main Content ] start -->
-        <div class="row">
-          <div class="col-12">
-            <div class="card table-card">
-              <div class="card-header d-flex align-items-center justify-content-between">
-                <h5 class="mb-0">Inventario de lubricantes</h5>
-
-                <h5 class="mb-0">Inventario de lubricantes</h5>
-
-
-                <div id="exampleModalLive" class="modal fade" tabindex="-1" role="dialog"
-                  aria-labelledby="exampleModalLiveLabel" aria-hidden="true">
-
-                  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-                    <div class="modal-content">
-
-                      <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLiveLabel">Añadir Nuevo Producto</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                      </div>
-
-                      <div class="modal-body">
-                        <form>
-                          <div class="row">
-                            <div class="col-md-8">
-
-                              <div class="mb-3">
-                                <label for="prodNombre" class="form-label">Nombre del Producto</label>
-                                <input type="text" class="form-control" id="prodNombre"
-                                  placeholder="Ej: Castrol GTX 20W-50" required>
-                              </div>
-
-                              <div class="mb-3">
-                                <label for="prodDesc" class="form-label">Descripción Corta</label>
-                                <textarea class="form-control" id="prodDesc" rows="2"
-                                  placeholder="Ej: Aceite de motor mineral"></textarea>
-                              </div>
-
-                              <div class="row">
-                                <div class="col-md-6">
-                                  <div class="mb-3">
-                                    <label for="prodSKU" class="form-label">SKU</label>
-                                    <input type="text" class="form-control" id="prodSKU" placeholder="Ej: LUB-0001">
-                                  </div>
-                                </div>
-                                <div class="col-md-6">
-                                  <div class="mb-3">
-                                    <label for="prodViscosidad" class="form-label">Viscosidad</label>
-                                    <input type="text" class="form-control" id="prodViscosidad"
-                                      placeholder="Ej: 20W-50">
-                                  </div>
-                                </div>
-                              </div>
-
-                              <div class="row">
-                                <div class="col-md-6">
-                                  <div class="mb-3">
-                                    <label for="prodCategoria" class="form-label">Categoría</label>
-                                    <select class="form-select" id="prodCategoria">
-                                      <option selected disabled>Seleccionar...</option>
-                                      <option value="1">Motor</option>
-                                      <option value="2">Transmisión</option>
-                                      <option value="3">Diésel</option>
-                                      <option value="4">Hidráulico</option>
-                                    </select>
-                                  </div>
-                                </div>
-                                <div class="col-md-6">
-                                  <div class="mb-3">
-                                    <label for="prodMarca" class="form-label">Marca</label>
-                                    <select class="form-select" id="prodMarca">
-                                      <option selected disabled>Seleccionar...</option>
-                                      <option value="1">Castrol</option>
-                                      <option value="2">Shell</option>
-                                      <option value="3">Mobil</option>
-                                      <option value="4">Total</option>
-                                      <option value="5">Valvoline</option>
-                                    </select>
-                                  </div>
-                                </div>
-                              </div>
-
-                              <div class="row">
-                                <div class="col-md-6">
-                                  <div class="mb-3">
-                                    <label for="prodPrecio" class="form-label">Precio de Venta (S/)</label>
-                                    <input type="number" class="form-control" id="prodPrecio" placeholder="Ej: 95.90"
-                                      step="0.01">
-                                  </div>
-                                </div>
-                                <div class="col-md-6">
-                                  <div class="mb-3">
-                                    <label for="prodPresentacion" class="form-label">Presentación</label>
-                                    <input type="text" class="form-control" id="prodPresentacion"
-                                      placeholder="Ej: 4 L / 1 gal">
-                                  </div>
-                                </div>
-                              </div>
-
-                              <div class="mb-3">
-                                <label for="prodStock" class="form-label">Stock Inicial</label>
-                                <input type="number" class="form-control" id="prodStock" placeholder="Ej: 50" value="0">
-                                <small class="form-text text-muted">Establece el stock inicial. Los movimientos se harán
-                                  desde "Inventario".</small>
-                              </div>
-
-                            </div>
-
-                            <div class="col-md-4">
-                              <div class="mb-3">
-                                <label class="form-label">Imagen del Producto</label>
-                                <div class="text-center">
-                                  <img src="/assets/images/user/avatar-1.jpg" alt="preview"
-                                    class="img-fluid rounded mb-2"
-                                    style="max-height: 180px; border: 1px solid #ddd; padding: 5px;">
-                                </div>
-                                <input class="form-control" type="file" id="prodImagen">
-                              </div>
-
-                              <div class="mb-3">
-                                <label class="form-label">Estado</label>
-                                <div class="form-check form-switch">
-                                  <input class="form-check-input" type="checkbox" role="switch" id="prodEstado" checked>
-                                  <label class="form-check-label" for="prodEstado">Activo / Publicado</label>
-                                </div>
-                              </div>
-
-                            </div>
-                          </div>
-                        </form>
-                      </div>
-
-                      <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                        <button type="button" class="btn btn-primary">Guardar Producto</button>
-                      </div>
-
-                    </div>
-                  </div>
-                </div>
-
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModalLive">
-                  <i class="ti ti-plus me-1"></i> Nuevo Producto
-                </button>
-
-
-
-
-
-              </div>
-              <div class="card-body pt-3">
-                <div class="table-responsive">
-                  <table class="table table-hover" id="pc-dt-simple">
-                    <thead>
-                      <tr>
-                        <th>Producto</th>
-                        <th>SKU</th>
-                        <th>Marca</th>
-                        <th>Categoría</th>
-                        <th>Viscosidad</th>
-                        <th>Presentación</th>
-                        <th>Precio</th>
-                        <th>Stock</th>
-                        <th>Estado</th>
-                        <th>Acción</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <!-- Fila 1 -->
-                      <tr>
-                        <td>
-                          <div class="d-flex align-items-center">
-                            <div class="flex-shrink-0">
-                              <img src="/assets/images/user/avatar-1.jpg" alt="Castrol GTX 20W-50"
-                                class="img-radius wid-40" />
-                            </div>
-                            <div class="flex-grow-1 ms-3">
-                              <h6 class="mb-0">Castrol GTX 20W-50</h6>
-                              <small class="text-muted d-block">Aceite de motor</small>
-                            </div>
-                          </div>
-                        </td>
-                        <td>LUB-0001</td>
-                        <td>Castrol</td>
-                        <td><span class="badge text-bg-success">Motor</span></td>
-                        <td>20W-50</td>
-                        <td>4 L</td>
-                        <td>S/ 95.90</td>
-                        <td>35 <span class="text-muted text-sm d-block">Almacén Central</span></td>
-                        <td class="text-success"><i class="fas fa-circle f-10 m-r-10"></i> Activo</td>
-                        <td>
-                          <a href="#!" class="avtar avtar-xs btn-link-secondary"><i class="ti ti-eye f-20"></i></a>
-                          <a href="#!" class="avtar avtar-xs btn-link-secondary"><i class="ti ti-edit f-20"></i></a>
-                          <a href="#!" class="avtar avtar-xs btn-link-secondary"><i class="ti ti-trash f-20"></i></a>
-                        </td>
-                      </tr>
-
-                      <!-- Fila 2 -->
-                      <tr>
-                        <td>
-                          <div class="d-flex align-items-center">
-                            <div class="flex-shrink-0">
-                              <img src="/assets/images/user/avatar-1.jpg" alt="Shell Helix Ultra 5W-40"
-                                class="img-radius wid-40" />
-                            </div>
-                            <div class="flex-grow-1 ms-3">
-                              <h6 class="mb-0">Shell Helix Ultra 5W-40</h6>
-                              <small class="text-muted d-block">Aceite sintético</small>
-                            </div>
-                          </div>
-                        </td>
-                        <td>LUB-0002</td>
-                        <td>Shell</td>
-                        <td><span class="badge text-bg-success">Motor</span></td>
-                        <td>5W-40</td>
-                        <td>4 L</td>
-                        <td>S/ 169.00</td>
-                        <td>18 <span class="text-muted text-sm d-block">Tienda Miraflores</span></td>
-                        <td class="text-success"><i class="fas fa-circle f-10 m-r-10"></i> Activo</td>
-                        <td>
-                          <a href="#!" class="avtar avtar-xs btn-link-secondary"><i class="ti ti-eye f-20"></i></a>
-                          <a href="#!" class="avtar avtar-xs btn-link-secondary"><i class="ti ti-edit f-20"></i></a>
-                          <a href="#!" class="avtar avtar-xs btn-link-secondary"><i class="ti ti-trash f-20"></i></a>
-                        </td>
-                      </tr>
-
-                      <!-- Fila 3 -->
-                      <tr>
-                        <td>
-                          <div class="d-flex align-items-center">
-                            <div class="flex-shrink-0">
-                              <img src="/assets/images/user/avatar-1.jpg" alt="Mobil 1 0W-20"
-                                class="img-radius wid-40" />
-                            </div>
-                            <div class="flex-grow-1 ms-3">
-                              <h6 class="mb-0">Mobil 1 0W-20</h6>
-                              <small class="text-muted d-block">Sintético avanzado</small>
-                            </div>
-                          </div>
-                        </td>
-                        <td>LUB-0003</td>
-                        <td>Mobil</td>
-                        <td><span class="badge text-bg-success">Motor</span></td>
-                        <td>0W-20</td>
-                        <td>1 L</td>
-                        <td>S/ 54.50</td>
-                        <td>0 <span class="text-muted text-sm d-block">Reposición 48h</span></td>
-                        <td class="text-danger"><i class="fas fa-circle f-10 m-r-10"></i> Sin stock</td>
-                        <td>
-                          <a href="#!" class="avtar avtar-xs btn-link-secondary"><i class="ti ti-eye f-20"></i></a>
-                          <a href="#!" class="avtar avtar-xs btn-link-secondary"><i class="ti ti-edit f-20"></i></a>
-                          <a href="#!" class="avtar avtar-xs btn-link-secondary"><i class="ti ti-trash f-20"></i></a>
-                        </td>
-                      </tr>
-
-                      <!-- Fila 4 -->
-                      <tr>
-                        <td>
-                          <div class="d-flex align-items-center">
-                            <div class="flex-shrink-0">
-                              <img src="/assets/images/user/avatar-1.jpg" alt="Total Quartz 9000 5W-40"
-                                class="img-radius wid-40" />
-                            </div>
-                            <div class="flex-grow-1 ms-3">
-                              <h6 class="mb-0">Total Quartz 9000 5W-40</h6>
-                              <small class="text-muted d-block">Aceite sintético</small>
-                            </div>
-                          </div>
-                        </td>
-                        <td>LUB-0004</td>
-                        <td>Total</td>
-                        <td><span class="badge text-bg-success">Motor</span></td>
-                        <td>5W-40</td>
-                        <td>4 L</td>
-                        <td>S/ 149.90</td>
-                        <td>12 <span class="text-muted text-sm d-block">Tienda Centro</span></td>
-                        <td class="text-success"><i class="fas fa-circle f-10 m-r-10"></i> Activo</td>
-                        <td>
-                          <a href="#!" class="avtar avtar-xs btn-link-secondary"><i class="ti ti-eye f-20"></i></a>
-                          <a href="#!" class="avtar avtar-xs btn-link-secondary"><i class="ti ti-edit f-20"></i></a>
-                          <a href="#!" class="avtar avtar-xs btn-link-secondary"><i class="ti ti-trash f-20"></i></a>
-                        </td>
-                      </tr>
-
-                      <!-- Fila 5 -->
-                      <tr>
-                        <td>
-                          <div class="d-flex align-items-center">
-                            <div class="flex-shrink-0">
-                              <img src="/assets/images/user/avatar-1.jpg" alt="Valvoline MaxLife 10W-40"
-                                class="img-radius wid-40" />
-                            </div>
-                            <div class="flex-grow-1 ms-3">
-                              <h6 class="mb-0">Valvoline MaxLife 10W-40</h6>
-                              <small class="text-muted d-block">Alto kilometraje</small>
-                            </div>
-                          </div>
-                        </td>
-                        <td>LUB-0005</td>
-                        <td>Valvoline</td>
-                        <td><span class="badge text-bg-success">Motor</span></td>
-                        <td>10W-40</td>
-                        <td>4 L</td>
-                        <td>S/ 119.00</td>
-                        <td>22 <span class="text-muted text-sm d-block">Almacén Central</span></td>
-                        <td class="text-success"><i class="fas fa-circle f-10 m-r-10"></i> Activo</td>
-                        <td>
-                          <a href="#!" class="avtar avtar-xs btn-link-secondary"><i class="ti ti-eye f-20"></i></a>
-                          <a href="#!" class="avtar avtar-xs btn-link-secondary"><i class="ti ti-edit f-20"></i></a>
-                          <a href="#!" class="avtar avtar-xs btn-link-secondary"><i class="ti ti-trash f-20"></i></a>
-                        </td>
-                      </tr>
-
-                      <!-- Fila 6 (Transmisión) -->
-                      <tr>
-                        <td>
-                          <div class="d-flex align-items-center">
-                            <div class="flex-shrink-0">
-                              <img src="/assets/images/user/avatar-1.jpg" alt="Gear Oil 75W-90"
-                                class="img-radius wid-40" />
-                            </div>
-                            <div class="flex-grow-1 ms-3">
-                              <h6 class="mb-0">Gear Oil 75W-90</h6>
-                              <small class="text-muted d-block">Aceite de transmisión</small>
-                            </div>
-                          </div>
-                        </td>
-                        <td>LUB-0101</td>
-                        <td>Chevron</td>
-                        <td><span class="badge text-bg-primary">Transmisión</span></td>
-                        <td>75W-90</td>
-                        <td>1 L</td>
-                        <td>S/ 59.90</td>
-                        <td>40 <span class="text-muted text-sm d-block">Tienda Surco</span></td>
-                        <td class="text-success"><i class="fas fa-circle f-10 m-r-10"></i> Activo</td>
-                        <td>
-                          <a href="#!" class="avtar avtar-xs btn-link-secondary"><i class="ti ti-eye f-20"></i></a>
-                          <a href="#!" class="avtar avtar-xs btn-link-secondary"><i class="ti ti-edit f-20"></i></a>
-                          <a href="#!" class="avtar avtar-xs btn-link-secondary"><i class="ti ti-trash f-20"></i></a>
-                        </td>
-                      </tr>
-
-                      <!-- Fila 7 (Diésel) -->
-                      <tr>
-                        <td>
-                          <div class="d-flex align-items-center">
-                            <div class="flex-shrink-0">
-                              <img src="/assets/images/user/avatar-1.jpg" alt="Delo 400 15W-40"
-                                class="img-radius wid-40" />
-                            </div>
-                            <div class="flex-grow-1 ms-3">
-                              <h6 class="mb-0">Delo 400 15W-40</h6>
-                              <small class="text-muted d-block">Motor diésel</small>
-                            </div>
-                          </div>
-                        </td>
-                        <td>LUB-0201</td>
-                        <td>Chevron</td>
-                        <td><span class="badge text-bg-warning">Diésel</span></td>
-                        <td>15W-40</td>
-                        <td>1 gal</td>
-                        <td>S/ 129.50</td>
-                        <td>7 <span class="text-muted text-sm d-block">Tienda Callao</span></td>
-                        <td class="text-success"><i class="fas fa-circle f-10 m-r-10"></i> Activo</td>
-                        <td>
-                          <a href="#!" class="avtar avtar-xs btn-link-secondary"><i class="ti ti-eye f-20"></i></a>
-                          <a href="#!" class="avtar avtar-xs btn-link-secondary"><i class="ti ti-edit f-20"></i></a>
-                          <a href="#!" class="avtar avtar-xs btn-link-secondary"><i class="ti ti-trash f-20"></i></a>
-                        </td>
-                      </tr>
-
-                      <!-- Fila 8 (Hidráulico) -->
-                      <tr>
-                        <td>
-                          <div class="d-flex align-items-center">
-                            <div class="flex-shrink-0">
-                              <img src="/assets/images/user/avatar-1.jpg" alt="Aceite Hidráulico AW-46"
-                                class="img-radius wid-40" />
-                            </div>
-                            <div class="flex-grow-1 ms-3">
-                              <h6 class="mb-0">Aceite Hidráulico AW-46</h6>
-                              <small class="text-muted d-block">Uso industrial</small>
-                            </div>
-                          </div>
-                        </td>
-                        <td>LUB-0302</td>
-                        <td>Petroperú</td>
-                        <td><span class="badge text-bg-secondary">Hidráulico</span></td>
-                        <td>AW-46</td>
-                        <td>1 gal</td>
-                        <td>S/ 89.00</td>
-                        <td>14 <span class="text-muted text-sm d-block">Almacén Central</span></td>
-                        <td class="text-success"><i class="fas fa-circle f-10 m-r-10"></i> Activo</td>
-                        <td>
-                          <a href="#!" class="avtar avtar-xs btn-link-secondary"><i class="ti ti-eye f-20"></i></a>
-                          <a href="#!" class="avtar avtar-xs btn-link-secondary"><i class="ti ti-edit f-20"></i></a>
-                          <a href="#!" class="avtar avtar-xs btn-link-secondary"><i class="ti ti-trash f-20"></i></a>
-                        </td>
-                      </tr>
-
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-
-            </div>
-          </div>
-        </div>
-        <!-- [ Main Content ] end -->
       </div>
     </div>
+    <div class="row">
+      <div class="col-12">
+        <div class="card table-card">
+          <div class="card-header d-flex align-items-center justify-content-between">
+            <h5 class="mb-0">Inventario de lubricantes</h5>
+
+            <h5 class="mb-0">Inventario de lubricantes</h5>
+
+
+            <div id="exampleModalLive" class="modal fade" tabindex="-1" role="dialog"
+              aria-labelledby="exampleModalLiveLabel" aria-hidden="true">
+
+              <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                <div class="modal-content">
+
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLiveLabel">Añadir Nuevo Producto</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+
+                  <div class="modal-body">
+                    <form>
+                      <div class="row">
+                        <div class="col-md-8">
+
+                          <div class="mb-3">
+                            <label for="prodNombre" class="form-label">Nombre del Producto</label>
+                            <input type="text" class="form-control" id="prodNombre" placeholder="Ej: Castrol GTX 20W-50"
+                              required>
+                          </div>
+
+                          <div class="mb-3">
+                            <label for="prodDesc" class="form-label">Descripción Corta</label>
+                            <textarea class="form-control" id="prodDesc" rows="2"
+                              placeholder="Ej: Aceite de motor mineral"></textarea>
+                          </div>
+
+                          <div class="row">
+                            <div class="col-md-6">
+                              <div class="mb-3">
+                                <label for="prodSKU" class="form-label">SKU</label>
+                                <input type="text" class="form-control" id="prodSKU" placeholder="Ej: LUB-0001">
+                              </div>
+                            </div>
+                            <div class="col-md-6">
+                              <div class="mb-3">
+                                <label for="prodViscosidad" class="form-label">Viscosidad</label>
+                                <input type="text" class="form-control" id="prodViscosidad" placeholder="Ej: 20W-50">
+                              </div>
+                            </div>
+                          </div>
+
+                          <div class="row">
+                            <div class="col-md-6">
+                              <div class="mb-3">
+                                <label for="prodCategoria" class="form-label">Categoría</label>
+                                <select class="form-select" id="prodCategoria">
+                                  <option selected disabled>Seleccionar...</option>
+                                  <option value="1">Motor</option>
+                                  <option value="2">Transmisión</option>
+                                  <option value="3">Diésel</option>
+                                  <option value="4">Hidráulico</option>
+                                </select>
+                              </div>
+                            </div>
+                            <div class="col-md-6">
+                              <div class="mb-3">
+                                <label for="prodMarca" class="form-label">Marca</label>
+                                <select class="form-select" id="prodMarca">
+                                  <option selected disabled>Seleccionar...</option>
+                                  <option value="1">Castrol</option>
+                                  <option value="2">Shell</option>
+                                  <option value="3">Mobil</option>
+                                  <option value="4">Total</option>
+                                  <option value="5">Valvoline</option>
+                                </select>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div class="row">
+                            <div class="col-md-6">
+                              <div class="mb-3">
+                                <label for="prodPrecio" class="form-label">Precio de Venta (S/)</label>
+                                <input type="number" class="form-control" id="prodPrecio" placeholder="Ej: 95.90"
+                                  step="0.01">
+                              </div>
+                            </div>
+                            <div class="col-md-6">
+                              <div class="mb-3">
+                                <label for="prodPresentacion" class="form-label">Presentación</label>
+                                <input type="text" class="form-control" id="prodPresentacion"
+                                  placeholder="Ej: 4 L / 1 gal">
+                              </div>
+                            </div>
+                          </div>
+
+                          <div class="mb-3">
+                            <label for="prodStock" class="form-label">Stock Inicial</label>
+                            <input type="number" class="form-control" id="prodStock" placeholder="Ej: 50" value="0">
+                            <small class="form-text text-muted">Establece el stock inicial. Los movimientos se harán
+                              desde "Inventario".</small>
+                          </div>
+
+                        </div>
+
+                        <div class="col-md-4">
+                          <div class="mb-3">
+                            <label class="form-label">Imagen del Producto</label>
+                            <div class="text-center">
+                              <img src="/assets/images/user/avatar-1.jpg" alt="preview" class="img-fluid rounded mb-2"
+                                style="max-height: 180px; border: 1px solid #ddd; padding: 5px;">
+                            </div>
+                            <input class="form-control" type="file" id="prodImagen">
+                          </div>
+
+                          <div class="mb-3">
+                            <label class="form-label">Estado</label>
+                            <div class="form-check form-switch">
+                              <input class="form-check-input" type="checkbox" role="switch" id="prodEstado" checked>
+                              <label class="form-check-label" for="prodEstado">Activo / Publicado</label>
+                            </div>
+                          </div>
+
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary">Guardar Producto</button>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModalLive">
+              <i class="ti ti-plus me-1"></i> Nuevo Producto
+            </button>
+
+
+
+
+
+          </div>
+          <div class="card-body pt-3">
+            <div class="table-responsive">
+              <table class="table table-hover" id="pc-dt-simple">
+                <thead>
+                  <tr>
+                    <th>Producto</th>
+                    <th>SKU</th>
+                    <th>Marca</th>
+                    <th>Categoría</th>
+                    <th>Viscosidad</th>
+                    <th>Presentación</th>
+                    <th>Precio</th>
+                    <th>Stock</th>
+                    <th>Estado</th>
+                    <th>Acción</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <!-- Fila 1 -->
+                  <tr>
+                    <td>
+                      <div class="d-flex align-items-center">
+                        <div class="flex-shrink-0">
+                          <img src="/assets/images/user/avatar-1.jpg" alt="Castrol GTX 20W-50"
+                            class="img-radius wid-40" />
+                        </div>
+                        <div class="flex-grow-1 ms-3">
+                          <h6 class="mb-0">Castrol GTX 20W-50</h6>
+                          <small class="text-muted d-block">Aceite de motor</small>
+                        </div>
+                      </div>
+                    </td>
+                    <td>LUB-0001</td>
+                    <td>Castrol</td>
+                    <td><span class="badge text-bg-success">Motor</span></td>
+                    <td>20W-50</td>
+                    <td>4 L</td>
+                    <td>S/ 95.90</td>
+                    <td>35 <span class="text-muted text-sm d-block">Almacén Central</span></td>
+                    <td class="text-success"><i class="fas fa-circle f-10 m-r-10"></i> Activo</td>
+                    <td>
+                      <a href="#!" class="avtar avtar-xs btn-link-secondary"><i class="ti ti-eye f-20"></i></a>
+                      <a href="#!" class="avtar avtar-xs btn-link-secondary"><i class="ti ti-edit f-20"></i></a>
+                      <a href="#!" class="avtar avtar-xs btn-link-secondary"><i class="ti ti-trash f-20"></i></a>
+                    </td>
+                  </tr>
+
+                  <!-- Fila 2 -->
+                  <tr>
+                    <td>
+                      <div class="d-flex align-items-center">
+                        <div class="flex-shrink-0">
+                          <img src="/assets/images/user/avatar-1.jpg" alt="Shell Helix Ultra 5W-40"
+                            class="img-radius wid-40" />
+                        </div>
+                        <div class="flex-grow-1 ms-3">
+                          <h6 class="mb-0">Shell Helix Ultra 5W-40</h6>
+                          <small class="text-muted d-block">Aceite sintético</small>
+                        </div>
+                      </div>
+                    </td>
+                    <td>LUB-0002</td>
+                    <td>Shell</td>
+                    <td><span class="badge text-bg-success">Motor</span></td>
+                    <td>5W-40</td>
+                    <td>4 L</td>
+                    <td>S/ 169.00</td>
+                    <td>18 <span class="text-muted text-sm d-block">Tienda Miraflores</span></td>
+                    <td class="text-success"><i class="fas fa-circle f-10 m-r-10"></i> Activo</td>
+                    <td>
+                      <a href="#!" class="avtar avtar-xs btn-link-secondary"><i class="ti ti-eye f-20"></i></a>
+                      <a href="#!" class="avtar avtar-xs btn-link-secondary"><i class="ti ti-edit f-20"></i></a>
+                      <a href="#!" class="avtar avtar-xs btn-link-secondary"><i class="ti ti-trash f-20"></i></a>
+                    </td>
+                  </tr>
+
+                  <!-- Fila 3 -->
+                  <tr>
+                    <td>
+                      <div class="d-flex align-items-center">
+                        <div class="flex-shrink-0">
+                          <img src="/assets/images/user/avatar-1.jpg" alt="Mobil 1 0W-20" class="img-radius wid-40" />
+                        </div>
+                        <div class="flex-grow-1 ms-3">
+                          <h6 class="mb-0">Mobil 1 0W-20</h6>
+                          <small class="text-muted d-block">Sintético avanzado</small>
+                        </div>
+                      </div>
+                    </td>
+                    <td>LUB-0003</td>
+                    <td>Mobil</td>
+                    <td><span class="badge text-bg-success">Motor</span></td>
+                    <td>0W-20</td>
+                    <td>1 L</td>
+                    <td>S/ 54.50</td>
+                    <td>0 <span class="text-muted text-sm d-block">Reposición 48h</span></td>
+                    <td class="text-danger"><i class="fas fa-circle f-10 m-r-10"></i> Sin stock</td>
+                    <td>
+                      <a href="#!" class="avtar avtar-xs btn-link-secondary"><i class="ti ti-eye f-20"></i></a>
+                      <a href="#!" class="avtar avtar-xs btn-link-secondary"><i class="ti ti-edit f-20"></i></a>
+                      <a href="#!" class="avtar avtar-xs btn-link-secondary"><i class="ti ti-trash f-20"></i></a>
+                    </td>
+                  </tr>
+
+                  <!-- Fila 4 -->
+                  <tr>
+                    <td>
+                      <div class="d-flex align-items-center">
+                        <div class="flex-shrink-0">
+                          <img src="/assets/images/user/avatar-1.jpg" alt="Total Quartz 9000 5W-40"
+                            class="img-radius wid-40" />
+                        </div>
+                        <div class="flex-grow-1 ms-3">
+                          <h6 class="mb-0">Total Quartz 9000 5W-40</h6>
+                          <small class="text-muted d-block">Aceite sintético</small>
+                        </div>
+                      </div>
+                    </td>
+                    <td>LUB-0004</td>
+                    <td>Total</td>
+                    <td><span class="badge text-bg-success">Motor</span></td>
+                    <td>5W-40</td>
+                    <td>4 L</td>
+                    <td>S/ 149.90</td>
+                    <td>12 <span class="text-muted text-sm d-block">Tienda Centro</span></td>
+                    <td class="text-success"><i class="fas fa-circle f-10 m-r-10"></i> Activo</td>
+                    <td>
+                      <a href="#!" class="avtar avtar-xs btn-link-secondary"><i class="ti ti-eye f-20"></i></a>
+                      <a href="#!" class="avtar avtar-xs btn-link-secondary"><i class="ti ti-edit f-20"></i></a>
+                      <a href="#!" class="avtar avtar-xs btn-link-secondary"><i class="ti ti-trash f-20"></i></a>
+                    </td>
+                  </tr>
+
+                  <!-- Fila 5 -->
+                  <tr>
+                    <td>
+                      <div class="d-flex align-items-center">
+                        <div class="flex-shrink-0">
+                          <img src="/assets/images/user/avatar-1.jpg" alt="Valvoline MaxLife 10W-40"
+                            class="img-radius wid-40" />
+                        </div>
+                        <div class="flex-grow-1 ms-3">
+                          <h6 class="mb-0">Valvoline MaxLife 10W-40</h6>
+                          <small class="text-muted d-block">Alto kilometraje</small>
+                        </div>
+                      </div>
+                    </td>
+                    <td>LUB-0005</td>
+                    <td>Valvoline</td>
+                    <td><span class="badge text-bg-success">Motor</span></td>
+                    <td>10W-40</td>
+                    <td>4 L</td>
+                    <td>S/ 119.00</td>
+                    <td>22 <span class="text-muted text-sm d-block">Almacén Central</span></td>
+                    <td class="text-success"><i class="fas fa-circle f-10 m-r-10"></i> Activo</td>
+                    <td>
+                      <a href="#!" class="avtar avtar-xs btn-link-secondary"><i class="ti ti-eye f-20"></i></a>
+                      <a href="#!" class="avtar avtar-xs btn-link-secondary"><i class="ti ti-edit f-20"></i></a>
+                      <a href="#!" class="avtar avtar-xs btn-link-secondary"><i class="ti ti-trash f-20"></i></a>
+                    </td>
+                  </tr>
+
+                  <!-- Fila 6 (Transmisión) -->
+                  <tr>
+                    <td>
+                      <div class="d-flex align-items-center">
+                        <div class="flex-shrink-0">
+                          <img src="/assets/images/user/avatar-1.jpg" alt="Gear Oil 75W-90" class="img-radius wid-40" />
+                        </div>
+                        <div class="flex-grow-1 ms-3">
+                          <h6 class="mb-0">Gear Oil 75W-90</h6>
+                          <small class="text-muted d-block">Aceite de transmisión</small>
+                        </div>
+                      </div>
+                    </td>
+                    <td>LUB-0101</td>
+                    <td>Chevron</td>
+                    <td><span class="badge text-bg-primary">Transmisión</span></td>
+                    <td>75W-90</td>
+                    <td>1 L</td>
+                    <td>S/ 59.90</td>
+                    <td>40 <span class="text-muted text-sm d-block">Tienda Surco</span></td>
+                    <td class="text-success"><i class="fas fa-circle f-10 m-r-10"></i> Activo</td>
+                    <td>
+                      <a href="#!" class="avtar avtar-xs btn-link-secondary"><i class="ti ti-eye f-20"></i></a>
+                      <a href="#!" class="avtar avtar-xs btn-link-secondary"><i class="ti ti-edit f-20"></i></a>
+                      <a href="#!" class="avtar avtar-xs btn-link-secondary"><i class="ti ti-trash f-20"></i></a>
+                    </td>
+                  </tr>
+
+                  <!-- Fila 7 (Diésel) -->
+                  <tr>
+                    <td>
+                      <div class="d-flex align-items-center">
+                        <div class="flex-shrink-0">
+                          <img src="/assets/images/user/avatar-1.jpg" alt="Delo 400 15W-40" class="img-radius wid-40" />
+                        </div>
+                        <div class="flex-grow-1 ms-3">
+                          <h6 class="mb-0">Delo 400 15W-40</h6>
+                          <small class="text-muted d-block">Motor diésel</small>
+                        </div>
+                      </div>
+                    </td>
+                    <td>LUB-0201</td>
+                    <td>Chevron</td>
+                    <td><span class="badge text-bg-warning">Diésel</span></td>
+                    <td>15W-40</td>
+                    <td>1 gal</td>
+                    <td>S/ 129.50</td>
+                    <td>7 <span class="text-muted text-sm d-block">Tienda Callao</span></td>
+                    <td class="text-success"><i class="fas fa-circle f-10 m-r-10"></i> Activo</td>
+                    <td>
+                      <a href="#!" class="avtar avtar-xs btn-link-secondary"><i class="ti ti-eye f-20"></i></a>
+                      <a href="#!" class="avtar avtar-xs btn-link-secondary"><i class="ti ti-edit f-20"></i></a>
+                      <a href="#!" class="avtar avtar-xs btn-link-secondary"><i class="ti ti-trash f-20"></i></a>
+                    </td>
+                  </tr>
+
+                  <!-- Fila 8 (Hidráulico) -->
+                  <tr>
+                    <td>
+                      <div class="d-flex align-items-center">
+                        <div class="flex-shrink-0">
+                          <img src="/assets/images/user/avatar-1.jpg" alt="Aceite Hidráulico AW-46"
+                            class="img-radius wid-40" />
+                        </div>
+                        <div class="flex-grow-1 ms-3">
+                          <h6 class="mb-0">Aceite Hidráulico AW-46</h6>
+                          <small class="text-muted d-block">Uso industrial</small>
+                        </div>
+                      </div>
+                    </td>
+                    <td>LUB-0302</td>
+                    <td>Petroperú</td>
+                    <td><span class="badge text-bg-secondary">Hidráulico</span></td>
+                    <td>AW-46</td>
+                    <td>1 gal</td>
+                    <td>S/ 89.00</td>
+                    <td>14 <span class="text-muted text-sm d-block">Almacén Central</span></td>
+                    <td class="text-success"><i class="fas fa-circle f-10 m-r-10"></i> Activo</td>
+                    <td>
+                      <a href="#!" class="avtar avtar-xs btn-link-secondary"><i class="ti ti-eye f-20"></i></a>
+                      <a href="#!" class="avtar avtar-xs btn-link-secondary"><i class="ti ti-edit f-20"></i></a>
+                      <a href="#!" class="avtar avtar-xs btn-link-secondary"><i class="ti ti-trash f-20"></i></a>
+                    </td>
+                  </tr>
+
+                </tbody>
+              </table>
+            </div>
+          </div>
+..
+        </div>
+      </div>
+    </div>
+
     <!-- [ Main Content ] end -->
   </div>
 </div>

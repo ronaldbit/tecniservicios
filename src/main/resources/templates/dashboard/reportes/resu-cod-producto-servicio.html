@@ -2,142 +2,138 @@
     <div class="pc-content" th:fragment="content">
         <!-- [ Main Content ] start -->
 
-        <div class="pc-container">
-            <div class="pc-content">
-                <div class="page-header">
-                    <div class="page-block">
-                        <div class="row align-items-center">
-                            <div class="col-md-12">
-                                <div class="page-header-title">
-                                    <h5 class="m-b-10">Reporte: Resumen por Producto/Servicio</h5>
-                                </div>
-                                <ul class="breadcrumb">
-                                    <li class="breadcrumb-item"><a href="../index.html">Reportes</a></li>
-                                    <li class="breadcrumb-item" aria-current="page">Resumen por código de
-                                        producto/servicio
-                                    </li>
-                                </ul>
-                            </div>
+        <div class="page-header">
+            <div class="page-block">
+                <div class="row align-items-center">
+                    <div class="col-md-12">
+                        <div class="page-header-title">
+                            <h5 class="m-b-10">Reporte: Resumen por Producto/Servicio</h5>
                         </div>
+                        <ul class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="../index.html">Reportes</a></li>
+                            <li class="breadcrumb-item" aria-current="page">Resumen por código de
+                                producto/servicio
+                            </li>
+                        </ul>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-12">
-                        <div class="card">
-                            <div class="card-body">
-                                <form class="row g-3 align-items-end">
-                                    <div class="col-md-3">
-                                        <label for="filtroProductoServicio" class="form-label">Producto/Servicio</label>
-                                        <input type="text" class="form-control" id="filtroProductoServicio"
-                                            placeholder="Buscar por SKU o Nombre...">
-                                    </div>
-                                    <div class="col-md-3">
-                                        <label for="filtroCategoria" class="form-label">Categoría</label>
-                                        <select id="filtroCategoria" class="form-select">
-                                            <option value="todas" selected>Todas las Categorías</option>
-                                            <option value="motor">Motor</option>
-                                            <option value="transmision">Transmisión</option>
-                                            <option value="diesel">Diésel</option>
-                                            <option value="hidraulico">Hidráulico</option>
-                                        </select>
-                                    </div>
-                                    <div class="col-md-2">
-                                        <label for="fechaInicio" class="form-label">Fecha Inicio</label>
-                                        <input type="date" class="form-control" id="fechaInicio" value="2025-10-01">
-                                    </div>
-                                    <div class="col-md-2">
-                                        <label for="fechaFin" class="form-label">Fecha Fin</label>
-                                        <input type="date" class="form-control" id="fechaFin" value="2025-10-23">
-                                    </div>
-                                    <div class="col-md-2">
-                                        <button type="submit" class="btn btn-primary w-100">
-                                            <i class="ti ti-filter me-1"></i> Filtrar
-                                        </button>
-                                    </div>
-                                </form>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <form class="row g-3 align-items-end">
+                            <div class="col-md-3">
+                                <label for="filtroProductoServicio" class="form-label">Producto/Servicio</label>
+                                <input type="text" class="form-control" id="filtroProductoServicio"
+                                    placeholder="Buscar por SKU o Nombre...">
                             </div>
+                            <div class="col-md-3">
+                                <label for="filtroCategoria" class="form-label">Categoría</label>
+                                <select id="filtroCategoria" class="form-select">
+                                    <option value="todas" selected>Todas las Categorías</option>
+                                    <option value="motor">Motor</option>
+                                    <option value="transmision">Transmisión</option>
+                                    <option value="diesel">Diésel</option>
+                                    <option value="hidraulico">Hidráulico</option>
+                                </select>
+                            </div>
+                            <div class="col-md-2">
+                                <label for="fechaInicio" class="form-label">Fecha Inicio</label>
+                                <input type="date" class="form-control" id="fechaInicio" value="2025-10-01">
+                            </div>
+                            <div class="col-md-2">
+                                <label for="fechaFin" class="form-label">Fecha Fin</label>
+                                <input type="date" class="form-control" id="fechaFin" value="2025-10-23">
+                            </div>
+                            <div class="col-md-2">
+                                <button type="submit" class="btn btn-primary w-100">
+                                    <i class="ti ti-filter me-1"></i> Filtrar
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12">
+                <div class="card table-card">
+                    <div class="card-header d-flex align-items-center justify-content-between">
+                        <h5 class="mb-0">Resumen de Ventas por Producto</h5>
+                        <div class="btn-page">
+                            <button type="button" class="btn btn-outline-secondary">
+                                <i class="ti ti-printer me-1"></i> Imprimir
+                            </button>
+                            <button type="button" class="btn btn-outline-success">
+                                <i class="ti ti-file-spreadsheet me-1"></i> Exportar Excel
+                            </button>
                         </div>
                     </div>
-
-                    <div class="col-12">
-                        <div class="card table-card">
-                            <div class="card-header d-flex align-items-center justify-content-between">
-                                <h5 class="mb-0">Resumen de Ventas por Producto</h5>
-                                <div class="btn-page">
-                                    <button type="button" class="btn btn-outline-secondary">
-                                        <i class="ti ti-printer me-1"></i> Imprimir
-                                    </button>
-                                    <button type="button" class="btn btn-outline-success">
-                                        <i class="ti ti-file-spreadsheet me-1"></i> Exportar Excel
-                                    </button>
-                                </div>
-                            </div>
-                            <div class="card-body pt-3">
-                                <div class="table-responsive">
-                                    <table class="table table-hover" id="pc-dt-simple">
-                                        <thead>
-                                            <tr>
-                                                <th>Producto</th>
-                                                <th>SKU</th>
-                                                <th>Categoría</th>
-                                                <th class="text-center">Unidades Vendidas</th>
-                                                <th class="text-end">Ingreso Total (S/)</th>
-                                                <th class="text-end">Precio Promedio (S/)</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>Castrol GTX 20W-50</td>
-                                                <td>LUB-0001</td>
-                                                <td>Motor</td>
-                                                <td class="text-center">23</td>
-                                                <td class="text-end">2,205.70</td>
-                                                <td class="text-end">95.90</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Shell Helix Ultra 5W-40</td>
-                                                <td>LUB-0002</td>
-                                                <td>Motor</td>
-                                                <td class="text-center">15</td>
-                                                <td class="text-end">2,535.00</td>
-                                                <td class="text-end">169.00</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Mobil 1 0W-20 (1L)</td>
-                                                <td>LUB-0003</td>
-                                                <td>Motor</td>
-                                                <td class="text-center">10</td>
-                                                <td class="text-end">545.00</td>
-                                                <td class="text-end">54.50</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Delo 400 15W-40</td>
-                                                <td>LUB-0201</td>
-                                                <td>Diésel</td>
-                                                <td class="text-center">12</td>
-                                                <td class="text-end">1,554.00</td>
-                                                <td class="text-end">129.50</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Gear Oil 75W-90</td>
-                                                <td>LUB-0101</td>
-                                                <td>Transmisión</td>
-                                                <td class="text-center">8</td>
-                                                <td class="text-end">479.20</td>
-                                                <td class="text-end">59.90</td>
-                                            </tr>
-                                        </tbody>
-                                        <tfoot>
-                                            <tr class="table-light fw-bold fs-5">
-                                                <td colspan="3" class="text-end">TOTALES:</td>
-                                                <td class="text-center"><strong>68</strong></td>
-                                                <td class="text-end"><strong>S/ 7,318.90</strong></td>
-                                                <td></td>
-                                            </tr>
-                                        </tfoot>
-                                    </table>
-                                </div>
-                            </div>
+                    <div class="card-body pt-3">
+                        <div class="table-responsive">
+                            <table class="table table-hover" id="pc-dt-simple">
+                                <thead>
+                                    <tr>
+                                        <th>Producto</th>
+                                        <th>SKU</th>
+                                        <th>Categoría</th>
+                                        <th class="text-center">Unidades Vendidas</th>
+                                        <th class="text-end">Ingreso Total (S/)</th>
+                                        <th class="text-end">Precio Promedio (S/)</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Castrol GTX 20W-50</td>
+                                        <td>LUB-0001</td>
+                                        <td>Motor</td>
+                                        <td class="text-center">23</td>
+                                        <td class="text-end">2,205.70</td>
+                                        <td class="text-end">95.90</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Shell Helix Ultra 5W-40</td>
+                                        <td>LUB-0002</td>
+                                        <td>Motor</td>
+                                        <td class="text-center">15</td>
+                                        <td class="text-end">2,535.00</td>
+                                        <td class="text-end">169.00</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Mobil 1 0W-20 (1L)</td>
+                                        <td>LUB-0003</td>
+                                        <td>Motor</td>
+                                        <td class="text-center">10</td>
+                                        <td class="text-end">545.00</td>
+                                        <td class="text-end">54.50</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Delo 400 15W-40</td>
+                                        <td>LUB-0201</td>
+                                        <td>Diésel</td>
+                                        <td class="text-center">12</td>
+                                        <td class="text-end">1,554.00</td>
+                                        <td class="text-end">129.50</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Gear Oil 75W-90</td>
+                                        <td>LUB-0101</td>
+                                        <td>Transmisión</td>
+                                        <td class="text-center">8</td>
+                                        <td class="text-end">479.20</td>
+                                        <td class="text-end">59.90</td>
+                                    </tr>
+                                </tbody>
+                                <tfoot>
+                                    <tr class="table-light fw-bold fs-5">
+                                        <td colspan="3" class="text-end">TOTALES:</td>
+                                        <td class="text-center"><strong>68</strong></td>
+                                        <td class="text-end"><strong>S/ 7,318.90</strong></td>
+                                        <td></td>
+                                    </tr>
+                                </tfoot>
+                            </table>
                         </div>
                     </div>
                 </div>
@@ -147,4 +143,3 @@
         <!-- [ Main Content ] end -->
     </div>
 </div>
-

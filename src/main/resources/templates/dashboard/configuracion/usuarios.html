@@ -1,230 +1,224 @@
 <div class="pc-container" th:replace="~{dashboard/layout :: layout(~{::content}, ${usuario}, 'Inicio', '/dashboard')}">
   <div class="pc-content" th:fragment="content">
     <!-- [ Main Content ] start -->
-    <div class="pc-container">
-      <div class="pc-content">
-        <!-- Breadcrumb -->
-        <div class="page-header">
-          <div class="page-block">
-            <div class="row align-items-center">
-              <div class="col-md-12">
-                <ul class="breadcrumb">
-                  <li class="breadcrumb-item"><a href="../dashboard/../index.html">Home</a></li>
-                  <li class="breadcrumb-item"><a href="#">Membership</a></li>
-                  <li class="breadcrumb-item active" aria-current="page">Membership List</li>
-                </ul>
-              </div>
-              <div class="col-md-12">
-                <div class="page-header-title">
-                  <h2 class="mb-0">Lista de usuarios</h2>
-                </div>
-              </div>
+    <!-- Breadcrumb -->
+    <div class="page-header">
+      <div class="page-block">
+        <div class="row align-items-center">
+          <div class="col-md-12">
+            <ul class="breadcrumb">
+              <li class="breadcrumb-item"><a href="../dashboard/../index.html">Home</a></li>
+              <li class="breadcrumb-item"><a href="#">Membership</a></li>
+              <li class="breadcrumb-item active" aria-current="page">Membership List</li>
+            </ul>
+          </div>
+          <div class="col-md-12">
+            <div class="page-header-title">
+              <h2 class="mb-0">Lista de usuarios</h2>
             </div>
           </div>
         </div>
-        <!-- Tabla de usuarios -->
-        <div class="row">
-          <div class="col-12">
-            <div class="card table-card">
-              <div class="card-header d-flex justify-content-between align-items-center">
-                <h5>Lista de usuarios</h5>
-                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalAgregarUsuario">
-                  <i class="ti ti-user-plus"></i> Agregar usuario
-                </button>
-              </div>
-              <div class="card-body pt-3">
-                <div class="table-responsive">
-                  <table class="table table-hover" id="pc-dt-simple">
-                    <thead>
-                      <tr>
-                        <th>Nombre</th>
-                        <th>Rol</th>
-
-                        <th>Fecha de inicio</th>
-                        <th>Estado</th>
-                        <th>Acciones</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <!-- Modales de usuario -->
-        <!-- Modal Agregar Usuario -->
-        <div class="modal fade" id="modalAgregarUsuario" tabindex="-1" aria-labelledby="modalAgregarUsuarioLabel"
-          aria-hidden="true">
-          <div class="modal-dialog modal-lg modal-dialog-centered">
-            <form class="modal-content needs-validation" novalidate>
-              <div class="modal-header">
-                <h5 class="modal-title" id="modalAgregarUsuarioLabel">Agregar Nuevo Usuario</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
-              </div>
-              <div class="modal-body">
-                <div class="row">
-                  <div class="col-md-6">
-                    <div class="mb-3">
-                      <label for="usuarioDNI" class="form-label">DNI</label>
-                      <input type="text" class="form-control" id="usuarioDNI" required pattern="[0-9]{8}" maxlength="8">
-                      <div class="invalid-feedback">
-                        Por favor, ingrese un DNI válido de 8 dígitos.
-                      </div>
-                    </div>
-
-                    <div class="mb-3">
-                      <label for="usuarioNombres" class="form-label">Nombres</label>
-                      <input type="text" class="form-control" id="usuarioNombres" required>
-                      <div class="invalid-feedback">
-                        El nombre es obligatorio.
-                      </div>
-                    </div>
-
-                    <div class="mb-3">
-                      <label for="usuarioApellidos" class="form-label">Apellidos</label>
-                      <input type="text" class="form-control" id="usuarioApellidos" required>
-                      <div class="invalid-feedback">
-                        Los apellidos son obligatorios.
-                      </div>
-                    </div>
-
-                    <div class="mb-3">
-                      <label for="usuarioTelefono" class="form-label">Número de Teléfono</label>
-                      <input type="tel" class="form-control" id="usuarioTelefono" required pattern="[0-9]{9}"
-                        maxlength="9">
-                      <div class="invalid-feedback">
-                        Ingrese un número de celular válido de 9 dígitos.
-                      </div>
-                    </div>
-
-                    <div class="mb-3">
-                      <label for="usuarioDireccion" class="form-label">Dirección (Opcional)</label>
-                      <input type="text" class="form-control" id="usuarioDireccion">
-                    </div>
-
-                    <div class="mb-3">
-                      <label for="usuarioFechaInicio" class="form-label">Fecha de inicio</label>
-                      <input type="date" class="form-control" id="usuarioFechaInicio" required>
-                      <div class="invalid-feedback">
-                        Seleccione la fecha de inicio.
-                      </div>
-                    </div>
-
-                  </div>
-
-                  <div class="col-md-6">
-                    <div class="mb-3">
-                      <label for="usuarioEmail" class="form-label">Email</label>
-                      <input type="email" class="form-control" id="usuarioEmail" required>
-                      <div class="invalid-feedback">
-                        Ingrese un correo electrónico válido.
-                      </div>
-                    </div>
-
-                    <div class="mb-3">
-                      <label for="usuarioUsername" class="form-label">Username (Para iniciar sesión)</label>
-                      <input type="text" class="form-control" id="usuarioUsername" required minlength="4">
-                      <div class="invalid-feedback">
-                        El username debe tener al menos 4 caracteres.
-                      </div>
-                    </div>
-
-                    <div class="mb-3">
-                      <label for="usuarioPassword" class="form-label">Contraseña</label>
-                      <input type="password" class="form-control" id="usuarioPassword" required minlength="6">
-                      <div class="invalid-feedback">
-                        La contraseña debe tener al menos 6 caracteres.
-                      </div>
-                    </div>
-
-                    <div class="mb-3">
-                      <label for="usuarioPasswordConfirm" class="form-label">Confirmar Contraseña</label>
-                      <input type="password" class="form-control" id="usuarioPasswordConfirm" required minlength="6">
-                      <div class="invalid-feedback" id="confirmPasswordFeedback">
-                        Las contraseñas no coinciden o son muy cortas.
-                      </div>
-                    </div>
-
-                    <div class="mb-3">
-                      <label for="usuarioRol" class="form-label">Rol (Permisos del Sistema)</label>
-                      <select class="form-select" id="usuarioRol" required>
-                        <option value="" selected disabled>Seleccione un rol...</option>
-                        <option value="Administrador">Administrador</option>
-                        <option value="Gestor inventario">Gestor de Inventario</option>
-                        <option value="Vendedor">Vendedor</option>
-                        <option value="Cajero">Cajero</option>
-                      </select>
-                      <div class="invalid-feedback">
-                        Debe seleccionar un rol.
-                      </div>
-                    </div>
-
-                    <div class="mb-3">
-                      <label for="usuarioPuesto" class="form-label">Puesto/Cargo (Opcional)</label>
-                      <input type="text" class="form-control" id="usuarioPuesto"
-                        placeholder="Ej: Vendedor Senior, Jefe de Almacén">
-                    </div>
-
-                    <div class="mb-3">
-                      <label for="usuarioEstado" class="form-label">Estado</label>
-                      <select class="form-select" id="usuarioEstado" required>
-                        <option value="Activo" selected>Activo</option>
-                        <option value="Inactivo">Inactivo</option>
-                      </select>
-                      <div class="invalid-feedback">
-                        Seleccione el estado del usuario.
-                      </div>
-                    </div>
-
-                  </div>
-                </div>
-
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                <button type="submit" class="btn btn-primary">Agregar Usuario</button>
-              </div>
-            </form>
-          </div>
-        </div>
-        <!-- Modal Detalle Usuario 1 -->
-        <div class="modal fade" id="modalDetalleUsuario" tabindex="-1" aria-labelledby="modalDetalleUsuarioLabel"
-          aria-hidden="true">
-          <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="modalDetalleUsuarioLabel">Detalles de usuario</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
-              </div>
-              <div class="modal-body">
-                <div class="d-flex align-items-center mb-3">
-                  <img id="detalleUsuarioImg" src="/assets/images/user/avatar-1.jpg" alt="Imagen usuario"
-                    class="img-radius wid-60 me-3" />
-                  <div>
-                    <h5 class="mb-0" id="detalleUsuarioNombre">—</h5>
-                    <span class="badge text-bg-secondary" id="detalleUsuarioRol">—</span>
-                  </div>
-                </div>
-                <ul class="list-group list-group-flush">
-                  <li class="list-group-item"><strong>Teléfono:</strong> <span id="detalleUsuarioTelefono">—</span></li>
-                  <li class="list-group-item"><strong>Fecha de inicio:</strong> <span id="detalleUsuarioFecha">—</span>
-                  </li>
-                  <li class="list-group-item"><strong>Estado:</strong> <span id="detalleUsuarioEstado">—</span></li>
-                </ul>
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-              </div>
-            </div>
-          </div>
-        </div>
-
-
       </div>
     </div>
+    <!-- Tabla de usuarios -->
+    <div class="row">
+      <div class="col-12">
+        <div class="card table-card">
+          <div class="card-header d-flex justify-content-between align-items-center">
+            <h5>Lista de usuarios</h5>
+            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalAgregarUsuario">
+              <i class="ti ti-user-plus"></i> Agregar usuario
+            </button>
+          </div>
+          <div class="card-body pt-3">
+            <div class="table-responsive">
+              <table class="table table-hover" id="pc-dt-simple">
+                <thead>
+                  <tr>
+                    <th>Nombre</th>
+                    <th>Rol</th>
+
+                    <th>Fecha de inicio</th>
+                    <th>Estado</th>
+                    <th>Acciones</th>
+                  </tr>
+                </thead>
+                <tbody>
+
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Modales de usuario -->
+    <!-- Modal Agregar Usuario -->
+    <div class="modal fade" id="modalAgregarUsuario" tabindex="-1" aria-labelledby="modalAgregarUsuarioLabel"
+      aria-hidden="true">
+      <div class="modal-dialog modal-lg modal-dialog-centered">
+        <form class="modal-content needs-validation" novalidate>
+          <div class="modal-header">
+            <h5 class="modal-title" id="modalAgregarUsuarioLabel">Agregar Nuevo Usuario</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+          </div>
+          <div class="modal-body">
+            <div class="row">
+              <div class="col-md-6">
+                <div class="mb-3">
+                  <label for="usuarioDNI" class="form-label">DNI</label>
+                  <input type="text" class="form-control" id="usuarioDNI" required pattern="[0-9]{8}" maxlength="8">
+                  <div class="invalid-feedback">
+                    Por favor, ingrese un DNI válido de 8 dígitos.
+                  </div>
+                </div>
+
+                <div class="mb-3">
+                  <label for="usuarioNombres" class="form-label">Nombres</label>
+                  <input type="text" class="form-control" id="usuarioNombres" required>
+                  <div class="invalid-feedback">
+                    El nombre es obligatorio.
+                  </div>
+                </div>
+
+                <div class="mb-3">
+                  <label for="usuarioApellidos" class="form-label">Apellidos</label>
+                  <input type="text" class="form-control" id="usuarioApellidos" required>
+                  <div class="invalid-feedback">
+                    Los apellidos son obligatorios.
+                  </div>
+                </div>
+
+                <div class="mb-3">
+                  <label for="usuarioTelefono" class="form-label">Número de Teléfono</label>
+                  <input type="tel" class="form-control" id="usuarioTelefono" required pattern="[0-9]{9}" maxlength="9">
+                  <div class="invalid-feedback">
+                    Ingrese un número de celular válido de 9 dígitos.
+                  </div>
+                </div>
+
+                <div class="mb-3">
+                  <label for="usuarioDireccion" class="form-label">Dirección (Opcional)</label>
+                  <input type="text" class="form-control" id="usuarioDireccion">
+                </div>
+
+                <div class="mb-3">
+                  <label for="usuarioFechaInicio" class="form-label">Fecha de inicio</label>
+                  <input type="date" class="form-control" id="usuarioFechaInicio" required>
+                  <div class="invalid-feedback">
+                    Seleccione la fecha de inicio.
+                  </div>
+                </div>
+
+              </div>
+
+              <div class="col-md-6">
+                <div class="mb-3">
+                  <label for="usuarioEmail" class="form-label">Email</label>
+                  <input type="email" class="form-control" id="usuarioEmail" required>
+                  <div class="invalid-feedback">
+                    Ingrese un correo electrónico válido.
+                  </div>
+                </div>
+
+                <div class="mb-3">
+                  <label for="usuarioUsername" class="form-label">Username (Para iniciar sesión)</label>
+                  <input type="text" class="form-control" id="usuarioUsername" required minlength="4">
+                  <div class="invalid-feedback">
+                    El username debe tener al menos 4 caracteres.
+                  </div>
+                </div>
+
+                <div class="mb-3">
+                  <label for="usuarioPassword" class="form-label">Contraseña</label>
+                  <input type="password" class="form-control" id="usuarioPassword" required minlength="6">
+                  <div class="invalid-feedback">
+                    La contraseña debe tener al menos 6 caracteres.
+                  </div>
+                </div>
+
+                <div class="mb-3">
+                  <label for="usuarioPasswordConfirm" class="form-label">Confirmar Contraseña</label>
+                  <input type="password" class="form-control" id="usuarioPasswordConfirm" required minlength="6">
+                  <div class="invalid-feedback" id="confirmPasswordFeedback">
+                    Las contraseñas no coinciden o son muy cortas.
+                  </div>
+                </div>
+
+                <div class="mb-3">
+                  <label for="usuarioRol" class="form-label">Rol (Permisos del Sistema)</label>
+                  <select class="form-select" id="usuarioRol" required>
+                    <option value="" selected disabled>Seleccione un rol...</option>
+                    <option value="Administrador">Administrador</option>
+                    <option value="Gestor inventario">Gestor de Inventario</option>
+                    <option value="Vendedor">Vendedor</option>
+                    <option value="Cajero">Cajero</option>
+                  </select>
+                  <div class="invalid-feedback">
+                    Debe seleccionar un rol.
+                  </div>
+                </div>
+
+                <div class="mb-3">
+                  <label for="usuarioPuesto" class="form-label">Puesto/Cargo (Opcional)</label>
+                  <input type="text" class="form-control" id="usuarioPuesto"
+                    placeholder="Ej: Vendedor Senior, Jefe de Almacén">
+                </div>
+
+                <div class="mb-3">
+                  <label for="usuarioEstado" class="form-label">Estado</label>
+                  <select class="form-select" id="usuarioEstado" required>
+                    <option value="Activo" selected>Activo</option>
+                    <option value="Inactivo">Inactivo</option>
+                  </select>
+                  <div class="invalid-feedback">
+                    Seleccione el estado del usuario.
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+            <button type="submit" class="btn btn-primary">Agregar Usuario</button>
+          </div>
+        </form>
+      </div>
+    </div>
+    <!-- Modal Detalle Usuario 1 -->
+    <div class="modal fade" id="modalDetalleUsuario" tabindex="-1" aria-labelledby="modalDetalleUsuarioLabel"
+      aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="modalDetalleUsuarioLabel">Detalles de usuario</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+          </div>
+          <div class="modal-body">
+            <div class="d-flex align-items-center mb-3">
+              <img id="detalleUsuarioImg" src="/assets/images/user/avatar-1.jpg" alt="Imagen usuario"
+                class="img-radius wid-60 me-3" />
+              <div>
+                <h5 class="mb-0" id="detalleUsuarioNombre">—</h5>
+                <span class="badge text-bg-secondary" id="detalleUsuarioRol">—</span>
+              </div>
+            </div>
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item"><strong>Teléfono:</strong> <span id="detalleUsuarioTelefono">—</span></li>
+              <li class="list-group-item"><strong>Fecha de inicio:</strong> <span id="detalleUsuarioFecha">—</span>
+              </li>
+              <li class="list-group-item"><strong>Estado:</strong> <span id="detalleUsuarioEstado">—</span></li>
+            </ul>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- [ Main Content ] end -->
   </div>
 </div>

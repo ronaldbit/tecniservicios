@@ -1,167 +1,165 @@
 <div class="pc-container" th:replace="~{dashboard/layout :: layout(~{::content}, ${usuario}, 'Inicio', '/dashboard')}">
    <div class="pc-content" th:fragment="content">
       <!-- [ Main Content ] start -->
-      <div class="pc-container">
-         <div class="pc-content">
-            <div class="page-header">
-               <div class="page-block">
-                  <div class="row align-items-center">
-                     <div class="col-md-12">
-                        <div class="page-header-title">
-                           <h5 class="m-b-10">Marcas</h5>
-                        </div>
-                        <ul class="breadcrumb">
-                           <li class="breadcrumb-item"><a href="../index.html">Logística</a></li>
-                           <li class="breadcrumb-item"><a href="#!">Almacen</a></li>
-                           <li class="breadcrumb-item" aria-current="page">Marcas</li>
-                        </ul>
-                     </div>
+
+      <div class="page-header">
+         <div class="page-block">
+            <div class="row align-items-center">
+               <div class="col-md-12">
+                  <div class="page-header-title">
+                     <h5 class="m-b-10">Marcas</h5>
                   </div>
+                  <ul class="breadcrumb">
+                     <li class="breadcrumb-item"><a href="../index.html">Logística</a></li>
+                     <li class="breadcrumb-item"><a href="#!">Almacen</a></li>
+                     <li class="breadcrumb-item" aria-current="page">Marcas</li>
+                  </ul>
                </div>
             </div>
-            <div class="row">
-               <div class="col-12">
-                  <div class="card table-card">
-                     <div class="card-header d-flex align-items-center justify-content-between">
-                        <h5 class="mb-0">Gestión de Marcas</h5>
-                        <div class="btn-page">
-                           <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                              data-bs-target="#modalMarca">
-                              <i class="ti ti-plus me-1"></i> Nueva Marca
-                           </button>
-                        </div>
-                     </div>
-                     <div class="card-body pt-3">
-                        <div class="table-responsive">
-                           <table class="table table-hover" id="pc-dt-simple">
-                              <thead>
-                                 <tr>
-                                    <th>Marca</th>
-                                    <th>Descripción</th>
-                                    <th>N° de Productos</th>
-                                    <th>Estado</th>
-                                    <th>Acciones</th>
-                                 </tr>
-                              </thead>
-                              <tbody>
+         </div>
+      </div>
+      <div class="row">
+         <div class="col-12">
+            <div class="card table-card">
+               <div class="card-header d-flex align-items-center justify-content-between">
+                  <h5 class="mb-0">Gestión de Marcas</h5>
+                  <div class="btn-page">
+                     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalMarca">
+                        <i class="ti ti-plus me-1"></i> Nueva Marca
+                     </button>
+                  </div>
+               </div>
+               <div class="card-body pt-3">
+                  <div class="table-responsive">
+                     <table class="table table-hover" id="pc-dt-simple">
+                        <thead>
+                           <tr>
+                              <th>Marca</th>
+                              <th>Descripción</th>
+                              <th>N° de Productos</th>
+                              <th>Estado</th>
+                              <th>Acciones</th>
+                           </tr>
+                        </thead>
+                        <tbody>
 
-                                 <tr>
-                                    <td>
-                                       <div class="d-flex align-items-center">
-                                          <div class="flex-shrink-0">
-                                             <img src="/assets/images/user/avatar-1.jpg" alt="Logo Castrol"
-                                                class="img-radius wid-40" />
-                                          </div>
-                                          <div class="flex-grow-1 ms-3">
-                                             <h6 class="mb-0">Castrol</h6>
-                                          </div>
-                                       </div>
-                                    </td>
-                                    <td>Líder en aceites sintéticos y convencionales.</td>
-                                    <td>5</td>
-                                    <td><span class="badge text-bg-success">Activo</span></td>
-                                    <td>
-                                       <a href="#!" class="avtar avtar-xs btn-link-secondary" data-bs-toggle="modal"
-                                          data-bs-target="#modalMarca" title="Editar">
-                                          <i class="ti ti-edit f-20"></i>
-                                       </a>
-                                       <a href="#!" class="avtar avtar-xs btn-link-secondary" data-bs-toggle="tooltip"
-                                          title="Eliminar">
-                                          <i class="ti ti-trash f-20"></i>
-                                       </a>
-                                    </td>
-                                 </tr>
+                           <tr>
+                              <td>
+                                 <div class="d-flex align-items-center">
+                                    <div class="flex-shrink-0">
+                                       <img src="/assets/images/user/avatar-1.jpg" alt="Logo Castrol"
+                                          class="img-radius wid-40" />
+                                    </div>
+                                    <div class="flex-grow-1 ms-3">
+                                       <h6 class="mb-0">Castrol</h6>
+                                    </div>
+                                 </div>
+                              </td>
+                              <td>Líder en aceites sintéticos y convencionales.</td>
+                              <td>5</td>
+                              <td><span class="badge text-bg-success">Activo</span></td>
+                              <td>
+                                 <a href="#!" class="avtar avtar-xs btn-link-secondary" data-bs-toggle="modal"
+                                    data-bs-target="#modalMarca" title="Editar">
+                                    <i class="ti ti-edit f-20"></i>
+                                 </a>
+                                 <a href="#!" class="avtar avtar-xs btn-link-secondary" data-bs-toggle="tooltip"
+                                    title="Eliminar">
+                                    <i class="ti ti-trash f-20"></i>
+                                 </a>
+                              </td>
+                           </tr>
 
-                                 <tr>
-                                    <td>
-                                       <div class="d-flex align-items-center">
-                                          <div class="flex-shrink-0">
-                                             <img src="/assets/images/user/avatar-1.jpg" alt="Logo Shell"
-                                                class="img-radius wid-40" />
-                                          </div>
-                                          <div class="flex-grow-1 ms-3">
-                                             <h6 class="mb-0">Shell</h6>
-                                          </div>
-                                       </div>
-                                    </td>
-                                    <td>Línea Helix y Rimula.</td>
-                                    <td>3</td>
-                                    <td><span class="badge text-bg-success">Activo</span></td>
-                                    <td>
-                                       <a href="#!" class="avtar avtar-xs btn-link-secondary" data-bs-toggle="modal"
-                                          data-bs-target="#modalMarca" title="Editar">
-                                          <i class="ti ti-edit f-20"></i>
-                                       </a>
-                                       <a href="#!" class="avtar avtar-xs btn-link-secondary" data-bs-toggle="tooltip"
-                                          title="Eliminar">
-                                          <i class="ti ti-trash f-20"></i>
-                                       </a>
-                                    </td>
-                                 </tr>
+                           <tr>
+                              <td>
+                                 <div class="d-flex align-items-center">
+                                    <div class="flex-shrink-0">
+                                       <img src="/assets/images/user/avatar-1.jpg" alt="Logo Shell"
+                                          class="img-radius wid-40" />
+                                    </div>
+                                    <div class="flex-grow-1 ms-3">
+                                       <h6 class="mb-0">Shell</h6>
+                                    </div>
+                                 </div>
+                              </td>
+                              <td>Línea Helix y Rimula.</td>
+                              <td>3</td>
+                              <td><span class="badge text-bg-success">Activo</span></td>
+                              <td>
+                                 <a href="#!" class="avtar avtar-xs btn-link-secondary" data-bs-toggle="modal"
+                                    data-bs-target="#modalMarca" title="Editar">
+                                    <i class="ti ti-edit f-20"></i>
+                                 </a>
+                                 <a href="#!" class="avtar avtar-xs btn-link-secondary" data-bs-toggle="tooltip"
+                                    title="Eliminar">
+                                    <i class="ti ti-trash f-20"></i>
+                                 </a>
+                              </td>
+                           </tr>
 
-                                 <tr>
-                                    <td>
-                                       <div class="d-flex align-items-center">
-                                          <div class="flex-shrink-0">
-                                             <img src="/assets/images/user/avatar-1.jpg" alt="Logo Mobil"
-                                                class="img-radius wid-40" />
-                                          </div>
-                                          <div class="flex-grow-1 ms-3">
-                                             <h6 class="mb-0">Mobil</h6>
-                                          </div>
-                                       </div>
-                                    </td>
-                                    <td>Línea Mobil 1.</td>
-                                    <td>2</td>
-                                    <td><span class="badge text-bg-success">Activo</span></td>
-                                    <td>
-                                       <a href="#!" class="avtar avtar-xs btn-link-secondary" data-bs-toggle="modal"
-                                          data-bs-target="#modalMarca" title="Editar">
-                                          <i class="ti ti-edit f-20"></i>
-                                       </a>
-                                       <a href="#!" class="avtar avtar-xs btn-link-secondary" data-bs-toggle="tooltip"
-                                          title="Eliminar">
-                                          <i class="ti ti-trash f-20"></i>
-                                       </a>
-                                    </td>
-                                 </tr>
+                           <tr>
+                              <td>
+                                 <div class="d-flex align-items-center">
+                                    <div class="flex-shrink-0">
+                                       <img src="/assets/images/user/avatar-1.jpg" alt="Logo Mobil"
+                                          class="img-radius wid-40" />
+                                    </div>
+                                    <div class="flex-grow-1 ms-3">
+                                       <h6 class="mb-0">Mobil</h6>
+                                    </div>
+                                 </div>
+                              </td>
+                              <td>Línea Mobil 1.</td>
+                              <td>2</td>
+                              <td><span class="badge text-bg-success">Activo</span></td>
+                              <td>
+                                 <a href="#!" class="avtar avtar-xs btn-link-secondary" data-bs-toggle="modal"
+                                    data-bs-target="#modalMarca" title="Editar">
+                                    <i class="ti ti-edit f-20"></i>
+                                 </a>
+                                 <a href="#!" class="avtar avtar-xs btn-link-secondary" data-bs-toggle="tooltip"
+                                    title="Eliminar">
+                                    <i class="ti ti-trash f-20"></i>
+                                 </a>
+                              </td>
+                           </tr>
 
-                                 <tr>
-                                    <td>
-                                       <div class="d-flex align-items-center">
-                                          <div class="flex-shrink-0">
-                                             <img src="/assets/images/user/avatar-1.jpg" alt="Logo"
-                                                class="img-radius wid-40" />
-                                          </div>
-                                          <div class="flex-grow-1 ms-3">
-                                             <h6 class="mb-0">Marca Descontinuada</h6>
-                                          </div>
-                                       </div>
-                                    </td>
-                                    <td>Ya no se trabaja con esta marca.</td>
-                                    <td>0</td>
-                                    <td><span class="badge text-bg-secondary">Inactivo</span></td>
-                                    <td>
-                                       <a href="#!" class="avtar avtar-xs btn-link-secondary" data-bs-toggle="modal"
-                                          data-bs-target="#modalMarca" title="Editar">
-                                          <i class="ti ti-edit f-20"></i>
-                                       </a>
-                                       <a href="#!" class="avtar avtar-xs btn-link-secondary" data-bs-toggle="tooltip"
-                                          title="Eliminar">
-                                          <i class="ti ti-trash f-20"></i>
-                                       </a>
-                                    </td>
-                                 </tr>
+                           <tr>
+                              <td>
+                                 <div class="d-flex align-items-center">
+                                    <div class="flex-shrink-0">
+                                       <img src="/assets/images/user/avatar-1.jpg" alt="Logo"
+                                          class="img-radius wid-40" />
+                                    </div>
+                                    <div class="flex-grow-1 ms-3">
+                                       <h6 class="mb-0">Marca Descontinuada</h6>
+                                    </div>
+                                 </div>
+                              </td>
+                              <td>Ya no se trabaja con esta marca.</td>
+                              <td>0</td>
+                              <td><span class="badge text-bg-secondary">Inactivo</span></td>
+                              <td>
+                                 <a href="#!" class="avtar avtar-xs btn-link-secondary" data-bs-toggle="modal"
+                                    data-bs-target="#modalMarca" title="Editar">
+                                    <i class="ti ti-edit f-20"></i>
+                                 </a>
+                                 <a href="#!" class="avtar avtar-xs btn-link-secondary" data-bs-toggle="tooltip"
+                                    title="Eliminar">
+                                    <i class="ti ti-trash f-20"></i>
+                                 </a>
+                              </td>
+                           </tr>
 
-                              </tbody>
-                           </table>
-                        </div>
-                     </div>
+                        </tbody>
+                     </table>
                   </div>
                </div>
             </div>
          </div>
       </div>
+
+
       <div class="modal fade" id="modalMarca" tabindex="-1" aria-labelledby="modalMarcaLabel" aria-hidden="true">
          <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
@@ -206,5 +204,3 @@
       <!-- [ Main Content ] end -->
    </div>
 </div>
-
-

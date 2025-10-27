@@ -1,213 +1,208 @@
 <div class="pc-container" th:replace="~{dashboard/layout :: layout(~{::content}, ${usuario}, 'Inicio', '/dashboard')}">
   <div class="pc-content" th:fragment="content">
     <!-- [ Main Content ] start -->
-    <div class="pc-container">
-      <div class="pc-content">
-        <div class="page-header">
-          <div class="page-block">
-            <div class="row align-items-center">
-              <div class="col-md-12">
-                <div class="page-header-title">
-                  <h5 class="m-b-10">Finanzas</h5>
-                </div>
-                <ul class="breadcrumb">
-                  <li class="breadcrumb-item">
-                    <a href="../index.html">Navegación</a>
-                  </li>
-                  <li class="breadcrumb-item"><a href="#!">Dashboard</a></li>
-                  <li class="breadcrumb-item" aria-current="page">Finanzas</li>
-                </ul>
-              </div>
+    <div class="page-header">
+      <div class="page-block">
+        <div class="row align-items-center">
+          <div class="col-md-12">
+            <div class="page-header-title">
+              <h5 class="m-b-10">Finanzas</h5>
+            </div>
+            <ul class="breadcrumb">
+              <li class="breadcrumb-item">
+                <a href="../index.html">Navegación</a>
+              </li>
+              <li class="breadcrumb-item"><a href="#!">Dashboard</a></li>
+              <li class="breadcrumb-item" aria-current="page">Finanzas</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6 col-xl-3">
+        <div class="card">
+          <div class="card-body">
+            <h6 class="mb-2 text-muted">Ingresos Totales (Mes)</h6>
+            <div class="d-flex align-items-center justify-content-between">
+              <h4 class="mb-0">S/ 52,340.50</h4>
+              <p class="text-success mb-0">
+                <i class="ti ti-arrow-up-right me-1"></i> +8.2%
+              </p>
             </div>
           </div>
         </div>
-        <div class="row">
-          <div class="col-md-6 col-xl-3">
-            <div class="card">
-              <div class="card-body">
-                <h6 class="mb-2 text-muted">Ingresos Totales (Mes)</h6>
-                <div class="d-flex align-items-center justify-content-between">
-                  <h4 class="mb-0">S/ 52,340.50</h4>
-                  <p class="text-success mb-0">
-                    <i class="ti ti-arrow-up-right me-1"></i> +8.2%
-                  </p>
-                </div>
+      </div>
+
+      <div class="col-md-6 col-xl-3">
+        <div class="card">
+          <div class="card-body">
+            <h6 class="mb-2 text-muted">Gastos Totales (Mes)</h6>
+            <div class="d-flex align-items-center justify-content-between">
+              <h4 class="mb-0">S/ 35,120.80</h4>
+              <p class="text-danger mb-0">
+                <i class="ti ti-arrow-down-right me-1"></i> +5.5%
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-6 col-xl-3">
+        <div class="card">
+          <div class="card-body">
+            <h6 class="mb-2 text-muted">Beneficio Neto (Mes)</h6>
+            <div class="d-flex align-items-center justify-content-between">
+              <h4 class="mb-0 text-success">S/ 17,219.70</h4>
+              <p class="text-success mb-0">
+                <i class="ti ti-arrow-up-right me-1"></i> +15.1%
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-6 col-xl-3">
+        <div class="card">
+          <div class="card-body">
+            <h6 class="mb-2 text-muted">Cuentas por Cobrar</h6>
+            <div class="d-flex align-items-center justify-content-between">
+              <h4 class="mb-0 text-warning">S/ 8,500.00</h4>
+              <p class="text-warning mb-0">
+                <i class="ti ti-alert-circle me-1"></i> Vencidas
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-8">
+        <div class="card">
+          <div class="card-header d-flex align-items-center justify-content-between">
+            <h5 class="mb-0">Flujo de Caja (Últimos 6 meses)</h5>
+            <div class="dropdown">
+              <a class="avtar avtar-s btn-link-secondary dropdown-toggle arrow-none" href="#" data-bs-toggle="dropdown">
+                <i class="ti ti-dots-vertical f-18"></i>
+              </a>
+              <div class="dropdown-menu dropdown-menu-end">
+                <a class="dropdown-item" href="#">Ver Reporte</a>
+                <a class="dropdown-item" href="#">Exportar</a>
               </div>
             </div>
           </div>
+          <div class="card-body">
+            <div id="cash-flow-chart" style="height: 350px"></div>
+          </div>
+        </div>
+      </div>
 
-          <div class="col-md-6 col-xl-3">
-            <div class="card">
-              <div class="card-body">
-                <h6 class="mb-2 text-muted">Gastos Totales (Mes)</h6>
-                <div class="d-flex align-items-center justify-content-between">
-                  <h4 class="mb-0">S/ 35,120.80</h4>
-                  <p class="text-danger mb-0">
-                    <i class="ti ti-arrow-down-right me-1"></i> +5.5%
-                  </p>
-                </div>
-              </div>
+      <div class="col-lg-4">
+        <div class="card">
+          <div class="card-header">
+            <h5 class="mb-0">Distribución de Gastos (Mes)</h5>
+          </div>
+          <div class="card-body">
+            <div id="expense-distribution-chart" style="height: 300px"></div>
+            <div class="text-center mt-3">
+              <p class="mb-1">
+                <i class="ti ti-circle-filled text-primary me-1"></i> Costo
+                Mercadería: 55%
+              </p>
+              <p class="mb-1">
+                <i class="ti ti-circle-filled text-info me-1"></i> Planilla:
+                20%
+              </p>
+              <p class="mb-1">
+                <i class="ti ti-circle-filled text-warning me-1"></i>
+                Alquiler/Servicios: 15%
+              </p>
+              <p class="mb-0">
+                <i class="ti ti-circle-filled text-secondary me-1"></i>
+                Marketing/Otros: 10%
+              </p>
             </div>
           </div>
+        </div>
+      </div>
 
-          <div class="col-md-6 col-xl-3">
-            <div class="card">
-              <div class="card-body">
-                <h6 class="mb-2 text-muted">Beneficio Neto (Mes)</h6>
-                <div class="d-flex align-items-center justify-content-between">
-                  <h4 class="mb-0 text-success">S/ 17,219.70</h4>
-                  <p class="text-success mb-0">
-                    <i class="ti ti-arrow-up-right me-1"></i> +15.1%
-                  </p>
-                </div>
-              </div>
-            </div>
+      <div class="col-12">
+        <div class="card table-card">
+          <div class="card-header d-flex align-items-center justify-content-between">
+            <h5 class="mb-0">Resumen Financiero Reciente</h5>
+            <button class="btn btn-sm btn-outline-primary">
+              Ver Todas las Transacciones
+            </button>
           </div>
-
-          <div class="col-md-6 col-xl-3">
-            <div class="card">
-              <div class="card-body">
-                <h6 class="mb-2 text-muted">Cuentas por Cobrar</h6>
-                <div class="d-flex align-items-center justify-content-between">
-                  <h4 class="mb-0 text-warning">S/ 8,500.00</h4>
-                  <p class="text-warning mb-0">
-                    <i class="ti ti-alert-circle me-1"></i> Vencidas
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-lg-8">
-            <div class="card">
-              <div class="card-header d-flex align-items-center justify-content-between">
-                <h5 class="mb-0">Flujo de Caja (Últimos 6 meses)</h5>
-                <div class="dropdown">
-                  <a class="avtar avtar-s btn-link-secondary dropdown-toggle arrow-none" href="#"
-                    data-bs-toggle="dropdown">
-                    <i class="ti ti-dots-vertical f-18"></i>
-                  </a>
-                  <div class="dropdown-menu dropdown-menu-end">
-                    <a class="dropdown-item" href="#">Ver Reporte</a>
-                    <a class="dropdown-item" href="#">Exportar</a>
-                  </div>
-                </div>
-              </div>
-              <div class="card-body">
-                <div id="cash-flow-chart" style="height: 350px"></div>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-lg-4">
-            <div class="card">
-              <div class="card-header">
-                <h5 class="mb-0">Distribución de Gastos (Mes)</h5>
-              </div>
-              <div class="card-body">
-                <div id="expense-distribution-chart" style="height: 300px"></div>
-                <div class="text-center mt-3">
-                  <p class="mb-1">
-                    <i class="ti ti-circle-filled text-primary me-1"></i> Costo
-                    Mercadería: 55%
-                  </p>
-                  <p class="mb-1">
-                    <i class="ti ti-circle-filled text-info me-1"></i> Planilla:
-                    20%
-                  </p>
-                  <p class="mb-1">
-                    <i class="ti ti-circle-filled text-warning me-1"></i>
-                    Alquiler/Servicios: 15%
-                  </p>
-                  <p class="mb-0">
-                    <i class="ti ti-circle-filled text-secondary me-1"></i>
-                    Marketing/Otros: 10%
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-12">
-            <div class="card table-card">
-              <div class="card-header d-flex align-items-center justify-content-between">
-                <h5 class="mb-0">Resumen Financiero Reciente</h5>
-                <button class="btn btn-sm btn-outline-primary">
-                  Ver Todas las Transacciones
-                </button>
-              </div>
-              <div class="card-body pt-3">
-                <div class="table-responsive">
-                  <table class="table table-hover">
-                    <thead>
-                      <tr>
-                        <th>Fecha</th>
-                        <th>Descripción</th>
-                        <th>Categoría</th>
-                        <th>Monto</th>
-                        <th>Estado</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <td>23/10/2025</td>
-                        <td>Venta Factura F001-0158</td>
-                        <td>
-                          <span class="badge text-bg-light">Ingreso por Venta</span>
-                        </td>
-                        <td class="text-success">+ S/ 191.80</td>
-                        <td>
-                          <span class="badge text-bg-success">Completado</span>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>22/10/2025</td>
-                        <td>Pago a Proveedor - Castrol Perú</td>
-                        <td>
-                          <span class="badge text-bg-light">Costo Mercadería</span>
-                        </td>
-                        <td class="text-danger">- S/ 2,450.00</td>
-                        <td>
-                          <span class="badge text-bg-success">Completado</span>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>21/10/2025</td>
-                        <td>Abono Crédito Cliente J. Pérez</td>
-                        <td>
-                          <span class="badge text-bg-light">Cuentas por Cobrar</span>
-                        </td>
-                        <td class="text-success">+ S/ 500.00</td>
-                        <td>
-                          <span class="badge text-bg-success">Completado</span>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>20/10/2025</td>
-                        <td>Pago de Alquiler Local Principal</td>
-                        <td>
-                          <span class="badge text-bg-light">Gastos Operativos</span>
-                        </td>
-                        <td class="text-danger">- S/ 3,500.00</td>
-                        <td>
-                          <span class="badge text-bg-success">Completado</span>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>18/10/2025</td>
-                        <td>Compra de útiles de oficina</td>
-                        <td>
-                          <span class="badge text-bg-light">Gastos Administrativos</span>
-                        </td>
-                        <td class="text-danger">- S/ 150.00</td>
-                        <td>
-                          <span class="badge text-bg-success">Completado</span>
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-              </div>
+          <div class="card-body pt-3">
+            <div class="table-responsive">
+              <table class="table table-hover">
+                <thead>
+                  <tr>
+                    <th>Fecha</th>
+                    <th>Descripción</th>
+                    <th>Categoría</th>
+                    <th>Monto</th>
+                    <th>Estado</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>23/10/2025</td>
+                    <td>Venta Factura F001-0158</td>
+                    <td>
+                      <span class="badge text-bg-light">Ingreso por Venta</span>
+                    </td>
+                    <td class="text-success">+ S/ 191.80</td>
+                    <td>
+                      <span class="badge text-bg-success">Completado</span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>22/10/2025</td>
+                    <td>Pago a Proveedor - Castrol Perú</td>
+                    <td>
+                      <span class="badge text-bg-light">Costo Mercadería</span>
+                    </td>
+                    <td class="text-danger">- S/ 2,450.00</td>
+                    <td>
+                      <span class="badge text-bg-success">Completado</span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>21/10/2025</td>
+                    <td>Abono Crédito Cliente J. Pérez</td>
+                    <td>
+                      <span class="badge text-bg-light">Cuentas por Cobrar</span>
+                    </td>
+                    <td class="text-success">+ S/ 500.00</td>
+                    <td>
+                      <span class="badge text-bg-success">Completado</span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>20/10/2025</td>
+                    <td>Pago de Alquiler Local Principal</td>
+                    <td>
+                      <span class="badge text-bg-light">Gastos Operativos</span>
+                    </td>
+                    <td class="text-danger">- S/ 3,500.00</td>
+                    <td>
+                      <span class="badge text-bg-success">Completado</span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>18/10/2025</td>
+                    <td>Compra de útiles de oficina</td>
+                    <td>
+                      <span class="badge text-bg-light">Gastos Administrativos</span>
+                    </td>
+                    <td class="text-danger">- S/ 150.00</td>
+                    <td>
+                      <span class="badge text-bg-success">Completado</span>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
           </div>
         </div>
@@ -216,6 +211,3 @@
     <!-- [ Main Content ] end -->
   </div>
 </div>
-
-
-

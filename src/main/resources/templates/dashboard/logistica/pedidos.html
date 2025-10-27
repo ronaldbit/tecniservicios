@@ -2,146 +2,142 @@
    <div class="pc-content" th:fragment="content">
       <!-- [ Main Content ] start -->
 
-
-      <div class="pc-container">
-         <div class="pc-content">
-            <div class="page-header">
-               <div class="page-block">
-                  <div class="row align-items-center">
-                     <div class="col-md-12">
-                        <div class="page-header-title">
-                           <h5 class="m-b-10">Pedidos a Proveedores</h5>
-                        </div>
-                        <ul class="breadcrumb">
-                           <li class="breadcrumb-item"><a href="../index.html">Logística</a></li>
-                           <li class="breadcrumb-item"><a href="#!">Almacen</a></li>
-                           <li class="breadcrumb-item" aria-current="page">Pedidos</li>
-                        </ul>
-                     </div>
+      <div class="page-header">
+         <div class="page-block">
+            <div class="row align-items-center">
+               <div class="col-md-12">
+                  <div class="page-header-title">
+                     <h5 class="m-b-10">Pedidos a Proveedores</h5>
                   </div>
+                  <ul class="breadcrumb">
+                     <li class="breadcrumb-item"><a href="../index.html">Logística</a></li>
+                     <li class="breadcrumb-item"><a href="#!">Almacen</a></li>
+                     <li class="breadcrumb-item" aria-current="page">Pedidos</li>
+                  </ul>
                </div>
             </div>
-            <div class="row">
-               <div class="col-12">
-                  <div class="card table-card">
-                     <div class="card-header d-flex align-items-center justify-content-between">
-                        <h5 class="mb-0">Órdenes de Compra</h5>
-                        <div class="btn-page">
-                           <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                              data-bs-target="#modalNuevoPedido">
-                              <i class="ti ti-plus me-1"></i> Nuevo Pedido
-                           </button>
-                        </div>
-                     </div>
-                     <div class="card-body pt-3">
-                        <div class="table-responsive">
-                           <table class="table table-hover" id="pc-dt-simple">
-                              <thead>
-                                 <tr>
-                                    <th>ID Pedido</th>
-                                    <th>Proveedor</th>
-                                    <th>Fecha Emisión</th>
-                                    <th>Fecha Esperada</th>
-                                    <th>Monto Total</th>
-                                    <th>Estado</th>
-                                    <th>Acciones</th>
-                                 </tr>
-                              </thead>
-                              <tbody>
+         </div>
+      </div>
+      <div class="row">
+         <div class="col-12">
+            <div class="card table-card">
+               <div class="card-header d-flex align-items-center justify-content-between">
+                  <h5 class="mb-0">Órdenes de Compra</h5>
+                  <div class="btn-page">
+                     <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                        data-bs-target="#modalNuevoPedido">
+                        <i class="ti ti-plus me-1"></i> Nuevo Pedido
+                     </button>
+                  </div>
+               </div>
+               <div class="card-body pt-3">
+                  <div class="table-responsive">
+                     <table class="table table-hover" id="pc-dt-simple">
+                        <thead>
+                           <tr>
+                              <th>ID Pedido</th>
+                              <th>Proveedor</th>
+                              <th>Fecha Emisión</th>
+                              <th>Fecha Esperada</th>
+                              <th>Monto Total</th>
+                              <th>Estado</th>
+                              <th>Acciones</th>
+                           </tr>
+                        </thead>
+                        <tbody>
 
-                                 <tr>
-                                    <td>
-                                       <h6 class="mb-0">OC-00152</h6>
-                                    </td>
-                                    <td>Distribuidora Castrol Perú S.A.</td>
-                                    <td>01/10/2025</td>
-                                    <td>10/10/2025</td>
-                                    <td>S/ 2,450.00</td>
-                                    <td><span class="badge text-bg-success">Completado</span></td>
-                                    <td>
-                                       <a href="#!" class="avtar avtar-xs btn-link-secondary" data-bs-toggle="tooltip"
-                                          title="Ver Detalle">
-                                          <i class="ti ti-eye f-20"></i>
-                                       </a>
-                                       <a href="#!" class="avtar avtar-xs btn-link-secondary" data-bs-toggle="tooltip"
-                                          title="Imprimir Orden">
-                                          <i class="ti ti-printer f-20"></i>
-                                       </a>
-                                    </td>
-                                 </tr>
+                           <tr>
+                              <td>
+                                 <h6 class="mb-0">OC-00152</h6>
+                              </td>
+                              <td>Distribuidora Castrol Perú S.A.</td>
+                              <td>01/10/2025</td>
+                              <td>10/10/2025</td>
+                              <td>S/ 2,450.00</td>
+                              <td><span class="badge text-bg-success">Completado</span></td>
+                              <td>
+                                 <a href="#!" class="avtar avtar-xs btn-link-secondary" data-bs-toggle="tooltip"
+                                    title="Ver Detalle">
+                                    <i class="ti ti-eye f-20"></i>
+                                 </a>
+                                 <a href="#!" class="avtar avtar-xs btn-link-secondary" data-bs-toggle="tooltip"
+                                    title="Imprimir Orden">
+                                    <i class="ti ti-printer f-20"></i>
+                                 </a>
+                              </td>
+                           </tr>
 
-                                 <tr>
-                                    <td>
-                                       <h6 class="mb-0">OC-00153</h6>
-                                    </td>
-                                    <td>Lubricantes Shell del Perú</td>
-                                    <td>15/10/2025</td>
-                                    <td>25/10/2025</td>
-                                    <td>S/ 1,800.00</td>
-                                    <td><span class="badge text-bg-info">Enviado</span></td>
-                                    <td>
-                                       <a href="#!" class="avtar avtar-xs btn-link-secondary" data-bs-toggle="tooltip"
-                                          title="Ver Detalle">
-                                          <i class="ti ti-eye f-20"></i>
-                                       </a>
-                                       <a href="#!" class="avtar avtar-xs btn-link-success" data-bs-toggle="tooltip"
-                                          title="Recibir Mercancía">
-                                          <i class="ti ti-truck-delivery f-20"></i>
-                                       </a>
-                                    </td>
-                                 </tr>
+                           <tr>
+                              <td>
+                                 <h6 class="mb-0">OC-00153</h6>
+                              </td>
+                              <td>Lubricantes Shell del Perú</td>
+                              <td>15/10/2025</td>
+                              <td>25/10/2025</td>
+                              <td>S/ 1,800.00</td>
+                              <td><span class="badge text-bg-info">Enviado</span></td>
+                              <td>
+                                 <a href="#!" class="avtar avtar-xs btn-link-secondary" data-bs-toggle="tooltip"
+                                    title="Ver Detalle">
+                                    <i class="ti ti-eye f-20"></i>
+                                 </a>
+                                 <a href="#!" class="avtar avtar-xs btn-link-success" data-bs-toggle="tooltip"
+                                    title="Recibir Mercancía">
+                                    <i class="ti ti-truck-delivery f-20"></i>
+                                 </a>
+                              </td>
+                           </tr>
 
-                                 <tr>
-                                    <td>
-                                       <h6 class="mb-0">OC-00151</h6>
-                                    </td>
-                                    <td>Importaciones Mobil</td>
-                                    <td>28/09/2025</td>
-                                    <td>05/10/2025</td>
-                                    <td>S/ 3,200.00</td>
-                                    <td><span class="badge text-bg-warning">Parcialmente Recibido</span></td>
-                                    <td>
-                                       <a href="#!" class="avtar avtar-xs btn-link-secondary" data-bs-toggle="tooltip"
-                                          title="Ver Detalle">
-                                          <i class="ti ti-eye f-20"></i>
-                                       </a>
-                                       <a href="#!" class="avtar avtar-xs btn-link-success" data-bs-toggle="tooltip"
-                                          title="Recibir Mercancía">
-                                          <i class="ti ti-truck-delivery f-20"></i>
-                                       </a>
-                                    </td>
-                                 </tr>
+                           <tr>
+                              <td>
+                                 <h6 class="mb-0">OC-00151</h6>
+                              </td>
+                              <td>Importaciones Mobil</td>
+                              <td>28/09/2025</td>
+                              <td>05/10/2025</td>
+                              <td>S/ 3,200.00</td>
+                              <td><span class="badge text-bg-warning">Parcialmente Recibido</span></td>
+                              <td>
+                                 <a href="#!" class="avtar avtar-xs btn-link-secondary" data-bs-toggle="tooltip"
+                                    title="Ver Detalle">
+                                    <i class="ti ti-eye f-20"></i>
+                                 </a>
+                                 <a href="#!" class="avtar avtar-xs btn-link-success" data-bs-toggle="tooltip"
+                                    title="Recibir Mercancía">
+                                    <i class="ti ti-truck-delivery f-20"></i>
+                                 </a>
+                              </td>
+                           </tr>
 
-                                 <tr>
-                                    <td>
-                                       <h6 class="mb-0">OC-00154</h6>
-                                    </td>
-                                    <td>(Sin Proveedor)</td>
-                                    <td>23/10/2025</td>
-                                    <td>--</td>
-                                    <td>S/ 0.00</td>
-                                    <td><span class="badge text-bg-secondary">Borrador</span></td>
-                                    <td>
-                                       <a href="#!" class="avtar avtar-xs btn-link-secondary" data-bs-toggle="tooltip"
-                                          title="Editar Pedido">
-                                          <i class="ti ti-edit f-20"></i>
-                                       </a>
-                                       <a href="#!" class="avtar avtar-xs btn-link-danger" data-bs-toggle="tooltip"
-                                          title="Eliminar Borrador">
-                                          <i class="ti ti-trash f-20"></i>
-                                       </a>
-                                    </td>
-                                 </tr>
+                           <tr>
+                              <td>
+                                 <h6 class="mb-0">OC-00154</h6>
+                              </td>
+                              <td>(Sin Proveedor)</td>
+                              <td>23/10/2025</td>
+                              <td>--</td>
+                              <td>S/ 0.00</td>
+                              <td><span class="badge text-bg-secondary">Borrador</span></td>
+                              <td>
+                                 <a href="#!" class="avtar avtar-xs btn-link-secondary" data-bs-toggle="tooltip"
+                                    title="Editar Pedido">
+                                    <i class="ti ti-edit f-20"></i>
+                                 </a>
+                                 <a href="#!" class="avtar avtar-xs btn-link-danger" data-bs-toggle="tooltip"
+                                    title="Eliminar Borrador">
+                                    <i class="ti ti-trash f-20"></i>
+                                 </a>
+                              </td>
+                           </tr>
 
-                              </tbody>
-                           </table>
-                        </div>
-                     </div>
+                        </tbody>
+                     </table>
                   </div>
                </div>
             </div>
          </div>
       </div>
+
       <div class="modal fade" id="modalNuevoPedido" tabindex="-1" aria-labelledby="modalNuevoPedidoLabel"
          aria-hidden="true">
          <div class="modal-dialog modal-dialog-centered modal-lg">

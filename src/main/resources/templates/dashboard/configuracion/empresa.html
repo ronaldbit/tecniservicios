@@ -1,112 +1,101 @@
 <div class="pc-container" th:replace="~{dashboard/layout :: layout(~{::content}, ${usuario}, 'Inicio', '/dashboard')}">
    <div class="pc-content" th:fragment="content">
       <!-- [ Main Content ] start -->
-      <div class="pc-container">
-         <div class="pc-content">
-            <div class="row">
+      <div class="row">
 
-               <div class="col-lg-8">
-                  <div class="card">
-                     <div class="card-header">
-                        <h5 class="mb-0">Datos de la Empresa</h5>
-                     </div>
-                     <div class="card-body">
-                        <form>
-                           <div class="row">
-                              <div class="col-md-6">
-                                 <div class="mb-3">
-                                    <label for="razonSocial" class="form-label">Razón Social</label>
-                                    <input type="text" class="form-control" id="razonSocial"
-                                       value="TECNISERVICIOS S.A.C." required>
-                                    <small class="form-text text-muted">El nombre legal de la empresa.</small>
-                                 </div>
-                              </div>
-
-                              <div class="col-md-6">
-                                 <div class="mb-3">
-                                    <label for="ruc" class="form-label">RUC</label>
-                                    <input type="text" class="form-control" id="ruc" value="20123456789" required>
-                                    <small class="form-text text-muted">Identificador fiscal (ej. RUC en Perú).</small>
-                                 </div>
-                              </div>
-
-                              <div class="col-12">
-                                 <div class="mb-3">
-                                    <label for="direccion" class="form-label">Dirección Fiscal</label>
-                                    <input type="text" class="form-control" id="direccion"
-                                       value="Av. Siempre Viva 123, Chiclayo, Perú">
-                                    <small class="form-text text-muted">Esta dirección aparecerá en las facturas y
-                                       boletas.</small>
-                                 </div>
-                              </div>
-
-                              <div class="col-md-6">
-                                 <div class="mb-3">
-                                    <label for="telefono" class="form-label">Teléfono</label>
-                                    <input type="tel" class="form-control" id="telefono" value="+51 987 654 321">
-                                 </div>
-                              </div>
-
-                              <div class="col-md-6">
-                                 <div class="mb-3">
-                                    <label for="email" class="form-label">Email de Contacto</label>
-                                    <input type="email" class="form-control" id="email"
-                                       value="ventas@tecniservicios.com">
-                                    <small class="form-text text-muted">Email público de la empresa.</small>
-                                 </div>
-                              </div>
-
-                              <div class="col-md-6">
-                                 <div class="mb-3">
-                                    <label for="moneda" class="form-label">Moneda por Defecto</label>
-                                    <select class="form-select" id="moneda">
-                                       <option value="PEN">Soles (PEN)</option>
-                                       <option value="USD">Dólares (USD)</option>
-                                    </select>
-                                 </div>
-                              </div>
-
-                              <div class="col-12 text-end mt-3">
-                                 <button type="submit" class="btn btn-primary">Guardar Cambios</button>
-                              </div>
+         <div class="col-lg-8">
+            <div class="card">
+               <div class="card-header">
+                  <h5 class="mb-0">Datos de la Empresa</h5>
+               </div>
+               <div class="card-body">
+                  <form>
+                     <div class="row">
+                        <div class="col-md-6">
+                           <div class="mb-3">
+                              <label for="razonSocial" class="form-label">Razón Social</label>
+                              <input type="text" class="form-control" id="razonSocial" value="TECNISERVICIOS S.A.C."
+                                 required>
+                              <small class="form-text text-muted">El nombre legal de la empresa.</small>
                            </div>
-                        </form>
-                     </div>
-                  </div>
-               </div>
-
-               <div class="col-lg-4">
-                  <div class="card">
-                     <div class="card-header">
-                        <h5 class="mb-0">Logo de la Empresa</h5>
-                     </div>
-                     <div class="card-body text-center">
-                        <p class="text-muted">Este logo aparecerá en el login y en los reportes PDF.</p>
-
-                        <div class="mb-3">
-                           <img src="/assets/images/logo-dark.png" alt="Logo Actual" class="img-fluid rounded"
-                              style="max-height: 150px; border: 1px solid #ddd; padding: 10px;">
                         </div>
 
-                        <div class="mb-3">
-                           <label for="logoFile" class="form-label">Subir nuevo logo</label>
-                           <input class="form-control" type="file" id="logoFile">
+                        <div class="col-md-6">
+                           <div class="mb-3">
+                              <label for="ruc" class="form-label">RUC</label>
+                              <input type="text" class="form-control" id="ruc" value="20123456789" required>
+                              <small class="form-text text-muted">Identificador fiscal (ej. RUC en Perú).</small>
+                           </div>
                         </div>
 
-                        <button type="button" class="btn btn-outline-primary btn-sm">Actualizar Logo</button>
-                     </div>
-                  </div>
-               </div>
+                        <div class="col-12">
+                           <div class="mb-3">
+                              <label for="direccion" class="form-label">Dirección Fiscal</label>
+                              <input type="text" class="form-control" id="direccion"
+                                 value="Av. Siempre Viva 123, Chiclayo, Perú">
+                              <small class="form-text text-muted">Esta dirección aparecerá en las facturas y
+                                 boletas.</small>
+                           </div>
+                        </div>
 
+                        <div class="col-md-6">
+                           <div class="mb-3">
+                              <label for="telefono" class="form-label">Teléfono</label>
+                              <input type="tel" class="form-control" id="telefono" value="+51 987 654 321">
+                           </div>
+                        </div>
+
+                        <div class="col-md-6">
+                           <div class="mb-3">
+                              <label for="email" class="form-label">Email de Contacto</label>
+                              <input type="email" class="form-control" id="email" value="ventas@tecniservicios.com">
+                              <small class="form-text text-muted">Email público de la empresa.</small>
+                           </div>
+                        </div>
+
+                        <div class="col-md-6">
+                           <div class="mb-3">
+                              <label for="moneda" class="form-label">Moneda por Defecto</label>
+                              <select class="form-select" id="moneda">
+                                 <option value="PEN">Soles (PEN)</option>
+                                 <option value="USD">Dólares (USD)</option>
+                              </select>
+                           </div>
+                        </div>
+
+                        <div class="col-12 text-end mt-3">
+                           <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+                        </div>
+                     </div>
+                  </form>
+               </div>
             </div>
-
          </div>
+
+         <div class="col-lg-4">
+            <div class="card">
+               <div class="card-header">
+                  <h5 class="mb-0">Logo de la Empresa</h5>
+               </div>
+               <div class="card-body text-center">
+                  <p class="text-muted">Este logo aparecerá en el login y en los reportes PDF.</p>
+
+                  <div class="mb-3">
+                     <img src="/assets/images/logo-dark.png" alt="Logo Actual" class="img-fluid rounded"
+                        style="max-height: 150px; border: 1px solid #ddd; padding: 10px;">
+                  </div>
+
+                  <div class="mb-3">
+                     <label for="logoFile" class="form-label">Subir nuevo logo</label>
+                     <input class="form-control" type="file" id="logoFile">
+                  </div>
+
+                  <button type="button" class="btn btn-outline-primary btn-sm">Actualizar Logo</button>
+               </div>
+            </div>
+         </div>
+
       </div>
       <!-- [ Main Content ] end -->
    </div>
 </div>
-
-
-
-
-
