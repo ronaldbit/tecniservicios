@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import com.example.simplemvc.dto.RolDto;
 import com.example.simplemvc.model.Rol;
 import com.example.simplemvc.model.RolMapper;
+import com.example.simplemvc.repository.PermisoRepository;
 import com.example.simplemvc.repository.RolRepository;
 import com.example.simplemvc.request.CrearUsuarioRol;
 
@@ -18,6 +19,7 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 public class RolService {
   private final RolRepository rolRepository;
+  private final PermisoService permisoService;
   private final RolMapper rolMapper;
 
   public List<RolDto> lista() {
@@ -41,8 +43,9 @@ public class RolService {
     log.info("Actualizando rol con ID: {}", id);
     Rol rolExistente = rolRepository.findById(id)
         .orElseThrow(() -> new IllegalArgumentException("Rol no encontrado con ID: " + id));
-
-    rolExistente.setNombre(request.getNombre());
+    rolExistente.setNombre(request.getNombre());    
+    rolExistente.setDescripcion(request.getDescripcion());
+    rolExistente.setPermisos(permisoService.ActualizarPermisoRol(id, request.getPermisos()));
     Rol updated = rolRepository.save(rolExistente);
     log.info("Rol actualizado con ID: {}", id);
     return rolMapper.toDto(updated);
@@ -52,6 +55,12 @@ public class RolService {
     log.info("Creando nuevo rol");
     Rol rol = rolMapper.fromRequest(request).build();
     Rol saved = rolRepository.save(rol);
+
+    request.getPermisos().forEach(permisoRequest -> {
+      permisoRequest.setRolId(saved.getId());
+      permisoService.crearPermiso(permisoRequest);
+    });
+
     log.info("Rol creado con ID: {}", saved.getId());
     return rolMapper.toDto(saved);
   }
