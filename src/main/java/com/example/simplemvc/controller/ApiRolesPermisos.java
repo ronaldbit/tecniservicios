@@ -1,15 +1,10 @@
 package com.example.simplemvc.controller;
 
-import com.example.simplemvc.dto.PermisoDto;
-import com.example.simplemvc.dto.RolDto;
-import com.example.simplemvc.request.CrearPermisoRequest;
-import com.example.simplemvc.request.CrearUsuarioRol;
-import com.example.simplemvc.service.PermisoService;
-import com.example.simplemvc.service.RolService;
 import java.util.List;
-import lombok.RequiredArgsConstructor;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,6 +14,15 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.example.simplemvc.dto.PermisoDto;
+import com.example.simplemvc.dto.RolDto;
+import com.example.simplemvc.request.CrearPermisoRequest;
+import com.example.simplemvc.request.CrearUsuarioRol;
+import com.example.simplemvc.service.PermisoService;
+import com.example.simplemvc.service.RolService;
+
+import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping("/api/roles-permisos")
@@ -30,16 +34,19 @@ public class ApiRolesPermisos {
 
   // Gestión de roles de usuario
   @GetMapping
+  @PreAuthorize("hasRole('ADMIN')")
   public ResponseEntity<List<RolDto>> listarRoles() {
     return ResponseEntity.ok(rolService.lista());
   }
 
   @GetMapping("/{id}")
+  @PreAuthorize("hasRole('ADMIN')")
   public ResponseEntity<RolDto> obtenerRolPorId(@PathVariable Long id) {
     return ResponseEntity.ok(rolService.obtenerPorId(id));
   }
 
   @PostMapping
+  @PreAuthorize("hasRole('ADMIN')")
   public ResponseEntity<?> crearRol(@RequestBody CrearUsuarioRol request) {
     try {
       RolDto nuevoRol = rolService.crear(request);
@@ -51,6 +58,7 @@ public class ApiRolesPermisos {
   }
 
   @PutMapping("/{id}")
+  @PreAuthorize("hasRole('ADMIN')")
   public ResponseEntity<?> actualizarRol(
       @PathVariable Long id, @RequestBody CrearUsuarioRol request) {
     try {
@@ -63,6 +71,7 @@ public class ApiRolesPermisos {
   }
 
   @DeleteMapping("/{id}")
+  @PreAuthorize("hasRole('ADMIN')")
   @ResponseStatus(HttpStatus.NO_CONTENT)
   public ResponseEntity<?> eliminarRol(@PathVariable Long id) {
     try {
@@ -76,11 +85,13 @@ public class ApiRolesPermisos {
 
   // Gestion de permisos solamente
   @GetMapping("/{rolId}/permisos")
+  @PreAuthorize("hasRole('ADMIN')")
   public ResponseEntity<List<PermisoDto>> obtenerPermisosPorRolId(@PathVariable Long rolId) {
     return ResponseEntity.ok(permisoService.obtenerPermisosPorRolId(rolId));
   }
 
   @PostMapping("/{rolId}/permisos")
+  @PreAuthorize("hasRole('ADMIN')")
   public ResponseEntity<Void> crearPermisoParaRol(
       @PathVariable Long rolId, @RequestBody CrearPermisoRequest request) {
     request.setRolId(rolId);
@@ -89,6 +100,7 @@ public class ApiRolesPermisos {
   }
 
   @PutMapping("/permisos/{permisoId}")
+  @PreAuthorize("hasRole('ADMIN')")
   @ResponseStatus(HttpStatus.NO_CONTENT)
   public void actualizarPermiso(
       @PathVariable Long permisoId, @RequestBody CrearPermisoRequest request) {
@@ -96,6 +108,7 @@ public class ApiRolesPermisos {
   }
 
   @DeleteMapping("/permisos/{permisoId}")
+  @PreAuthorize("hasRole('ADMIN')")
   @ResponseStatus(HttpStatus.NO_CONTENT)
   public void eliminarPermiso(@PathVariable Long permisoId) {
     permisoService.eliminarPermiso(permisoId);
