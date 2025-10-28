@@ -56,10 +56,10 @@
         </div>
       </div>
       <ul class="pc-navbar">
-        <li class="pc-item pc-caption">
+        <li class="pc-item pc-caption" th:hidden="${hideNavegacion ?: true}">
           <label data-i18n="Navegación">Navegación</label>
         </li>
-        <li class="pc-item pc-hasmenu">
+        <li class="pc-item pc-hasmenu" th:hidden="${hideNavegacion ?: true}">
           <a href="#!" class="pc-link">
             <span class="pc-micon">
               <svg class="pc-icon">
@@ -95,14 +95,14 @@
           </ul>
         </li>
         <!-- VENTAS -->
-        <li class="pc-item pc-caption">
+        <li class="pc-item pc-caption" th:hidden="${hideVentas ?: true}">
           <label data-i18n="Ventas">Gestion de ventas</label>
           <svg class="pc-icon">
             <use xlink:href="#custom-bill"></use>
           </svg>
         </li>
 
-        <li class="pc-item pc-hasmenu">
+        <li class="pc-item pc-hasmenu" th:hidden="${hideVentas ?: true}">
           <a href="#!" class="pc-link">
             <span class="pc-micon">
               <svg class="pc-icon">
@@ -149,13 +149,13 @@
         </li>
 
         <!-- Logística -->
-        <li class="pc-item pc-caption">
-          <label data-i18n="Logística">Logística</label>
+        <li class="pc-item pc-caption" th:hidden="${hideLogística ?: true}">
+          <label data-i18n="Logistica">Logística</label>
           <svg class="pc-icon">
             <use xlink:href="#custom-box-1"></use>
           </svg>
         </li>
-        <li class="pc-item pc-hasmenu">
+        <li class="pc-item pc-hasmenu" th:hidden="${hideLogística ?: true}">
           <a href="#!" class="pc-link">
             <span class="pc-micon">
               <svg class="pc-icon">
@@ -217,13 +217,13 @@
           </ul>
         </li>
         <!--.. REPORTES -->
-        <li class="pc-item pc-caption">
+        <li class="pc-item pc-caption" th:hidden="${hideReportes ?: true}">
           <label data-i18n="Reportes">Reportes</label>
           <svg class="pc-icon">
             <use xlink:href="#custom-presentation-chart"></use>
           </svg>
         </li>
-        <li class="pc-item pc-hasmenu">
+        <li class="pc-item pc-hasmenu" th:hidden="${hideReportes ?: true}">
           <a href="#!" class="pc-link">
             <span class="pc-micon">
               <svg class="pc-icon">
@@ -336,13 +336,13 @@
         </li>
 
         <!-- CONFIGURACIÓN -->
-        <li class="pc-item pc-caption">
+        <li class="pc-item pc-caption" th:hidden="${hideAjustes ?: true}">
           <label data-i18n="Ajustes">Ajustes</label>
           <svg class="pc-icon">
             <use xlink:href="#custom-setting-2"></use>
           </svg>
         </li>
-        <li class="pc-item pc-hasmenu">
+        <li class="pc-item pc-hasmenu" th:hidden="${hideAjustes ?: true}">
           <a href="#!" class="pc-link">
             <span class="pc-micon">
               <svg class="pc-icon">

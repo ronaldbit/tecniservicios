@@ -32,3 +32,9 @@ VALUES
 INSERT INTO `usuario_rol` (`usuario_id`, `rol_id`)
 VALUES
     (1, 1);
+
+INSERT INTO `permiso` (`id`,`nombre`, `path`, `rol_id`)
+VALUES
+    (1, 'Ventas', '/dashboard/ventas/**', 1),
+    (2, 'Logistica', '/dashboard/logistica/**', 1),
+    (3, 'Reportes', '/dashboard/reportes/**', 1);

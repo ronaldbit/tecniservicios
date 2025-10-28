@@ -104,6 +104,13 @@ public class DynamicRouterController {
     UsuarioDto usuarioDto = usuarioMapper.toDto(usuario);
     model.addAttribute("usuario", usuarioDto);
 
+    usuario.getRoles().stream()
+        .flatMap(rol -> rol.getPermisos().stream())
+        .forEach(permiso -> {
+          System.out.println("Permiso: " + permiso.getNombre());
+          model.addAttribute("hide" + permiso.getNombre(), false);
+        });
+
     return null;
   }
 
