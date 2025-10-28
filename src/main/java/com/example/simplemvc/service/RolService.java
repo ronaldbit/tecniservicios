@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 import com.example.simplemvc.dto.RolDto;
 import com.example.simplemvc.model.Rol;
 import com.example.simplemvc.model.RolMapper;
-import com.example.simplemvc.repository.PermisoRepository;
 import com.example.simplemvc.repository.RolRepository;
 import com.example.simplemvc.request.CrearUsuarioRol;
 

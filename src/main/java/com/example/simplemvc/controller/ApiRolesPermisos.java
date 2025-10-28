@@ -43,21 +43,38 @@ public class ApiRolesPermisos {
   }
 
   @PostMapping
-  public ResponseEntity<RolDto> crearRol(@RequestBody CrearUsuarioRol request) {
-    RolDto nuevoRol = rolService.crear(request);
-    return new ResponseEntity<>(nuevoRol, HttpStatus.CREATED);
+  public ResponseEntity<?> crearRol(@RequestBody CrearUsuarioRol request) {
+    try {
+      RolDto nuevoRol = rolService.crear(request);
+      return new ResponseEntity<>(nuevoRol, HttpStatus.CREATED);
+    } catch (Exception e) {
+      String errorMessage = "EL NOMBRE DE ROL YA ESTA EN USO";
+      return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorMessage);
+    }
+
   }
 
   @PutMapping("/{id}")
-  public ResponseEntity<RolDto> actualizarRol(@PathVariable Long id, @RequestBody CrearUsuarioRol request) {
-    RolDto rolActualizado = rolService.actualizar(id, request);
-    return ResponseEntity.ok(rolActualizado);
+  public ResponseEntity<?> actualizarRol(@PathVariable Long id, @RequestBody CrearUsuarioRol request) {
+    try {
+      RolDto rolActualizado = rolService.actualizar(id, request);
+      return ResponseEntity.ok(rolActualizado);
+    } catch (Exception e) {
+      String errorMessage = "EL NOMBRE DE ROL YA ESTA EN USO";
+      return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorMessage);
+    }
   }
 
   @DeleteMapping("/{id}")
   @ResponseStatus(HttpStatus.NO_CONTENT)
-  public void eliminarRol(@PathVariable Long id) {
-    rolService.eliminarPorId(id);
+  public ResponseEntity<?> eliminarRol(@PathVariable Long id) {
+    try {
+      rolService.eliminarPorId(id);
+      return ResponseEntity.noContent().build();
+    } catch (Exception e) {
+      String errorMessage = "NO SE PUEDE ELIMINAR EL ROL PORQUE ESTA SIENDO USADO POR USUARIOS";
+      return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorMessage);
+    }
   }
 
   // Gestion de permisos solamente
@@ -79,7 +96,6 @@ public class ApiRolesPermisos {
   public void actualizarPermiso(
       @PathVariable Long permisoId,
       @RequestBody CrearPermisoRequest request) {
-
     permisoService.actualizarPermiso(permisoId, request);
   }
 
