@@ -1,3 +1,7 @@
+apiperu:
+  base-url: ${API_PERU_URL:https://apiperu.dev/api}
+  token: ${API_PERU_TOKEN:}
+
 spring:
   config:
     import:
@@ -17,7 +21,7 @@ spring:
 
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://${DB_HOST}:${DB_PORT}/${DB_NAME}?useSSL=false&serverTimezone=America/Lima
+    url: jdbc:mysql://${DB_HOST}:${DB_PORT}/${DB_NAME}?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=America/Lima
     username: ${DB_USERNAME}
     password: ${DB_PASSWORD}
 
@@ -25,7 +29,7 @@ spring:
     show-sql: true
     open-in-view: false
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: update
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQL8Dialect

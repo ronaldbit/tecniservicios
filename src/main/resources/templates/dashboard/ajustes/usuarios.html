@@ -119,19 +119,13 @@
           <div class="modal-body">
             <div class="row">
               <div class="col-md-6">
-                <div class="mb-3">
-                  <label for="usuarioDNI" class="form-label">DNI</label>
-                  <input
-                    type="text"
-                    class="form-control"
-                    id="usuarioDNI"
-                    required
-                    pattern="[0-9]{8}"
-                    maxlength="8"
-                  />
-                  <div class="invalid-feedback">
-                    Por favor, ingrese un DNI válido de 8 dígitos.
+                <div class="mb-3 d-flex" style="gap:8px; align-items: end;">
+                  <div style="flex:1">
+                    <label for="usuarioDNI" class="form-label">DNI</label>
+                    <input type="text" class="form-control" id="usuarioDNI" required pattern="[0-9]{8}" maxlength="8"/>
+                    <div class="invalid-feedback">Por favor, ingrese un DNI válido de 8 dígitos.</div>
                   </div>
+                  <button type="button" class="btn btn-outline-primary" id="btnBuscarDNI">Buscar</button>
                 </div>
 
                 <div class="mb-3">
@@ -391,3 +385,34 @@
     <!-- [ Main Content ] end -->
   </div>
 </div>
+
+<script>
+(function(){
+  const byId = id => document.getElementById(id);
+  const dniInput = byId('usuarioDNI');
+  const nombres = byId('usuarioNombres');
+  const apellidos = byId('usuarioApellidos');
+
+  async function fetchJSON(url){
+    const r = await fetch(url, {headers:{'Accept':'application/json'}});
+    if(!r.ok) throw new Error('HTTP '+r.status);
+    return r.json();
+  }
+
+  document.getElementById('btnBuscarDNI')?.addEventListener('click', async ()=>{
+    const dni = (dniInput.value||'').trim();
+    if(!/^\d{8}$/.test(dni)){ alert('DNI inválido.'); return; }
+    try{
+      const res = await fetchJSON('/api/consulta/dni?num='+dni);
+      if(!res.success || !res.data){ alert(res.message || 'No encontrado'); return; }
+      const d = res.data;
+      nombres.value = (d.nombres||'').trim();
+      apellidos.value = [d.apellido_paterno||'', d.apellido_materno||''].filter(Boolean).join(' ').trim();
+      // opcional: autocompletar username/email si deseas
+      // byId('usuarioUsername').value = (d.nombres||'').split(' ')[0].toLowerCase()+dni.slice(-3);
+    }catch(e){
+      alert('Error consultando DNI'); 
+    }
+  });
+})();
+</script>
