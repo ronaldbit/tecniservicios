@@ -1,14 +1,12 @@
 package com.example.simplemvc.service;
 
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Service;
-
 import com.example.simplemvc.dto.JwtDto;
 import com.example.simplemvc.model.Usuario;
 import com.example.simplemvc.request.LoginUsuarioRequest;
-
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
 
 @Slf4j
 @Service
@@ -33,9 +31,10 @@ public class AuthService {
     } catch (Exception ignored) {
     }
 
-    Usuario usuario = usuarioService
-        .obtenerEntidadPorNombreUsuario(request.getNombreUsuario())
-        .orElseThrow(() -> new IllegalArgumentException("Usuario no encontrado"));
+    Usuario usuario =
+        usuarioService
+            .obtenerEntidadPorNombreUsuario(request.getNombreUsuario())
+            .orElseThrow(() -> new IllegalArgumentException("Usuario no encontrado"));
 
     if (!passwordEncoder.matches(request.getPassword(), usuario.getPassword())) {
       log.error(

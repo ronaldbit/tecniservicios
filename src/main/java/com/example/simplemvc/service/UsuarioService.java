@@ -1,13 +1,5 @@
 package com.example.simplemvc.service;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
-
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Service;
-
 import com.example.simplemvc.dto.UsuarioDto;
 import com.example.simplemvc.model.Persona;
 import com.example.simplemvc.model.Rol;
@@ -18,10 +10,15 @@ import com.example.simplemvc.model.enums.EstadoEntidad;
 import com.example.simplemvc.repository.RolRepository;
 import com.example.simplemvc.repository.UsuarioRepository;
 import com.example.simplemvc.request.CrearUsuarioRequest;
-
 import jakarta.transaction.Transactional;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
 
 @Slf4j
 @Service
@@ -47,20 +44,20 @@ public class UsuarioService {
   public Optional<Usuario> obtenerEntidadPorId(Long id) {
     log.info("Obteniendo entidad de usuario con ID: {}", id);
 
-    return usuarioRepository
-        .findById(id);
+    return usuarioRepository.findById(id);
   }
 
   public UsuarioDto obtenerPorId(Long id) {
     log.info("Obteniendo usuario con ID: {}", id);
 
-    Usuario usuario = usuarioRepository
-        .findById(id)
-        .orElseThrow(
-            () -> {
-              log.error("Usuario con ID {} no encontrado.", id);
-              return new IllegalArgumentException("Usuario no encontrado.");
-            });
+    Usuario usuario =
+        usuarioRepository
+            .findById(id)
+            .orElseThrow(
+                () -> {
+                  log.error("Usuario con ID {} no encontrado.", id);
+                  return new IllegalArgumentException("Usuario no encontrado.");
+                });
 
     return usuarioMapper.toDto(usuario);
   }
@@ -69,15 +66,18 @@ public class UsuarioService {
   public UsuarioDto crear(CrearUsuarioRequest request) {
     log.info("Creando usuario");
 
-    Persona persona = personaService
-        .obtenerEntidadPorId(request.getPersonaId())
-        .orElseThrow(() -> new IllegalArgumentException("La persona asociada no existe."));
+    Persona persona =
+        personaService
+            .obtenerEntidadPorId(request.getPersonaId())
+            .orElseThrow(() -> new IllegalArgumentException("La persona asociada no existe."));
 
-    Sucursal sucursal = sucursalService
-        .obtenerEntidadPorId(request.getSucursalId())
-        .orElseThrow(() -> new IllegalArgumentException("La sucursal asociada no existe."));
+    Sucursal sucursal =
+        sucursalService
+            .obtenerEntidadPorId(request.getSucursalId())
+            .orElseThrow(() -> new IllegalArgumentException("La sucursal asociada no existe."));
 
-    Optional<Usuario> prevUsuario = usuarioRepository.findByNombreUsuario(request.getNombreUsuario());
+    Optional<Usuario> prevUsuario =
+        usuarioRepository.findByNombreUsuario(request.getNombreUsuario());
 
     if (prevUsuario.isPresent() && prevUsuario.get().getEstado() == EstadoEntidad.ACTIVO) {
       log.error(
@@ -105,21 +105,23 @@ public class UsuarioService {
       return usuarioMapper.toDto(usuarioEliminado);
     }
 
-    Rol rol = rolRepository
-        .findByNombre("CLIENTE")
-        .orElseThrow(
-            () -> {
-              log.error("No se puede crear el usuario. El rol CLIENTE no existe.");
-              return new IllegalArgumentException("El rol especificado no existe.");
-            });
+    Rol rol =
+        rolRepository
+            .findByNombre("CLIENTE")
+            .orElseThrow(
+                () -> {
+                  log.error("No se puede crear el usuario. El rol CLIENTE no existe.");
+                  return new IllegalArgumentException("El rol especificado no existe.");
+                });
 
-    Usuario usuario = usuarioMapper
-        .fromRequest(request)
-        .persona(persona)
-        .sucursal(sucursal)
-        .roles(Arrays.asList(rol))
-        .password(passwordEncoder.encode(request.getPassword()))
-        .build();
+    Usuario usuario =
+        usuarioMapper
+            .fromRequest(request)
+            .persona(persona)
+            .sucursal(sucursal)
+            .roles(Arrays.asList(rol))
+            .password(passwordEncoder.encode(request.getPassword()))
+            .build();
 
     usuario = usuarioRepository.save(usuario);
 
@@ -130,13 +132,14 @@ public class UsuarioService {
   public UsuarioDto actualizar(Long id, CrearUsuarioRequest request) {
     log.info("Actualizando usuario con ID: {}", id);
 
-    Usuario usuario = usuarioRepository
-        .findById(id)
-        .orElseThrow(
-            () -> {
-              log.error("Usuario con ID {} no encontrado.", id);
-              return new IllegalArgumentException("Usuario no encontrado.");
-            });
+    Usuario usuario =
+        usuarioRepository
+            .findById(id)
+            .orElseThrow(
+                () -> {
+                  log.error("Usuario con ID {} no encontrado.", id);
+                  return new IllegalArgumentException("Usuario no encontrado.");
+                });
 
     usuario.setNombreUsuario(request.getNombreUsuario());
     usuario.setPassword(passwordEncoder.encode(request.getPassword()));

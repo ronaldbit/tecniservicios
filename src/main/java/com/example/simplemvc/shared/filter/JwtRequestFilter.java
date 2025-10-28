@@ -1,7 +1,15 @@
 package com.example.simplemvc.shared.filter;
 
+import com.example.simplemvc.model.Usuario;
+import com.example.simplemvc.service.JwtAuthenticationService;
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
-
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.lang.NonNull;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -9,17 +17,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
-
-import com.example.simplemvc.model.Usuario;
-import com.example.simplemvc.service.JwtAuthenticationService;
-
-import jakarta.servlet.FilterChain;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.http.Cookie;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Component
@@ -75,8 +72,8 @@ public class JwtRequestFilter extends OncePerRequestFilter {
     }
 
     log.debug("Jwt válido recibido en la solicitud a {}.", request.getRequestURI());
-    UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(usuario, null,
-        usuario.getAuthorities());
+    UsernamePasswordAuthenticationToken authenticationToken =
+        new UsernamePasswordAuthenticationToken(usuario, null, usuario.getAuthorities());
 
     SecurityContextHolder.getContext().setAuthentication(authenticationToken);
 

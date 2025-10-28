@@ -1,9 +1,16 @@
 package com.example.simplemvc.controller;
 
+import com.example.simplemvc.model.Usuario;
+import com.example.simplemvc.model.UsuarioMapper;
+import com.example.simplemvc.service.GetActualUsuarioService;
+import com.example.simplemvc.service.JwtAuthenticationService;
+import com.ronaldbit.Mopla;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
@@ -14,30 +21,16 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.example.simplemvc.model.Usuario;
-import com.example.simplemvc.model.UsuarioMapper;
-import com.example.simplemvc.service.GetActualUsuarioService;
-import com.example.simplemvc.service.JwtAuthenticationService;
-import com.ronaldbit.Mopla;
-
-import jakarta.servlet.http.Cookie;
-import jakarta.servlet.http.HttpServletRequest;
-import lombok.AllArgsConstructor;
-
 @Controller
 @AllArgsConstructor
 public class DynamicRouterController {
-  @Autowired
-  private final JwtAuthenticationService jwtAuthenticationService;
+  @Autowired private final JwtAuthenticationService jwtAuthenticationService;
 
-  @Autowired
-  private final ResourceLoader loader;
+  @Autowired private final ResourceLoader loader;
 
-  @Autowired
-  private final UsuarioMapper usuarioMapper;
+  @Autowired private final UsuarioMapper usuarioMapper;
 
-  @Autowired
-  private final GetActualUsuarioService getActualUsuarioService;
+  @Autowired private final GetActualUsuarioService getActualUsuarioService;
 
   @GetMapping("/")
   @ResponseBody
@@ -51,7 +44,8 @@ public class DynamicRouterController {
     return mopla.render("index.html", vars);
   }
 
-  @RequestMapping(value = "/{path:^(?!assets|assets_shop|api|captcha|favicon\\.ico$|webjars$).*}/**")
+  @RequestMapping(
+      value = "/{path:^(?!assets|assets_shop|api|captcha|favicon\\.ico$|webjars$).*}/**")
   public String dynamic(@PathVariable String path, HttpServletRequest request, Model model) {
     String requestURI = request.getRequestURI();
 

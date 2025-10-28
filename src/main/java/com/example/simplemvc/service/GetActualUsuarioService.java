@@ -1,10 +1,8 @@
 package com.example.simplemvc.service;
 
-import org.springframework.stereotype.Service;
-
 import com.example.simplemvc.model.Usuario;
-
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
