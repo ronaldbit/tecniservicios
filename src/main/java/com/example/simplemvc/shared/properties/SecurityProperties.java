@@ -1,14 +1,11 @@
 package com.example.simplemvc.shared.properties;
 
-import java.util.List;
-
-import org.springframework.boot.context.properties.ConfigurationProperties;
-
 import com.example.simplemvc.shared.annotation.Properties;
 import com.example.simplemvc.shared.config.Route;
-
+import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 
 @Getter
 @Setter

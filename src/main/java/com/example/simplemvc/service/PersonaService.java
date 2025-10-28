@@ -1,20 +1,17 @@
 package com.example.simplemvc.service;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
-
-import org.springframework.stereotype.Service;
-
 import com.example.simplemvc.dto.PersonaDto;
 import com.example.simplemvc.model.Persona;
 import com.example.simplemvc.model.PersonaMapper;
 import com.example.simplemvc.model.TipoDocumento;
 import com.example.simplemvc.repository.PersonaRepository;
 import com.example.simplemvc.request.CrearPersonaRequest;
-
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
 
 @Slf4j
 @Service
@@ -32,16 +29,23 @@ public class PersonaService {
 
   public PersonaDto obtenerPorId(Long id) {
     log.info("Obteniendo persona con ID: {}", id);
-    Persona persona = personaRepository.findById(id)
-        .orElseThrow(() -> new IllegalArgumentException("Persona no encontrada con ID: " + id));
+    Persona persona =
+        personaRepository
+            .findById(id)
+            .orElseThrow(() -> new IllegalArgumentException("Persona no encontrada con ID: " + id));
 
     return personaMapper.toDto(persona);
   }
 
   public PersonaDto crear(CrearPersonaRequest request) {
     log.info("Creando nueva persona");
-    TipoDocumento tipoDocumentoDto = tipoDocumentoService.obtenerEntidadPorId(request.getTipoDocumentoId()).orElseThrow(
-        () -> new IllegalArgumentException("Tipo de documento no encontrado con ID: " + request.getTipoDocumentoId()));
+    TipoDocumento tipoDocumentoDto =
+        tipoDocumentoService
+            .obtenerEntidadPorId(request.getTipoDocumentoId())
+            .orElseThrow(
+                () ->
+                    new IllegalArgumentException(
+                        "Tipo de documento no encontrado con ID: " + request.getTipoDocumentoId()));
 
     Persona persona = personaMapper.fromRequest(request).tipoDocumento(tipoDocumentoDto).build();
     Persona saved = personaRepository.save(persona);
@@ -63,8 +67,10 @@ public class PersonaService {
   public PersonaDto actualizar(Long id, CrearPersonaRequest request) {
     log.info("Actualizando persona con ID: {}", id);
 
-    Persona personaExistente = personaRepository.findById(id)
-        .orElseThrow(() -> new IllegalArgumentException("Persona no encontrada con ID: " + id));
+    Persona personaExistente =
+        personaRepository
+            .findById(id)
+            .orElseThrow(() -> new IllegalArgumentException("Persona no encontrada con ID: " + id));
 
     Persona.PersonaBuilder personaBuilder = personaMapper.fromRequest(request);
     Persona personaActualizada = personaBuilder.id(personaExistente.getId()).build();
@@ -74,5 +80,4 @@ public class PersonaService {
     log.info("Persona actualizada con ID: {}", personaActualizada.getId());
     return personaMapper.toDto(personaActualizada);
   }
-
 }

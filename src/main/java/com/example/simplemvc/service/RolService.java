@@ -1,17 +1,14 @@
 package com.example.simplemvc.service;
 
-import java.util.List;
-
-import org.springframework.stereotype.Service;
-
 import com.example.simplemvc.dto.RolDto;
 import com.example.simplemvc.model.Rol;
 import com.example.simplemvc.model.RolMapper;
 import com.example.simplemvc.repository.RolRepository;
 import com.example.simplemvc.request.CrearUsuarioRol;
-
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
 
 @Slf4j
 @Service
@@ -25,23 +22,25 @@ public class RolService {
     log.info("Obteniendo lista de roles");
     List<Rol> roles = rolRepository.findAll();
 
-    return roles.stream()
-        .map(rolMapper::toDto)
-        .toList();
+    return roles.stream().map(rolMapper::toDto).toList();
   }
 
   public RolDto obtenerPorId(Long id) {
     log.info("Obteniendo rol con ID: {}", id);
-    Rol rol = rolRepository.findById(id)
-        .orElseThrow(() -> new IllegalArgumentException("Rol no encontrado con ID: " + id));
+    Rol rol =
+        rolRepository
+            .findById(id)
+            .orElseThrow(() -> new IllegalArgumentException("Rol no encontrado con ID: " + id));
 
     return rolMapper.toDto(rol);
   }
 
   public RolDto actualizar(Long id, CrearUsuarioRol request) {
     log.info("Actualizando rol con ID: {}", id);
-    Rol rolExistente = rolRepository.findById(id)
-        .orElseThrow(() -> new IllegalArgumentException("Rol no encontrado con ID: " + id));
+    Rol rolExistente =
+        rolRepository
+            .findById(id)
+            .orElseThrow(() -> new IllegalArgumentException("Rol no encontrado con ID: " + id));
     rolExistente.setNombre(request.getNombre());
     rolExistente.setDescripcion(request.getDescripcion());
     rolExistente.setPermisos(permisoService.ActualizarPermisoRol(id, request.getPermisos()));
@@ -55,10 +54,13 @@ public class RolService {
     Rol rol = rolMapper.fromRequest(request).build();
     Rol saved = rolRepository.save(rol);
 
-    request.getPermisos().forEach(permisoRequest -> {
-      permisoRequest.setRolId(saved.getId());
-      permisoService.crearPermiso(permisoRequest);
-    });
+    request
+        .getPermisos()
+        .forEach(
+            permisoRequest -> {
+              permisoRequest.setRolId(saved.getId());
+              permisoService.crearPermiso(permisoRequest);
+            });
 
     log.info("Rol creado con ID: {}", saved.getId());
     return rolMapper.toDto(saved);

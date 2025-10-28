@@ -8,6 +8,9 @@ public class Route {
   private Method[] methods;
 
   public enum Method {
-    GET, POST, PUT, DELETE;
+    GET,
+    POST,
+    PUT,
+    DELETE;
   }
 }

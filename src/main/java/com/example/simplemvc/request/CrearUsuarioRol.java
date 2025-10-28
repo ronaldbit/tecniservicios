@@ -1,7 +1,6 @@
 package com.example.simplemvc.request;
 
 import java.util.List;
-
 import lombok.Data;
 
 @Data

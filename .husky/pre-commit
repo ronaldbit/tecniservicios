@@ -1,0 +1,2 @@
+echo "🧹 Aplicando formato con Spotless..."
+mvn spotless:apply

@@ -1,15 +1,14 @@
 package com.example.simplemvc.model;
 
-import org.mapstruct.Mapper;
-import org.mapstruct.ObjectFactory;
-
 import com.example.simplemvc.dto.TipoDocumentoDto;
 import com.example.simplemvc.shared.mapper.BasicMapper;
 import com.example.simplemvc.shared.mapper.StringUtilsMapper;
+import org.mapstruct.Mapper;
+import org.mapstruct.ObjectFactory;
 
-@Mapper(componentModel = "spring", uses = {
-    StringUtilsMapper.class
-})
+@Mapper(
+    componentModel = "spring",
+    uses = {StringUtilsMapper.class})
 public interface TipoDocumentoMapper extends BasicMapper<TipoDocumento, TipoDocumentoDto> {
 
   @ObjectFactory

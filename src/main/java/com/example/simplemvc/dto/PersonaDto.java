@@ -9,7 +9,6 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-
 public class PersonaDto {
   private Long id;
   private TipoDocumentoDto tipoDocumento;

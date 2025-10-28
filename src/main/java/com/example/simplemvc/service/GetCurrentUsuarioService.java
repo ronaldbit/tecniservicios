@@ -1,12 +1,10 @@
 package com.example.simplemvc.service;
 
+import com.example.simplemvc.model.Usuario;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
-
-import com.example.simplemvc.model.Usuario;
-
-import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor

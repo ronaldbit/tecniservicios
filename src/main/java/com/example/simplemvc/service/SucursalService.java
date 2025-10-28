@@ -1,17 +1,14 @@
 package com.example.simplemvc.service;
 
-import java.util.List;
-import java.util.Optional;
-
-import org.springframework.stereotype.Service;
-
 import com.example.simplemvc.dto.SucursalDto;
 import com.example.simplemvc.model.Sucursal;
 import com.example.simplemvc.model.SucursalMapper;
 import com.example.simplemvc.repository.SucursalRepository;
-
+import java.util.List;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
 
 @Slf4j
 @Service
@@ -22,9 +19,7 @@ public class SucursalService {
 
   public List<SucursalDto> lista() {
     log.info("Obteniendo lista de sucursales");
-    return sucursalRepository.findAll().stream()
-        .map(sucursalMapper::toDto)
-        .toList();
+    return sucursalRepository.findAll().stream().map(sucursalMapper::toDto).toList();
   }
 
   public Optional<Sucursal> obtenerEntidadPorId(Long id) {

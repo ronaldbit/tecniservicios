@@ -1,4 +1,7 @@
-<div class="pc-container" th:replace="~{dashboard/layout :: layout(~{::content}, ${usuario}, 'Inicio', '/dashboard')}">
+<div
+  class="pc-container"
+  th:replace="~{dashboard/layout :: layout(~{::content}, ${usuario}, 'Inicio', '/dashboard')}"
+>
   <div class="pc-content" th:fragment="content">
     <!-- [ breadcrumb ] start -->
     <div class="page-header">
@@ -28,17 +31,29 @@
     <div class="row">
       <div class="col-12">
         <div class="card table-card">
-          <div class="card-header d-flex align-items-center justify-content-between" >
+          <div
+            class="card-header d-flex align-items-center justify-content-between"
+          >
             <div>
               <h5 class="mb-1">Gestión de clientes</h5>
-              <small class="text-muted d-block mb-2">Tipo: <strong>Interno</strong> (registrado por vendedor) / <strong>Externo</strong> (compra en línea)</small>
-              <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModalLive">
+              <small class="text-muted d-block mb-2"
+                >Tipo: <strong>Interno</strong> (registrado por vendedor) /
+                <strong>Externo</strong> (compra en línea)</small
+              >
+              <button
+                type="button"
+                class="btn btn-primary"
+                data-bs-toggle="modal"
+                data-bs-target="#exampleModalLive"
+              >
                 <i class="ti ti-plus me-1"></i> Nuevo Cliente
               </button>
             </div>
             <div class="d-flex align-items-center">
               <div class="me-2">
-                <label for="filtro-tipo" class="form-label visually-hidden">Filtrar por Tipo</label>
+                <label for="filtro-tipo" class="form-label visually-hidden"
+                  >Filtrar por Tipo</label
+                >
                 <select class="form-select" id="filtro-tipo">
                   <option value="">Todos los tipos</option>
                   <option value="Interno">Interno</option>
@@ -47,7 +62,9 @@
                 </select>
               </div>
               <div>
-                <label for="filtro-estado" class="form-label visually-hidden">Filtrar por Estado</label>
+                <label for="filtro-estado" class="form-label visually-hidden"
+                  >Filtrar por Estado</label
+                >
                 <select class="form-select" id="filtro-estado">
                   <option value="">Todos los estados</option>
                   <option value="Activo">Activo</option>
@@ -56,112 +73,268 @@
               </div>
             </div>
           </div>
-          <div id="exampleModalLive" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalLiveLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+          <div
+            id="exampleModalLive"
+            class="modal fade"
+            tabindex="-1"
+            role="dialog"
+            aria-labelledby="exampleModalLiveLabel"
+            aria-hidden="true"
+          >
+            <div
+              class="modal-dialog modal-dialog-centered modal-lg"
+              role="document"
+            >
               <form class="modal-content needs-validation" novalidate>
                 <div class="modal-header">
-                  <h5 class="modal-title" id="exampleModalLiveLabel"> Añadir Nuevo Cliente</h5>
-                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  <h5 class="modal-title" id="exampleModalLiveLabel">
+                    Añadir Nuevo Cliente
+                  </h5>
+                  <button
+                    type="button"
+                    class="btn-close"
+                    data-bs-dismiss="modal"
+                    aria-label="Close"
+                  ></button>
                 </div>
                 <div class="modal-body">
                   <div class="row">
                     <div class="col-md-6">
                       <div class="mb-3">
-                        <label for="clienteTipoDoc" class="form-label">Tipo Documento</label>
-                        <select class="form-select" id="clienteTipoDoc" required>
-                          <option value="" selected disabled>Seleccionar...</option>
+                        <label for="clienteTipoDoc" class="form-label"
+                          >Tipo Documento</label
+                        >
+                        <select
+                          class="form-select"
+                          id="clienteTipoDoc"
+                          required
+                        >
+                          <option value="" selected disabled>
+                            Seleccionar...
+                          </option>
                           <option value="DNI">DNI</option>
                           <option value="RUC">RUC</option>
                         </select>
-                        <div class="invalid-feedback">Seleccione el tipo de documento.</div>
-                      </div>
-                      <div class="mb-3 d-flex" style="gap:8px; align-items:end;">
-                        <div style="flex:1">
-                          <label for="clienteNumDoc" class="form-label">Número Documento</label>
-                          <input type="text" class="form-control" id="clienteNumDoc" required />
-                          <div class="invalid-feedback" id="clienteNumDocFeedback">Ingrese un número de documento válido.</div>
+                        <div class="invalid-feedback">
+                          Seleccione el tipo de documento.
                         </div>
-                        <button type="button" class="btn btn-outline-primary" id="btnBuscarDoc">Buscar</button>
+                      </div>
+                      <div
+                        class="mb-3 d-flex"
+                        style="gap: 8px; align-items: end"
+                      >
+                        <div style="flex: 1">
+                          <label for="clienteNumDoc" class="form-label"
+                            >Número Documento</label
+                          >
+                          <input
+                            type="text"
+                            class="form-control"
+                            id="clienteNumDoc"
+                            required
+                          />
+                          <div
+                            class="invalid-feedback"
+                            id="clienteNumDocFeedback"
+                          >
+                            Ingrese un número de documento válido.
+                          </div>
+                        </div>
+                        <button
+                          type="button"
+                          class="btn btn-outline-primary"
+                          id="btnBuscarDoc"
+                        >
+                          Buscar
+                        </button>
                       </div>
 
                       <div class="mb-3">
-                        <label for="clienteNombreRazon" class="form-label">Nombre / Razón Social</label>
-                        <input type="text" class="form-control" id="clienteNombreRazon" required/>
-                        <div class="invalid-feedback">El nombre o razón social es obligatorio.</div>
+                        <label for="clienteNombreRazon" class="form-label"
+                          >Nombre / Razón Social</label
+                        >
+                        <input
+                          type="text"
+                          class="form-control"
+                          id="clienteNombreRazon"
+                          required
+                        />
+                        <div class="invalid-feedback">
+                          El nombre o razón social es obligatorio.
+                        </div>
                       </div>
-                      <div class="mb-3" id="campoApellidos" style="display: none">
-                        <label for="clienteApellidos" class="form-label">Apellidos (Opcional)</label>
-                        <input type="text"class="form-control" id="clienteApellidos"/>
+                      <div
+                        class="mb-3"
+                        id="campoApellidos"
+                        style="display: none"
+                      >
+                        <label for="clienteApellidos" class="form-label"
+                          >Apellidos (Opcional)</label
+                        >
+                        <input
+                          type="text"
+                          class="form-control"
+                          id="clienteApellidos"
+                        />
                       </div>
                       <div class="mb-3">
-                        <label for="clienteNombreComercial" class="form-label">Nombre Comercial (Opcional)</label>
-                        <input type="text" class="form-control" id="clienteNombreComercial"/>
+                        <label for="clienteNombreComercial" class="form-label"
+                          >Nombre Comercial (Opcional)</label
+                        >
+                        <input
+                          type="text"
+                          class="form-control"
+                          id="clienteNombreComercial"
+                        />
                       </div>
                       <div class="mb-3">
-                        <label for="clienteContacto" class="form-label">Contacto Principal (Opcional)</label>
-                        <input type="text" class="form-control" id="clienteContacto" placeholder="Nombre de la persona de contacto"/>
+                        <label for="clienteContacto" class="form-label"
+                          >Contacto Principal (Opcional)</label
+                        >
+                        <input
+                          type="text"
+                          class="form-control"
+                          id="clienteContacto"
+                          placeholder="Nombre de la persona de contacto"
+                        />
                       </div>
                     </div>
                     <div class="col-md-6">
                       <div class="mb-3">
-                        <label for="clienteTelefono" class="form-label">Teléfono</label>
-                        <input type="tel"class="form-control"id="clienteTelefono"pattern="[0-9]{7,9}"required/>
-                        <div class="invalid-feedback">Ingrese un teléfono válido (7 a 9 dígitos).</div>
+                        <label for="clienteTelefono" class="form-label"
+                          >Teléfono</label
+                        >
+                        <input
+                          type="tel"
+                          class="form-control"
+                          id="clienteTelefono"
+                          pattern="[0-9]{7,9}"
+                          required
+                        />
+                        <div class="invalid-feedback">
+                          Ingrese un teléfono válido (7 a 9 dígitos).
+                        </div>
                       </div>
                       <div class="mb-3">
-                        <label for="clienteEmail" class="form-label">Correo Electrónico</label>
-                        <input type="email" class="form-control"id="clienteEmail"required/>
-                        <div class="invalid-feedback">Ingrese un correo electrónico válido.</div>
+                        <label for="clienteEmail" class="form-label"
+                          >Correo Electrónico</label
+                        >
+                        <input
+                          type="email"
+                          class="form-control"
+                          id="clienteEmail"
+                          required
+                        />
+                        <div class="invalid-feedback">
+                          Ingrese un correo electrónico válido.
+                        </div>
                       </div>
                       <div class="mb-3">
-                        <label for="clienteDireccion" class="form-label">Dirección Fiscal</label>
-                        <input type="text" class="form-control" id="clienteDireccion" required/>
-                        <div class="invalid-feedback">La dirección es obligatoria.</div>
+                        <label for="clienteDireccion" class="form-label"
+                          >Dirección Fiscal</label
+                        >
+                        <input
+                          type="text"
+                          class="form-control"
+                          id="clienteDireccion"
+                          required
+                        />
+                        <div class="invalid-feedback">
+                          La dirección es obligatoria.
+                        </div>
                       </div>
                       <div class="mb-3">
-                        <label for="clienteTipo" class="form-label">Tipo Cliente</label>
+                        <label for="clienteTipo" class="form-label"
+                          >Tipo Cliente</label
+                        >
                         <select class="form-select" id="clienteTipo" required>
-                          <option value="" selected disabled>Seleccionar...</option>
+                          <option value="" selected disabled>
+                            Seleccionar...
+                          </option>
                           <option value="Interno">Interno</option>
                           <option value="Externo">Externo</option>
                           <option value="Online">Online</option>
                         </select>
-                        <div class="invalid-feedback">Seleccione el tipo de cliente.</div>
+                        <div class="invalid-feedback">
+                          Seleccione el tipo de cliente.
+                        </div>
                       </div>
                       <div class="row">
                         <div class="col-6">
                           <div class="mb-3">
-                            <label for="clienteLimiteCredito" class="form-label">Límite Crédito (S/)</label>
-                            <input type="number" class="form-control"id="clienteLimiteCredito"value="0.00"step="0.01"min="0"required/>
-                            <div class="invalid-feedback">Ingrese un monto válido (>= 0).</div>
+                            <label for="clienteLimiteCredito" class="form-label"
+                              >Límite Crédito (S/)</label
+                            >
+                            <input
+                              type="number"
+                              class="form-control"
+                              id="clienteLimiteCredito"
+                              value="0.00"
+                              step="0.01"
+                              min="0"
+                              required
+                            />
+                            <div class="invalid-feedback">
+                              Ingrese un monto válido (>= 0).
+                            </div>
                           </div>
                         </div>
                         <div class="col-6">
                           <div class="mb-3">
-                            <label for="clienteDiasCredito" class="form-label">Días Crédito</label>
-                            <input type="number" class="form-control" id="clienteDiasCredito" value="0" step="1" min="0" required/>
-                            <div class="invalid-feedback">Ingrese días válidos (>= 0).</div>
+                            <label for="clienteDiasCredito" class="form-label"
+                              >Días Crédito</label
+                            >
+                            <input
+                              type="number"
+                              class="form-control"
+                              id="clienteDiasCredito"
+                              value="0"
+                              step="1"
+                              min="0"
+                              required
+                            />
+                            <div class="invalid-feedback">
+                              Ingrese días válidos (>= 0).
+                            </div>
                           </div>
                         </div>
                       </div>
                       <div class="mb-3">
-                        <label for="clienteEstado" class="form-label">Estado</label>
+                        <label for="clienteEstado" class="form-label"
+                          >Estado</label
+                        >
                         <select class="form-select" id="clienteEstado" required>
                           <option value="Activo" selected>Activo</option>
                           <option value="Inactivo">Inactivo</option>
                         </select>
-                        <div class="invalid-feedback">Seleccione el estado del cliente.</div>
+                        <div class="invalid-feedback">
+                          Seleccione el estado del cliente.
+                        </div>
                       </div>
                     </div>
                   </div>
                   <div class="mb-3">
-                    <label for="clienteObservaciones" class="form-label">Observaciones (Opcional)</label>
-                    <textarea class="form-control" id="clienteObservaciones" rows="2"></textarea>
+                    <label for="clienteObservaciones" class="form-label"
+                      >Observaciones (Opcional)</label
+                    >
+                    <textarea
+                      class="form-control"
+                      id="clienteObservaciones"
+                      rows="2"
+                    ></textarea>
                   </div>
                 </div>
                 <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"> Cancelar</button>
-                  <button type="submit" class="btn btn-primary">Guardar Cliente</button>
+                  <button
+                    type="button"
+                    class="btn btn-secondary"
+                    data-bs-dismiss="modal"
+                  >
+                    Cancelar
+                  </button>
+                  <button type="submit" class="btn btn-primary">
+                    Guardar Cliente
+                  </button>
                 </div>
               </form>
             </div>
@@ -189,7 +362,11 @@
                     <td>
                       <div class="d-flex align-items-center">
                         <div class="flex-shrink-0">
-                          <img src="/assets/images/user/avatar-1.jpg" alt="cliente" class="img-radius wid-40"/>
+                          <img
+                            src="/assets/images/user/avatar-1.jpg"
+                            alt="cliente"
+                            class="img-radius wid-40"
+                          />
                         </div>
                         <div class="flex-grow-1 ms-3">
                           <h6 class="mb-0">Juan Pérez</h6>
@@ -212,9 +389,15 @@
                       <span class="text-muted text-sm d-block">11:15 AM</span>
                     </td>
                     <td>
-                      <a href="#!" class="avtar avtar-xs btn-link-secondary"><i class="ti ti-eye f-20"></i></a>
-                      <a href="#!" class="avtar avtar-xs btn-link-secondary"><i class="ti ti-edit f-20"></i></a>
-                      <a href="#!" class="avtar avtar-xs btn-link-secondary"><i class="ti ti-trash f-20"></i></a>
+                      <a href="#!" class="avtar avtar-xs btn-link-secondary"
+                        ><i class="ti ti-eye f-20"></i
+                      ></a>
+                      <a href="#!" class="avtar avtar-xs btn-link-secondary"
+                        ><i class="ti ti-edit f-20"></i
+                      ></a>
+                      <a href="#!" class="avtar avtar-xs btn-link-secondary"
+                        ><i class="ti ti-trash f-20"></i
+                      ></a>
                     </td>
                   </tr>
 
@@ -223,11 +406,17 @@
                     <td>
                       <div class="d-flex align-items-center">
                         <div class="flex-shrink-0">
-                          <img src="/assets/images/user/avatar-2.jpg" alt="cliente"class="img-radius wid-40"/>
+                          <img
+                            src="/assets/images/user/avatar-2.jpg"
+                            alt="cliente"
+                            class="img-radius wid-40"
+                          />
                         </div>
                         <div class="flex-grow-1 ms-3">
                           <h6 class="mb-0">Servicios ABC SAC</h6>
-                          <small class="text-muted d-block">Contacto: María Gómez</small>
+                          <small class="text-muted d-block"
+                            >Contacto: María Gómez</small
+                          >
                         </div>
                       </div>
                     </td>
@@ -244,9 +433,15 @@
                       <span class="text-muted text-sm d-block">05:42 PM</span>
                     </td>
                     <td>
-                      <a href="#!" class="avtar avtar-xs btn-link-secondary"><i class="ti ti-eye f-20"></i></a>
-                      <a href="#!" class="avtar avtar-xs btn-link-secondary"><i class="ti ti-edit f-20"></i></a>
-                      <a href="#!" class="avtar avtar-xs btn-link-secondary"><i class="ti ti-trash f-20"></i></a>
+                      <a href="#!" class="avtar avtar-xs btn-link-secondary"
+                        ><i class="ti ti-eye f-20"></i
+                      ></a>
+                      <a href="#!" class="avtar avtar-xs btn-link-secondary"
+                        ><i class="ti ti-edit f-20"></i
+                      ></a>
+                      <a href="#!" class="avtar avtar-xs btn-link-secondary"
+                        ><i class="ti ti-trash f-20"></i
+                      ></a>
                     </td>
                   </tr>
 
@@ -255,7 +450,11 @@
                     <td>
                       <div class="d-flex align-items-center">
                         <div class="flex-shrink-0">
-                          <img src="/assets/images/user/avatar-3.jpg"alt="cliente"class="img-radius wid-40"/>
+                          <img
+                            src="/assets/images/user/avatar-3.jpg"
+                            alt="cliente"
+                            class="img-radius wid-40"
+                          />
                         </div>
                         <div class="flex-grow-1 ms-3">
                           <h6 class="mb-0">Karina Ruiz</h6>
@@ -276,9 +475,15 @@
                       <span class="text-muted text-sm d-block">09:03 AM</span>
                     </td>
                     <td>
-                      <a href="#!" class="avtar avtar-xs btn-link-secondary"><i class="ti ti-eye f-20"></i></a>
-                      <a href="#!" class="avtar avtar-xs btn-link-secondary"><i class="ti ti-edit f-20"></i></a>
-                      <a href="#!" class="avtar avtar-xs btn-link-secondary"><i class="ti ti-trash f-20"></i></a>
+                      <a href="#!" class="avtar avtar-xs btn-link-secondary"
+                        ><i class="ti ti-eye f-20"></i
+                      ></a>
+                      <a href="#!" class="avtar avtar-xs btn-link-secondary"
+                        ><i class="ti ti-edit f-20"></i
+                      ></a>
+                      <a href="#!" class="avtar avtar-xs btn-link-secondary"
+                        ><i class="ti ti-trash f-20"></i
+                      ></a>
                     </td>
                   </tr>
 
@@ -287,11 +492,17 @@
                     <td>
                       <div class="d-flex align-items-center">
                         <div class="flex-shrink-0">
-                          <img src="/assets/images/user/avatar-4.jpg" alt="cliente" class="img-radius wid-40"/>
+                          <img
+                            src="/assets/images/user/avatar-4.jpg"
+                            alt="cliente"
+                            class="img-radius wid-40"
+                          />
                         </div>
                         <div class="flex-grow-1 ms-3">
                           <h6 class="mb-0">Transportes El Norte SAC</h6>
-                          <small class="text-muted d-block">Contacto: Luis Vega</small>
+                          <small class="text-muted d-block"
+                            >Contacto: Luis Vega</small
+                          >
                         </div>
                       </div>
                     </td>
@@ -310,9 +521,14 @@
                       <span class="text-muted text-sm d-block">03:25 PM</span>
                     </td>
                     <td>
-                      <a href="#!" class="avtar avtar-xs btn-link-secondary"><i class="ti ti-eye f-20"></i></a>
-                      <a href="#!" class="avtar avtar-xs btn-link-secondary"><i class="ti ti-edit f-20"></i></a>
-                      <a href="#!" class="avtar avtar-xs btn-link-secondary"><i class="ti ti-trash f-20"></i
+                      <a href="#!" class="avtar avtar-xs btn-link-secondary"
+                        ><i class="ti ti-eye f-20"></i
+                      ></a>
+                      <a href="#!" class="avtar avtar-xs btn-link-secondary"
+                        ><i class="ti ti-edit f-20"></i
+                      ></a>
+                      <a href="#!" class="avtar avtar-xs btn-link-secondary"
+                        ><i class="ti ti-trash f-20"></i
                       ></a>
                     </td>
                   </tr>
@@ -448,54 +664,81 @@
   });
 </script>
 
-
 <script>
-document.addEventListener("DOMContentLoaded", function(){
-  const selTipo = document.getElementById('clienteTipoDoc');
-  const numDoc  = document.getElementById('clienteNumDoc');
-  const nombreRazon = document.getElementById('clienteNombreRazon');
-  const apellidosDiv = document.getElementById('campoApellidos');
-  const apellidosIn = document.getElementById('clienteApellidos');
-  const direccion = document.getElementById('clienteDireccion');
-  const telefono = document.getElementById('clienteTelefono');
-  const email    = document.getElementById('clienteEmail');
+  document.addEventListener("DOMContentLoaded", function () {
+    const selTipo = document.getElementById("clienteTipoDoc");
+    const numDoc = document.getElementById("clienteNumDoc");
+    const nombreRazon = document.getElementById("clienteNombreRazon");
+    const apellidosDiv = document.getElementById("campoApellidos");
+    const apellidosIn = document.getElementById("clienteApellidos");
+    const direccion = document.getElementById("clienteDireccion");
+    const telefono = document.getElementById("clienteTelefono");
+    const email = document.getElementById("clienteEmail");
 
-  async function fetchJSON(url){
-    const r = await fetch(url, {headers:{'Accept':'application/json'}});
-    if(!r.ok) throw new Error('HTTP '+r.status);
-    return r.json();
-  }
-
-  document.getElementById('btnBuscarDoc')?.addEventListener('click', async ()=>{
-    const tipo = selTipo.value;
-    const ndoc = (numDoc.value||'').trim();
-
-    if(tipo==='DNI'){
-      if(!/^\d{8}$/.test(ndoc)){ alert('DNI inválido'); return; }
-      try{
-        const res = await fetchJSON('/api/consulta/dni?num='+ndoc);
-        if(!res.success || !res.data){ alert(res.message || 'No encontrado'); return; }
-        const d = res.data;
-        // Para clientes persona natural:
-        nombreRazon.value = (d.nombres||'').trim();
-        apellidosIn.value = [d.apellido_paterno||'', d.apellido_materno||''].filter(Boolean).join(' ').trim();
-        apellidosDiv.style.display = 'block';
-      }catch(e){ alert('Error consultando DNI'); }
-    }else if(tipo==='RUC'){
-      if(!/^\d{11}$/.test(ndoc)){ alert('RUC inválido'); return; }
-      try{
-        const res = await fetchJSON('/api/consulta/ruc?num='+ndoc);
-        if(!res.success || !res.data){ alert(res.message || 'No encontrado'); return; }
-        const d = res.data;
-        // Para empresas:
-        nombreRazon.value = (d.nombre_o_razon_social||'').trim();
-        direccion.value = (d.direccion_completa || d.direccion || '').trim();
-        apellidosIn.value = '';
-        apellidosDiv.style.display = 'none';
-      }catch(e){ alert('Error consultando RUC'); }
-    }else{
-      alert('Seleccione DNI o RUC');
+    async function fetchJSON(url) {
+      const r = await fetch(url, { headers: { Accept: "application/json" } });
+      if (!r.ok) throw new Error("HTTP " + r.status);
+      return r.json();
     }
+
+    document
+      .getElementById("btnBuscarDoc")
+      ?.addEventListener("click", async () => {
+        const tipo = selTipo.value;
+        const ndoc = (numDoc.value || "").trim();
+
+        if (tipo === "DNI") {
+          if (!/^\d{8}$/.test(ndoc)) {
+            alert("DNI inválido");
+            return;
+          }
+          try {
+            const res = await fetchJSON("/api/consulta/dni?num=" + ndoc);
+            if (!res.success || !res.data) {
+              alert(res.message || "No encontrado");
+              return;
+            }
+            const d = res.data;
+            // Para clientes persona natural:
+            nombreRazon.value = (d.nombres || "").trim();
+            apellidosIn.value = [
+              d.apellido_paterno || "",
+              d.apellido_materno || "",
+            ]
+              .filter(Boolean)
+              .join(" ")
+              .trim();
+            apellidosDiv.style.display = "block";
+          } catch (e) {
+            alert("Error consultando DNI");
+          }
+        } else if (tipo === "RUC") {
+          if (!/^\d{11}$/.test(ndoc)) {
+            alert("RUC inválido");
+            return;
+          }
+          try {
+            const res = await fetchJSON("/api/consulta/ruc?num=" + ndoc);
+            if (!res.success || !res.data) {
+              alert(res.message || "No encontrado");
+              return;
+            }
+            const d = res.data;
+            // Para empresas:
+            nombreRazon.value = (d.nombre_o_razon_social || "").trim();
+            direccion.value = (
+              d.direccion_completa ||
+              d.direccion ||
+              ""
+            ).trim();
+            apellidosIn.value = "";
+            apellidosDiv.style.display = "none";
+          } catch (e) {
+            alert("Error consultando RUC");
+          }
+        } else {
+          alert("Seleccione DNI o RUC");
+        }
+      });
   });
-});
 </script>

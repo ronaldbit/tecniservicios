@@ -2,21 +2,21 @@ package com.example.simplemvc.controller;
 
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
-
-import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.security.SecureRandom;
+import javax.imageio.ImageIO;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class CaptchaController {
 
   private static final String SESSION_KEY = "CAPTCHA_CODE";
-  private static final char[] CHARS = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789".toCharArray(); // sin 0/O/1/I
+  private static final char[] CHARS =
+      "ABCDEFGHJKLMNPQRSTUVWXYZ23456789".toCharArray(); // sin 0/O/1/I
   private static final SecureRandom RND = new SecureRandom();
 
   @GetMapping("/captcha")
@@ -62,4 +62,3 @@ public class CaptchaController {
     return sb.toString();
   }
 }
- 

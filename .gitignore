@@ -1,5 +1,6 @@
 # Java
 target/
+bin/
 !**/src/main/**/target/
 !**/src/test/**/target/
 *.class

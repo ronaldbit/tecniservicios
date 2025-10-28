@@ -1,7 +1,13 @@
 package com.example.simplemvc.controller;
 
+import com.example.simplemvc.dto.PermisoDto;
+import com.example.simplemvc.dto.RolDto;
+import com.example.simplemvc.request.CrearPermisoRequest;
+import com.example.simplemvc.request.CrearUsuarioRol;
+import com.example.simplemvc.service.PermisoService;
+import com.example.simplemvc.service.RolService;
 import java.util.List;
-
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -13,15 +19,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.example.simplemvc.dto.PermisoDto;
-import com.example.simplemvc.dto.RolDto;
-import com.example.simplemvc.request.CrearPermisoRequest;
-import com.example.simplemvc.request.CrearUsuarioRol;
-import com.example.simplemvc.service.PermisoService;
-import com.example.simplemvc.service.RolService;
-
-import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping("/api/roles-permisos")
@@ -51,11 +48,11 @@ public class ApiRolesPermisos {
       String errorMessage = "EL NOMBRE DE ROL YA ESTA EN USO";
       return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorMessage);
     }
-
   }
 
   @PutMapping("/{id}")
-  public ResponseEntity<?> actualizarRol(@PathVariable Long id, @RequestBody CrearUsuarioRol request) {
+  public ResponseEntity<?> actualizarRol(
+      @PathVariable Long id, @RequestBody CrearUsuarioRol request) {
     try {
       RolDto rolActualizado = rolService.actualizar(id, request);
       return ResponseEntity.ok(rolActualizado);
@@ -84,8 +81,8 @@ public class ApiRolesPermisos {
   }
 
   @PostMapping("/{rolId}/permisos")
-  public ResponseEntity<Void> crearPermisoParaRol(@PathVariable Long rolId,
-      @RequestBody CrearPermisoRequest request) {
+  public ResponseEntity<Void> crearPermisoParaRol(
+      @PathVariable Long rolId, @RequestBody CrearPermisoRequest request) {
     request.setRolId(rolId);
     permisoService.crearPermiso(request);
     return new ResponseEntity<>(HttpStatus.CREATED);
@@ -94,8 +91,7 @@ public class ApiRolesPermisos {
   @PutMapping("/permisos/{permisoId}")
   @ResponseStatus(HttpStatus.NO_CONTENT)
   public void actualizarPermiso(
-      @PathVariable Long permisoId,
-      @RequestBody CrearPermisoRequest request) {
+      @PathVariable Long permisoId, @RequestBody CrearPermisoRequest request) {
     permisoService.actualizarPermiso(permisoId, request);
   }
 

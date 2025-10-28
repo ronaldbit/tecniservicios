@@ -1,26 +1,22 @@
 package com.example.simplemvc.controller;
 
+import com.example.simplemvc.service.SucursalService;
+import com.example.simplemvc.service.TipoDocumentoService;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.example.simplemvc.service.SucursalService;
-import com.example.simplemvc.service.TipoDocumentoService;
-
-import lombok.AllArgsConstructor;
-
 @Controller
 @RequestMapping("/auth")
 @AllArgsConstructor
 public class AuthController {
 
-  @Autowired
-  private final TipoDocumentoService tipoDocumentoService;
+  @Autowired private final TipoDocumentoService tipoDocumentoService;
 
-  @Autowired
-  private final SucursalService sucursalService;
+  @Autowired private final SucursalService sucursalService;
 
   @GetMapping("/registro-persona")
   public String registroPersona(Model model) {

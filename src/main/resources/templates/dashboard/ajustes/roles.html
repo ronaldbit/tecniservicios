@@ -1,4 +1,7 @@
-<div class="pc-container" th:replace="~{dashboard/layout :: layout(~{::content}, ${usuario}, 'Inicio', '/dashboard')}">
+<div
+  class="pc-container"
+  th:replace="~{dashboard/layout :: layout(~{::content}, ${usuario}, 'Inicio', '/dashboard')}"
+>
   <div class="pc-content" th:fragment="content">
     <!-- Breadcrumb -->
     <div class="page-header">
@@ -22,14 +25,19 @@
       </div>
     </div>
 
-
     <!-- Tabla de usuarios -->
     <div class="row">
       <div class="col-12">
         <div class="card table-card">
-          <div class="card-header d-flex justify-content-between align-items-center">
+          <div
+            class="card-header d-flex justify-content-between align-items-center"
+          >
             <h5>Lista de roles</h5>
-            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalAgregarRol">
+            <button
+              class="btn btn-primary"
+              data-bs-toggle="modal"
+              data-bs-target="#modalAgregarRol"
+            >
               <i class="ti ti-user-plus"></i> Agregar Rol
             </button>
           </div>
@@ -45,22 +53,40 @@
                 <tbody>
                   <tr th:each="r : ${roles}">
                     <td>
-                      <span class="badge text-bg-success" th:text="${r.nombre}"></span>
+                      <span
+                        class="badge text-bg-success"
+                        th:text="${r.nombre}"
+                      ></span>
                     </td>
                     <td>
-                      <a href="#" class="avtar avtar-xs btn-link-secondary" data-bs-toggle="modal"
-                        th:attr="data-bs-target=${'#modalDetalleRol' + r.id}" title="Ver detalles">
+                      <a
+                        href="#"
+                        class="avtar avtar-xs btn-link-secondary"
+                        data-bs-toggle="modal"
+                        th:attr="data-bs-target=${'#modalDetalleRol' + r.id}"
+                        title="Ver detalles"
+                      >
                         <i class="ti ti-eye f-20"></i>
                       </a>
-                      <button type="button" class="avtar avtar-xs btn-link-secondary btn-editar-rol"
-                        data-bs-toggle="modal" data-bs-target="#modalAgregarRol" th:attr="data-rol-id=${r.id}"
-                        title="Editar rol">
+                      <button
+                        type="button"
+                        class="avtar avtar-xs btn-link-secondary btn-editar-rol"
+                        data-bs-toggle="modal"
+                        data-bs-target="#modalAgregarRol"
+                        th:attr="data-rol-id=${r.id}"
+                        title="Editar rol"
+                      >
                         <i class="ti ti-edit f-20"></i>
                       </button>
 
-                      <button type="button" class="avtar avtar-xs btn-link-secondary btn-eliminar-rol"
-                        data-bs-toggle="modal" data-bs-target="#modalConfirmarEliminar"
-                        th:attr="data-rol-id=${r.id}, data-rol-nombre=${r.nombre}" title="Eliminar rol">
+                      <button
+                        type="button"
+                        class="avtar avtar-xs btn-link-secondary btn-eliminar-rol"
+                        data-bs-toggle="modal"
+                        data-bs-target="#modalConfirmarEliminar"
+                        th:attr="data-rol-id=${r.id}, data-rol-nombre=${r.nombre}"
+                        title="Eliminar rol"
+                      >
                         <i class="ti ti-trash f-20"></i>
                       </button>
                     </td>
@@ -73,24 +99,43 @@
       </div>
     </div>
 
-
     <!-- Modal Agregar rol -->
-    <div class="modal fade" id="modalAgregarRol" tabindex="-1" aria-labelledby="modalAgregarRolLabel"
-      aria-hidden="true">
+    <div
+      class="modal fade"
+      id="modalAgregarRol"
+      tabindex="-1"
+      aria-labelledby="modalAgregarRolLabel"
+      aria-hidden="true"
+    >
       <div class="modal-dialog">
         <form class="modal-content" id="formAgregarRol" novalidate>
           <input type="hidden" id="rolId" name="id" value="" />
           <div class="modal-header">
             <h5 class="modal-title" id="modalAgregarRolLabel">Agregar Rol</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Cerrar"
+            ></button>
           </div>
           <div class="modal-body">
-            <div id="serverError" class="alert alert-danger d-none" role="alert" style="margin: 0 1rem 1rem;">
-            </div>
+            <div
+              id="serverError"
+              class="alert alert-danger d-none"
+              role="alert"
+              style="margin: 0 1rem 1rem"
+            ></div>
             <div class="mb-3">
               <label for="nombreRol" class="form-label">Nombre del Rol</label>
-              <input type="text" class="form-control" id="nombreRol" name="nombre" placeholder="Ejemplo: Administrador"
-                required />
+              <input
+                type="text"
+                class="form-control"
+                id="nombreRol"
+                name="nombre"
+                placeholder="Ejemplo: Administrador"
+                required
+              />
               <div class="invalid-feedback">
                 El nombre del rol es obligatorio.
               </div>
@@ -98,8 +143,15 @@
 
             <div class="mb-3">
               <label for="descripcionRol" class="form-label">Descripción</label>
-              <textarea class="form-control" id="descripcionRol" name="descripcion"
-                placeholder="Describe brevemente el rol" rows="2" required minlength="5"></textarea>
+              <textarea
+                class="form-control"
+                id="descripcionRol"
+                name="descripcion"
+                placeholder="Describe brevemente el rol"
+                rows="2"
+                required
+                minlength="5"
+              ></textarea>
               <div class="invalid-feedback">
                 La descripción debe tener al menos 5 caracteres.
               </div>
@@ -109,35 +161,60 @@
               <label class="form-label">Permisos disponibles</label>
 
               <div class="form-check">
-                <input class="form-check-input" type="checkbox" id="permisoVentas" name="Ventas" />
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  id="permisoVentas"
+                  name="Ventas"
+                />
                 <label class="form-check-label" for="permisoVentas">
                   Acceso a Ventas
                 </label>
               </div>
 
               <div class="form-check">
-                <input class="form-check-input" type="checkbox" id="permisoLogistica" name="Logistica" />
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  id="permisoLogistica"
+                  name="Logistica"
+                />
                 <label class="form-check-label" for="permisoLogistica">
                   Acceso a Logística
                 </label>
               </div>
 
               <div class="form-check">
-                <input class="form-check-input" type="checkbox" id="permisoReportes" name="Reportes" />
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  id="permisoReportes"
+                  name="Reportes"
+                />
                 <label class="form-check-label" for="permisoReportes">
                   Acceso a Reportes
                 </label>
               </div>
 
               <div class="form-check">
-                <input class="form-check-input" type="checkbox" id="permisoAjustes" name="Ajustes" />
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  id="permisoAjustes"
+                  name="Ajustes"
+                />
                 <label class="form-check-label" for="permisoAjustes">
                   Acceso a Ajustes
                 </label>
               </div>
 
               <div class="form-check">
-                <input class="form-check-input" type="checkbox" id="permisoNavegacion" name="Navegacion" />
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  id="permisoNavegacion"
+                  name="Navegacion"
+                />
                 <label class="form-check-label" for="permisoNavegacion">
                   Acceso a Navegación
                 </label>
@@ -150,7 +227,11 @@
           </div>
 
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
               Cancelar
             </button>
             <button type="submit" class="btn btn-primary">Guardar Rol</button>
@@ -168,11 +249,14 @@
         form.reset();
         form.classList.remove("was-validated");
         document.getElementById("rolId").value = ""; // Limpiar el ID
-        document.getElementById("modalAgregarRolLabel").textContent = "Agregar Rol"; // Título
+        document.getElementById("modalAgregarRolLabel").textContent =
+          "Agregar Rol"; // Título
         document.getElementById("permisoError").classList.add("d-none");
-        document.querySelectorAll('#formAgregarRol input[type="checkbox"]').forEach(checkbox => {
-          checkbox.checked = false; // Desmarcar todos los permisos
-        });
+        document
+          .querySelectorAll('#formAgregarRol input[type="checkbox"]')
+          .forEach((checkbox) => {
+            checkbox.checked = false; // Desmarcar todos los permisos
+          });
       }
 
       // Función principal de inicialización
@@ -181,11 +265,11 @@
         const permisoError = document.getElementById("permisoError");
 
         // 1. Manejar la apertura del modal para LIMPIAR al agregar
-        const modalElement = document.getElementById('modalAgregarRol');
-        modalElement.addEventListener('hidden.bs.modal', resetFormularioRol); // Limpiar al cerrar
+        const modalElement = document.getElementById("modalAgregarRol");
+        modalElement.addEventListener("hidden.bs.modal", resetFormularioRol); // Limpiar al cerrar
 
         // 2. Manejar el clic en los botones de EDICIÓN
-        document.querySelectorAll(".btn-editar-rol").forEach(button => {
+        document.querySelectorAll(".btn-editar-rol").forEach((button) => {
           button.addEventListener("click", async (event) => {
             const rolId = event.currentTarget.getAttribute("data-rol-id");
             if (!rolId) return;
@@ -193,22 +277,27 @@
             // Cargar datos del rol (GET /Api/roles-permisos/{id})
             try {
               const response = await fetch(`${API_URL}/${rolId}`);
-              if (!response.ok) throw new Error("Error al obtener datos del rol.");
+              if (!response.ok)
+                throw new Error("Error al obtener datos del rol.");
               const rol = await response.json();
 
               // Rellenar el formulario
               document.getElementById("rolId").value = rol.id;
               document.getElementById("nombreRol").value = rol.nombre;
               document.getElementById("descripcionRol").value = rol.descripcion;
-              document.getElementById("modalAgregarRolLabel").textContent = "Editar Rol: " + rol.nombre;
+              document.getElementById("modalAgregarRolLabel").textContent =
+                "Editar Rol: " + rol.nombre;
 
               // Rellenar los permisos (asumiendo que rol.permisos es una lista de objetos {nombre: "ventas"})
-              const permisosAsignados = rol.permisos.map(p => p.nombre.toLowerCase());
-              document.querySelectorAll('#formAgregarRol input[type="checkbox"]').forEach(checkbox => {
-                const permisoName = checkbox.name.toLowerCase();
-                checkbox.checked = permisosAsignados.includes(permisoName);
-              });
-
+              const permisosAsignados = rol.permisos.map((p) =>
+                p.nombre.toLowerCase()
+              );
+              document
+                .querySelectorAll('#formAgregarRol input[type="checkbox"]')
+                .forEach((checkbox) => {
+                  const permisoName = checkbox.name.toLowerCase();
+                  checkbox.checked = permisosAsignados.includes(permisoName);
+                });
             } catch (error) {
               console.error("Error al cargar datos del rol:", error);
               alert("No se pudo cargar la información del rol para edición.");
@@ -229,14 +318,18 @@
             { id: "permisoLogistica", path: "/logistica", nombre: "Logistica" },
             { id: "permisoReportes", path: "/reportes", nombre: "Reportes" },
             { id: "permisoAjustes", path: "/ajustes", nombre: "Ajustes" },
-            { id: "permisoNavegacion", path: "/navegacion", nombre: "Navegacion" }
+            {
+              id: "permisoNavegacion",
+              path: "/navegacion",
+              nombre: "Navegacion",
+            },
           ];
           const permisos = permisosDisponibles
-            .filter(p => document.getElementById(p.id).checked)
-            .map(p => ({
+            .filter((p) => document.getElementById(p.id).checked)
+            .map((p) => ({
               path: p.path,
               nombre: p.nombre.toLowerCase(),
-              rolId: rolId ? rolId : null
+              rolId: rolId ? rolId : null,
             }));
 
           if (permisos.length === 0) {
@@ -254,23 +347,24 @@
           const url = isEditing ? `${API_URL}/${rolId}` : API_URL;
 
           const rolData = {
-
             ...(isEditing && { id: rolId }),
             nombre: nombre.value.trim(),
             descripcion: descripcion.value.trim(),
-            permisos
+            permisos,
           };
 
           try {
             const response = await fetch(url, {
               method: method,
               headers: { "Content-Type": "application/json" },
-              body: JSON.stringify(rolData)
+              body: JSON.stringify(rolData),
             });
 
             if (!response.ok) {
               const errorText = await response.text();
-              throw new Error(errorText || "Error desconocido al procesar la solicitud.");
+              throw new Error(
+                errorText || "Error desconocido al procesar la solicitud."
+              );
             }
 
             const data = await response.json();
@@ -280,13 +374,13 @@
             );
             modal.hide();
             window.location.reload();
-
           } catch (error) {
             console.error("Error:", error);
             const serverErrorElement = document.getElementById("serverError");
             let displayMessage;
             if (error.message.includes("EL NOMBRE DE ROL YA ESTA EN USO")) {
-              displayMessage = "El nombre de rol ya está en uso. Intenta con otro.";
+              displayMessage =
+                "El nombre de rol ya está en uso. Intenta con otro.";
             } else if (error.message.includes("Failed to fetch")) {
               displayMessage = "No se pudo conectar con el servidor.";
             } else {
@@ -301,18 +395,21 @@
       });
 
       document.addEventListener("DOMContentLoaded", () => {
-
         const modalEliminar = document.getElementById("modalConfirmarEliminar");
         const rolIdEliminarInput = document.getElementById("rolIdEliminar");
-        const rolNombreEliminarSpan = document.getElementById("rolNombreEliminar");
-        const btnConfirmarEliminar = document.getElementById("btnConfirmarEliminar");
+        const rolNombreEliminarSpan =
+          document.getElementById("rolNombreEliminar");
+        const btnConfirmarEliminar = document.getElementById(
+          "btnConfirmarEliminar"
+        );
         const deleteServerError = document.getElementById("deleteServerError");
         const API_URL = "/api/roles-permisos";
 
-        document.querySelectorAll(".btn-eliminar-rol").forEach(button => {
+        document.querySelectorAll(".btn-eliminar-rol").forEach((button) => {
           button.addEventListener("click", (event) => {
             const rolId = event.currentTarget.getAttribute("data-rol-id");
-            const rolNombre = event.currentTarget.getAttribute("data-rol-nombre");
+            const rolNombre =
+              event.currentTarget.getAttribute("data-rol-nombre");
 
             rolIdEliminarInput.value = rolId;
             rolNombreEliminarSpan.textContent = rolNombre;
@@ -332,7 +429,7 @@
           try {
             const response = await fetch(`${API_URL}/${idToDelete}`, {
               method: "DELETE",
-              headers: { "Content-Type": "application/json" }
+              headers: { "Content-Type": "application/json" },
             });
 
             if (response.status === 204 || response.ok) {
@@ -341,30 +438,43 @@
               window.location.reload();
             } else {
               const errorText = await response.text();
-              deleteServerError.textContent = errorText || "Error desconocido al eliminar el rol.";
+              deleteServerError.textContent =
+                errorText || "Error desconocido al eliminar el rol.";
               deleteServerError.classList.remove("d-none");
             }
           } catch (error) {
             console.error("Error de red al eliminar:", error);
-            deleteServerError.textContent = "Error de conexión. Intenta de nuevo.";
+            deleteServerError.textContent =
+              "Error de conexión. Intenta de nuevo.";
             deleteServerError.classList.remove("d-none");
           }
         });
       });
-
     </script>
 
     <!-- Modales de detalle de rol -->
     <div th:each="r : ${roles}">
-      <div class="modal fade" th:id="'modalDetalleRol' + ${r.id}" tabindex="-1"
-        th:attr="aria-labelledby=${'modalDetalleRolLabel' + r.id}" aria-hidden="true">
+      <div
+        class="modal fade"
+        th:id="'modalDetalleRol' + ${r.id}"
+        tabindex="-1"
+        th:attr="aria-labelledby=${'modalDetalleRolLabel' + r.id}"
+        aria-hidden="true"
+      >
         <div class="modal-dialog modal-dialog-centered">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title" th:id="'modalDetalleRolLabel' + ${r.id}"
-                th:text="'Detalles del Rol: ' + ${r.nombre}">
-              </h5>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+              <h5
+                class="modal-title"
+                th:id="'modalDetalleRolLabel' + ${r.id}"
+                th:text="'Detalles del Rol: ' + ${r.nombre}"
+              ></h5>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Cerrar"
+              ></button>
             </div>
 
             <div class="modal-body">
@@ -382,13 +492,19 @@
                 <strong>Permisos:</strong>
                 <ul>
                   <li th:each="p : ${r.permisos}" th:text="${p.nombre}"></li>
-                  <li th:if="${#lists.isEmpty(r.permisos)}" class="text-muted">Sin permisos asignados</li>
+                  <li th:if="${#lists.isEmpty(r.permisos)}" class="text-muted">
+                    Sin permisos asignados
+                  </li>
                 </ul>
               </div>
             </div>
 
             <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+              <button
+                type="button"
+                class="btn btn-secondary"
+                data-bs-dismiss="modal"
+              >
                 Cerrar
               </button>
             </div>
@@ -397,27 +513,56 @@
       </div>
     </div>
     <!-- Modal Confirmar Eliminación -->
-    <div class="modal fade" id="modalConfirmarEliminar" tabindex="-1" aria-labelledby="modalConfirmarEliminarLabel"
-      aria-hidden="true">
+    <div
+      class="modal fade"
+      id="modalConfirmarEliminar"
+      tabindex="-1"
+      aria-labelledby="modalConfirmarEliminarLabel"
+      aria-hidden="true"
+    >
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="modalConfirmarEliminarLabel">Confirmar Eliminación</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+            <h5 class="modal-title" id="modalConfirmarEliminarLabel">
+              Confirmar Eliminación
+            </h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Cerrar"
+            ></button>
           </div>
           <div class="modal-body">
-            <p>¿Estás seguro de que deseas eliminar el rol <span id="rolNombreEliminar"></span>?</p>
-            <div id="deleteServerError" class="alert alert-danger d-none mt-3" role="alert"></div>
+            <p>
+              ¿Estás seguro de que deseas eliminar el rol
+              <span id="rolNombreEliminar"></span>?
+            </p>
+            <div
+              id="deleteServerError"
+              class="alert alert-danger d-none mt-3"
+              role="alert"
+            ></div>
             <input type="hidden" id="rolIdEliminar" value="" />
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-            <button type="button" class="btn btn-danger" id="btnConfirmarEliminar">Eliminar</button>
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Cancelar
+            </button>
+            <button
+              type="button"
+              class="btn btn-danger"
+              id="btnConfirmarEliminar"
+            >
+              Eliminar
+            </button>
           </div>
         </div>
       </div>
     </div>
-
   </div>
-
 </div>

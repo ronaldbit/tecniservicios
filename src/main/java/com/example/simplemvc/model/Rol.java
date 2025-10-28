@@ -1,10 +1,5 @@
 package com.example.simplemvc.model;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.springframework.security.core.GrantedAuthority;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -13,15 +8,20 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import java.util.ArrayList;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.security.core.GrantedAuthority;
 
 @Entity
-@Table(name = "rol", uniqueConstraints = {
-    @jakarta.persistence.UniqueConstraint(columnNames = "nombre", name = "rol_nombre")
-})
+@Table(
+    name = "rol",
+    uniqueConstraints = {
+      @jakarta.persistence.UniqueConstraint(columnNames = "nombre", name = "rol_nombre")
+    })
 @Data
 @Builder
 @NoArgsConstructor

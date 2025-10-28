@@ -1,12 +1,5 @@
 package com.example.simplemvc.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-
 import com.example.simplemvc.dto.JwtDto;
 import com.example.simplemvc.dto.UsuarioDto;
 import com.example.simplemvc.model.Usuario;
@@ -15,26 +8,29 @@ import com.example.simplemvc.request.LoginUsuarioRequest;
 import com.example.simplemvc.service.AuthService;
 import com.example.simplemvc.service.JwtAuthenticationService;
 import com.example.simplemvc.service.UsuarioService;
-
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping("/api/auth")
 @AllArgsConstructor
 public class ApiAuthController {
-  @Autowired
-  private final UsuarioService usuarioService;
+  @Autowired private final UsuarioService usuarioService;
 
-  @Autowired
-  private final AuthService authService;
+  @Autowired private final AuthService authService;
 
-  @Autowired
-  private final JwtAuthenticationService jwtAuthenticationService;
+  @Autowired private final JwtAuthenticationService jwtAuthenticationService;
 
   @PostMapping("/login")
-  public String login(@ModelAttribute LoginUsuarioRequest request, HttpServletResponse response, Model model) {
+  public String login(
+      @ModelAttribute LoginUsuarioRequest request, HttpServletResponse response, Model model) {
     try {
       JwtDto jwt = authService.login(request);
 

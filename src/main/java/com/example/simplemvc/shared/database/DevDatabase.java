@@ -1,14 +1,13 @@
 package com.example.simplemvc.shared.database;
 
 import jakarta.annotation.PostConstruct;
+import javax.sql.DataSource;
 import org.springframework.context.annotation.Profile;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.init.DatabasePopulatorUtils;
 import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
 import org.springframework.stereotype.Component;
-
-import javax.sql.DataSource;
 
 @Component
 @Profile("dev")

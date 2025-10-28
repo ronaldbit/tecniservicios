@@ -1,8 +1,6 @@
 package com.example.simplemvc.repository;
 
+import com.example.simplemvc.model.TipoDocumento;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.example.simplemvc.model.TipoDocumento;
-
-public interface TipoDocumentoRepository extends JpaRepository<TipoDocumento, Long> {
-}
+public interface TipoDocumentoRepository extends JpaRepository<TipoDocumento, Long> {}

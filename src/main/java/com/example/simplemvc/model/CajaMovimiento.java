@@ -1,10 +1,7 @@
 package com.example.simplemvc.model;
 
-import java.time.LocalDateTime;
-
 import com.example.simplemvc.model.enums.OrigenMovimiento;
 import com.example.simplemvc.model.enums.TipoMovimiento;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -15,6 +12,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -50,7 +48,7 @@ public class CajaMovimiento {
 
   // TODO: private Long referenciaId;
 
-  @Column(columnDefinition = "varchar(300)",nullable = false)
+  @Column(columnDefinition = "varchar(300)", nullable = false)
   private String observacion;
 
   @ManyToOne(optional = false)

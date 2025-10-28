@@ -1,14 +1,15 @@
 package com.example.simplemvc.model;
 
+import com.example.simplemvc.dto.CajaMovimientoDto;
+import com.example.simplemvc.shared.mapper.BasicMapper;
+import com.example.simplemvc.shared.mapper.StringUtilsMapper;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.ObjectFactory;
 
-import com.example.simplemvc.dto.CajaMovimientoDto;
-import com.example.simplemvc.shared.mapper.BasicMapper;
-import com.example.simplemvc.shared.mapper.StringUtilsMapper;
-
-@Mapper(componentModel = "spring", uses = { StringUtilsMapper.class, CajaMapper.class, UsuarioMapper.class })
+@Mapper(
+    componentModel = "spring",
+    uses = {StringUtilsMapper.class, CajaMapper.class, UsuarioMapper.class})
 public interface CajaMovimientoMapper extends BasicMapper<CajaMovimiento, CajaMovimientoDto> {
   @ObjectFactory
   default CajaMovimiento.CajaMovimientoBuilder createBuilder(CajaMovimientoDto dto) {

@@ -1,7 +1,10 @@
 package com.example.simplemvc.controller;
 
+import com.example.simplemvc.dto.PersonaDto;
+import com.example.simplemvc.request.CrearPersonaRequest;
+import com.example.simplemvc.service.PersonaService;
 import java.util.List;
-
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -14,22 +17,15 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.example.simplemvc.dto.PersonaDto;
-import com.example.simplemvc.request.CrearPersonaRequest;
-import com.example.simplemvc.service.PersonaService;
-
-import lombok.AllArgsConstructor;
-
 @Controller
 @RequestMapping("/api/personas")
 @AllArgsConstructor
 public class ApiPersonaController {
-  @Autowired
-  private final PersonaService personaService;
+  @Autowired private final PersonaService personaService;
 
   @PostMapping
-  public String crear(@ModelAttribute CrearPersonaRequest request,
-      RedirectAttributes redirectAttributes) {
+  public String crear(
+      @ModelAttribute CrearPersonaRequest request, RedirectAttributes redirectAttributes) {
     try {
       PersonaDto personaDto = personaService.crear(request);
 

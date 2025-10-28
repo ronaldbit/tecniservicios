@@ -1,10 +1,6 @@
 package com.example.simplemvc.model;
 
-import org.hibernate.annotations.SQLDelete;
-import org.hibernate.annotations.SQLRestriction;
-
 import com.example.simplemvc.model.enums.EstadoEntidad;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -18,11 +14,15 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.SQLRestriction;
 
 @Entity
-@Table(name = "tipo_documento", uniqueConstraints = {
-    @UniqueConstraint(columnNames = "codigo", name = "uk_tipo_documento_codigo")
-})
+@Table(
+    name = "tipo_documento",
+    uniqueConstraints = {
+      @UniqueConstraint(columnNames = "codigo", name = "uk_tipo_documento_codigo")
+    })
 @SQLDelete(sql = "UPDATE tipo_documento SET estado = 0 WHERE id = ?")
 @SQLRestriction("estado <> 0")
 @Data
