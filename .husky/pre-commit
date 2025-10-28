@@ -1,2 +1,2 @@
-echo "🧹 Aplicando formato con Spotless..."
+echo "Running Spotless..."
 mvn spotless:apply
