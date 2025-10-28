@@ -702,42 +702,36 @@
       clearClienteFields()
 
       if(tipo === "dni") {
-
         if(!/^\d{8}$/.test(ndoc)) {
           alert("DNI inválido");
           return;
         }
-      } else
-      if(tipo === "ruc") {
+      } else if(tipo === "ruc") {
         if(!/^\d{11}$/.test(ndoc)) {
           alert("RUC inválido");
           return;
         }
-      }
-
-      else {
+      } else {
         alert("Seleccione DNI o RUC");
         return;
       }
 
       try {
         const response = await fetchJSON(`/api/consulta/${tipo}?num=` + ndoc);
-            if (!response.success || !response.data) {
-              alert(response.message ?? "No encontrado");
-              return;
-            }
-            const data = response.data;
+        if (!response.success || !response.data) {
+          alert(response.message ?? "No encontrado");
+          return;
+        }
 
-            nombreRazon.value = tipo === "dni" ? (data?.nombres ? data.nombres.trim() : "") : (data?.razon_social ? data.razon_social.trim() : "");
+        const data = response.data;
 
-            apellidosIn.value = (data?.apellido_materno + " " + data?.apellido_paterno) ?? "";
+        nombreRazon.value = tipo === "dni" ? (data?.nombres ? data.nombres.trim() : "") : (data?.razon_social ? data.razon_social.trim() : "");
 
-              direccion.value = (
-                data?.direccion_completa ??
-                data?.direccion ?? ""
-              ).trim();
+        apellidosIn.value = (data?.apellido_materno + " " + data?.apellido_paterno) ?? "";
 
-              apellidosDiv.style.display = tipo === "dni" ? "block" : "none";
+        direccion.value = (data?.direccion_completa ?? data?.direccion ?? "").trim();
+
+        apellidosDiv.style.display = tipo === "dni" ? "block" : "none";
 
       } catch (error) {
         alert("Error consultando documento");

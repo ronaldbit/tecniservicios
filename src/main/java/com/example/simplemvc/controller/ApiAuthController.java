@@ -3,6 +3,7 @@ package com.example.simplemvc.controller;
 import com.example.simplemvc.dto.JwtDto;
 import com.example.simplemvc.dto.UsuarioDto;
 import com.example.simplemvc.model.Usuario;
+import com.example.simplemvc.model.enums.EstadoEntidad;
 import com.example.simplemvc.request.CrearUsuarioRequest;
 import com.example.simplemvc.request.LoginUsuarioRequest;
 import com.example.simplemvc.service.AuthService;
@@ -49,6 +50,11 @@ public class ApiAuthController {
       response.addCookie(jwtCookie);
 
       Usuario usuario = jwtAuthenticationService.fromJwt(jwt.getJwt());
+
+      if (usuario.getEstado() == EstadoEntidad.INACTIVO) {
+        model.addAttribute("message", "Usuario inactivo. Contacte al administrador.");
+        return "/auth/login";
+      }
 
       model.addAttribute("usuario", usuario);
 
