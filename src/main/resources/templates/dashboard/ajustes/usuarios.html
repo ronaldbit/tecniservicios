@@ -408,7 +408,7 @@
       const d = res.data;
       nombres.value = (d.nombres||'').trim();
       apellidos.value = [d.apellido_paterno||'', d.apellido_materno||''].filter(Boolean).join(' ').trim();
-      // opcional: autocompletar username/email si deseas
+      // futureeee: autocompletar username/email
       // byId('usuarioUsername').value = (d.nombres||'').split(' ')[0].toLowerCase()+dni.slice(-3);
     }catch(e){
       alert('Error consultando DNI'); 

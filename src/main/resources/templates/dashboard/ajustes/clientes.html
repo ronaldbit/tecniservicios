@@ -76,13 +76,13 @@
                         <div class="invalid-feedback">Seleccione el tipo de documento.</div>
                       </div>
                       <div class="mb-3 d-flex" style="gap:8px; align-items:end;">
-  <div style="flex:1">
-    <label for="clienteNumDoc" class="form-label">Número Documento</label>
-    <input type="text" class="form-control" id="clienteNumDoc" required />
-    <div class="invalid-feedback" id="clienteNumDocFeedback">Ingrese un número de documento válido.</div>
-  </div>
-  <button type="button" class="btn btn-outline-primary" id="btnBuscarDoc">Buscar</button>
-</div>
+                        <div style="flex:1">
+                          <label for="clienteNumDoc" class="form-label">Número Documento</label>
+                          <input type="text" class="form-control" id="clienteNumDoc" required />
+                          <div class="invalid-feedback" id="clienteNumDocFeedback">Ingrese un número de documento válido.</div>
+                        </div>
+                        <button type="button" class="btn btn-outline-primary" id="btnBuscarDoc">Buscar</button>
+                      </div>
 
                       <div class="mb-3">
                         <label for="clienteNombreRazon" class="form-label">Nombre / Razón Social</label>
@@ -414,7 +414,6 @@
 </script>
 
 <script>
-  // Validación dinámica del formulario de cliente
   document.addEventListener("DOMContentLoaded", function () {
     const formCliente = document.querySelector(
       "#exampleModalLive .needs-validation"
