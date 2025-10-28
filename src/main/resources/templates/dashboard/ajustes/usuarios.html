@@ -1,7 +1,4 @@
-<div
-  class="pc-container"
-  th:replace="~{dashboard/layout :: layout(~{::content}, ${usuario}, 'Inicio', '/dashboard')}"
->
+<div class="pc-container" th:replace="~{dashboard/layout :: layout(~{::content}, ${usuario}, 'Inicio', '/dashboard')}">
   <div class="pc-content" th:fragment="content">
     <!-- [ Main Content ] start -->
     <!-- Breadcrumb -->
@@ -12,9 +9,7 @@
             <ul class="breadcrumb">
               <li class="breadcrumb-item"><a href="/dashboard">Home</a></li>
               <li class="breadcrumb-item"><a href="#">Membership</a></li>
-              <li class="breadcrumb-item active" aria-current="page">
-                Membership List
-              </li>
+              <li class="breadcrumb-item active" aria-current="page">Membership List</li>
             </ul>
           </div>
           <div class="col-md-12">
@@ -29,15 +24,9 @@
     <div class="row">
       <div class="col-12">
         <div class="card table-card">
-          <div
-            class="card-header d-flex justify-content-between align-items-center"
-          >
+          <div class="card-header d-flex justify-content-between align-items-center">
             <h5>Lista de usuarios</h5>
-            <button
-              class="btn btn-primary"
-              data-bs-toggle="modal"
-              data-bs-target="#modalAgregarUsuario"
-            >
+            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalAgregarUsuario">
               <i class="ti ti-user-plus"></i> Agregar usuario
             </button>
           </div>
@@ -56,33 +45,18 @@
                 <tbody>
                   <tr th:each="u : ${usuarios}">
                     <td th:text="${u.id}"></td>
-                    <td
-                      th:text="${u.persona.nombres + ' ' + u.persona.apellidos}"
-                    ></td>
+                    <td th:text="${u.persona.nombres + ' ' + u.persona.apellidos}"></td>
                     <td th:text="${u.nombreUsuario}"></td>
-                    <td
-                      th:text="${!u.roles.isEmpty() ? u.roles[0].nombre : 'Sin rol'}"
-                    ></td>
+                    <td th:text="${!u.roles.isEmpty() ? u.roles[0].nombre : 'Sin rol'}"></td>
                     <td>
-                      <button
-                        data-bs-toggle="modal"
-                        data-bs-target="#modalDetalleUsuario"
-                        th:attr="data-id=${u.id}"
-                        href="#!"
-                        class="avtar avtar-xs btn-link-secondary"
-                      >
+                      <button data-bs-toggle="modal" data-bs-target="#modalDetalleUsuario" th:attr="data-id=${u.id}"
+                        href="#!" class="avtar avtar-xs btn-link-secondary">
                         <i class="ti ti-eye f-20"></i>
                       </button>
-                      <button
-                        href="#!"
-                        class="avtar avtar-xs btn-link-secondary"
-                      >
+                      <button href="#!" class="avtar avtar-xs btn-link-secondary">
                         <i class="ti ti-edit f-20"></i>
                       </button>
-                      <button
-                        href="#!"
-                        class="avtar avtar-xs btn-link-secondary"
-                      >
+                      <button href="#!" class="avtar avtar-xs btn-link-secondary">
                         <i class="ti ti-trash f-20"></i>
                       </button>
                     </td>
@@ -96,25 +70,13 @@
     </div>
     <!-- Modales de usuario -->
     <!-- Modal Agregar Usuario -->
-    <div
-      class="modal fade"
-      id="modalAgregarUsuario"
-      tabindex="-1"
-      aria-labelledby="modalAgregarUsuarioLabel"
-      aria-hidden="true"
-    >
+    <div class="modal fade" id="modalAgregarUsuario" tabindex="-1" aria-labelledby="modalAgregarUsuarioLabel"
+      aria-hidden="true">
       <div class="modal-dialog modal-lg modal-dialog-centered">
         <form class="modal-content needs-validation" novalidate>
           <div class="modal-header">
-            <h5 class="modal-title" id="modalAgregarUsuarioLabel">
-              Agregar Nuevo Usuario
-            </h5>
-            <button
-              type="button"
-              class="btn-close"
-              data-bs-dismiss="modal"
-              aria-label="Cerrar"
-            ></button>
+            <h5 class="modal-title" id="modalAgregarUsuarioLabel">Agregar Nuevo Usuario</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
           </div>
           <div class="modal-body">
             <div class="row">
@@ -122,76 +84,42 @@
                 <div class="mb-3 d-flex" style="gap:8px; align-items: end;">
                   <div style="flex:1">
                     <label for="usuarioDNI" class="form-label">DNI</label>
-                    <input type="text" class="form-control" id="usuarioDNI" required pattern="[0-9]{8}" maxlength="8"/>
+                    <input type="text" class="form-control" id="usuarioDNI" required pattern="[0-9]{8}" maxlength="8" />
                     <div class="invalid-feedback">Por favor, ingrese un DNI válido de 8 dígitos.</div>
                   </div>
                   <button type="button" class="btn btn-outline-primary" id="btnBuscarDNI">Buscar</button>
                 </div>
-
                 <div class="mb-3">
                   <label for="usuarioNombres" class="form-label">Nombres</label>
-                  <input
-                    type="text"
-                    class="form-control"
-                    id="usuarioNombres"
-                    required
-                  />
+                  <input type="text" class="form-control" id="usuarioNombres" required />
                   <div class="invalid-feedback">El nombre es obligatorio.</div>
                 </div>
 
                 <div class="mb-3">
-                  <label for="usuarioApellidos" class="form-label"
-                    >Apellidos</label
-                  >
-                  <input
-                    type="text"
-                    class="form-control"
-                    id="usuarioApellidos"
-                    required
-                  />
+                  <label for="usuarioApellidos" class="form-label">Apellidos</label>
+                  <input type="text" class="form-control" id="usuarioApellidos" required />
                   <div class="invalid-feedback">
                     Los apellidos son obligatorios.
                   </div>
                 </div>
 
                 <div class="mb-3">
-                  <label for="usuarioTelefono" class="form-label"
-                    >Número de Teléfono</label
-                  >
-                  <input
-                    type="tel"
-                    class="form-control"
-                    id="usuarioTelefono"
-                    required
-                    pattern="[0-9]{9}"
-                    maxlength="9"
-                  />
+                  <label for="usuarioTelefono" class="form-label">Número de Teléfono</label>
+                  <input type="tel" class="form-control" id="usuarioTelefono" required pattern="[0-9]{9}"
+                    maxlength="9" />
                   <div class="invalid-feedback">
                     Ingrese un número de celular válido de 9 dígitos.
                   </div>
                 </div>
 
                 <div class="mb-3">
-                  <label for="usuarioDireccion" class="form-label"
-                    >Dirección (Opcional)</label
-                  >
-                  <input
-                    type="text"
-                    class="form-control"
-                    id="usuarioDireccion"
-                  />
+                  <label for="usuarioDireccion" class="form-label">Dirección (Opcional)</label>
+                  <input type="text" class="form-control" id="usuarioDireccion" />
                 </div>
 
                 <div class="mb-3">
-                  <label for="usuarioFechaInicio" class="form-label"
-                    >Fecha de inicio</label
-                  >
-                  <input
-                    type="date"
-                    class="form-control"
-                    id="usuarioFechaInicio"
-                    required
-                  />
+                  <label for="usuarioFechaInicio" class="form-label">Fecha de inicio</label>
+                  <input type="date" class="form-control" id="usuarioFechaInicio" required />
                   <div class="invalid-feedback">
                     Seleccione la fecha de inicio.
                   </div>
@@ -201,69 +129,38 @@
               <div class="col-md-6">
                 <div class="mb-3">
                   <label for="usuarioEmail" class="form-label">Email</label>
-                  <input
-                    type="email"
-                    class="form-control"
-                    id="usuarioEmail"
-                    required
-                  />
+                  <input type="email" class="form-control" id="usuarioEmail" required />
                   <div class="invalid-feedback">
                     Ingrese un correo electrónico válido.
                   </div>
                 </div>
 
                 <div class="mb-3">
-                  <label for="usuarioUsername" class="form-label"
-                    >Username (Para iniciar sesión)</label
-                  >
-                  <input
-                    type="text"
-                    class="form-control"
-                    id="usuarioUsername"
-                    required
-                    minlength="4"
-                  />
+                  <label for="usuarioUsername" class="form-label">Username (Para iniciar sesión)</label>
+                  <input type="text" class="form-control" id="usuarioUsername" required minlength="4" />
                   <div class="invalid-feedback">
                     El username debe tener al menos 4 caracteres.
                   </div>
                 </div>
 
                 <div class="mb-3">
-                  <label for="usuarioPassword" class="form-label"
-                    >Contraseña</label
-                  >
-                  <input
-                    type="password"
-                    class="form-control"
-                    id="usuarioPassword"
-                    required
-                    minlength="6"
-                  />
+                  <label for="usuarioPassword" class="form-label">Contraseña</label>
+                  <input type="password" class="form-control" id="usuarioPassword" required minlength="6" />
                   <div class="invalid-feedback">
                     La contraseña debe tener al menos 6 caracteres.
                   </div>
                 </div>
 
                 <div class="mb-3">
-                  <label for="usuarioPasswordConfirm" class="form-label"
-                    >Confirmar Contraseña</label
-                  >
-                  <input
-                    type="password"
-                    class="form-control"
-                    id="usuarioPasswordConfirm"
-                    required
-                    minlength="6"
-                  />
+                  <label for="usuarioPasswordConfirm" class="form-label">Confirmar Contraseña</label>
+                  <input type="password" class="form-control" id="usuarioPasswordConfirm" required minlength="6" />
                   <div class="invalid-feedback" id="confirmPasswordFeedback">
                     Las contraseñas no coinciden o son muy cortas.
                   </div>
                 </div>
 
                 <div class="mb-3">
-                  <label for="usuarioRol" class="form-label"
-                    >Rol (Permisos del Sistema)</label
-                  >
+                  <label for="usuarioRol" class="form-label">Rol (Permisos del Sistema)</label>
                   <select class="form-select" id="usuarioRol" required>
                     <option value="" selected disabled>
                       Seleccione un rol...
@@ -279,15 +176,9 @@
                 </div>
 
                 <div class="mb-3">
-                  <label for="usuarioPuesto" class="form-label"
-                    >Puesto/Cargo (Opcional)</label
-                  >
-                  <input
-                    type="text"
-                    class="form-control"
-                    id="usuarioPuesto"
-                    placeholder="Ej: Vendedor Senior, Jefe de Almacén"
-                  />
+                  <label for="usuarioPuesto" class="form-label">Puesto/Cargo (Opcional)</label>
+                  <input type="text" class="form-control" id="usuarioPuesto"
+                    placeholder="Ej: Vendedor Senior, Jefe de Almacén" />
                 </div>
 
                 <div class="mb-3">
@@ -304,11 +195,7 @@
             </div>
           </div>
           <div class="modal-footer">
-            <button
-              type="button"
-              class="btn btn-secondary"
-              data-bs-dismiss="modal"
-            >
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
               Cancelar
             </button>
             <button type="submit" class="btn btn-primary">
@@ -319,39 +206,23 @@
       </div>
     </div>
     <!-- Modal Detalle Usuario 1 -->
-    <div
-      class="modal fade"
-      id="modalDetalleUsuario"
-      tabindex="-1"
-      aria-labelledby="modalDetalleUsuarioLabel"
-      aria-hidden="true"
-    >
+    <div class="modal fade" id="modalDetalleUsuario" tabindex="-1" aria-labelledby="modalDetalleUsuarioLabel"
+      aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title" id="modalDetalleUsuarioLabel">
               Detalles de usuario
             </h5>
-            <button
-              type="button"
-              class="btn-close"
-              data-bs-dismiss="modal"
-              aria-label="Cerrar"
-            ></button>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
           </div>
           <div class="modal-body">
             <div class="d-flex align-items-center mb-3">
-              <img
-                id="detalleUsuarioImg"
-                src="/assets/images/user/avatar-1.jpg"
-                alt="Imagen usuario"
-                class="img-radius wid-60 me-3"
-              />
+              <img id="detalleUsuarioImg" src="/assets/images/user/avatar-1.jpg" alt="Imagen usuario"
+                class="img-radius wid-60 me-3" />
               <div>
                 <h5 class="mb-0" id="detalleUsuarioNombre">—</h5>
-                <span class="badge text-bg-secondary" id="detalleUsuarioRol"
-                  >—</span
-                >
+                <span class="badge text-bg-secondary" id="detalleUsuarioRol">—</span>
               </div>
             </div>
             <ul class="list-group list-group-flush">
@@ -370,11 +241,7 @@
             </ul>
           </div>
           <div class="modal-footer">
-            <button
-              type="button"
-              class="btn btn-secondary"
-              data-bs-dismiss="modal"
-            >
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
               Cerrar
             </button>
           </div>
@@ -387,32 +254,30 @@
 </div>
 
 <script>
-(function(){
-  const byId = id => document.getElementById(id);
-  const dniInput = byId('usuarioDNI');
-  const nombres = byId('usuarioNombres');
-  const apellidos = byId('usuarioApellidos');
+  (function () {
+    const byId = id => document.getElementById(id);
+    const dniInput = byId('usuarioDNI');
+    const nombres = byId('usuarioNombres');
+    const apellidos = byId('usuarioApellidos');
 
-  async function fetchJSON(url){
-    const r = await fetch(url, {headers:{'Accept':'application/json'}});
-    if(!r.ok) throw new Error('HTTP '+r.status);
-    return r.json();
-  }
-
-  document.getElementById('btnBuscarDNI')?.addEventListener('click', async ()=>{
-    const dni = (dniInput.value||'').trim();
-    if(!/^\d{8}$/.test(dni)){ alert('DNI inválido.'); return; }
-    try{
-      const res = await fetchJSON('/api/consulta/dni?num='+dni);
-      if(!res.success || !res.data){ alert(res.message || 'No encontrado'); return; }
-      const d = res.data;
-      nombres.value = (d.nombres||'').trim();
-      apellidos.value = [d.apellido_paterno||'', d.apellido_materno||''].filter(Boolean).join(' ').trim();
-      // futureeee: autocompletar username/email
-      // byId('usuarioUsername').value = (d.nombres||'').split(' ')[0].toLowerCase()+dni.slice(-3);
-    }catch(e){
-      alert('Error consultando DNI'); 
+    async function fetchJSON(url) {
+      const r = await fetch(url, { headers: { 'Accept': 'application/json' } });
+      if (!r.ok) throw new Error('HTTP ' + r.status);
+      return r.json();
     }
-  });
-})();
+
+    document.getElementById('btnBuscarDNI')?.addEventListener('click', async () => {
+      const dni = (dniInput.value || '').trim();
+      if (!/^\d{8}$/.test(dni)) { alert('DNI inválido.'); return; }
+      try {
+        const res = await fetchJSON('/api/consulta/dni?num=' + dni);
+        if (!res.success || !res.data) { alert(res.message || 'No encontrado'); return; }
+        const d = res.data;
+        nombres.value = (d.nombres || '').trim();
+        apellidos.value = [d.apellido_paterno || '', d.apellido_materno || ''].filter(Boolean).join(' ').trim();
+      } catch (e) {
+        alert('Error consultando DNI');
+      }
+    });
+  })();
 </script>

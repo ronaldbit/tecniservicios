@@ -1,7 +1,4 @@
-<div
-  class="pc-container"
-  th:replace="~{dashboard/layout :: layout(~{::content}, ${usuario}, 'Inicio', '/dashboard')}"
->
+<div class="pc-container" th:replace="~{dashboard/layout :: layout(~{::content}, ${usuario}, 'Inicio', '/dashboard')}">
   <div class="pc-content" th:fragment="content">
     <!-- [ Main Content ] start -->
     <div class="row">
@@ -17,18 +14,12 @@
                     Monitorea ingresos, pedidos, stock y clientes en tiempo
                     real. ¡Optimiza tus decisiones diarias!
                   </p>
-                  <a href="venta-normal" class="btn btn-outline-light"
-                    >+ Nueva venta</a
-                  >
+                  <a href="venta-normal" class="btn btn-outline-light">+ Nueva venta</a>
                 </div>
               </div>
               <div class="col-sm-6 text-center">
                 <div class="img-welcome-banner">
-                  <img
-                    src="/assets/images/widget/welcome-banner.png"
-                    alt="img"
-                    class="img-fluid"
-                  />
+                  <img src="/assets/images/widget/welcome-banner.png" alt="img" class="img-fluid" />
                 </div>
               </div>
             </div>
@@ -45,18 +36,10 @@
                 <div class="avtar avtar-s bg-light-primary">
                   <!-- ícono caja/ingresos -->
                   <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                    <path
-                      opacity="0.4"
-                      d="M13 9H7"
-                      stroke="#4680FF"
-                      stroke-width="1.5"
-                      stroke-linecap="round"
-                    />
+                    <path opacity="0.4" d="M13 9H7" stroke="#4680FF" stroke-width="1.5" stroke-linecap="round" />
                     <path
                       d="M21 15.5C21 18.5 19 20.5 16 20.5H7C4 20.5 2 18.5 2 15.5V8.5C2 5.5 4 3.5 7 3.5H16C19 3.5 21 5.5 21 8.5V15.5Z"
-                      stroke="#4680FF"
-                      stroke-width="1.5"
-                    />
+                      stroke="#4680FF" stroke-width="1.5" />
                   </svg>
                 </div>
               </div>
@@ -65,11 +48,8 @@
               </div>
               <div class="flex-shrink-0 ms-3">
                 <div class="dropdown">
-                  <a
-                    class="avtar avtar-s btn-link-secondary dropdown-toggle arrow-none"
-                    href="#"
-                    data-bs-toggle="dropdown"
-                  >
+                  <a class="avtar avtar-s btn-link-secondary dropdown-toggle arrow-none" href="#"
+                    data-bs-toggle="dropdown">
                     <i class="ti ti-dots-vertical f-18"></i>
                   </a>
                   <div class="dropdown-menu dropdown-menu-end">
@@ -82,7 +62,9 @@
             </div>
             <div class="bg-body p-3 mt-3 rounded">
               <div class="mt-3 row align-items-center">
-                <div class="col-7"><div id="all-earnings-graph"></div></div>
+                <div class="col-7">
+                  <div id="all-earnings-graph"></div>
+                </div>
                 <div class="col-5">
                   <h5 class="mb-1">S/ 3,020</h5>
                   <p class="text-primary mb-0">
@@ -103,19 +85,10 @@
                 <div class="avtar avtar-s bg-light-warning">
                   <!-- ícono tráfico/visitas -->
                   <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                    <path
-                      d="M21 7V17C21 20 19.5 22 16 22H8C4.5 22 3 20 3 17V7C3 4 4.5 2 8 2H16C19.5 2 21 4 21 7Z"
-                      stroke="#E58A00"
-                      stroke-width="1.5"
-                      stroke-linecap="round"
-                    />
-                    <path
-                      opacity="0.6"
-                      d="M8 13H16M8 17H14.5"
-                      stroke="#E58A00"
-                      stroke-width="1.5"
-                      stroke-linecap="round"
-                    />
+                    <path d="M21 7V17C21 20 19.5 22 16 22H8C4.5 22 3 20 3 17V7C3 4 4.5 2 8 2H16C19.5 2 21 4 21 7Z"
+                      stroke="#E58A00" stroke-width="1.5" stroke-linecap="round" />
+                    <path opacity="0.6" d="M8 13H16M8 17H14.5" stroke="#E58A00" stroke-width="1.5"
+                      stroke-linecap="round" />
                   </svg>
                 </div>
               </div>
@@ -124,11 +97,8 @@
               </div>
               <div class="flex-shrink-0 ms-3">
                 <div class="dropdown">
-                  <a
-                    class="avtar avtar-s btn-link-secondary dropdown-toggle arrow-none"
-                    href="#"
-                    data-bs-toggle="dropdown"
-                  >
+                  <a class="avtar avtar-s btn-link-secondary dropdown-toggle arrow-none" href="#"
+                    data-bs-toggle="dropdown">
                     <i class="ti ti-dots-vertical f-18"></i>
                   </a>
                   <div class="dropdown-menu dropdown-menu-end">
@@ -141,7 +111,9 @@
             </div>
             <div class="bg-body p-3 mt-3 rounded">
               <div class="mt-3 row align-items-center">
-                <div class="col-7"><div id="page-views-graph"></div></div>
+                <div class="col-7">
+                  <div id="page-views-graph"></div>
+                </div>
                 <div class="col-5">
                   <h5 class="mb-1">290K+</h5>
                   <p class="text-warning mb-0">
@@ -162,24 +134,10 @@
                 <div class="avtar avtar-s bg-light-success">
                   <!-- ícono órdenes -->
                   <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                    <path
-                      d="M8 2V5M16 2V5"
-                      stroke="#2ca87f"
-                      stroke-width="1.5"
-                      stroke-linecap="round"
-                    />
-                    <path
-                      d="M3 9h18"
-                      stroke="#2ca87f"
-                      stroke-width="1.5"
-                      stroke-linecap="round"
-                      opacity="0.4"
-                    />
-                    <path
-                      d="M21 9.5V17c0 3-1.5 5-5 5H8c-3.5 0-5-2-5-5V9.5C3 6.5 4.5 4.5 8 4.5h8c3.5 0 5 2 5 5Z"
-                      stroke="#2ca87f"
-                      stroke-width="1.5"
-                    />
+                    <path d="M8 2V5M16 2V5" stroke="#2ca87f" stroke-width="1.5" stroke-linecap="round" />
+                    <path d="M3 9h18" stroke="#2ca87f" stroke-width="1.5" stroke-linecap="round" opacity="0.4" />
+                    <path d="M21 9.5V17c0 3-1.5 5-5 5H8c-3.5 0-5-2-5-5V9.5C3 6.5 4.5 4.5 8 4.5h8c3.5 0 5 2 5 5Z"
+                      stroke="#2ca87f" stroke-width="1.5" />
                   </svg>
                 </div>
               </div>
@@ -188,11 +146,8 @@
               </div>
               <div class="flex-shrink-0 ms-3">
                 <div class="dropdown">
-                  <a
-                    class="avtar avtar-s btn-link-secondary dropdown-toggle arrow-none"
-                    href="#"
-                    data-bs-toggle="dropdown"
-                  >
+                  <a class="avtar avtar-s btn-link-secondary dropdown-toggle arrow-none" href="#"
+                    data-bs-toggle="dropdown">
                     <i class="ti ti-dots-vertical f-18"></i>
                   </a>
                   <div class="dropdown-menu dropdown-menu-end">
@@ -205,7 +160,9 @@
             </div>
             <div class="bg-body p-3 mt-3 rounded">
               <div class="mt-3 row align-items-center">
-                <div class="col-7"><div id="total-task-graph"></div></div>
+                <div class="col-7">
+                  <div id="total-task-graph"></div>
+                </div>
                 <div class="col-5">
                   <h5 class="mb-1">83</h5>
                   <p class="text-success mb-0">
@@ -226,19 +183,8 @@
                 <div class="avtar avtar-s bg-light-danger">
                   <!-- ícono devoluciones -->
                   <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                    <circle
-                      cx="12"
-                      cy="12"
-                      r="10"
-                      stroke="#DC2626"
-                      stroke-width="1.5"
-                    />
-                    <path
-                      d="M8.5 10.7L12 14.2L15.5 10.7"
-                      stroke="#DC2626"
-                      stroke-width="1.5"
-                      stroke-linecap="round"
-                    />
+                    <circle cx="12" cy="12" r="10" stroke="#DC2626" stroke-width="1.5" />
+                    <path d="M8.5 10.7L12 14.2L15.5 10.7" stroke="#DC2626" stroke-width="1.5" stroke-linecap="round" />
                   </svg>
                 </div>
               </div>
@@ -247,11 +193,8 @@
               </div>
               <div class="flex-shrink-0 ms-3">
                 <div class="dropdown">
-                  <a
-                    class="avtar avtar-s btn-link-secondary dropdown-toggle arrow-none"
-                    href="#"
-                    data-bs-toggle="dropdown"
-                  >
+                  <a class="avtar avtar-s btn-link-secondary dropdown-toggle arrow-none" href="#"
+                    data-bs-toggle="dropdown">
                     <i class="ti ti-dots-vertical f-18"></i>
                   </a>
                   <div class="dropdown-menu dropdown-menu-end">
@@ -264,7 +207,9 @@
             </div>
             <div class="bg-body p-3 mt-3 rounded">
               <div class="mt-3 row align-items-center">
-                <div class="col-7"><div id="download-graph"></div></div>
+                <div class="col-7">
+                  <div id="download-graph"></div>
+                </div>
                 <div class="col-5">
                   <h5 class="mb-1">26</h5>
                   <p class="text-danger mb-0">
@@ -287,11 +232,8 @@
               </div>
               <div class="flex-shrink-0 ms-3">
                 <div class="dropdown">
-                  <a
-                    class="avtar avtar-s btn-link-secondary dropdown-toggle arrow-none"
-                    href="#"
-                    data-bs-toggle="dropdown"
-                  >
+                  <a class="avtar avtar-s btn-link-secondary dropdown-toggle arrow-none" href="#"
+                    data-bs-toggle="dropdown">
                     <i class="ti ti-dots f-18"></i>
                   </a>
                   <div class="dropdown-menu dropdown-menu-end">
@@ -329,15 +271,12 @@
               <a href="#" class="btn btn-link-secondary">
                 <div class="d-flex align-items-center">
                   <div class="flex-shrink-0">
-                    <span class="p-1 d-block bg-warning rounded-circle"
-                      ><span class="visually-hidden">alerta</span></span
-                    >
+                    <span class="p-1 d-block bg-warning rounded-circle"><span
+                        class="visually-hidden">alerta</span></span>
                   </div>
                   <div class="flex-grow-1 mx-2">
                     <p class="mb-0 d-grid text-start">
-                      <span class="text-truncate w-100"
-                        >Reducir devoluciones</span
-                      >
+                      <span class="text-truncate w-100">Reducir devoluciones</span>
                     </p>
                   </div>
                   <div class="badge bg-light-secondary f-12">
@@ -352,9 +291,7 @@
                   </div>
                   <div class="flex-grow-1 mx-2">
                     <p class="mb-0 d-grid text-start">
-                      <span class="text-truncate w-100"
-                        >Campaña tickets > S/200</span
-                      >
+                      <span class="text-truncate w-100">Campaña tickets > S/200</span>
                     </p>
                   </div>
                 </div>
@@ -366,18 +303,14 @@
                   </div>
                   <div class="flex-grow-1 mx-2">
                     <p class="mb-0 d-grid text-start">
-                      <span class="text-truncate w-100"
-                        >Actualizar precios por región</span
-                      >
+                      <span class="text-truncate w-100">Actualizar precios por región</span>
                     </p>
                   </div>
                 </div>
               </a>
             </div>
             <div class="d-grid mt-3">
-              <button
-                class="btn btn-primary d-flex align-items-center justify-content-center gap-2"
-              >
+              <button class="btn btn-primary d-flex align-items-center justify-content-center gap-2">
                 <i class="ti ti-plus"></i> Añadir objetivo
               </button>
             </div>
@@ -392,11 +325,8 @@
             <div class="d-flex align-items-center justify-content-between">
               <h5 class="mb-0">Resumen operativo</h5>
               <div class="dropdown">
-                <a
-                  class="avtar avtar-s btn-link-secondary dropdown-toggle arrow-none"
-                  href="#"
-                  data-bs-toggle="dropdown"
-                >
+                <a class="avtar avtar-s btn-link-secondary dropdown-toggle arrow-none" href="#"
+                  data-bs-toggle="dropdown">
                   <i class="ti ti-dots f-18"></i>
                 </a>
                 <div class="dropdown-menu dropdown-menu-end">
@@ -431,9 +361,7 @@
               </div>
               <div class="col-md-6 col-xl-4">
                 <div class="mt-3 d-grid">
-                  <button
-                    class="btn btn-primary d-flex align-items-center justify-content-center gap-2"
-                  >
+                  <button class="btn btn-primary d-flex align-items-center justify-content-center gap-2">
                     <i class="ti ti-plus"></i> Crear campaña
                   </button>
                 </div>
@@ -458,11 +386,8 @@
                 <small class="text-muted">@tienda-online</small>
               </div>
               <div class="dropdown">
-                <a
-                  class="avtar avtar-s btn-link-secondary dropdown-toggle arrow-none"
-                  href="#"
-                  data-bs-toggle="dropdown"
-                >
+                <a class="avtar avtar-s btn-link-secondary dropdown-toggle arrow-none" href="#"
+                  data-bs-toggle="dropdown">
                   <i class="ti ti-dots-vertical f-18"></i>
                 </a>
                 <div class="dropdown-menu dropdown-menu-end">
@@ -474,33 +399,13 @@
             </div>
             <div class="d-flex align-items-center justify-content-between mt-4">
               <div class="user-group able-user-group">
-                <img
-                  src="/assets/images/user/avatar-1.jpg"
-                  alt="user-image"
-                  class="avtar"
-                />
-                <img
-                  src="/assets/images/user/avatar-3.jpg"
-                  alt="user-image"
-                  class="avtar"
-                />
-                <img
-                  src="/assets/images/user/avatar-4.jpg"
-                  alt="user-image"
-                  class="avtar"
-                />
-                <img
-                  src="/assets/images/user/avatar-5.jpg"
-                  alt="user-image"
-                  class="avtar"
-                />
-                <span class="avtar bg-light-primary text-primary text-sm"
-                  >+2</span
-                >
+                <img src="/assets/images/user/avatar-1.jpg" alt="user-image" class="avtar" />
+                <img src="/assets/images/user/avatar-3.jpg" alt="user-image" class="avtar" />
+                <img src="/assets/images/user/avatar-4.jpg" alt="user-image" class="avtar" />
+                <img src="/assets/images/user/avatar-5.jpg" alt="user-image" class="avtar" />
+                <span class="avtar bg-light-primary text-primary text-sm">+2</span>
               </div>
-              <a href="#" class="avtar avtar-s btn btn-primary rounded-circle"
-                ><i class="ti ti-plus f-20"></i
-              ></a>
+              <a href="#" class="avtar avtar-s btn btn-primary rounded-circle"><i class="ti ti-plus f-20"></i></a>
             </div>
           </div>
         </div>
@@ -513,11 +418,8 @@
             <div class="d-flex align-items-center justify-content-between">
               <h5 class="mb-0">Transacciones</h5>
               <div class="dropdown">
-                <a
-                  class="avtar avtar-s btn-link-secondary dropdown-toggle arrow-none"
-                  href="#"
-                  data-bs-toggle="dropdown"
-                >
+                <a class="avtar avtar-s btn-link-secondary dropdown-toggle arrow-none" href="#"
+                  data-bs-toggle="dropdown">
                   <i class="ti ti-dots-vertical f-18"></i>
                 </a>
                 <div class="dropdown-menu dropdown-menu-end">
@@ -529,38 +431,20 @@
             </div>
             <ul class="nav nav-tabs analytics-tab" id="myTab" role="tablist">
               <li class="nav-item" role="presentation">
-                <button
-                  class="nav-link active"
-                  id="analytics-tab-1"
-                  data-bs-toggle="tab"
-                  data-bs-target="#analytics-tab-1-pane"
-                  type="button"
-                  role="tab"
-                >
+                <button class="nav-link active" id="analytics-tab-1" data-bs-toggle="tab"
+                  data-bs-target="#analytics-tab-1-pane" type="button" role="tab">
                   Todas
                 </button>
               </li>
               <li class="nav-item" role="presentation">
-                <button
-                  class="nav-link"
-                  id="analytics-tab-2"
-                  data-bs-toggle="tab"
-                  data-bs-target="#analytics-tab-2-pane"
-                  type="button"
-                  role="tab"
-                >
+                <button class="nav-link" id="analytics-tab-2" data-bs-toggle="tab"
+                  data-bs-target="#analytics-tab-2-pane" type="button" role="tab">
                   Exitosas
                 </button>
               </li>
               <li class="nav-item" role="presentation">
-                <button
-                  class="nav-link"
-                  id="analytics-tab-3"
-                  data-bs-toggle="tab"
-                  data-bs-target="#analytics-tab-3-pane"
-                  type="button"
-                  role="tab"
-                >
+                <button class="nav-link" id="analytics-tab-3" data-bs-toggle="tab"
+                  data-bs-target="#analytics-tab-3-pane" type="button" role="tab">
                   Pendientes
                 </button>
               </li>
@@ -570,12 +454,7 @@
           <!-- Contenido tabs (ejemplos realistas) -->
           <div class="tab-content" id="myTabContent">
             <!-- Todas -->
-            <div
-              class="tab-pane fade show active"
-              id="analytics-tab-1-pane"
-              role="tabpanel"
-              tabindex="0"
-            >
+            <div class="tab-pane fade show active" id="analytics-tab-1-pane" role="tabpanel" tabindex="0">
               <ul class="list-group list-group-flush">
                 <li class="list-group-item">
                   <div class="d-flex align-items-center">
@@ -684,12 +563,7 @@
             </div>
 
             <!-- Exitosas -->
-            <div
-              class="tab-pane fade"
-              id="analytics-tab-2-pane"
-              role="tabpanel"
-              tabindex="0"
-            >
+            <div class="tab-pane fade" id="analytics-tab-2-pane" role="tabpanel" tabindex="0">
               <ul class="list-group list-group-flush">
                 <!-- Clona/filtra según tu backend -->
                 <li class="list-group-item">
@@ -719,12 +593,7 @@
             </div>
 
             <!-- Pendientes -->
-            <div
-              class="tab-pane fade"
-              id="analytics-tab-3-pane"
-              role="tabpanel"
-              tabindex="0"
-            >
+            <div class="tab-pane fade" id="analytics-tab-3-pane" role="tabpanel" tabindex="0">
               <ul class="list-group list-group-flush">
                 <li class="list-group-item">
                   <div class="d-flex align-items-center">
@@ -758,9 +627,7 @@
               <div class="col-md-6">
                 <div class="d-grid">
                   <button class="btn btn-outline-secondary d-grid">
-                    <span class="text-truncate w-100"
-                      >Ver historial completo</span
-                    >
+                    <span class="text-truncate w-100">Ver historial completo</span>
                   </button>
                 </div>
               </div>
@@ -783,11 +650,8 @@
             <div class="d-flex align-items-center justify-content-between">
               <h5 class="mb-0">Ingresos totales</h5>
               <div class="dropdown">
-                <a
-                  class="avtar avtar-s btn-link-secondary dropdown-toggle arrow-none"
-                  href="#"
-                  data-bs-toggle="dropdown"
-                >
+                <a class="avtar avtar-s btn-link-secondary dropdown-toggle arrow-none" href="#"
+                  data-bs-toggle="dropdown">
                   <i class="ti ti-dots-vertical f-18"></i>
                 </a>
                 <div class="dropdown-menu dropdown-menu-end">
@@ -804,9 +668,8 @@
                 <div class="bg-body p-3 rounded">
                   <div class="d-flex align-items-center mb-2">
                     <div class="flex-shrink-0">
-                      <span class="p-1 d-block bg-primary rounded-circle"
-                        ><span class="visually-hidden">alerta</span></span
-                      >
+                      <span class="p-1 d-block bg-primary rounded-circle"><span
+                          class="visually-hidden">alerta</span></span>
                     </div>
                     <div class="flex-grow-1 ms-2">
                       <p class="mb-0">Tienda física</p>
@@ -814,9 +677,7 @@
                   </div>
                   <h6 class="mb-0">
                     S/ 23,876
-                    <small class="text-muted"
-                      ><i class="ti ti-chevrons-up"></i> +S/ 763.43</small
-                    >
+                    <small class="text-muted"><i class="ti ti-chevrons-up"></i> +S/ 763.43</small>
                   </h6>
                 </div>
               </div>
@@ -825,9 +686,7 @@
                 <div class="bg-body p-3 rounded">
                   <div class="d-flex align-items-center mb-2">
                     <div class="flex-shrink-0">
-                      <span
-                        class="p-1 d-block bg-warning rounded-circle"
-                      ></span>
+                      <span class="p-1 d-block bg-warning rounded-circle"></span>
                     </div>
                     <div class="flex-grow-1 ms-2">
                       <p class="mb-0">Tienda online</p>
@@ -835,9 +694,7 @@
                   </div>
                   <h6 class="mb-0">
                     S/ 18,420
-                    <small class="text-muted"
-                      ><i class="ti ti-chevrons-up"></i> +S/ 512.10</small
-                    >
+                    <small class="text-muted"><i class="ti ti-chevrons-up"></i> +S/ 512.10</small>
                   </h6>
                 </div>
               </div>
@@ -846,9 +703,7 @@
                 <div class="bg-body p-3 rounded">
                   <div class="d-flex align-items-center mb-2">
                     <div class="flex-shrink-0">
-                      <span
-                        class="p-1 d-block bg-success rounded-circle"
-                      ></span>
+                      <span class="p-1 d-block bg-success rounded-circle"></span>
                     </div>
                     <div class="flex-grow-1 ms-2">
                       <p class="mb-0">Créditos cobrados</p>
@@ -856,9 +711,7 @@
                   </div>
                   <h6 class="mb-0">
                     S/ 9,706
-                    <small class="text-muted"
-                      ><i class="ti ti-chevrons-up"></i> +S/ 210.00</small
-                    >
+                    <small class="text-muted"><i class="ti ti-chevrons-up"></i> +S/ 210.00</small>
                   </h6>
                 </div>
               </div>
@@ -867,9 +720,7 @@
                 <div class="bg-body p-3 rounded">
                   <div class="d-flex align-items-center mb-2">
                     <div class="flex-shrink-0">
-                      <span
-                        class="p-1 d-block bg-light-primary rounded-circle"
-                      ></span>
+                      <span class="p-1 d-block bg-light-primary rounded-circle"></span>
                     </div>
                     <div class="flex-grow-1 ms-2">
                       <p class="mb-0">Carritos recuperados</p>
@@ -877,9 +728,7 @@
                   </div>
                   <h6 class="mb-0">
                     S/ 2,304
-                    <small class="text-muted"
-                      ><i class="ti ti-chevrons-up"></i> +S/ 130.00</small
-                    >
+                    <small class="text-muted"><i class="ti ti-chevrons-up"></i> +S/ 130.00</small>
                   </h6>
                 </div>
               </div>
