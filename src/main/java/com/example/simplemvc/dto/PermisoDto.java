@@ -13,5 +13,6 @@ import lombok.Setter;
 @AllArgsConstructor
 public class PermisoDto {
   private Long id;
+  private String nombre;
   private String path;
 }
