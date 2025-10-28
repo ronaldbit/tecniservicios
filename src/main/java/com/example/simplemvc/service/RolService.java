@@ -42,7 +42,7 @@ public class RolService {
     log.info("Actualizando rol con ID: {}", id);
     Rol rolExistente = rolRepository.findById(id)
         .orElseThrow(() -> new IllegalArgumentException("Rol no encontrado con ID: " + id));
-    rolExistente.setNombre(request.getNombre());    
+    rolExistente.setNombre(request.getNombre());
     rolExistente.setDescripcion(request.getDescripcion());
     rolExistente.setPermisos(permisoService.ActualizarPermisoRol(id, request.getPermisos()));
     Rol updated = rolRepository.save(rolExistente);

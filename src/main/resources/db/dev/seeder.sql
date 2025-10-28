@@ -5,15 +5,6 @@ VALUES
     (3, 'ALMACENERO', 'Encargado de almacén'),
     (4, 'VENDEDOR', 'Encargado de ventas'),
     (5, 'CLIENTE', 'Cliente del sistema');
-    
-INSERT INTO permiso (`id`, `nombre`, `path`, `rol_id`)
-VALUES
-    (1, 'AJUSTES', '/ajustes', 1),
-    (2, 'LOGISTICA', '/logistica', 3),
-    (3, 'NAVEGACION', '/navegacion', 4),
-    (4, 'REPORTES', '/reportes', 1),
-    (5, 'VENTAS', '/ventas', 2);
-
 
 
 INSERT INTO `tipo_documento` (`id`, `codigo`, `estado`)
@@ -42,3 +33,12 @@ VALUES
 INSERT INTO `usuario_rol` (`usuario_id`, `rol_id`)
 VALUES
     (1, 1);
+    (1, 1);
+
+INSERT INTO `permiso` (`id`,`nombre`, `path`, `rol_id`)
+VALUES
+    (1, 'Dashboard', '/dashboard/**', 1),
+    (2, 'Ventas', '/dashboard/ventas/**', 1),
+    (3, 'Logistica', '/dashboard/logistica/**', 1),
+    (4, 'Reportes', '/dashboard/reportes/**', 1),
+    (5, 'Configuracion', '/dashboard/configuracion/**', 1);
