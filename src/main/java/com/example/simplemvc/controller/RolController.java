@@ -32,6 +32,6 @@ public class RolController {
 
     model.addAttribute("usuario", usuarioMapper.toDto(currentUsuario));
     model.addAttribute("roles", rolService.lista());
-    return "dashboard/ajustes/roles";
+    return "/dashboard/ajustes/roles";
   }
 }

@@ -52,31 +52,15 @@ security:
 
   public-routes:
     - /
-    - /health
-    - /auth/login
+
+  auth-entry-routes:
+    - /auth/**
 
   admin-routes:
-    - methods:
-        - GET
-        - POST
-        - DELETE
-      routes:
-        - /auth/register
-        - /api/usuarios
-        - /usuarios
-        - /usuarios/{id}
-        - /usuarios/email
+    - /dashboard/**
 
-    - methods:
-        - PUT
-      routes:
-        - /usuarios/{id}
-        - /usuarios/profile-image/{id}
-
-    - methods:
-        - DELETE
-      routes:
-        - /api/clientes/{id}
+  protected-routes:
+    - /dashboard/**
 
   no-admin-operation-to-self-routes:
     - methods:

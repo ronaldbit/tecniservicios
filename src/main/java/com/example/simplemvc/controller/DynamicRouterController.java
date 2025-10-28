@@ -1,6 +1,5 @@
 package com.example.simplemvc.controller;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -41,13 +40,11 @@ public class DynamicRouterController {
   @ResponseBody
   public String homeView(Model model) throws Exception {
     Mopla mopla = new Mopla("src/main/resources/templates");
-
     Map<String, Object> vars = new HashMap<>();
     vars.put("titulo", "Bienvenido");
     vars.put("mensaje", "Este mensaje solo aparece si showMessage es true");
     vars.put("showMessage", true);
     vars.put("users", List.of("Ronald", "User2", "Pedro"));
-
     return mopla.render("index.html", vars);
   }
 
@@ -64,7 +61,6 @@ public class DynamicRouterController {
     }
 
     String redirectAuth = authMiddleware(request, model);
-
     if (redirectAuth != null) {
       return "redirect:" + redirectAuth;
     }
@@ -83,20 +79,8 @@ public class DynamicRouterController {
     return "/errors/404";
   }
 
-  public boolean isAuthEntryPoint(String path) {
-    for (String authPath : Arrays.asList("/auth/login", "/auth/registro", "/auth/registro-persona")) {
-      if (path.equals(authPath)) {
-        return true;
-      }
-    }
-    return false;
-  }
-
   public String authMiddleware(HttpServletRequest request, Model model) {
-    String requestURI = request.getRequestURI();
-
     Cookie[] cookies = request.getCookies();
-
     String jwt = null;
 
     if (cookies != null) {
@@ -108,24 +92,19 @@ public class DynamicRouterController {
       }
     }
 
-    Usuario usuario = jwtAuthenticationService.fromJwt(jwt);
-    UsuarioDto usuarioDto = usuarioMapper.toDto(usuario);
+    if (jwt == null || jwt.isEmpty()) {
+      return null;
+    }
 
+    Usuario usuario = jwtAuthenticationService.fromJwt(jwt);
     if (usuario == null) {
       return null;
     }
 
+    UsuarioDto usuarioDto = usuarioMapper.toDto(usuario);
     model.addAttribute("usuario", usuarioDto);
 
-    if (!isAuthEntryPoint(requestURI)) {
-      return null;
-    }
-
-    if (usuarioDto.getRoles().stream().anyMatch(role -> "ADMIN".equals(role.getNombre()))) {
-      return "/dashboard";
-    }
-
-    return "/";
+    return null;
   }
 
   private boolean exists(String loc) {

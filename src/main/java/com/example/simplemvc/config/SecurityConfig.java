@@ -1,7 +1,6 @@
 package com.example.simplemvc.config;
 
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.function.BiConsumer;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
@@ -85,9 +84,9 @@ public class SecurityConfig {
   CorsConfigurationSource corsConfigurationSource() {
     CorsConfiguration config = new CorsConfiguration();
 
-    config.setAllowedOrigins(Arrays.asList(securityProperties.getAllowedOrigins()));
-    config.setAllowedMethods(Arrays.asList(securityProperties.getAllowedMethods()));
-    config.setAllowedHeaders(Arrays.asList(securityProperties.getAllowedHeaders()));
+    config.setAllowedOrigins(securityProperties.getAllowedOrigins());
+    config.setAllowedMethods(securityProperties.getAllowedMethods());
+    config.setAllowedHeaders(securityProperties.getAllowedHeaders());
     config.setAllowCredentials(securityProperties.isAllowCredentials());
 
     for (String exposedHeader : securityProperties.getExposedHeaders()) {
