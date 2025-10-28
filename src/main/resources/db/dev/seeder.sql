@@ -35,6 +35,8 @@ VALUES
 
 INSERT INTO `permiso` (`id`,`nombre`, `path`, `rol_id`)
 VALUES
-    (1, 'Ventas', '/dashboard/ventas/**', 1),
-    (2, 'Logistica', '/dashboard/logistica/**', 1),
-    (3, 'Reportes', '/dashboard/reportes/**', 1);
+    (1, 'Dashboard', '/dashboard/**', 1),
+    (2, 'Ventas', '/dashboard/ventas/**', 1),
+    (3, 'Logistica', '/dashboard/logistica/**', 1),
+    (4, 'Reportes', '/dashboard/reportes/**', 1),
+    (5, 'Configuracion', '/dashboard/configuracion/**', 1);
