@@ -50,13 +50,14 @@ public class UsuarioService {
   public UsuarioDto obtenerPorId(Long id) {
     log.info("Obteniendo usuario con ID: {}", id);
 
-    Usuario usuario = usuarioRepository
-        .findById(id)
-        .orElseThrow(
-            () -> {
-              log.error("Usuario con ID {} no encontrado.", id);
-              return new IllegalArgumentException("Usuario no encontrado.");
-            });
+    Usuario usuario =
+        usuarioRepository
+            .findById(id)
+            .orElseThrow(
+                () -> {
+                  log.error("Usuario con ID {} no encontrado.", id);
+                  return new IllegalArgumentException("Usuario no encontrado.");
+                });
 
     return usuarioMapper.toDto(usuario);
   }
@@ -64,14 +65,17 @@ public class UsuarioService {
   @Transactional
   public UsuarioDto crear(CrearUsuarioRequest request) {
     log.info("Creando usuario");
-    Persona persona = personaService
-        .obtenerEntidadPorId(request.getPersonaId())
-        .orElseThrow(() -> new IllegalArgumentException("La persona asociada no existe."));
-    Sucursal sucursal = sucursalService
-        .obtenerEntidadPorId(request.getSucursalId())
-        .orElseThrow(() -> new IllegalArgumentException("La sucursal asociada no existe."));
+    Persona persona =
+        personaService
+            .obtenerEntidadPorId(request.getPersonaId())
+            .orElseThrow(() -> new IllegalArgumentException("La persona asociada no existe."));
+    Sucursal sucursal =
+        sucursalService
+            .obtenerEntidadPorId(request.getSucursalId())
+            .orElseThrow(() -> new IllegalArgumentException("La sucursal asociada no existe."));
 
-    Optional<Usuario> prevUsuario = usuarioRepository.findByNombreUsuario(request.getNombreUsuario());
+    Optional<Usuario> prevUsuario =
+        usuarioRepository.findByNombreUsuario(request.getNombreUsuario());
 
     if (prevUsuario.isPresent() && prevUsuario.get().getEstado() == EstadoEntidad.ACTIVO) {
       log.error(
@@ -99,28 +103,35 @@ public class UsuarioService {
       return usuarioMapper.toDto(usuarioEliminado);
     }
 
-    if (request.getRolId() == null) {
-      Rol rol = rolRepository
-          .findByNombre("CLIENTE")
-          .orElseThrow(
-              () -> {
-                log.error("No se puede crear el usuario. El rol CLIENTE no existe.");
-                return new IllegalArgumentException("El rol especificado no existe.");
-              });
-    }
-    Usuario usuario = usuarioMapper
-        .fromRequest(request)
-        .persona(persona)
-        .sucursal(sucursal)
-        .roles(Arrays.asList(rolRepository
-            .findById(request.getRolId())
+    Rol rol =
+        rolRepository
+            .findByNombre("CLIENTE")
             .orElseThrow(
                 () -> {
-                  log.error("No se puede crear el usuario. El rol con ID {} no existe.", request.getRolId());
+                  log.error("No se puede crear el usuario. El rol CLIENTE no existe.");
                   return new IllegalArgumentException("El rol especificado no existe.");
-                })))
-        .password(passwordEncoder.encode(request.getPassword()))
-        .build();
+                });
+
+    if (request.getRolId() != null) {
+      rol =
+          rolRepository
+              .findById(request.getRolId())
+              .orElseThrow(
+                  () -> {
+                    log.error(
+                        "No se puede crear el usuario. El rol con ID {} no existe.",
+                        request.getRolId());
+                    return new IllegalArgumentException("El rol especificado no existe.");
+                  });
+    }
+    Usuario usuario =
+        usuarioMapper
+            .fromRequest(request)
+            .persona(persona)
+            .sucursal(sucursal)
+            .roles(Arrays.asList(rol))
+            .password(passwordEncoder.encode(request.getPassword()))
+            .build();
 
     usuario = usuarioRepository.save(usuario);
 
@@ -131,24 +142,31 @@ public class UsuarioService {
   public UsuarioDto actualizar(Long id, CrearUsuarioRequest request) {
     log.info("Actualizando usuario con ID: {}", id);
 
-    Rol rol = rolRepository
-        .findById(request.getRolId())
-        .orElseThrow(
-            () -> {
-              log.error("No se puede actualizar el usuario. El rol con ID {} no existe.", request.getRolId());
-              return new IllegalArgumentException("El rol especificado no existe.");
-            });
+    Rol rol =
+        rolRepository
+            .findById(request.getRolId())
+            .orElseThrow(
+                () -> {
+                  log.error(
+                      "No se puede actualizar el usuario. El rol con ID {} no existe.",
+                      request.getRolId());
+                  return new IllegalArgumentException("El rol especificado no existe.");
+                });
 
-    Usuario usuario = usuarioRepository
-        .findById(id)
-        .orElseThrow(
-            () -> {
-              log.error("Usuario con ID {} no encontrado.", id);
-              return new IllegalArgumentException("Usuario no encontrado.");
-            });
+    Usuario usuario =
+        usuarioRepository
+            .findById(id)
+            .orElseThrow(
+                () -> {
+                  log.error("Usuario con ID {} no encontrado.", id);
+                  return new IllegalArgumentException("Usuario no encontrado.");
+                });
 
     System.out.println("Actualizar Usuario ID: " + id + ", Request: " + request);
-    usuario.setEstado(request.getEstadoEntidad() == 1 ? EstadoEntidad.INACTIVO : request.getEstadoEntidad() == 2 ? EstadoEntidad.ACTIVO : EstadoEntidad.ELIMINADO);
+    usuario.setEstado(
+        request.getEstadoEntidad() == 1
+            ? EstadoEntidad.INACTIVO
+            : request.getEstadoEntidad() == 2 ? EstadoEntidad.ACTIVO : EstadoEntidad.ELIMINADO);
     System.out.println("Estado actualizado a: " + usuario.getEstado());
     usuario.setNombreUsuario(request.getNombreUsuario());
     usuario.setPassword(passwordEncoder.encode(request.getPassword()));

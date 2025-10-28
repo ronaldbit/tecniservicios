@@ -23,8 +23,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @RequestMapping("/api/personas")
 @AllArgsConstructor
 public class ApiPersonaController {
-  @Autowired
-  private final PersonaService personaService;
+  @Autowired private final PersonaService personaService;
 
   @PostMapping
   public String crear(
@@ -48,7 +47,7 @@ public class ApiPersonaController {
       return ResponseEntity.ok(personaDto);
     } catch (Exception e) {
       return ResponseEntity.badRequest().body(e.getMessage());
-    }  
+    }
   }
 
   @GetMapping
@@ -65,7 +64,8 @@ public class ApiPersonaController {
 
   @PutMapping("/{id}")
   @PreAuthorize("hasRole('ADMIN')")
-  public ResponseEntity<?> actualizar(@PathVariable Long id, @RequestBody CrearPersonaRequest request) {
+  public ResponseEntity<?> actualizar(
+      @PathVariable Long id, @RequestBody CrearPersonaRequest request) {
     try {
       PersonaDto updatedPersona = personaService.actualizar(id, request);
       return ResponseEntity.ok(updatedPersona);

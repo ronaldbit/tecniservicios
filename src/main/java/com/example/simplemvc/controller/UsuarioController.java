@@ -17,15 +17,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/dashboard/ajustes/usuarios")
 @AllArgsConstructor
 public class UsuarioController {
-  @Autowired
-  private final UsuarioService usuarioService;
-  @Autowired
-  private final RolService rolService;
-  @Autowired
-  private final GetActualUsuarioService getActualUsuarioService;
+  @Autowired private final UsuarioService usuarioService;
+  @Autowired private final RolService rolService;
+  @Autowired private final GetActualUsuarioService getActualUsuarioService;
 
-  @Autowired
-  private final UsuarioMapper usuarioMapper;
+  @Autowired private final UsuarioMapper usuarioMapper;
 
   @GetMapping
   @PreAuthorize("hasRole('ADMIN')")
@@ -33,7 +29,7 @@ public class UsuarioController {
     Usuario usuario = getActualUsuarioService.get();
 
     model.addAttribute("usuario", usuarioMapper.toDto(usuario));
-    
+
     model.addAttribute("usuarios", usuarioService.listaTodos());
 
     model.addAttribute("roles", rolService.lista());
