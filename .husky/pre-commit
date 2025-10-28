@@ -1,26 +1,26 @@
 # Colors
-GREEN="\e[32m"
-BLUE="\e[34m"
-YELLOW="\e[33m"
-RED="\e[31m"
-BOLD="\e[1m"
-RESET="\e[0m"
+GREEN="\033[32m"
+BLUE="\033[34m"
+YELLOW="\033[33m"
+RED="\033[31m"
+BOLD="\033[1m"
+RESET="\033[0m"
 
 # Header
-echo -e "\n${BLUE}╔════════════════════════════════════╗${RESET}"
-echo -e "${BLUE}║${RESET}   ✨ ${BOLD}Ejecutando Spotless...${RESET}         ${BLUE}║${RESET}"
-echo -e "${BLUE}╚════════════════════════════════════╝${RESET}\n"
+printf "\n${BLUE}╔════════════════════════════════════╗${RESET}\n"
+printf "${BLUE}║${RESET}   ✨ ${BOLD}Ejecutando Spotless...${RESET}         ${BLUE}║${RESET}\n"
+printf "${BLUE}╚════════════════════════════════════╝${RESET}\n\n"
 
 # Spotless execution
 if mvn spotless:apply; then
-  echo -e "\n${GREEN}✅ Código formateado correctamente.${RESET}"
+  printf "\n${GREEN}✅ Código formateado correctamente.${RESET}\n"
 else
-  echo -e "\n${RED}❌ Error al ejecutar Spotless.${RESET}"
+  printf "\n${RED}❌ Error al ejecutar Spotless.${RESET}\n"
   exit 1
 fi
 
 # Add the changes to the commit
 git add .
 
-echo -e "\n${YELLOW}📦 Archivos formateados añadidos al staging.${RESET}\n"
-echo -e "${GREEN}✨ Todo listo para hacer commit.${RESET}\n"
+printf "\n${YELLOW}📦 Archivos formateados añadidos al staging.${RESET}\n"
+printf "\n${GREEN}✨ Todo listo para hacer commit.${RESET}\n\n"
