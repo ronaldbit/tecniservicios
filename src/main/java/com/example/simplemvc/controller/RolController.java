@@ -1,5 +1,10 @@
 package com.example.simplemvc.controller;
 
+import com.example.simplemvc.model.Usuario;
+import com.example.simplemvc.model.UsuarioMapper;
+import com.example.simplemvc.service.GetCurrentUsuarioService;
+import com.example.simplemvc.service.RolService;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -7,25 +12,15 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.example.simplemvc.model.Usuario;
-import com.example.simplemvc.model.UsuarioMapper;
-import com.example.simplemvc.service.GetCurrentUsuarioService;
-import com.example.simplemvc.service.RolService;
-
-import lombok.AllArgsConstructor;
-
 @Controller
 @RequestMapping("/dashboard/ajustes/roles")
 @AllArgsConstructor
 public class RolController {
-  @Autowired
-  private final RolService rolService;
+  @Autowired private final RolService rolService;
 
-  @Autowired
-  private final GetCurrentUsuarioService getCurrentUsuarioService;
+  @Autowired private final GetCurrentUsuarioService getCurrentUsuarioService;
 
-  @Autowired
-  private final UsuarioMapper usuarioMapper;
+  @Autowired private final UsuarioMapper usuarioMapper;
 
   @GetMapping
   @PreAuthorize("hasRole('ADMIN')")

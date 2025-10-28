@@ -1,18 +1,16 @@
 package com.example.simplemvc.controller;
 
+import com.example.simplemvc.dto.apiperu.DniData;
+import com.example.simplemvc.dto.apiperu.RucData;
+import com.example.simplemvc.dto.apiperu.StdOk;
+import com.example.simplemvc.service.ApiPeruClient;
+import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.example.simplemvc.dto.apiperu.DniData;
-import com.example.simplemvc.dto.apiperu.RucData;
-import com.example.simplemvc.dto.apiperu.StdOk;
-import com.example.simplemvc.service.ApiPeruClient;
-
-import lombok.AllArgsConstructor;
 
 @RestController
 @RequestMapping("/api/consulta")

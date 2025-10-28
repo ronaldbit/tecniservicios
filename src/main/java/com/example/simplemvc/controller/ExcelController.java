@@ -1,21 +1,18 @@
 package com.example.simplemvc.controller;
 
+import com.example.simplemvc.model.Usuario;
+import com.example.simplemvc.repository.UsuarioRepository;
+import com.example.simplemvc.service.ExcelService;
+import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 // import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.example.simplemvc.model.Usuario;
-import com.example.simplemvc.repository.UsuarioRepository;
-import com.example.simplemvc.service.ExcelService;
-
-import jakarta.servlet.http.HttpServletResponse;
 
 @RestController
 @RequestMapping("/api/excel")
@@ -24,15 +21,12 @@ import jakarta.servlet.http.HttpServletResponse;
 
 public class ExcelController {
 
-  @Autowired
-  private ExcelService excelService;
+  @Autowired private ExcelService excelService;
 
-  @Autowired
-  private UsuarioRepository usuarioRepository;
+  @Autowired private UsuarioRepository usuarioRepository;
 
   /**
-   * Endpoint para generar un reporte de TODOS los usuarios. Llama a JPA, obtiene
-   * la lista y la pasa
+   * Endpoint para generar un reporte de TODOS los usuarios. Llama a JPA, obtiene la lista y la pasa
    * al servicio de Excel.
    */
   @GetMapping("/reporte/usuarios")
