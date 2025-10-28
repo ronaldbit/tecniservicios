@@ -665,7 +665,25 @@
 </script>
 
 <script>
-  document.addEventListener("DOMContentLoaded", function () {
+  async function fetchJSON(url) {
+    const response = await fetch(url, { headers: { Accept: "application/json" } });
+
+    if (!response.ok) {
+       throw new Error("HTTP " + response.status);
+    }
+
+    return response.json();
+  }
+
+  function clearClienteFields() {
+    document.getElementById("clienteNombreRazon").value = "";
+    document.getElementById("clienteApellidos").value = "";
+    document.getElementById("clienteDireccion").value = "";
+    document.getElementById("clienteTelefono").value = "";
+    document.getElementById("clienteEmail").value = "";
+  }
+
+  function loadClienteData() {
     const selTipo = document.getElementById("clienteTipoDoc");
     const numDoc = document.getElementById("clienteNumDoc");
     const nombreRazon = document.getElementById("clienteNombreRazon");
@@ -675,70 +693,57 @@
     const telefono = document.getElementById("clienteTelefono");
     const email = document.getElementById("clienteEmail");
 
-    async function fetchJSON(url) {
-      const r = await fetch(url, { headers: { Accept: "application/json" } });
-      if (!r.ok) throw new Error("HTTP " + r.status);
-      return r.json();
-    }
+    const btnBuscarDoc = document.getElementById("btnBuscarDoc");
 
-    document
-      .getElementById("btnBuscarDoc")
-      ?.addEventListener("click", async () => {
-        const tipo = selTipo.value;
-        const ndoc = (numDoc.value || "").trim();
+    btnBuscarDoc.addEventListener("click", async () => {
+      const tipo = selTipo.value.toLowerCase();
+      const ndoc = numDoc.value ? numDoc.value.trim() : "";
 
-        if (tipo === "DNI") {
-          if (!/^\d{8}$/.test(ndoc)) {
-            alert("DNI inválido");
-            return;
-          }
-          try {
-            const res = await fetchJSON("/api/consulta/dni?num=" + ndoc);
-            if (!res.success || !res.data) {
-              alert(res.message || "No encontrado");
-              return;
-            }
-            const d = res.data;
-            // Para clientes persona natural:
-            nombreRazon.value = (d.nombres || "").trim();
-            apellidosIn.value = [
-              d.apellido_paterno || "",
-              d.apellido_materno || "",
-            ]
-              .filter(Boolean)
-              .join(" ")
-              .trim();
-            apellidosDiv.style.display = "block";
-          } catch (e) {
-            alert("Error consultando DNI");
-          }
-        } else if (tipo === "RUC") {
-          if (!/^\d{11}$/.test(ndoc)) {
-            alert("RUC inválido");
-            return;
-          }
-          try {
-            const res = await fetchJSON("/api/consulta/ruc?num=" + ndoc);
-            if (!res.success || !res.data) {
-              alert(res.message || "No encontrado");
-              return;
-            }
-            const d = res.data;
-            // Para empresas:
-            nombreRazon.value = (d.nombre_o_razon_social || "").trim();
-            direccion.value = (
-              d.direccion_completa ||
-              d.direccion ||
-              ""
-            ).trim();
-            apellidosIn.value = "";
-            apellidosDiv.style.display = "none";
-          } catch (e) {
-            alert("Error consultando RUC");
-          }
-        } else {
-          alert("Seleccione DNI o RUC");
+      clearClienteFields()
+
+      if(tipo === "dni") {
+
+        if(!/^\d{8}$/.test(ndoc)) {
+          alert("DNI inválido");
+          return;
         }
-      });
-  });
+      } else
+      if(tipo === "ruc") {
+        if(!/^\d{11}$/.test(ndoc)) {
+          alert("RUC inválido");
+          return;
+        }
+      }
+
+      else {
+        alert("Seleccione DNI o RUC");
+        return;
+      }
+
+      try {
+        const response = await fetchJSON(`/api/consulta/${tipo}?num=` + ndoc);
+            if (!response.success || !response.data) {
+              alert(response.message ?? "No encontrado");
+              return;
+            }
+            const data = response.data;
+
+            nombreRazon.value = tipo === "dni" ? (data?.nombres ? data.nombres.trim() : "") : (data?.razon_social ? data.razon_social.trim() : "");
+
+            apellidosIn.value = (data?.apellido_materno + " " + data?.apellido_paterno) ?? "";
+
+              direccion.value = (
+                data?.direccion_completa ??
+                data?.direccion ?? ""
+              ).trim();
+
+              apellidosDiv.style.display = tipo === "dni" ? "block" : "none";
+
+      } catch (error) {
+        alert("Error consultando documento");
+      }
+    })
+  }
+
+  document.addEventListener("DOMContentLoaded", loadClienteData());
 </script>

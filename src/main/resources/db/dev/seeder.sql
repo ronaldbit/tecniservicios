@@ -28,7 +28,7 @@ VALUES
 
 INSERT INTO `usuario` (`id`, `persona_id`, `sucursal_id`, `nombre_usuario`, `password`, `estado`, `fecha_creacion`, `fecha_actualizacion`)
 VALUES
-    (1, 1, 1, 'admin', '$2a$10$uJi4EvQibXmEJ1R.tXqKtukPbJ8TnrESYBFf9VMEfMBVpun.6OR.6', 1, '2025-09-30 14:09:13', '2025-09-30 14:09:13');
+    (1, 1, 1, 'admin', '$2a$10$uJi4EvQibXmEJ1R.tXqKtukPbJ8TnrESYBFf9VMEfMBVpun.6OR.6', 2, '2025-09-30 14:09:13', '2025-09-30 14:09:13');
 
 INSERT INTO `usuario_rol` (`usuario_id`, `rol_id`)
 VALUES
