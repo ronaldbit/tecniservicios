@@ -75,6 +75,17 @@ public class SecurityConfig {
         .exceptionHandling((exceptionHandling) -> exceptionHandling
             .authenticationEntryPoint(this::manageNoAuthorized)
             .accessDeniedHandler(this::manageNoAuthorized))
+        .logout(logout -> logout
+            .logoutUrl("/auth/logout")
+            .logoutSuccessHandler((request, response, authentication) -> {
+              if (request.getSession(false) != null)
+                request.getSession().invalidate();
+
+              response.addHeader("Set-Cookie", "JWT_TOKEN=; Path=/; Max-Age=0; HttpOnly; SameSite=Lax");
+              response.addHeader("Set-Cookie", "JSESSIONID=; Path=/; Max-Age=0; HttpOnly; SameSite=Lax");
+
+              response.sendRedirect("/auth/login");
+            }))
         .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class)
         .build();
   }

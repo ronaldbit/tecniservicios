@@ -1,7 +1,4 @@
-<div
-  class="pc-container"
-  th:replace="~{dashboard/layout :: layout(~{::content}, ${usuario}, 'Inicio', '/dashboard')}"
->
+<div class="pc-container" th:replace="~{dashboard/layout :: layout(~{::content}, ${usuario}, 'Inicio', '/dashboard')}">
   <div class="pc-content" th:fragment="content">
     <!-- Breadcrumb -->
     <div class="page-header">
@@ -24,19 +21,15 @@
         </div>
       </div>
     </div>
+
+
     <!-- Tabla de usuarios -->
     <div class="row">
       <div class="col-12">
         <div class="card table-card">
-          <div
-            class="card-header d-flex justify-content-between align-items-center"
-          >
+          <div class="card-header d-flex justify-content-between align-items-center">
             <h5>Lista de roles</h5>
-            <button
-              class="btn btn-primary"
-              data-bs-toggle="modal"
-              data-bs-target="#modalAgregarUsuario"
-            >
+            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalAgregarRol">
               <i class="ti ti-user-plus"></i> Agregar Rol
             </button>
           </div>
@@ -52,31 +45,17 @@
                 <tbody>
                   <tr th:each="r : ${roles}">
                     <td>
-                      <span
-                        class="badge text-bg-success"
-                        th:text="${r.nombre}"
-                      ></span>
+                      <span class="badge text-bg-success" th:text="${r.nombre}"></span>
                     </td>
                     <td>
-                      <a
-                        href="#"
-                        class="avtar avtar-xs btn-link-secondary"
-                        data-bs-toggle="modal"
-                        th:attr="data-bs-target=${'#modalDetalleUsuario' + r.id}"
-                        title="Ver detalles"
-                      >
+                      <a href="#" class="avtar avtar-xs btn-link-secondary" data-bs-toggle="modal"
+                        th:attr="data-bs-target=${'#modalDetalleRol' + r.id}" title="Ver detalles">
                         <i class="ti ti-eye f-20"></i>
                       </a>
-                      <button
-                        href="#!"
-                        class="avtar avtar-xs btn-link-secondary"
-                      >
+                      <button href="#!" class="avtar avtar-xs btn-link-secondary">
                         <i class="ti ti-edit f-20"></i>
                       </button>
-                      <button
-                        href="#!"
-                        class="avtar avtar-xs btn-link-secondary"
-                      >
+                      <button href="#!" class="avtar avtar-xs btn-link-secondary">
                         <i class="ti ti-trash f-20"></i>
                       </button>
                     </td>
@@ -88,88 +67,82 @@
         </div>
       </div>
     </div>
-    <!-- Modales de usuario -->
-    <!-- Modal Agregar Usuario -->
-    <div
-      class="modal fade"
-      id="modalAgregarUsuario"
-      tabindex="-1"
-      aria-labelledby="modalAgregarUsuarioLabel"
-      aria-hidden="true"
-    >
+
+    <!-- Modal Agregar rol -->
+    <div class="modal fade" id="modalAgregarRol" tabindex="-1" aria-labelledby="modalAgregarRolLabel"
+      aria-hidden="true">
       <div class="modal-dialog">
-        <form class="modal-content" id="formAgregarRol">
+        <form class="modal-content" id="formAgregarRol" novalidate>
           <div class="modal-header">
             <h5 class="modal-title" id="modalAgregarRolLabel">Agregar Rol</h5>
-            <button
-              type="button"
-              class="btn-close"
-              data-bs-dismiss="modal"
-              aria-label="Cerrar"
-            ></button>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
           </div>
 
           <div class="modal-body">
-            <!-- Nombre del Rol -->
             <div class="mb-3">
               <label for="nombreRol" class="form-label">Nombre del Rol</label>
-              <input
-                type="text"
-                class="form-control"
-                id="nombreRol"
-                name="nombre"
-                placeholder="Ejemplo: Administrador"
-                required
-              />
+              <input type="text" class="form-control" id="nombreRol" name="nombre" placeholder="Ejemplo: Administrador"
+                required />
+              <div class="invalid-feedback">
+                El nombre del rol es obligatorio.
+              </div>
             </div>
 
-            <!-- Permisos (booleans) -->
             <div class="mb-3">
-              <label class="form-label">Permisos</label>
+              <label for="descripcionRol" class="form-label">Descripción</label>
+              <textarea class="form-control" id="descripcionRol" name="descripcion"
+                placeholder="Describe brevemente el rol" rows="2" required minlength="5"></textarea>
+              <div class="invalid-feedback">
+                La descripción debe tener al menos 5 caracteres.
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">Permisos disponibles</label>
+
               <div class="form-check">
-                <input
-                  class="form-check-input"
-                  type="checkbox"
-                  id="permisoVentas"
-                  name="Ventas"
-                />
-                <label class="form-check-label" for="permisoVentas"
-                  >Acceso a Ventas</label
-                >
+                <input class="form-check-input" type="checkbox" id="permisoVentas" name="Ventas" />
+                <label class="form-check-label" for="permisoVentas">
+                  Acceso a Ventas
+                </label>
               </div>
 
               <div class="form-check">
-                <input
-                  class="form-check-input"
-                  type="checkbox"
-                  id="permisoLogistica"
-                  name="Logistica"
-                />
-                <label class="form-check-label" for="permisoLogistica"
-                  >Acceso a Logística</label
-                >
+                <input class="form-check-input" type="checkbox" id="permisoLogistica" name="Logistica" />
+                <label class="form-check-label" for="permisoLogistica">
+                  Acceso a Logística
+                </label>
               </div>
 
               <div class="form-check">
-                <input
-                  class="form-check-input"
-                  type="checkbox"
-                  id="permisoReportes"
-                  name="Reportes"
-                />
-                <label class="form-check-label" for="permisoReportes"
-                  >Acceso a Reportes</label
-                >
+                <input class="form-check-input" type="checkbox" id="permisoReportes" name="Reportes" />
+                <label class="form-check-label" for="permisoReportes">
+                  Acceso a Reportes
+                </label>
+              </div>
+
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="permisoAjustes" name="Ajustes" />
+                <label class="form-check-label" for="permisoAjustes">
+                  Acceso a Ajustes
+                </label>
+              </div>
+
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="permisoNavegacion" name="Navegacion" />
+                <label class="form-check-label" for="permisoNavegacion">
+                  Acceso a Navegación
+                </label>
+              </div>
+
+              <div id="permisoError" class="text-danger mt-1 d-none">
+                Debes seleccionar al menos un permiso.
               </div>
             </div>
           </div>
 
           <div class="modal-footer">
-            <button
-              type="button"
-              class="btn btn-secondary"
-              data-bs-dismiss="modal"
-            >
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
               Cancelar
             </button>
             <button type="submit" class="btn btn-primary">Guardar Rol</button>
@@ -177,179 +150,122 @@
         </form>
       </div>
     </div>
-    <!-- Modal Detalle Usuario 1 -->
-    <div
-      class="modal fade"
-      id="modalDetalleUsuario1"
-      tabindex="-1"
-      aria-labelledby="modalDetalleUsuario1Label"
-      aria-hidden="true"
-    >
-      <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="modalDetalleUsuario1Label">
-              Detalles de usuario
-            </h5>
-            <button
-              type="button"
-              class="btn-close"
-              data-bs-dismiss="modal"
-              aria-label="Cerrar"
-            ></button>
-          </div>
-          <div class="modal-body">
-            <div class="d-flex align-items-center mb-3">
-              <img
-                src="/img/user/avatar-1.jpg"
-                alt="Imagen usuario"
-                class="img-radius wid-60 me-3"
-              />
-              <div>
-                <h5 class="mb-0">Airi Satou</h5>
-                <span class="badge text-bg-success">Administrador</span>
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const form = document.getElementById("formAgregarRol");
+        const permisoError = document.getElementById("permisoError");
+        form.addEventListener("submit", async (event) => {
+          event.preventDefault();
+          event.stopPropagation();
+          permisoError.classList.add("d-none");
+          const nombre = document.getElementById("nombreRol");
+          const descripcion = document.getElementById("descripcionRol");
+          let formValido = form.checkValidity();
+          const permisosIds = [
+            "permisoVentas",
+            "permisoLogistica",
+            "permisoReportes",
+            "permisoAjustes",
+            "permisoNavegacion"
+          ];
+          const permisosSeleccionados = permisosIds.filter(
+            id => document.getElementById(id).checked
+          );
+          if (permisosSeleccionados.length === 0) {
+            permisoError.classList.remove("d-none");
+            formValido = false;
+          }
+          form.classList.add("was-validated");
+          if (!formValido) {
+            return;
+          }
+          const permisosDisponibles = [
+            { id: "permisoVentas", path: "/ventas", nombre: "Ventas" },
+            { id: "permisoLogistica", path: "/logistica", nombre: "Logistica" },
+            { id: "permisoReportes", path: "/reportes", nombre: "Reportes" },
+            { id: "permisoAjustes", path: "/ajustes", nombre: "Ajustes" },
+            { id: "permisoNavegacion", path: "/navegacion", nombre: "Navegacion" }
+          ];
+          const permisos = permisosDisponibles
+            .filter(p => document.getElementById(p.id).checked)
+            .map(p => ({
+              path: p.path,
+              nombre: p.nombre.toLowerCase(),
+              rolId: null
+            }));
+          const rolData = {
+            nombre: nombre.value.trim(),
+            descripcion: descripcion.value.trim(),
+            permisos
+          };
+          try {
+            const response = await fetch("/api/roles-permisos", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(rolData)
+            });
+            if (!response.ok) throw new Error("Error al guardar el rol");
+            const data = await response.json();
+            console.log("Respuesta del servidor:", data);
+            const modal = bootstrap.Modal.getInstance(
+              document.getElementById("modalAgregarRol")
+            );
+            modal.hide();
+            form.reset();
+            form.classList.remove("was-validated");
+
+            window.location.reload();
+
+          } catch (error) {
+            console.error("Error:", error);
+            alert("Ocurrió un problema al guardar el rol");
+          }
+        });
+      });
+    </script>
+
+
+    <div th:each="r : ${roles}">
+      <div class="modal fade" th:id="'modalDetalleRol' + ${r.id}" tabindex="-1"
+        th:attr="aria-labelledby=${'modalDetalleRolLabel' + r.id}" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" th:id="'modalDetalleRolLabel' + ${r.id}"
+                th:text="'Detalles del Rol: ' + ${r.nombre}">
+              </h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+            </div>
+
+            <div class="modal-body">
+              <div class="mb-3">
+                <strong>Nombre:</strong>
+                <p th:text="${r.nombre}"></p>
+              </div>
+
+              <div class="mb-3">
+                <strong>Descripción:</strong>
+                <p th:text="${r.descripcion}"></p>
+              </div>
+
+              <div class="mb-3">
+                <strong>Permisos:</strong>
+                <ul>
+                  <li th:each="p : ${r.permisos}" th:text="${p.nombre}"></li>
+                  <li th:if="${#lists.isEmpty(r.permisos)}" class="text-muted">Sin permisos asignados</li>
+                </ul>
               </div>
             </div>
-            <ul class="list-group list-group-flush">
-              <li class="list-group-item">
-                <strong>Teléfono:</strong> (123) 4567 890
-              </li>
-              <li class="list-group-item">
-                <strong>Fecha de inicio:</strong> 2023/02/07 09:05 PM
-              </li>
-              <li class="list-group-item">
-                <strong>Estado:</strong>
-                <span class="text-success">Activo</span>
-              </li>
-            </ul>
-          </div>
-          <div class="modal-footer">
-            <button
-              type="button"
-              class="btn btn-secondary"
-              data-bs-dismiss="modal"
-            >
-              Cerrar
-            </button>
+
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                Cerrar
+              </button>
+            </div>
           </div>
         </div>
       </div>
     </div>
-    <!-- Modal Detalle Usuario 2 -->
-    <div
-      class="modal fade"
-      id="modalDetalleUsuario2"
-      tabindex="-1"
-      aria-labelledby="modalDetalleUsuario2Label"
-      aria-hidden="true"
-    >
-      <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="modalDetalleUsuario2Label">
-              Detalles de usuario
-            </h5>
-            <button
-              type="button"
-              class="btn-close"
-              data-bs-dismiss="modal"
-              aria-label="Cerrar"
-            ></button>
-          </div>
-          <div class="modal-body">
-            <div class="d-flex align-items-center mb-3">
-              <img
-                src="/img/user/avatar-2.jpg"
-                alt="Imagen usuario"
-                class="img-radius wid-60 me-3"
-              />
-              <div>
-                <h5 class="mb-0">Ashton Cox</h5>
-                <span class="badge text-bg-primary">Gestor inventario</span>
-              </div>
-            </div>
-            <ul class="list-group list-group-flush">
-              <li class="list-group-item">
-                <strong>Teléfono:</strong> (321) 6543 210
-              </li>
-              <li class="list-group-item">
-                <strong>Fecha de inicio:</strong> 2023/02/01 02:14 PM
-              </li>
-              <li class="list-group-item">
-                <strong>Estado:</strong>
-                <span class="text-secondary">Inactivo</span>
-              </li>
-            </ul>
-          </div>
-          <div class="modal-footer">
-            <button
-              type="button"
-              class="btn btn-secondary"
-              data-bs-dismiss="modal"
-            >
-              Cerrar
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-    <!-- Modal Detalle Usuario 3 -->
-    <div
-      class="modal fade"
-      id="modalDetalleUsuario3"
-      tabindex="-1"
-      aria-labelledby="modalDetalleUsuario3Label"
-      aria-hidden="true"
-    >
-      <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="modalDetalleUsuario3Label">
-              Detalles de usuario
-            </h5>
-            <button
-              type="button"
-              class="btn-close"
-              data-bs-dismiss="modal"
-              aria-label="Cerrar"
-            ></button>
-          </div>
-          <div class="modal-body">
-            <div class="d-flex align-items-center mb-3">
-              <img
-                src="/img/user/avatar-3.jpg"
-                alt="Imagen usuario"
-                class="img-radius wid-60 me-3"
-              />
-              <div>
-                <h5 class="mb-0">Bradley Greer</h5>
-                <span class="badge text-bg-warning">Vendedor</span>
-              </div>
-            </div>
-            <ul class="list-group list-group-flush">
-              <li class="list-group-item">
-                <strong>Teléfono:</strong> (555) 1234 567
-              </li>
-              <li class="list-group-item">
-                <strong>Fecha de inicio:</strong> 2023/01/22 10:32 AM
-              </li>
-              <li class="list-group-item">
-                <strong>Estado:</strong>
-                <span class="text-success">Activo</span>
-              </li>
-            </ul>
-          </div>
-          <div class="modal-footer">
-            <button
-              type="button"
-              class="btn btn-secondary"
-              data-bs-dismiss="modal"
-            >
-              Cerrar
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
+
   </div>
 </div>

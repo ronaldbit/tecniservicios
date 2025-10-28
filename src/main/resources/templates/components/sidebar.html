@@ -47,7 +47,7 @@
                 <i class="ti ti-user"></i>
                 <span data-i18n="Mi cuenta">Mi cuenta</span>
               </a>
-              <a href="#!">
+              <a href="/auth/logout">
                 <i class="ti ti-power"></i>
                 <span data-i18n="Cerrar sesion">Cerrar sesion</span>
               </a>
@@ -149,13 +149,13 @@
         </li>
 
         <!-- Logística -->
-        <li class="pc-item pc-caption" th:hidden="${hideLogística ?: true}">
+        <li class="pc-item pc-caption" th:hidden="${hideLogistica ?: true}">
           <label data-i18n="Logistica">Logística</label>
           <svg class="pc-icon">
             <use xlink:href="#custom-box-1"></use>
           </svg>
         </li>
-        <li class="pc-item pc-hasmenu" th:hidden="${hideLogística ?: true}">
+        <li class="pc-item pc-hasmenu" th:hidden="${hideLogistica ?: true}">
           <a href="#!" class="pc-link">
             <span class="pc-micon">
               <svg class="pc-icon">
