@@ -265,9 +265,11 @@
                   <div class="flex-grow-1 ms-3">
                     <h6
                       class="mb-1"
-                      th:text="${usuario?.persona?.nombres + ' ' + usuario?.persona?.apellidos + ' 🖖' ?: 'Invitado'}"
+                      th:text="${usuario != null and usuario.persona != null ? usuario.persona.nombres + ' ' + usuario.persona.apellidos + ' 🖖' : 'Invitado'}"
                     ></h6>
-                    <span th:text="${usuario?.nombreUsuario ?: ''}"></span>
+                    <span
+                      th:text="${usuario != null ? usuario.nombreUsuario : 'Sin nombre de usuario'}"
+                    ></span>
                   </div>
                 </div>
                 <hr class="border-secondary border-opacity-50" />

@@ -57,10 +57,12 @@
                   <tr th:each="u : ${usuarios}">
                     <td th:text="${u.id}"></td>
                     <td
-                      th:text="${u.persona.nombre} + ' ' + ${u.persona.apellido}"
+                      th:text="${u.persona.nombres + ' ' + u.persona.apellidos}"
                     ></td>
-                    <td th:text="${u.correo}"></td>
-                    <td th:text="${u.rol.nombre}"></td>
+                    <td th:text="${u.nombreUsuario}"></td>
+                    <td
+                      th:text="${!u.roles.isEmpty() ? u.roles[0].nombre : 'Sin rol'}"
+                    ></td>
                     <td>
                       <button
                         data-bs-toggle="modal"

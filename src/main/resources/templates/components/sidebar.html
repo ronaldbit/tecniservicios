@@ -24,9 +24,12 @@
             <div class="flex-grow-1 ms-3 me-2">
               <h6
                 class="mb-0"
-                th:text="${usuario?.persona?.nombres + ' ' + usuario?.persona?.apellidos ?: 'Invitado'}"
+                th:text="${usuario != null ? usuario.persona.nombres + ' ' + usuario.persona.apellidos : 'Invitado'}"
               ></h6>
-              <small th:text="${usuario?.roles[0]?.nombre ?: 'Sin rol'}"></small>
+
+              <small
+                th:text="${usuario != null and usuario.roles != null and !usuario.roles.isEmpty() ? usuario.roles[0].nombre : 'Sin rol'}"
+              ></small>
             </div>
             <a
               class="btn btn-icon btn-link-secondary avtar"
