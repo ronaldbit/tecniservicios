@@ -39,6 +39,7 @@ public class PersonaService {
 
   public PersonaDto crear(CrearPersonaRequest request) {
     log.info("Creando nueva persona");
+    
     TipoDocumento tipoDocumentoDto =
         tipoDocumentoService
             .obtenerEntidadPorId(request.getTipoDocumentoId())
@@ -46,6 +47,13 @@ public class PersonaService {
                 () ->
                     new IllegalArgumentException(
                         "Tipo de documento no encontrado con ID: " + request.getTipoDocumentoId()));
+
+    Optional<Persona> personaOpt = personaRepository.findByNumeroDocumento(request.getNumeroDocumento());
+
+    if (personaOpt.isPresent()) {
+      log.warn("Ya existe una persona con el número de documento: {}", request.getNumeroDocumento());
+      throw new IllegalArgumentException("Ya existe una persona con el número de documento: " + request.getNumeroDocumento());
+    }
 
     Persona persona = personaMapper.fromRequest(request).tipoDocumento(tipoDocumentoDto).build();
     Persona saved = personaRepository.save(persona);
@@ -66,14 +74,19 @@ public class PersonaService {
 
   public PersonaDto actualizar(Long id, CrearPersonaRequest request) {
     log.info("Actualizando persona con ID: {}", id);
-
     Persona personaExistente =
         personaRepository
             .findById(id)
             .orElseThrow(() -> new IllegalArgumentException("Persona no encontrada con ID: " + id));
 
     Persona.PersonaBuilder personaBuilder = personaMapper.fromRequest(request);
-    Persona personaActualizada = personaBuilder.id(personaExistente.getId()).build();
+
+    Persona personaActualizada;
+    personaActualizada =
+        personaBuilder
+            .id(personaExistente.getId())
+            .tipoDocumento(personaExistente.getTipoDocumento())
+            .build();
 
     personaActualizada = personaRepository.save(personaActualizada);
 

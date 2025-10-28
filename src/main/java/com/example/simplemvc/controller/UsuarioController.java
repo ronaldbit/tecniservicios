@@ -3,6 +3,7 @@ package com.example.simplemvc.controller;
 import com.example.simplemvc.model.Usuario;
 import com.example.simplemvc.model.UsuarioMapper;
 import com.example.simplemvc.service.GetActualUsuarioService;
+import com.example.simplemvc.service.RolService;
 import com.example.simplemvc.service.UsuarioService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,11 +17,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/dashboard/ajustes/usuarios")
 @AllArgsConstructor
 public class UsuarioController {
-  @Autowired private final UsuarioService usuarioService;
+  @Autowired
+  private final UsuarioService usuarioService;
+  @Autowired
+  private final RolService rolService;
+  @Autowired
+  private final GetActualUsuarioService getActualUsuarioService;
 
-  @Autowired private final GetActualUsuarioService getActualUsuarioService;
-
-  @Autowired private final UsuarioMapper usuarioMapper;
+  @Autowired
+  private final UsuarioMapper usuarioMapper;
 
   @GetMapping
   @PreAuthorize("hasRole('ADMIN')")
@@ -28,7 +33,10 @@ public class UsuarioController {
     Usuario usuario = getActualUsuarioService.get();
 
     model.addAttribute("usuario", usuarioMapper.toDto(usuario));
+    
     model.addAttribute("usuarios", usuarioService.listaTodos());
+
+    model.addAttribute("roles", rolService.lista());
 
     usuario.getRoles().stream()
         .flatMap(rol -> rol.getPermisos().stream())

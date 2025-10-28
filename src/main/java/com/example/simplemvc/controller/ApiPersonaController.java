@@ -6,6 +6,7 @@ import com.example.simplemvc.service.PersonaService;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -22,7 +23,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @RequestMapping("/api/personas")
 @AllArgsConstructor
 public class ApiPersonaController {
-  @Autowired private final PersonaService personaService;
+  @Autowired
+  private final PersonaService personaService;
 
   @PostMapping
   public String crear(
@@ -39,6 +41,16 @@ public class ApiPersonaController {
     }
   }
 
+  @PostMapping("/crear-desde-admin")
+  public ResponseEntity<?> crearDesdeAdmin(@RequestBody CrearPersonaRequest request) {
+    try {
+      PersonaDto personaDto = personaService.crear(request);
+      return ResponseEntity.ok(personaDto);
+    } catch (Exception e) {
+      return ResponseEntity.badRequest().body(e.getMessage());
+    }  
+  }
+
   @GetMapping
   @PreAuthorize("hasRole('ADMIN')")
   public List<PersonaDto> lista() {
@@ -53,8 +65,13 @@ public class ApiPersonaController {
 
   @PutMapping("/{id}")
   @PreAuthorize("hasRole('ADMIN')")
-  public PersonaDto actualizar(@PathVariable Long id, @RequestBody CrearPersonaRequest request) {
-    return personaService.actualizar(id, request);
+  public ResponseEntity<?> actualizar(@PathVariable Long id, @RequestBody CrearPersonaRequest request) {
+    try {
+      PersonaDto updatedPersona = personaService.actualizar(id, request);
+      return ResponseEntity.ok(updatedPersona);
+    } catch (Exception e) {
+      return ResponseEntity.badRequest().body(e.getMessage());
+    }
   }
 
   @DeleteMapping("/{id}")
