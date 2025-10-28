@@ -1,18 +1,10 @@
 package com.example.simplemvc.config;
 
-import com.example.simplemvc.model.Usuario;
-import com.example.simplemvc.shared.config.Route;
-import com.example.simplemvc.shared.filter.JwtRequestFilter;
-import com.example.simplemvc.shared.properties.SecurityProperties;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.function.BiConsumer;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -34,6 +26,17 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
+import com.example.simplemvc.model.Usuario;
+import com.example.simplemvc.shared.config.Route;
+import com.example.simplemvc.shared.filter.JwtRequestFilter;
+import com.example.simplemvc.shared.properties.SecurityProperties;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+
 @Slf4j
 @Configuration
 @EnableWebSecurity
@@ -49,7 +52,7 @@ public class SecurityConfig {
 
   @Bean
   @Order(1)
-  SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
+  public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
     return httpSecurity
         .cors(cors -> cors.configurationSource(corsConfigurationSource()))
         .csrf(AbstractHttpConfigurer::disable)
@@ -60,37 +63,39 @@ public class SecurityConfig {
             authRequest -> {
               // authRequest.requestMatchers(securityProperties.getPublicRoutes()).permitAll();
               /**
-               * provideRoutes(securityProperties.getNoAdminOperationToSelfRoutes(), (method, paths)
-               * -> authRequest.requestMatchers(method, paths) .access((authentication, object) ->
+               * provideRoutes(securityProperties.getNoAdminOperationToSelfRoutes(), (method,
+               * paths)
+               * -> authRequest.requestMatchers(method, paths) .access((authentication,
+               * object) ->
                * new AuthorizationDecision( isAdminAndNotSelf(authentication, object))));
                *
-               * <p>provideRoutes(securityProperties.getAdminRoutes(), (method, paths) ->
+               * <p>
+               * provideRoutes(securityProperties.getAdminRoutes(), (method, paths) ->
                * authRequest.requestMatchers(method, paths).hasRole("ADMIN"));
                */
               authRequest.anyRequest().permitAll();
             })
         .exceptionHandling(
-            (exceptionHandling) ->
-                exceptionHandling
-                    .authenticationEntryPoint(this::manageNoAuthorized)
-                    .accessDeniedHandler(this::manageNoAuthorized))
+            (exceptionHandling) -> exceptionHandling
+                .authenticationEntryPoint(this::manageNoAuthorized)
+                .accessDeniedHandler(this::manageNoAuthorized))
         .logout(
-            logout ->
-                logout
-                    .logoutUrl("/auth/logout")
-                    .logoutSuccessHandler(
-                        (request, response, authentication) -> {
-                          if (request.getSession(false) != null) request.getSession().invalidate();
+            logout -> logout
+                .logoutUrl("/auth/logout")
+                .logoutSuccessHandler(
+                    (request, response, authentication) -> {
+                      if (request.getSession(false) != null)
+                        request.getSession().invalidate();
 
-                          response.addHeader(
-                              "Set-Cookie",
-                              "JWT_TOKEN=; Path=/; Max-Age=0; HttpOnly; SameSite=Lax");
-                          response.addHeader(
-                              "Set-Cookie",
-                              "JSESSIONID=; Path=/; Max-Age=0; HttpOnly; SameSite=Lax");
+                      response.addHeader(
+                          "Set-Cookie",
+                          "JWT_TOKEN=; Path=/; Max-Age=0; HttpOnly; SameSite=Lax");
+                      response.addHeader(
+                          "Set-Cookie",
+                          "JSESSIONID=; Path=/; Max-Age=0; HttpOnly; SameSite=Lax");
 
-                          response.sendRedirect("/auth/login");
-                        }))
+                      response.sendRedirect("/auth/login");
+                    }))
         .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class)
         .build();
   }

@@ -314,21 +314,22 @@
           const rolId = document.getElementById("rolId").value;
 
           const permisosDisponibles = [
-            { id: "permisoVentas", path: "/ventas", nombre: "Ventas" },
-            { id: "permisoLogistica", path: "/logistica", nombre: "Logistica" },
-            { id: "permisoReportes", path: "/reportes", nombre: "Reportes" },
-            { id: "permisoAjustes", path: "/ajustes", nombre: "Ajustes" },
             {
               id: "permisoNavegacion",
               path: "/navegacion",
               nombre: "Navegacion",
             },
+            { id: "permisoVentas", path: "/ventas", nombre: "Ventas" },
+            { id: "permisoLogistica", path: "/logistica", nombre: "Logistica" },
+            { id: "permisoReportes", path: "/reportes", nombre: "Reportes" },
+            { id: "permisoAjustes", path: "/ajustes", nombre: "Ajustes" },
+
           ];
           const permisos = permisosDisponibles
             .filter((p) => document.getElementById(p.id).checked)
             .map((p) => ({
               path: p.path,
-              nombre: p.nombre.toLowerCase(),
+              nombre: p.nombre,
               rolId: rolId ? rolId : null,
             }));
 
