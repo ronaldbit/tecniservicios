@@ -1,10 +1,10 @@
-INSERT INTO `rol` (`id`, `nombre`, `descripcion`)
+INSERT INTO `rol` (`estado`,`id`, `nombre`, `descripcion`)
 VALUES
-    (1, 'ADMIN', 'Administrador del sistema'),
-    (2, 'CAJERO', 'Encargado de caja'),
-    (3, 'ALMACENERO', 'Encargado de almacén'),
-    (4, 'VENDEDOR', 'Encargado de ventas'),
-    (5, 'CLIENTE', 'Cliente del sistema');
+    (1, 1, 'ADMIN', 'Administrador del sistema'),
+    (1, 2, 'CAJERO', 'Encargado de caja'),
+    (1, 3, 'ALMACENERO', 'Encargado de almacén'),
+    (1, 4, 'VENDEDOR', 'Encargado de ventas'),
+    (1, 5, 'CLIENTE', 'Cliente del sistema');
 
 
 INSERT INTO `tipo_documento` (`id`, `codigo`, `estado`)

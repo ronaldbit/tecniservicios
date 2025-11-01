@@ -17,11 +17,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 
 @Entity
-@Table(
-    name = "rol",
-    uniqueConstraints = {
-      @jakarta.persistence.UniqueConstraint(columnNames = "nombre", name = "rol_nombre")
-    })
+@Table(name = "rol")
 @Data
 @Builder
 @NoArgsConstructor
@@ -36,6 +32,9 @@ public class Rol implements GrantedAuthority {
 
   @Column(columnDefinition = "varchar(200)", nullable = true)
   private String descripcion;
+
+  @Column(columnDefinition = "boolean", nullable = true)
+  private boolean estado = true;
 
   @Builder.Default
   @OneToMany(mappedBy = "rol", fetch = FetchType.EAGER)

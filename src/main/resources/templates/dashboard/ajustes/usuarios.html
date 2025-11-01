@@ -101,7 +101,7 @@
                 <div class="mb-3 d-flex" style="gap: 8px; align-items: end">
                   <div style="flex: 1">
                     <label for="usuarioDNI" class="form-label">DNI</label>
-                    <input type="text" class="form-control" id="usuarioDNI" required pattern="[0-9]{8}" maxlength="8" />
+                    <input type="number" class="form-control" id="usuarioDNI" required pattern="[0-9]{8}" maxlength="8" />
                     <div class="invalid-feedback">
                       Por favor, ingrese un DNI válido de 8 dígitos.
                     </div>
@@ -126,7 +126,7 @@
 
                 <div class="mb-3">
                   <label for="usuarioTelefono" class="form-label">Número de Teléfono</label>
-                  <input type="tel" class="form-control" id="usuarioTelefono" required pattern="[0-9]{9}"
+                  <input type="number" class="form-control" id="usuarioTelefono" required pattern="[0-9]{9}"
                     maxlength="9" />
                   <div class="invalid-feedback">
                     Ingrese un número de celular válido de 9 dígitos.
