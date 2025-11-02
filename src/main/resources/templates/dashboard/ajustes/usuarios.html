@@ -101,7 +101,8 @@
                 <div class="mb-3 d-flex" style="gap: 8px; align-items: end">
                   <div style="flex: 1">
                     <label for="usuarioDNI" class="form-label">DNI</label>
-                    <input type="number" class="form-control" id="usuarioDNI" required pattern="[0-9]{8}" maxlength="8" />
+                    <input type="number" class="form-control" id="usuarioDNI" required pattern="[0-9]{8}"
+                      maxlength="8" />
                     <div class="invalid-feedback">
                       Por favor, ingrese un DNI válido de 8 dígitos.
                     </div>
@@ -158,7 +159,7 @@
                   </div>
                 </div>
 
-                <div class="mb-3">
+                <div class="mb-3" id="grupoPassword">
                   <label for="usuarioPassword" class="form-label">Contraseña</label>
                   <input type="password" class="form-control" id="usuarioPassword" required minlength="6" />
                   <div class="invalid-feedback">
@@ -166,13 +167,14 @@
                   </div>
                 </div>
 
-                <div class="mb-3">
+                <div class="mb-3" id="grupoPasswordConfirm">
                   <label for="usuarioPasswordConfirm" class="form-label">Confirmar Contraseña</label>
                   <input type="password" class="form-control" id="usuarioPasswordConfirm" required minlength="6" />
                   <div class="invalid-feedback" id="confirmPasswordFeedback">
                     Las contraseñas no coinciden o son muy cortas.
                   </div>
                 </div>
+
 
                 <div class="mb-3">
                   <label for="usuarioRol" class="form-label">Rol (Permisos del Sistema)</label>
@@ -356,13 +358,13 @@
   document.addEventListener("DOMContentLoaded", () => {
     const btnGuardar = document.getElementById("btnGuardarUsuario");
     const serverErrorElement = document.getElementById("serverError");
-
+    const passwordInput = document.getElementById("usuarioPassword");
+    const passwordConfirmInput = document.getElementById("usuarioPasswordConfirm");
 
     function displayError(message) {
       serverErrorElement.textContent = message;
       serverErrorElement.classList.remove("d-none");
     }
-
 
     function clearErrors() {
       serverErrorElement.classList.add("d-none");
@@ -374,15 +376,28 @@
       clearErrors();
 
       const form = btnGuardar.closest("form");
+      const modo = btnGuardar.dataset.modo || "crear";
+
+      if (modo === "editar") {
+        passwordInput.removeAttribute("required");
+        passwordConfirmInput.removeAttribute("required");
+      }
       if (!form.checkValidity()) {
         form.classList.add("was-validated");
-        return;
+        if (modo === "editar") {
+          passwordInput.setAttribute("required", "required");
+          passwordConfirmInput.setAttribute("required", "required");
+        }
+        return; 
       }
 
-      const modo = btnGuardar.dataset.modo || "crear";
+      if (modo === "editar") {
+        passwordInput.setAttribute("required", "required");
+        passwordConfirmInput.setAttribute("required", "required");
+      }
+
       const usuarioId = document.getElementById("usuarioId").value;
       const personaId = document.getElementById("personaId")?.value;
-
 
       const personaRequest = {
         tipoDocumentoId: 1,
@@ -406,11 +421,9 @@
         estadoEntidad: parseInt(document.getElementById("usuarioEstado").value)
       };
 
-
       if (modo === "editar" && usuarioRequest.password === "") {
         delete usuarioRequest.password;
       }
-
 
       try {
         if (modo === "crear") {
@@ -438,7 +451,7 @@
           }
 
         } else {
-
+          usuarioRequest.password = null;
           const respUsuario = await fetch(`/api/usuarios/${usuarioId}`, {
             method: "PUT",
             headers: { "Content-Type": "application/json" },
@@ -650,10 +663,14 @@
     inputs.estado.addEventListener("change", () => {
       validarCampo(inputs.estado, inputs.estado.value !== "", "Debe seleccionar el estado.");
     });
+    const isEditMode = () => {
+      const title = document.getElementById("modalAgregarUsuarioLabel").textContent.trim();
+      return title === "Editar Usuario";
+    };
 
     document.getElementById("btnGuardarUsuario").addEventListener("click", (e) => {
       let formValido = true;
-
+      const modoEditar = isEditMode();
       for (const [key, input] of Object.entries(inputs)) {
         let valido = true;
         switch (key) {
@@ -670,10 +687,18 @@
             valido = input.value.length >= 4;
             break;
           case "password":
-            valido = input.value.length >= 6;
+            if (modoEditar && input.value === "") {
+              valido = true;
+            } else {
+              valido = input.value.length >= 6;
+            }
             break;
           case "passwordConfirm":
-            valido = input.value === inputs.password.value && input.value.length >= 6;
+            if (modoEditar && input.value === "") {
+              valido = true;
+            } else {
+              valido = input.value === inputs.password.value && input.value.length >= 6;
+            }
             break;
           case "rol":
             valido = input.value !== "";
@@ -704,7 +729,7 @@
 
     const usuarios = /*[[${usuarios}]]*/[];
     const API_URL = "/api/usuarios";
-    
+
     const modalEliminar = document.getElementById("modalConfirmarEliminar");
     const idUsuarioInput = document.getElementById("usuarioIdEliminar");
     const nombreUsuarioSpan = document.getElementById("nombreUsuarioSpan");
@@ -781,6 +806,9 @@
     const btnGuardar = document.getElementById("btnGuardarUsuario");
     const grupoEstado = document.getElementById("grupoEstado");
 
+    const grupoPassword = document.getElementById("grupoPassword");
+    const grupoPasswordConfirm = document.getElementById("grupoPasswordConfirm");
+
     const inputs = {
       id: document.getElementById("usuarioId"),
       personaId: document.getElementById("personaId"),
@@ -803,7 +831,10 @@
       btnGuardar.dataset.modo = "crear";
       grupoEstado.style.display = "none";
       limpiarFormulario();
+
       inputs.dni.removeAttribute("readonly");
+      grupoPassword.style.display = "block";
+      grupoPasswordConfirm.style.display = "block";
     });
 
     document.querySelectorAll(".btnEditarUsuario").forEach(boton => {
@@ -816,9 +847,12 @@
         btnGuardar.textContent = "Actualizar";
         btnGuardar.dataset.modo = "editar";
         grupoEstado.style.display = "block";
+        grupoPassword.removeAttribute("required");
+        grupoPasswordConfirm.removeAttribute("required");
+        grupoPassword.style.display = "none";
+        grupoPasswordConfirm.style.display = "none";
         inputs.id.value = user.id;
         inputs.personaId.value = user.persona.id;
-
         inputs.dni.value = user.persona.numeroDocumento || "";
         inputs.nombres.value = user.persona.nombres || "";
         inputs.apellidos.value = user.persona.apellidos || "";

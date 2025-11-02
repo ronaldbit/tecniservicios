@@ -11,6 +11,8 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+
+import org.apache.poi.sl.draw.geom.GuideIf.Op;
 import org.springframework.stereotype.Service;
 
 @Slf4j
@@ -29,10 +31,9 @@ public class PersonaService {
 
   public PersonaDto obtenerPorId(Long id) {
     log.info("Obteniendo persona con ID: {}", id);
-    Persona persona =
-        personaRepository
-            .findById(id)
-            .orElseThrow(() -> new IllegalArgumentException("Persona no encontrada con ID: " + id));
+    Persona persona = personaRepository
+        .findById(id)
+        .orElseThrow(() -> new IllegalArgumentException("Persona no encontrada con ID: " + id));
 
     return personaMapper.toDto(persona);
   }
@@ -40,25 +41,53 @@ public class PersonaService {
   public PersonaDto crear(CrearPersonaRequest request) {
     log.info("Creando nueva persona");
 
-    TipoDocumento tipoDocumentoDto =
-        tipoDocumentoService
-            .obtenerEntidadPorId(request.getTipoDocumentoId())
-            .orElseThrow(
-                () ->
-                    new IllegalArgumentException(
-                        "Tipo de documento no encontrado con ID: " + request.getTipoDocumentoId()));
+    TipoDocumento tipoDocumento = tipoDocumentoService
+        .obtenerEntidadPorId(request.getTipoDocumentoId())
+        .orElseThrow(() -> new IllegalArgumentException(
+            "Tipo de documento no encontrado con ID: " + request.getTipoDocumentoId()));
 
-    Optional<Persona> personaOpt =
-        personaRepository.findByNumeroDocumento(request.getNumeroDocumento());
+    Optional<Persona> personaOpt = personaRepository.findByNumeroDocumento(request.getNumeroDocumento());
+    Optional<Persona> personaEmailOpt = personaRepository.findByEmail(request.getEmail());
 
-    if (personaOpt.isPresent()) {
-      log.warn(
-          "Ya existe una persona con el número de documento: {}", request.getNumeroDocumento());
-      throw new IllegalArgumentException(
-          "Ya existe una persona con el número de documento: " + request.getNumeroDocumento());
+    if (personaEmailOpt.isPresent()) {
+      Persona personaEmail = personaEmailOpt.get();
+      if (Boolean.TRUE.equals(personaEmail.getEstado())
+          && (!personaOpt.isPresent() || !personaEmail.getId().equals(personaOpt.get().getId()))) {
+        throw new IllegalArgumentException("Ya existe una persona activa con el email: " + request.getEmail());
+      }
     }
 
-    Persona persona = personaMapper.fromRequest(request).tipoDocumento(tipoDocumentoDto).build();
+    if (personaOpt.isPresent()) {
+      Persona existente = personaOpt.get();
+
+      if (Boolean.TRUE.equals(existente.getEstado())) {
+        throw new IllegalArgumentException(
+            "Ya existe una persona activa con el número de documento: " + request.getNumeroDocumento());
+      }
+
+      log.info("Reactivando persona existente con ID: {}", existente.getId());
+      existente.setTipoDocumento(tipoDocumento);
+      existente.setTipoPersona(request.getTipoPersona());
+      existente.setNombres(request.getNombres());
+      existente.setApellidos(request.getApellidos());
+      existente.setRazonSocial(request.getRazonSocial());
+      existente.setEmail(request.getEmail());
+      existente.setTelefono(request.getTelefono());
+      existente.setDireccion(request.getDireccion());
+      existente.setEstado(true);
+      existente.setEmailVerificado(false);
+
+      Persona reactivada = personaRepository.save(existente);
+      log.info("Persona reactivada con ID: {}", reactivada.getId());
+      return personaMapper.toDto(reactivada);
+    }
+
+    Persona persona = personaMapper.fromRequest(request)
+        .tipoDocumento(tipoDocumento)
+        .estado(true)
+        .emailVerificado(false)
+        .build();
+
     Persona saved = personaRepository.save(persona);
     log.info("Persona creada con ID: {}", saved.getId());
     return personaMapper.toDto(saved);
@@ -66,7 +95,11 @@ public class PersonaService {
 
   public void eliminarPorId(Long id) {
     log.info("Eliminando persona con ID: {}", id);
-    personaRepository.deleteById(id);
+    Persona persona = personaRepository
+        .findById(id)
+        .orElseThrow(() -> new IllegalArgumentException("Persona no encontrada con ID: " + id));
+    persona.setEstado(false);
+    personaRepository.save(persona);
     log.info("Persona eliminada con ID: {}", id);
   }
 
@@ -77,22 +110,26 @@ public class PersonaService {
 
   public PersonaDto actualizar(Long id, CrearPersonaRequest request) {
     log.info("Actualizando persona con ID: {}", id);
-    Persona personaExistente =
-        personaRepository
-            .findById(id)
-            .orElseThrow(() -> new IllegalArgumentException("Persona no encontrada con ID: " + id));
+    Persona personaExistente = personaRepository
+        .findById(id)
+        .orElseThrow(() -> new IllegalArgumentException("Persona no encontrada con ID: " + id));
 
     Persona.PersonaBuilder personaBuilder = personaMapper.fromRequest(request);
-
     Persona personaActualizada;
-    personaActualizada =
-        personaBuilder
-            .id(personaExistente.getId())
-            .tipoDocumento(personaExistente.getTipoDocumento())
-            .build();
 
+    personaActualizada = personaBuilder
+        .id(personaExistente.getId())
+        .tipoDocumento(personaExistente.getTipoDocumento())
+        .build();
+
+    if (personaExistente.getEmail().equals(request.getEmail()) == false) {
+      personaActualizada.setEmailVerificado(false);
+      log.info("El email ha cambiado. Marcando emailVerificado como false para la persona con ID: {}", id);
+    } else {
+      personaActualizada.setEmailVerificado(personaExistente.getEmailVerificado());
+    }
+    personaActualizada.setEstado(personaExistente.getEstado());
     personaActualizada = personaRepository.save(personaActualizada);
-
     log.info("Persona actualizada con ID: {}", personaActualizada.getId());
     return personaMapper.toDto(personaActualizada);
   }

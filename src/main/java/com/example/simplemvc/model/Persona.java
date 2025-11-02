@@ -59,4 +59,13 @@ public class Persona {
 
   @Column(columnDefinition = "varchar(300)", nullable = false)
   private String direccion;
+
+  @Column(columnDefinition = "boolean", nullable = false)
+  private Boolean estado;
+
+  @Column(columnDefinition = "varchar(255)", nullable = true)
+  private String tokenVerificacionEmail;
+
+  @Column(columnDefinition = "boolean", nullable = false)
+  private Boolean emailVerificado;
 }

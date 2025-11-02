@@ -167,12 +167,21 @@ public class UsuarioService {
         request.getEstadoEntidad() == 1
             ? EstadoEntidad.INACTIVO
             : request.getEstadoEntidad() == 2 ? EstadoEntidad.ACTIVO : EstadoEntidad.ELIMINADO);
-    System.out.println("Estado actualizado a: " + usuario.getEstado());
+
+    if (request.getEstadoEntidad() != 1 && request.getEstadoEntidad() != 2 ) {
+       log.info("Eliminando persona asociada al usuario con ID: {}", id);       
+       Usuario temp = usuarioRepository.findById(id).orElseThrow();
+       personaService.eliminarPorId(temp.getPersona().getId());
+       log.info("Persona eliminada con ID: {}", temp.getPersona().getId());
+    }
     usuario.setNombreUsuario(request.getNombreUsuario());
-    usuario.setPassword(passwordEncoder.encode(request.getPassword()));
+    if(request.getPassword() != null && !request.getPassword().isEmpty()){
+      usuario.setPassword(passwordEncoder.encode(request.getPassword()));
+    } else {
+      log.info("La contraseña no se actualiza para el usuario con ID: {}", id);
+    }    
     usuario.setRoles(Arrays.asList(rol));
     usuario = usuarioRepository.save(usuario);
-
     log.info("Usuario actualizado con ID: {}", usuario.getId());
     return usuarioMapper.toDto(usuario);
   }

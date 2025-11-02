@@ -22,9 +22,14 @@ INSERT INTO `sucursal` (`id`, `empresa_id`, `nombre`, `direccion`, `telefono`, `
 VALUES
     (1, 1, 'Chiclayo Central', 'Av. José Balta 123', '999888777', 2, '2025-09-30 14:09:13', '2025-09-30 14:09:13');
 
-INSERT INTO `persona` (`id`, `tipo_documento_id`, `numero_documento`, `tipo_persona`, `nombres`, `apellidos`, `razon_social`, `email`, `telefono`, `direccion`)
+INSERT INTO persona 
+(`id`, `tipo_documento_id`, `numero_documento`, `tipo_persona`, 
+ `nombres`, `apellidos`, `razon_social`, `email`, `telefono`, 
+ `direccion`, `estado`, `email_verificado`)
 VALUES
-    (1, 1, '12345678', 'NATURAL', 'Admin', 'Sistema', 'Ing', 'admin@tecniservicios.com', '900000001', 'Av. Principal 123');
+(1, 1, '12345678', 'NATURAL', 'Admin', 'Sistema', 'Ing', 
+ 'admin@tecniservicios.com', '900000001', 'Av. Principal 123', 
+ true, true);
 
 INSERT INTO `usuario` (`id`, `persona_id`, `sucursal_id`, `nombre_usuario`, `password`, `estado`, `fecha_creacion`, `fecha_actualizacion`)
 VALUES
