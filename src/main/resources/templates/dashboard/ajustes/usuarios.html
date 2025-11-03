@@ -42,6 +42,7 @@
                     <th>ID</th>
                     <th>Nombres</th>
                     <th>Correo</th>
+                    <th>¿Verificado?</th>
                     <th>Estado</th>
                     <th>Rol</th>
                     <th>Acciones</th>
@@ -52,6 +53,8 @@
                     <td th:text="${u.id}"></td>
                     <td th:text="${u.persona.nombres + ' ' + u.persona.apellidos}"></td>
                     <td th:text="${u.persona.email}"></td>
+                    <td th:classappend="${u.persona.emailVerificado} ? 'text-success' : 'text-danger'"
+                      th:text="${u.persona.emailVerificado} ? 'Sí' : 'No'"></td>
                     <td>
                       <span th:text="${u.estado}"
                         th:classappend="${u.estado == 'ACTIVO'} ? 'text-success fw-semibold' : 'text-secondary fw-semibold'"></span>
@@ -388,7 +391,7 @@
           passwordInput.setAttribute("required", "required");
           passwordConfirmInput.setAttribute("required", "required");
         }
-        return; 
+        return;
       }
 
       if (modo === "editar") {

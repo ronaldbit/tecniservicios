@@ -30,15 +30,16 @@ public class AuthInterceptor implements HandlerInterceptor {
     String jwt = extractJwt(request);
     Usuario usuario = jwtAuthenticationService.fromJwt(jwt);
 
+    if (requestURI.equals("/auth/verify") || requestURI.equals("/auth/reset-password")) {
+      return true;
+    }
     AntPathMatcher matcher = new AntPathMatcher();
 
-    boolean isProtected =
-        securityProperties.getProtectedRoutes().stream()
-            .anyMatch(route -> matcher.match(route, requestURI));
+    boolean isProtected = securityProperties.getProtectedRoutes().stream()
+        .anyMatch(route -> matcher.match(route, requestURI));
 
-    boolean isAuthEntry =
-        securityProperties.getAuthEntryRoutes().stream()
-            .anyMatch(route -> matcher.match(route, requestURI));
+    boolean isAuthEntry = securityProperties.getAuthEntryRoutes().stream()
+        .anyMatch(route -> matcher.match(route, requestURI));
 
     if (isProtected && usuario == null) {
       response.sendRedirect("/auth/login");

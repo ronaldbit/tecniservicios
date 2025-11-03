@@ -18,6 +18,7 @@ public class PersonaDto {
   private String apellidos;
   private String razonSocial;
   private String email;
+  private boolean emailVerificado;
   private String telefono;
   private String direccion;
 }

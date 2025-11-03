@@ -12,7 +12,8 @@ import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-import org.apache.poi.sl.draw.geom.GuideIf.Op;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.security.oauth2.resource.OAuth2ResourceServerProperties.Jwt;
 import org.springframework.stereotype.Service;
 
 @Slf4j
@@ -22,6 +23,9 @@ public class PersonaService {
   private final PersonaRepository personaRepository;
   private final PersonaMapper personaMapper;
   private final TipoDocumentoService tipoDocumentoService;
+
+  @Autowired
+  private ServicioCorreo servicioCorreo;
 
   public List<PersonaDto> listaTodos() {
     log.info("Obteniendo lista de personas");
@@ -76,8 +80,9 @@ public class PersonaService {
       existente.setDireccion(request.getDireccion());
       existente.setEstado(true);
       existente.setEmailVerificado(false);
-
+      existente.setTokenVerificacionEmail(JwtTokenUtil.generateToken(request.getEmail()));
       Persona reactivada = personaRepository.save(existente);
+      servicioCorreo.enviarVerificacionCorreo(existente.getEmail(), existente.getTokenVerificacionEmail());
       log.info("Persona reactivada con ID: {}", reactivada.getId());
       return personaMapper.toDto(reactivada);
     }
@@ -86,9 +91,11 @@ public class PersonaService {
         .tipoDocumento(tipoDocumento)
         .estado(true)
         .emailVerificado(false)
+        .tokenVerificacionEmail(JwtTokenUtil.generateToken(request.getEmail()))
         .build();
 
     Persona saved = personaRepository.save(persona);
+    servicioCorreo.enviarVerificacionCorreo(persona.getEmail(), persona.getTokenVerificacionEmail());
     log.info("Persona creada con ID: {}", saved.getId());
     return personaMapper.toDto(saved);
   }

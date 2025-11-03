@@ -56,6 +56,11 @@ public class ApiAuthController {
         return "/auth/login";
       }
 
+      if (!usuario.getPersona().getEmailVerificado()) {
+        model.addAttribute("message", "verifique su correo electrónico desde su bandeja de entrada antes de iniciar sesión.");
+        return "/auth/login";
+      }
+
       model.addAttribute("usuario", usuario);
 
       System.out.println("Usuario logueado: " + usuario.getUsername());
