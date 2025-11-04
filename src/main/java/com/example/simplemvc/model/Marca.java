@@ -17,7 +17,7 @@ import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
 
 @Entity
-@Table(name = "marca")
+@Table(name = "marcas")
 @SQLDelete(sql = "UPDATE marca SET estado = 0 WHERE id = ?")
 @SQLRestriction("estado <> 0")
 @Data
@@ -27,11 +27,14 @@ import org.hibernate.annotations.SQLRestriction;
 public class Marca {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(updatable = false, nullable = false)
+  @Column(name = "id_marca")
   private Long id;
 
   @Column(columnDefinition = "varchar(120)", nullable = false)
   private String nombre;
+
+  @Column(columnDefinition = "varchar(255)")
+  private String descripcion;
 
   @Builder.Default
   @Column(nullable = false)

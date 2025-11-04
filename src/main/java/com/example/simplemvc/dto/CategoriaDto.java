@@ -1,3 +1,4 @@
+
 package com.example.simplemvc.dto;
 
 import com.example.simplemvc.model.enums.EstadoEntidad;
@@ -10,9 +11,9 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class MarcaDto {
-  private Long id;
-  private String nombre;
-  private String descripcion;
-  private EstadoEntidad estado;
+public class CategoriaDto {
+    private Long idCategoria;
+    private String nombre;
+    private String descripcion;
+    private EstadoEntidad estado;
 }
