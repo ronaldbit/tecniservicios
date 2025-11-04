@@ -19,7 +19,7 @@ public class VerificacionService {
     private final PersonaRepository personaRepository;
 
     @Autowired
-    private JwtTokenUtil jwtTokenUtil;
+    private JwtTokenEmail jwtTokenUtil;
 
     public void verificarEmail(String token) {
         log.info("Verificando email con token: {}", token);

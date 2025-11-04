@@ -62,6 +62,9 @@ public class Usuario implements UserDetails {
   @Column(columnDefinition = "varchar(255)", nullable = false)
   private String password;
 
+   @Column(columnDefinition = "TEXT", nullable = true)
+  private String jwtPSecret;
+
   @ManyToMany(fetch = FetchType.EAGER)
   @JoinTable(
       name = "usuario_rol",
@@ -82,6 +85,7 @@ public class Usuario implements UserDetails {
   @Builder.Default
   @Column(nullable = false)
   private LocalDateTime fechaActualizacion = LocalDateTime.now();
+  
 
   @Override
   public String getUsername() {

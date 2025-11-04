@@ -13,7 +13,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.security.oauth2.resource.OAuth2ResourceServerProperties.Jwt;
 import org.springframework.stereotype.Service;
 
 @Slf4j
@@ -80,7 +79,7 @@ public class PersonaService {
       existente.setDireccion(request.getDireccion());
       existente.setEstado(true);
       existente.setEmailVerificado(false);
-      existente.setTokenVerificacionEmail(JwtTokenUtil.generateToken(request.getEmail()));
+      existente.setTokenVerificacionEmail(JwtTokenEmail.generateToken(request.getEmail()));
       Persona reactivada = personaRepository.save(existente);
       servicioCorreo.enviarVerificacionCorreo(existente.getEmail(), existente.getTokenVerificacionEmail());
       log.info("Persona reactivada con ID: {}", reactivada.getId());
@@ -91,7 +90,7 @@ public class PersonaService {
         .tipoDocumento(tipoDocumento)
         .estado(true)
         .emailVerificado(false)
-        .tokenVerificacionEmail(JwtTokenUtil.generateToken(request.getEmail()))
+        .tokenVerificacionEmail(JwtTokenEmail.generateToken(request.getEmail()))
         .build();
 
     Persona saved = personaRepository.save(persona);

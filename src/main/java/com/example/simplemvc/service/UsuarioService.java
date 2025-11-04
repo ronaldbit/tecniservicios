@@ -188,7 +188,6 @@ public class UsuarioService {
 
   public Optional<Usuario> obtenerEntidadPorNombreUsuario(String nombreUsuario) {
     log.info("Obteniendo usuario con nombre de usuario: {}", nombreUsuario);
-
     return usuarioRepository.findByNombreUsuario(nombreUsuario);
   }
 }

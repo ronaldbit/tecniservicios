@@ -12,7 +12,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 
 @Component
-public class JwtTokenUtil {
+public class JwtTokenEmail {
 
     private final static SecretKey SECRET_KEY = Keys.secretKeyFor(SignatureAlgorithm.HS256);
     private final static long EXPIRATION_TIME = 86400000;
