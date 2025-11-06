@@ -3,6 +3,7 @@ package com.example.simplemvc.service;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.example.simplemvc.model.enums.EstadoEntidad;
 import org.springframework.stereotype.Service;
 
 import com.example.simplemvc.dto.ProductoDto;
@@ -19,12 +20,13 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class ProductoService {
     private final ProductoRepository productoRepository;
+    private final CategoriaService categoriaService;
     private final ProductoMapper productoMapper;
-    
 
     public List<ProductoDto> findAll() {
         log.info("Obteniendo todos los productos");
         return productoRepository.findAll().stream()
+                .filter(p -> p.getEstado() != EstadoEntidad.ELIMINADO)
             .map(productoMapper::toDto)
             .collect(Collectors.toList());
     }
@@ -43,7 +45,7 @@ public class ProductoService {
         log.info("Producto creado con ID: {}", savedProducto.getIdProducto());
         return productoMapper.toDto(savedProducto);
     }
-    
+
     public ProductoDto update(Long id, CrearProductoRequest request) {
         log.info("Actualizando producto con ID: {}", id);
         Producto existingProducto = productoRepository.findById(id)
@@ -53,5 +55,18 @@ public class ProductoService {
         Producto updatedProducto = productoRepository.save(existingProducto);
         log.info("Producto actualizado con ID: {}", updatedProducto.getIdProducto());
         return productoMapper.toDto(updatedProducto);
+    }
+
+    public void delete(Long id) {
+        log.info("Eliminando producto con ID: {}", id);
+        if (!productoRepository.existsById(id)) {
+            throw new IllegalArgumentException("Producto no encontrado con ID: " + id);
+        }
+        Producto producto = productoRepository
+                .findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Producto no encontrado con ID: " + id));
+        producto.setEstado(EstadoEntidad.ELIMINADO);
+        productoRepository.save(producto);
+        log.info("Producto eliminado con ID: {}", id);
     }
 }

@@ -2,9 +2,9 @@ package com.example.simplemvc.controller;
 
 import java.util.List;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.example.simplemvc.request.CrearProductoRequest;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
 
 import com.example.simplemvc.dto.ProductoDto;
 import com.example.simplemvc.service.ProductoService;
@@ -24,9 +24,32 @@ public class ApiProductoController {
         return productoService.findAll();
     }
 
+    @PostMapping
+    @PreAuthorize("hasRole('ADMIN')")
+    public ProductoDto crearProducto(
+                @ModelAttribute CrearProductoRequest request){
+        try {
+            return productoService.create(request);
+        } catch (Exception e) {
+            throw new IllegalArgumentException("Error al crear el producto: " + e.getMessage());
+        }
+    }
 
+    @PutMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ProductoDto actualizarProducto(
+            @PathVariable Long id,
+            @ModelAttribute CrearProductoRequest request) {
+        try {
+            return productoService.update(id, request);
+        } catch (Exception e) {
+            throw new IllegalArgumentException("Error al actualizar el producto: " + e.getMessage());
+        }
+    }
 
-    
-    
-        
+    @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public void eliminarProducto(@PathVariable Long id) {
+        productoService.delete(id);
+    }
 }

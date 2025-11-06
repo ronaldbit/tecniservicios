@@ -37,7 +37,6 @@ public class PersonaService {
     Persona persona = personaRepository
         .findById(id)
         .orElseThrow(() -> new IllegalArgumentException("Persona no encontrada con ID: " + id));
-
     return personaMapper.toDto(persona);
   }
 
