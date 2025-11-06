@@ -40,17 +40,8 @@ public class Producto {
     @JoinColumn(name = "id_categoria")
     private Categoria categoria;
 
-    @Column(name = "costo", nullable = false, precision = 12, scale = 2)
-    private BigDecimal costo;
-
     @Column(name = "precio", nullable = false, precision = 12, scale = 2)
     private BigDecimal precio;
-
-    @Column(name = "precio_online", precision = 12, scale = 2)
-    private BigDecimal precioOnline;
-
-    @Column(name = "publicar_online")
-    private Boolean publicarOnline;
 
     @Column(name = "unidad", length = 20)
     private String unidad;
@@ -68,6 +59,7 @@ public class Producto {
 
     @Column(name = "imagenes", columnDefinition = "longtext")
     private String imagenes;
+
     @CreationTimestamp
     @Column(name = "created_at", nullable = false, updatable = false)
     private Timestamp createdAt;

@@ -21,7 +21,7 @@ public class RolController {
   @Autowired private final GetActualUsuarioService getActualUsuarioService;
 
   @Autowired private final UsuarioMapper usuarioMapper;
-
+  
   @GetMapping
   @PreAuthorize("hasRole('ADMIN')")
   public String lista(Model model) {

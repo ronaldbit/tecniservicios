@@ -18,8 +18,6 @@ public class CrearProductoRequest {
     private Long idCategoria;
     private BigDecimal costo;
     private BigDecimal precio;
-    private BigDecimal precioOnline;
-    private Boolean publicarOnline;
     private String unidad;
     private Long idImpuesto;
     private BigDecimal stockMinimo;

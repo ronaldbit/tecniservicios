@@ -16,12 +16,10 @@ public class ProductoDto {
     private Long idProducto;
     private String codigo;
     private String nombre;
-    private MarcaDto marca; 
-    private CategoriaDto categoria; 
+    private MarcaDto marca;
+    private CategoriaDto categoria;
     private BigDecimal costo;
     private BigDecimal precio;
-    private BigDecimal precioOnline;
-    private Boolean publicarOnline;
     private String unidad;
     private Long idImpuesto;
     private BigDecimal stockMinimo;
