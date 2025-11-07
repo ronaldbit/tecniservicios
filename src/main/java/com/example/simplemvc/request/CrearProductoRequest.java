@@ -16,7 +16,6 @@ public class CrearProductoRequest {
     private String nombre;
     private Long idMarca;
     private Long idCategoria;
-    private BigDecimal costo;
     private BigDecimal precio;
     private String unidad;
     private Long idImpuesto;

@@ -1,4 +1,5 @@
-<div class="pc-container" th:replace="~{dashboard/layout :: layout(~{::content}, ${usuario}, 'Inicio', '/dashboard')}">
+<div class="pc-container"
+  th:replace="~{dashboard/layout :: layout(~{::content}, ${usuario}, 'Productos', '/dashboard/productos')}">
   <div class="pc-content" th:fragment="content">
     <!-- [ Main Content ] start -->
     <div class="page-header">
@@ -6,9 +7,9 @@
         <div class="row align-items-center">
           <div class="col-md-12">
             <ul class="breadcrumb">
-              <li class="breadcrumb-item"><a href="../index.html">Inicio</a></li>
+              <li class="breadcrumb-item"><a href="/dashboard">Inicio</a></li>
               <li class="breadcrumb-item"><a href="javascript:void(0)">Productos</a></li>
-              <li class="breadcrumb-item" aria-current="page">Lista</li>
+              <li class="breadcrumb-item active" aria-current="page">Lista</li>
             </ul>
           </div>
           <div class="col-md-12">
@@ -19,410 +20,112 @@
         </div>
       </div>
     </div>
+
+    <!-- Tabla de productos -->
     <div class="row">
       <div class="col-12">
         <div class="card table-card">
           <div class="card-header d-flex align-items-center justify-content-between">
             <h5 class="mb-0">Inventario de lubricantes</h5>
-
-            <h5 class="mb-0">Inventario de lubricantes</h5>
-
-
-            <div id="exampleModalLive" class="modal fade" tabindex="-1" role="dialog"
-              aria-labelledby="exampleModalLiveLabel" aria-hidden="true">
-
-              <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-                <div class="modal-content">
-
-                  <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLiveLabel">Añadir Nuevo Producto</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                  </div>
-
-                  <div class="modal-body">
-                    <form>
-                      <div class="row">
-                        <div class="col-md-8">
-
-                          <div class="mb-3">
-                            <label for="prodNombre" class="form-label">Nombre del Producto</label>
-                            <input type="text" class="form-control" id="prodNombre" placeholder="Ej: Castrol GTX 20W-50"
-                              required>
-                          </div>
-
-                          <div class="mb-3">
-                            <label for="prodDesc" class="form-label">Descripción Corta</label>
-                            <textarea class="form-control" id="prodDesc" rows="2"
-                              placeholder="Ej: Aceite de motor mineral"></textarea>
-                          </div>
-
-                          <div class="row">
-                            <div class="col-md-6">
-                              <div class="mb-3">
-                                <label for="prodSKU" class="form-label">SKU</label>
-                                <input type="text" class="form-control" id="prodSKU" placeholder="Ej: LUB-0001">
-                              </div>
-                            </div>
-                            <div class="col-md-6">
-                              <div class="mb-3">
-                                <label for="prodViscosidad" class="form-label">Viscosidad</label>
-                                <input type="text" class="form-control" id="prodViscosidad" placeholder="Ej: 20W-50">
-                              </div>
-                            </div>
-                          </div>
-
-                          <div class="row">
-                            <div class="col-md-6">
-                              <div class="mb-3">
-                                <label for="prodCategoria" class="form-label">Categoría</label>
-                                <select class="form-select" id="prodCategoria">
-                                  <option selected disabled>Seleccionar...</option>
-                                  <option value="1">Motor</option>
-                                  <option value="2">Transmisión</option>
-                                  <option value="3">Diésel</option>
-                                  <option value="4">Hidráulico</option>
-                                </select>
-                              </div>
-                            </div>
-                            <div class="col-md-6">
-                              <div class="mb-3">
-                                <label for="prodMarca" class="form-label">Marca</label>
-                                <select class="form-select" id="prodMarca">
-                                  <option selected disabled>Seleccionar...</option>
-                                  <option value="1">Castrol</option>
-                                  <option value="2">Shell</option>
-                                  <option value="3">Mobil</option>
-                                  <option value="4">Total</option>
-                                  <option value="5">Valvoline</option>
-                                </select>
-                              </div>
-                            </div>
-                          </div>
-
-                          <div class="row">
-                            <div class="col-md-6">
-                              <div class="mb-3">
-                                <label for="prodPrecio" class="form-label">Precio de Venta (S/)</label>
-                                <input type="number" class="form-control" id="prodPrecio" placeholder="Ej: 95.90"
-                                  step="0.01">
-                              </div>
-                            </div>
-                            <div class="col-md-6">
-                              <div class="mb-3">
-                                <label for="prodPresentacion" class="form-label">Presentación</label>
-                                <input type="text" class="form-control" id="prodPresentacion"
-                                  placeholder="Ej: 4 L / 1 gal">
-                              </div>
-                            </div>
-                          </div>
-
-                          <div class="mb-3">
-                            <label for="prodStock" class="form-label">Stock Inicial</label>
-                            <input type="number" class="form-control" id="prodStock" placeholder="Ej: 50" value="0">
-                            <small class="form-text text-muted">Establece el stock inicial. Los movimientos se harán
-                              desde "Inventario".</small>
-                          </div>
-
-                        </div>
-
-                        <div class="col-md-4">
-                          <div class="mb-3">
-                            <label class="form-label">Imagen del Producto</label>
-                            <div class="text-center">
-                              <img src="/assets/images/user/avatar-1.jpg" alt="preview" class="img-fluid rounded mb-2"
-                                style="max-height: 180px; border: 1px solid #ddd; padding: 5px;">
-                            </div>
-                            <input class="form-control" type="file" id="prodImagen">
-                          </div>
-
-                          <div class="mb-3">
-                            <label class="form-label">Estado</label>
-                            <div class="form-check form-switch">
-                              <input class="form-check-input" type="checkbox" role="switch" id="prodEstado" checked>
-                              <label class="form-check-label" for="prodEstado">Activo / Publicado</label>
-                            </div>
-                          </div>
-
-                        </div>
-                      </div>
-                    </form>
-                  </div>
-
-                  <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                    <button type="button" class="btn btn-primary">Guardar Producto</button>
-                  </div>
-
-                </div>
-              </div>
-            </div>
-
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModalLive">
+            <button type="button" class="btn btn-primary" id="btnNuevoProducto" data-bs-toggle="modal"
+              data-bs-target="#modalProducto">
               <i class="ti ti-plus me-1"></i> Nuevo Producto
             </button>
-
-
-
-
-
           </div>
+
           <div class="card-body pt-3">
             <div class="table-responsive">
-              <table class="table table-hover" id="pc-dt-simple">
+              <table class="table table-hover" id="tablaProductos">
                 <thead>
                   <tr>
-                    <th>Producto</th>
-                    <th>SKU</th>
+                    <th>Nombre</th>
+                    <th>Código</th>
                     <th>Marca</th>
                     <th>Categoría</th>
-                    <th>Viscosidad</th>
-                    <th>Presentación</th>
-                    <th>Precio</th>
-                    <th>Stock</th>
+                    <th>Unidad</th>
+                    <th>Precio (S/)</th>
+                    <th>Stock Mínimo</th>
                     <th>Estado</th>
                     <th>Acción</th>
                   </tr>
                 </thead>
                 <tbody id="tabla-productos-body">
-                <tr>
-                  <td colspan="10" class="text-center">Cargando productos...</td>
-                </tr>
+                  <tr>
+                    <td colspan="9" class="text-center">Cargando productos...</td>
+                  </tr>
                 </tbody>
-<!--                <////>t///body>-->
-<!--                  &lt;!&ndash; Fila 1 &ndash;&gt;-->
-<!--                  <tr>-->
-<!--                    <td>-->
-<!--                      <div class="d-flex align-items-center">-->
-<!--                        <div class="flex-shrink-0">-->
-<!--                          <img src="/assets/images/user/avatar-1.jpg" alt="Castrol GTX 20W-50"-->
-<!--                            class="img-radius wid-40" />-->
-<!--                        </div>-->
-<!--                        <div class="flex-grow-1 ms-3">-->
-<!--                          <h6 class="mb-0">Castrol GTX 20W-50</h6>-->
-<!--                          <small class="text-muted d-block">Aceite de motor</small>-->
-<!--                        </div>-->
-<!--                      </div>-->
-<!--                    </td>-->
-<!--                    <td>LUB-0001</td>-->
-<!--                    <td>Castrol</td>-->
-<!--                    <td><span class="badge text-bg-success">Motor</span></td>-->
-<!--                    <td>20W-50</td>-->
-<!--                    <td>4 L</td>-->
-<!--                    <td>S/ 95.90</td>-->
-<!--                    <td>35 <span class="text-muted text-sm d-block">Almacén Central</span></td>-->
-<!--                    <td class="text-success"><i class="fas fa-circle f-10 m-r-10"></i> Activo</td>-->
-<!--                    <td>-->
-<!--                      <a href="#!" class="avtar avtar-xs btn-link-secondary"><i class="ti ti-eye f-20"></i></a>-->
-<!--                      <a href="#!" class="avtar avtar-xs btn-link-secondary"><i class="ti ti-edit f-20"></i></a>-->
-<!--                      <a href="#!" class="avtar avtar-xs btn-link-secondary"><i class="ti ti-trash f-20"></i></a>-->
-<!--                    </td>-->
-<!--                  </tr>-->
-
-<!--                  &lt;!&ndash; Fila 2 &ndash;&gt;-->
-<!--                  <tr>-->
-<!--                    <td>-->
-<!--                      <div class="d-flex align-items-center">-->
-<!--                        <div class="flex-shrink-0">-->
-<!--                          <img src="/assets/images/user/avatar-1.jpg" alt="Shell Helix Ultra 5W-40"-->
-<!--                            class="img-radius wid-40" />-->
-<!--                        </div>-->
-<!--                        <div class="flex-grow-1 ms-3">-->
-<!--                          <h6 class="mb-0">Shell Helix Ultra 5W-40</h6>-->
-<!--                          <small class="text-muted d-block">Aceite sintético</small>-->
-<!--                        </div>-->
-<!--                      </div>-->
-<!--                    </td>-->
-<!--                    <td>LUB-0002</td>-->
-<!--                    <td>Shell</td>-->
-<!--                    <td><span class="badge text-bg-success">Motor</span></td>-->
-<!--                    <td>5W-40</td>-->
-<!--                    <td>4 L</td>-->
-<!--                    <td>S/ 169.00</td>-->
-<!--                    <td>18 <span class="text-muted text-sm d-block">Tienda Miraflores</span></td>-->
-<!--                    <td class="text-success"><i class="fas fa-circle f-10 m-r-10"></i> Activo</td>-->
-<!--                    <td>-->
-<!--                      <a href="#!" class="avtar avtar-xs btn-link-secondary"><i class="ti ti-eye f-20"></i></a>-->
-<!--                      <a href="#!" class="avtar avtar-xs btn-link-secondary"><i class="ti ti-edit f-20"></i></a>-->
-<!--                      <a href="#!" class="avtar avtar-xs btn-link-secondary"><i class="ti ti-trash f-20"></i></a>-->
-<!--                    </td>-->
-<!--                  </tr>-->
-
-<!--                  &lt;!&ndash; Fila 3 &ndash;&gt;-->
-<!--                  <tr>-->
-<!--                    <td>-->
-<!--                      <div class="d-flex align-items-center">-->
-<!--                        <div class="flex-shrink-0">-->
-<!--                          <img src="/assets/images/user/avatar-1.jpg" alt="Mobil 1 0W-20" class="img-radius wid-40" />-->
-<!--                        </div>-->
-<!--                        <div class="flex-grow-1 ms-3">-->
-<!--                          <h6 class="mb-0">Mobil 1 0W-20</h6>-->
-<!--                          <small class="text-muted d-block">Sintético avanzado</small>-->
-<!--                        </div>-->
-<!--                      </div>-->
-<!--                    </td>-->
-<!--                    <td>LUB-0003</td>-->
-<!--                    <td>Mobil</td>-->
-<!--                    <td><span class="badge text-bg-success">Motor</span></td>-->
-<!--                    <td>0W-20</td>-->
-<!--                    <td>1 L</td>-->
-<!--                    <td>S/ 54.50</td>-->
-<!--                    <td>0 <span class="text-muted text-sm d-block">Reposición 48h</span></td>-->
-<!--                    <td class="text-danger"><i class="fas fa-circle f-10 m-r-10"></i> Sin stock</td>-->
-<!--                    <td>-->
-<!--                      <a href="#!" class="avtar avtar-xs btn-link-secondary"><i class="ti ti-eye f-20"></i></a>-->
-<!--                      <a href="#!" class="avtar avtar-xs btn-link-secondary"><i class="ti ti-edit f-20"></i></a>-->
-<!--                      <a href="#!" class="avtar avtar-xs btn-link-secondary"><i class="ti ti-trash f-20"></i></a>-->
-<!--                    </td>-->
-<!--                  </tr>-->
-
-<!--                  &lt;!&ndash; Fila 4 &ndash;&gt;-->
-<!--                  <tr>-->
-<!--                    <td>-->
-<!--                      <div class="d-flex align-items-center">-->
-<!--                        <div class="flex-shrink-0">-->
-<!--                          <img src="/assets/images/user/avatar-1.jpg" alt="Total Quartz 9000 5W-40"-->
-<!--                            class="img-radius wid-40" />-->
-<!--                        </div>-->
-<!--                        <div class="flex-grow-1 ms-3">-->
-<!--                          <h6 class="mb-0">Total Quartz 9000 5W-40</h6>-->
-<!--                          <small class="text-muted d-block">Aceite sintético</small>-->
-<!--                        </div>-->
-<!--                      </div>-->
-<!--                    </td>-->
-<!--                    <td>LUB-0004</td>-->
-<!--                    <td>Total</td>-->
-<!--                    <td><span class="badge text-bg-success">Motor</span></td>-->
-<!--                    <td>5W-40</td>-->
-<!--                    <td>4 L</td>-->
-<!--                    <td>S/ 149.90</td>-->
-<!--                    <td>12 <span class="text-muted text-sm d-block">Tienda Centro</span></td>-->
-<!--                    <td class="text-success"><i class="fas fa-circle f-10 m-r-10"></i> Activo</td>-->
-<!--                    <td>-->
-<!--                      <a href="#!" class="avtar avtar-xs btn-link-secondary"><i class="ti ti-eye f-20"></i></a>-->
-<!--                      <a href="#!" class="avtar avtar-xs btn-link-secondary"><i class="ti ti-edit f-20"></i></a>-->
-<!--                      <a href="#!" class="avtar avtar-xs btn-link-secondary"><i class="ti ti-trash f-20"></i></a>-->
-<!--                    </td>-->
-<!--                  </tr>-->
-
-<!--                  &lt;!&ndash; Fila 5 &ndash;&gt;-->
-<!--                  <tr>-->
-<!--                    <td>-->
-<!--                      <div class="d-flex align-items-center">-->
-<!--                        <div class="flex-shrink-0">-->
-<!--                          <img src="/assets/images/user/avatar-1.jpg" alt="Valvoline MaxLife 10W-40"-->
-<!--                            class="img-radius wid-40" />-->
-<!--                        </div>-->
-<!--                        <div class="flex-grow-1 ms-3">-->
-<!--                          <h6 class="mb-0">Valvoline MaxLife 10W-40</h6>-->
-<!--                          <small class="text-muted d-block">Alto kilometraje</small>-->
-<!--                        </div>-->
-<!--                      </div>-->
-<!--                    </td>-->
-<!--                    <td>LUB-0005</td>-->
-<!--                    <td>Valvoline</td>-->
-<!--                    <td><span class="badge text-bg-success">Motor</span></td>-->
-<!--                    <td>10W-40</td>-->
-<!--                    <td>4 L</td>-->
-<!--                    <td>S/ 119.00</td>-->
-<!--                    <td>22 <span class="text-muted text-sm d-block">Almacén Central</span></td>-->
-<!--                    <td class="text-success"><i class="fas fa-circle f-10 m-r-10"></i> Activo</td>-->
-<!--                    <td>-->
-<!--                      <a href="#!" class="avtar avtar-xs btn-link-secondary"><i class="ti ti-eye f-20"></i></a>-->
-<!--                      <a href="#!" class="avtar avtar-xs btn-link-secondary"><i class="ti ti-edit f-20"></i></a>-->
-<!--                      <a href="#!" class="avtar avtar-xs btn-link-secondary"><i class="ti ti-trash f-20"></i></a>-->
-<!--                    </td>-->
-<!--                  </tr>-->
-
-<!--                  &lt;!&ndash; Fila 6 (Transmisión) &ndash;&gt;-->
-<!--                  <tr>-->
-<!--                    <td>-->
-<!--                      <div class="d-flex align-items-center">-->
-<!--                        <div class="flex-shrink-0">-->
-<!--                          <img src="/assets/images/user/avatar-1.jpg" alt="Gear Oil 75W-90" class="img-radius wid-40" />-->
-<!--                        </div>-->
-<!--                        <div class="flex-grow-1 ms-3">-->
-<!--                          <h6 class="mb-0">Gear Oil 75W-90</h6>-->
-<!--                          <small class="text-muted d-block">Aceite de transmisión</small>-->
-<!--                        </div>-->
-<!--                      </div>-->
-<!--                    </td>-->
-<!--                    <td>LUB-0101</td>-->
-<!--                    <td>Chevron</td>-->
-<!--                    <td><span class="badge text-bg-primary">Transmisión</span></td>-->
-<!--                    <td>75W-90</td>-->
-<!--                    <td>1 L</td>-->
-<!--                    <td>S/ 59.90</td>-->
-<!--                    <td>40 <span class="text-muted text-sm d-block">Tienda Surco</span></td>-->
-<!--                    <td class="text-success"><i class="fas fa-circle f-10 m-r-10"></i> Activo</td>-->
-<!--                    <td>-->
-<!--                      <a href="#!" class="avtar avtar-xs btn-link-secondary"><i class="ti ti-eye f-20"></i></a>-->
-<!--                      <a href="#!" class="avtar avtar-xs btn-link-secondary"><i class="ti ti-edit f-20"></i></a>-->
-<!--                      <a href="#!" class="avtar avtar-xs btn-link-secondary"><i class="ti ti-trash f-20"></i></a>-->
-<!--                    </td>-->
-<!--                  </tr>-->
-
-<!--                  &lt;!&ndash; Fila 7 (Diésel) &ndash;&gt;-->
-<!--                  <tr>-->
-<!--                    <td>-->
-<!--                      <div class="d-flex align-items-center">-->
-<!--                        <div class="flex-shrink-0">-->
-<!--                          <img src="/assets/images/user/avatar-1.jpg" alt="Delo 400 15W-40" class="img-radius wid-40" />-->
-<!--                        </div>-->
-<!--                        <div class="flex-grow-1 ms-3">-->
-<!--                          <h6 class="mb-0">Delo 400 15W-40</h6>-->
-<!--                          <small class="text-muted d-block">Motor diésel</small>-->
-<!--                        </div>-->
-<!--                      </div>-->
-<!--                    </td>-->
-<!--                    <td>LUB-0201</td>-->
-<!--                    <td>Chevron</td>-->
-<!--                    <td><span class="badge text-bg-warning">Diésel</span></td>-->
-<!--                    <td>15W-40</td>-->
-<!--                    <td>1 gal</td>-->
-<!--                    <td>S/ 129.50</td>-->
-<!--                    <td>7 <span class="text-muted text-sm d-block">Tienda Callao</span></td>-->
-<!--                    <td class="text-success"><i class="fas fa-circle f-10 m-r-10"></i> Activo</td>-->
-<!--                    <td>-->
-<!--                      <a href="#!" class="avtar avtar-xs btn-link-secondary"><i class="ti ti-eye f-20"></i></a>-->
-<!--                      <a href="#!" class="avtar avtar-xs btn-link-secondary"><i class="ti ti-edit f-20"></i></a>-->
-<!--                      <a href="#!" class="avtar avtar-xs btn-link-secondary"><i class="ti ti-trash f-20"></i></a>-->
-<!--                    </td>-->
-<!--                  </tr>-->
-
-<!--                  &lt;!&ndash; Fila 8 (Hidráulico) &ndash;&gt;-->
-<!--                  <tr>-->
-<!--                    <td>-->
-<!--                      <div class="d-flex align-items-center">-->
-<!--                        <div class="flex-shrink-0">-->
-<!--                          <img src="/assets/images/user/avatar-1.jpg" alt="Aceite Hidráulico AW-46"-->
-<!--                            class="img-radius wid-40" />-->
-<!--                        </div>-->
-<!--                        <div class="flex-grow-1 ms-3">-->
-<!--                          <h6 class="mb-0">Aceite Hidráulico AW-46</h6>-->
-<!--                          <small class="text-muted d-block">Uso industrial</small>-->
-<!--                        </div>-->
-<!--                      </div>-->
-<!--                    </td>-->
-<!--                    <td>LUB-0302</td>-->
-<!--                    <td>Petroperú</td>-->
-<!--                    <td><span class="badge text-bg-secondary">Hidráulico</span></td>-->
-<!--                    <td>AW-46</td>-->
-<!--                    <td>1 gal</td>-->
-<!--                    <td>S/ 89.00</td>-->
-<!--                    <td>14 <span class="text-muted text-sm d-block">Almacén Central</span></td>-->
-<!--                    <td class="text-success"><i class="fas fa-circle f-10 m-r-10"></i> Activo</td>-->
-<!--                    <td>-->
-<!--                      <a href="#!" class="avtar avtar-xs btn-link-secondary"><i class="ti ti-eye f-20"></i></a>-->
-<!--                      <a href="#!" class="avtar avtar-xs btn-link-secondary"><i class="ti ti-edit f-20"></i></a>-->
-<!--                      <a href="#!" class="avtar avtar-xs btn-link-secondary"><i class="ti ti-trash f-20"></i></a>-->
-<!--                    </td>-->
-<!--                  </tr>-->
-
-<!--                </tbody>-->
               </table>
             </div>
           </div>
-..
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal Producto -->
+    <div class="modal fade" id="modalProducto" tabindex="-1" aria-labelledby="modalProductoLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="modalProductoLabel">Nuevo Producto</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+          </div>
+
+          <div class="modal-body">
+            <div id="alerta" class="alert d-none" role="alert"></div>
+            <form id="formProducto">
+              <input type="hidden" id="productoId">
+
+              <div class="row">
+                <div class="col-md-6 mb-3">
+                  <label for="codigo" class="form-label">Código</label>
+                  <input type="text" class="form-control" id="codigo" required>
+                  <div class="invalid-feedback" id="codigoError"></div>
+
+                </div>
+                <div class="col-md-6 mb-3">
+                  <label for="nombre" class="form-label">Nombre</label>
+                  <input type="text" class="form-control" id="nombre" required>
+                  <div class="invalid-feedback" id="nombreError"></div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-md-6 mb-3">
+                  <label for="marca" class="form-label">Marca</label>
+                  <select class="form-select" id="marca" required></select>
+                  <div class="invalid-feedback" id="marcaError"></div>
+                </div>
+                <div class="col-md-6 mb-3">
+                  <label for="categoria" class="form-label">Categoría</label>
+                  <select class="form-select" id="categoria" required></select>
+                  <div class="invalid-feedback" id="categoriaError"></div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-md-4 mb-3">
+                  <label for="precio" class="form-label">Precio (S/)</label>
+                  <input type="number" class="form-control" id="precio" step="0.01">
+                  <div class="invalid-feedback" id="precioError"></div>
+                </div>
+                <div class="col-md-4 mb-3">
+                  <label for="unidad" class="form-label">Unidad</label>
+                  <input type="text" class="form-control" id="unidad" placeholder="Ej: Litro">
+                  <div class="invalid-feedback" id="unidadError"></div>
+                </div>
+                <div class="col-md-4 mb-3">
+                  <label for="stockMinimo" class="form-label">Stock Mínimo</label>
+                  <input type="number" class="form-control" id="stockMinimo" value="0">
+                  <div class="invalid-feedback" id="stockMinimoError"></div>
+                </div>
+              </div>
+            </form>
+          </div>
+
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+            <button type="button" class="btn btn-primary" id="btnGuardar">Guardar</button>
+          </div>
         </div>
       </div>
     </div>
@@ -432,106 +135,242 @@
 </div>
 
 <script>
- /* document.addEventListener('DOMContentLoaded', function () {
-    // 1. Apuntamos al <tbody>
-    const tbody = document.getElementById('tabla-productos-body');
 
-    // 2. Hacemos la llamada 'fetch' a tu API
-    fetch('/api/productos') // La URL de tu ApiProductoController
-      .then(response => {
-        if (!response.ok) {
-          throw new Error('No se pudo obtener la lista de productos. Código: ' + response.status);
-        }
-        return response.json(); // Convertimos la respuesta a JSON
-      })
-      .then(productos => {
-        // 3. Limpiamos el <tbody> (quitamos el "Cargando...")
-        tbody.innerHTML = '';
+  const urlBase = '/api/productos';
+  let modalInstancia; 
 
-        // 4. Verificamos si no hay productos
-        if (productos.length === 0) {
-          tbody.innerHTML = '<tr><td colspan="10" class="text-center">No se encontraron productos.</td></tr>';
-          return;
-        }
 
-        // 5. Iteramos sobre cada producto y creamos la fila (tr)
-        productos.forEach(producto => {
-          const tr = document.createElement('tr');
+  const modalEl = document.getElementById('modalProducto');
+  const modalForm = document.getElementById("formProducto");
+  const modalLabel = document.getElementById("modalProductoLabel");
+  const modalAlerta = document.getElementById("alerta");
+  const btnGuardar = document.getElementById("btnGuardar");
+  const btnNuevoProducto = document.getElementById("btnNuevoProducto");
+  const tablaCuerpo = document.getElementById("tabla-productos-body");
+  const selMarca = document.getElementById("marca");
+  const selCategoria = document.getElementById("categoria");
 
-          // Formateador de moneda (Soles)
-          const formatoPrecio = new Intl.NumberFormat('es-PE', {
-            style: 'currency',
-            currency: 'PEN'
-          });
 
-          // --- Definir el estado (badge y texto) ---
-          let estadoHtml;
-          // Asumo que 'producto.estado' es un string o un enum
-          const estadoSimple = producto.estado ? producto.estado.toString().toUpperCase() : 'INACTIVO';
 
-          if (estadoSimple === 'ACTIVO') {
-            estadoHtml = `<td class="text-success"><i class="fas fa-circle f-10 m-r-10"></i> Activo</td>`;
-          } else {
-            estadoHtml = `<td class="text-danger"><i class="fas fa-circle f-10 m-r-10"></i> Inactivo</td>`;
-          }
+  function mostrarError(idCampo, mensaje) {
+    const campo = document.getElementById(idCampo);
+    const errorDiv = document.getElementById(idCampo + "Error");
+    if (campo && errorDiv) {
+      campo.classList.add("is-invalid");
+      errorDiv.textContent = mensaje;
+      errorDiv.style.display = "block";
+    }
+  }
 
-          // --- Definir la imagen (con fallback) ---
-          const imagenSrc = producto.imagenes ? producto.imagenes : '/assets/images/user/avatar-1.jpg';
+  function limpiarErrores() {
+    document.querySelectorAll(".is-invalid").forEach(el => el.classList.remove("is-invalid"));
+    document.querySelectorAll(".invalid-feedback").forEach(el => el.style.display = "none");
+    modalAlerta.classList.add("d-none"); 
+  }
 
-          // --- Definir la categoría (con badges) ---
-          // Asumo que 'producto.categoria' es un objeto con un campo 'nombre'
-          const catNombre = producto.categoria ? producto.categoria.nombre : 'Sin Categoría';
-          let catBadgeClass = 'text-bg-secondary'; // Default
-          if (catNombre.toLowerCase() === 'motor') catBadgeClass = 'text-bg-success';
-          if (catNombre.toLowerCase() === 'transmisión') catBadgeClass = 'text-bg-primary';
-          if (catNombre.toLowerCase() === 'diésel') catBadgeClass = 'text-bg-warning';
+  function validarFormulario() {
+    limpiarErrores();
+    let valido = true;
 
-          const categoriaHtml = `<span class="badge ${catBadgeClass}">${catNombre}</span>`;
+    const codigo = document.getElementById("codigo").value.trim();
+    const nombre = document.getElementById("nombre").value.trim();
+    const marca = document.getElementById("marca").value;
+    const categoria = document.getElementById("categoria").value;
+    const precio = parseFloat(document.getElementById("precio").value);
+    const unidad = document.getElementById("unidad").value.trim();
+    const stockMinimo = parseFloat(document.getElementById("stockMinimo").value);
 
-          // 6. Construimos el HTML interno de la fila
-          tr.innerHTML = `
-                    <td>
-                        <div class="d-flex align-items-center">
-                            <div class="flex-shrink-0">
-                                <img src="${imagenSrc}" alt="${producto.nombre}" class="img-radius wid-40" />
-                            </div>
-                            <div class="flex-grow-1 ms-3">
-                                <h6 class="mb-0">${producto.nombre}</h6>
-                            </div>
-                        </div>
-                    </td>
-                    <td>${producto.codigo}</td>
-                    <td>${producto.marca ? producto.marca.nombre : 'N/A'}</td>
-                    <td>${categoriaHtml}</td>
-                    <td>${producto.unidad ? producto.unidad : 'N/A'}</td> <td>${formatoPrecio.format(producto.precio)}</td>
-                    <td>
-                        ${producto.stockMinimo} <span class="text-muted text-sm d-block">Almacén Central</span>
-                    </td>
-                    ${estadoHtml}
-                    <td>
-                        <a href="#!" class="avtar avtar-xs btn-link-secondary btn-ver" data-id="${producto.idProducto}">
-                           <i class="ti ti-eye f-20"></i>
-                        </a>
-                        <a href="#!" class="avtar avtar-xs btn-link-secondary btn-editar" data-id="${producto.idProducto}">
-                           <i class="ti ti-edit f-20"></i>
-                        </a>
-                        <a href="#!" class="avtar avtar-xs btn-link-secondary btn-eliminar" data-id="${producto.idProducto}">
-                           <i class="ti ti-trash f-20"></i>
-                        </a>
-                    </td>
-                `;
+    const regexCodigo = /^[0-9]{8,13}$/;
+    if (!regexCodigo.test(codigo)) {
+      mostrarError("codigo", "El código debe tener entre 8 y 13 dígitos numéricos.");
+      valido = false;
+    }
 
-          // 7. Añadimos la fila completa al <tbody>
-          tbody.appendChild(tr);
-        });
-      })
-      .catch(error => {
-        console.error('Error al cargar productos:', error);
-        tbody.innerHTML = `<tr><td colspan="10" class="text-center text-danger">Error al cargar datos. ${error.message}</td></tr>`;
+    if (nombre.length < 4) {
+      mostrarError("nombre", "El nombre debe tener al menos 4 caracteres.");
+      valido = false;
+    }
+
+    if (!marca) {
+      mostrarError("marca", "Seleccione una marca válida.");
+      valido = false;
+    }
+
+    if (!categoria) {
+      mostrarError("categoria", "Seleccione una categoría válida.");
+      valido = false;
+    }
+
+    if (isNaN(precio) || precio <= 0) {
+      mostrarError("precio", "El precio debe ser mayor que 0.");
+      valido = false;
+    }
+
+    if (unidad.length === 0) {
+      mostrarError("unidad", "Ingrese la unidad de medida.");
+      valido = false;
+    }
+
+    if (isNaN(stockMinimo) || stockMinimo < 0) {
+      mostrarError("stockMinimo", "El stock mínimo no puede ser negativo.");
+      valido = false;
+    }
+
+    return valido;
+  }
+
+  function mostrarAlerta(msg, tipo) {
+    modalAlerta.className = `alert alert-${tipo}`;
+    modalAlerta.textContent = msg;
+    modalAlerta.classList.remove("d-none");
+  }
+
+
+
+  async function listarProductos() {
+    tablaCuerpo.innerHTML = `<tr><td colspan="9" class="text-center">Cargando...</td></tr>`;
+    try {
+      const resp = await fetch(urlBase);
+      const productos = await resp.json();
+      if (productos.length === 0) {
+        tablaCuerpo.innerHTML = `<tr><td colspan="9" class="text-center">No hay productos registrados.</td></tr>`;
+        return;
+      }
+      tablaCuerpo.innerHTML = productos.map(p => `
+        <tr>
+          <td>${p.nombre}</td>
+          <td>${p.codigo}</td>
+          <td>${p.marca?.nombre ?? '-'}</td>
+          <td>${p.categoria?.nombre ?? '-'}</td>
+          <td>${p.unidad ?? '-'}</td>
+          <td>${p.precio?.toFixed(2) ?? '0.00'}</td>
+          <td>${p.stockMinimo ?? 0}</td>
+          <td>${p.estado ?? 'ACTIVO'}</td>
+          <td>
+            <button class="btn btn-sm btn-warning me-1" onclick='editarProducto(${JSON.stringify(p)})'>
+              <i class="ti ti-edit"></i>
+            </button>
+            <button class="btn btn-sm btn-danger" onclick="eliminarProducto(${p.idProducto})">
+              <i class="ti ti-trash"></i>
+            </button>
+          </td>
+        </tr>
+      `).join('');
+    } catch (err) {
+      tablaCuerpo.innerHTML = `<tr><td colspan="9" class="text-center text-danger">Error al cargar productos</td></tr>`;
+    }
+  }
+
+  async function cargarMarcasYCategorias() {
+    selMarca.innerHTML = `<option disabled selected>Cargando...</option>`;
+    selCategoria.innerHTML = `<option disabled selected>Cargando...</option>`;
+    try {
+      const [marcasResp, categoriasResp] = await Promise.all([
+        fetch('/api/marcas'),
+        fetch('/api/categorias')
+      ]);
+
+      const marcas = await marcasResp.json();
+      const categorias = await categoriasResp.json();
+
+      selMarca.innerHTML = `<option value="" disabled selected>Seleccionar...</option>` + marcas.map(m => `<option value="${m.id}">${m.nombre}</option>`).join('');
+      selCategoria.innerHTML = `<option value="" disabled selected>Seleccionar...</option>` + categorias.map(c => `<option value="${c.idCategoria}">${c.nombre}</option>`).join('');
+
+    } catch (error) {
+      console.error("Error cargando selects:", error);
+      selMarca.innerHTML = `<option value="" disabled>Error al cargar</option>`;
+      selCategoria.innerHTML = `<option value="" disabled>Error al cargar</option>`;
+    }
+  }
+
+  function abrirModalNuevo() {
+    modalForm.reset();
+    document.getElementById("productoId").value = "";
+    modalLabel.innerText = "Nuevo Producto";
+    btnGuardar.innerText = "Guardar";
+    limpiarErrores();
+  }
+
+  
+  window.editarProducto = (p) => {
+    abrirModalNuevo(); 
+
+    document.getElementById("productoId").value = p.idProducto;
+    document.getElementById("codigo").value = p.codigo;
+    document.getElementById("nombre").value = p.nombre;
+    document.getElementById("marca").value = p.marca?.id;
+    document.getElementById("categoria").value = p.categoria?.idCategoria;
+    document.getElementById("precio").value = p.precio;
+    document.getElementById("unidad").value = p.unidad;
+    document.getElementById("stockMinimo").value = p.stockMinimo ?? 0;
+
+    modalLabel.innerText = "Editar Producto";
+    btnGuardar.innerText = "Actualizar";
+    modalInstancia.show();
+  }
+
+  window.eliminarProducto = async (id) => { 
+    if (!confirm("¿Seguro de eliminar este producto?")) return;
+    try {
+      const resp = await fetch(`${urlBase}/${id}`, { method: "DELETE" });
+      if (!resp.ok) throw new Error("No se pudo eliminar el producto");
+      await listarProductos();
+    } catch (err) {
+      alert(`Error al eliminar: ${err.message}`);
+    }
+  }
+
+  async function guardarProducto() {
+
+    if (!validarFormulario()) {
+      console.warn("Validación fallida.");
+      mostrarAlerta("Por favor, corrija los errores marcados en rojo.", "warning");
+      return;
+    }
+
+    console.log("Validación correcta. Enviando al backend...");
+
+    const id = document.getElementById("productoId").value;
+    const metodo = id ? "PUT" : "POST";
+    const url = id ? `${urlBase}/${id}` : urlBase;
+
+    const body = {
+      codigo: document.getElementById("codigo").value.trim(),
+      nombre: document.getElementById("nombre").value.trim(),
+      idMarca: parseInt(document.getElementById("marca").value),
+      idCategoria: parseInt(document.getElementById("categoria").value),
+      precio: parseFloat(document.getElementById("precio").value),
+      unidad: document.getElementById("unidad").value.trim(),
+      idImpuesto: 1, 
+      stockMinimo: parseInt(document.getElementById("stockMinimo").value),
+      estado: "ACTIVO" 
+    };
+
+    try {
+      const resp = await fetch(url, {
+        method: metodo,
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body)
       });
-  });*/
-</script>
+
+      if (!resp.ok) throw new Error(await resp.text());
+
+      await listarProductos();
+      modalInstancia.hide();
+
+    } catch (err) {
+      mostrarAlerta(`Error al guardar: ${err.message}`, "danger");
+    }
+  }
 
 
+  document.addEventListener("DOMContentLoaded", async () => {
+    modalInstancia = new bootstrap.Modal(modalEl);
 
+    btnNuevoProducto.addEventListener("click", abrirModalNuevo);
+    btnGuardar.addEventListener("click", guardarProducto);
+
+    await cargarMarcasYCategorias();
+    await listarProductos();
+  });
 </script>

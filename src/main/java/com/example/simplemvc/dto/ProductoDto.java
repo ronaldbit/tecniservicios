@@ -18,13 +18,11 @@ public class ProductoDto {
     private String nombre;
     private MarcaDto marca;
     private CategoriaDto categoria;
-    private BigDecimal costo;
     private BigDecimal precio;
     private String unidad;
     private Long idImpuesto;
     private BigDecimal stockMinimo;
-    private EstadoEntidad estado;
-    private String imagenes;
+    private EstadoEntidad estado;    
     private Timestamp createdAt;
     private Timestamp updatedAt;
 }

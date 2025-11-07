@@ -3,6 +3,8 @@ package com.example.simplemvc.controller;
 import java.util.List;
 
 import com.example.simplemvc.request.CrearProductoRequest;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,27 +20,30 @@ public class ApiProductoController {
     private final ProductoService productoService;
 
     @GetMapping
-    public List<ProductoDto> listarProductos() {
-        return productoService.findAll();
+    public ResponseEntity<List<ProductoDto>> listarProductos() {
+        List<ProductoDto> productos = productoService.findAll();
+        return ResponseEntity.ok(productos);
     }
 
     @PostMapping
     @PreAuthorize("hasRole('ADMIN')")
-    public ProductoDto crearProducto(@RequestBody CrearProductoRequest request) {
+    public ResponseEntity<?> crearProducto(@RequestBody CrearProductoRequest request) {
         try {
-            return productoService.create(request);
+            ProductoDto nuevoProducto = productoService.create(request);
+            return ResponseEntity.status(HttpStatus.CREATED).body(nuevoProducto);
         } catch (Exception e) {
-            throw new IllegalArgumentException("Error al crear el producto: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }
 
     @PutMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
-    public ProductoDto actualizarProducto(@PathVariable Long id, @RequestBody CrearProductoRequest request) {
+    public ResponseEntity<?> actualizarProducto(@PathVariable Long id, @RequestBody CrearProductoRequest request) {
         try {
-            return productoService.update(id, request);
+            ProductoDto productoActualizado = productoService.update(id, request);
+            return ResponseEntity.ok(productoActualizado);
         } catch (Exception e) {
-            throw new IllegalArgumentException("Error al actualizar el producto: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }
 

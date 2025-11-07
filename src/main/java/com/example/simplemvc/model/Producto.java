@@ -32,11 +32,11 @@ public class Producto {
     @Column(name = "nombre", nullable = false, length = 200)
     private String nombre;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_marca")
     private Marca marca;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_categoria")
     private Categoria categoria;
 
@@ -45,9 +45,6 @@ public class Producto {
 
     @Column(name = "unidad", length = 20)
     private String unidad;
-
-    @Column(name = "id_impuesto")
-    private Long idImpuesto;
 
     @Column(name = "stock_minimo", precision = 12, scale = 2)
     private BigDecimal stockMinimo;
@@ -65,7 +62,7 @@ public class Producto {
     private Timestamp createdAt;
 
     @UpdateTimestamp
-    @Column(name = "updated_at", nullable = false)
+    @Column(name = "updated_at", nullable = true)
     private Timestamp updatedAt;
 
 }
