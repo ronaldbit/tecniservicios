@@ -5,3 +5,5 @@ public enum EstadoEntidad {
   INACTIVO,
   ACTIVO
 }
+
+

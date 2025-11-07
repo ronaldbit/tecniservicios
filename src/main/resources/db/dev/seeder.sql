@@ -49,20 +49,20 @@ VALUES
     (5, 'Ajustes', '/dashboard/ajustes/**', 1);
 
 INSERT INTO categorias (nombre, descripcion, estado) VALUES
-('Motor', 'Aceites y lubricantes para el motor del vehículo.', 1),
-('Transmisión', 'Fluidos para cajas de cambio manuales y automáticas.', 1),
-('Hidráulico', 'Fluidos para sistemas hidráulicos y direcciones asistidas.', 1),
-('Frenos', 'Líquidos de frenos para todo tipo de vehículos.', 1),
-('Refrigerantes', 'Anticongelantes y refrigerantes para el sistema de enfriamiento.', 1),
-('Grasas', 'Grasas para rodamientos, chasis y otros componentes.', 1),
-('Filtros', 'Categoría para todo tipo de filtros (obsoleto).', 0);
+('Motor', 'Aceites y lubricantes para el motor del vehículo.', 2),
+('Transmisión', 'Fluidos para cajas de cambio manuales y automáticas.', 2),
+('Hidráulico', 'Fluidos para sistemas hidráulicos y direcciones asistidas.', 2),
+('Frenos', 'Líquidos de frenos para todo tipo de vehículos.', 2),
+('Refrigerantes', 'Anticongelantes y refrigerantes para el sistema de enfriamiento.', 2),
+('Grasas', 'Grasas para rodamientos, chasis y otros componentes.', 2),
+('Filtros', 'Categoría para todo tipo de filtros (obsoleto).', 1);
 
 INSERT INTO marcas (nombre, descripcion, estado) VALUES
-('Castrol', 'Líder en aceites de motor sintéticos y convencionales.', 1),
-('Mobil', 'Amplia gama de lubricantes de alto rendimiento.', 1),
-('Shell', 'Conocido por sus líneas Helix (motor) y Rimula (diésel).', 1),
-('Valvoline', 'Aceites de motor, fluidos de transmisión y refrigerantes.', 1),
-('Liqui Moly', 'Aditivos y aceites de motor de alta calidad (Origen Alemán).', 1),
-('TotalEnergies', 'Línea Quartz para vehículos ligeros.', 1),
-('Repsol', 'Lubricantes y productos de competición.', 1),
-('Motul', 'Especialistas en lubricantes para motocicletas y autos.', 1);
+('Castrol', 'Líder en aceites de motor sintéticos y convencionales.', 2),
+('Mobil', 'Amplia gama de lubricantes de alto rendimiento.', 2),
+('Shell', 'Conocido por sus líneas Helix (motor) y Rimula (diésel).', 2),
+('Valvoline', 'Aceites de motor, fluidos de transmisión y refrigerantes.', 2),
+('Liqui Moly', 'Aditivos y aceites de motor de alta calidad (Origen Alemán).', 2),
+('TotalEnergies', 'Línea Quartz para vehículos ligeros.', 2),
+('Repsol', 'Lubricantes y productos de competición.', 2),
+('Motul', 'Especialistas en lubricantes para motocicletas y autos.', 2);

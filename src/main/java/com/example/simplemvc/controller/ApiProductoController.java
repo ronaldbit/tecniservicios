@@ -11,14 +11,12 @@ import com.example.simplemvc.service.ProductoService;
 
 import lombok.RequiredArgsConstructor;
 
-
 @RestController
 @RequestMapping("/api/productos")
 @RequiredArgsConstructor
 public class ApiProductoController {
     private final ProductoService productoService;
 
-//FALTA LOGICA DE SERVICIO PARA LISTAR PRODUCTOS Y LOS DEMAS ICRUDS
     @GetMapping
     public List<ProductoDto> listarProductos() {
         return productoService.findAll();
@@ -26,8 +24,7 @@ public class ApiProductoController {
 
     @PostMapping
     @PreAuthorize("hasRole('ADMIN')")
-    public ProductoDto crearProducto(
-                @ModelAttribute CrearProductoRequest request){
+    public ProductoDto crearProducto(@RequestBody CrearProductoRequest request) {
         try {
             return productoService.create(request);
         } catch (Exception e) {
@@ -37,9 +34,7 @@ public class ApiProductoController {
 
     @PutMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
-    public ProductoDto actualizarProducto(
-            @PathVariable Long id,
-            @ModelAttribute CrearProductoRequest request) {
+    public ProductoDto actualizarProducto(@PathVariable Long id, @RequestBody CrearProductoRequest request) {
         try {
             return productoService.update(id, request);
         } catch (Exception e) {

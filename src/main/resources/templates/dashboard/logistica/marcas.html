@@ -1,7 +1,5 @@
 <div class="pc-container" th:replace="~{dashboard/layout :: layout(~{::content}, ${usuario}, 'Inicio', '/dashboard')}">
    <div class="pc-content" th:fragment="content">
-      <!-- [ Main Content ] start -->
-
       <div class="page-header">
          <div class="page-block">
             <div class="row align-items-center">
@@ -42,115 +40,6 @@
                            </tr>
                         </thead>
                         <tbody>
-
-                           <tr>
-                              <td>
-                                 <div class="d-flex align-items-center">
-                                    <div class="flex-shrink-0">
-                                       <img src="/assets/images/user/avatar-1.jpg" alt="Logo Castrol"
-                                          class="img-radius wid-40" />
-                                    </div>
-                                    <div class="flex-grow-1 ms-3">
-                                       <h6 class="mb-0">Castrol</h6>
-                                    </div>
-                                 </div>
-                              </td>
-                              <td>Líder en aceites sintéticos y convencionales.</td>
-                              <td>5</td>
-                              <td><span class="badge text-bg-success">Activo</span></td>
-                              <td>
-                                 <a href="#!" class="avtar avtar-xs btn-link-secondary" data-bs-toggle="modal"
-                                    data-bs-target="#modalMarca" title="Editar">
-                                    <i class="ti ti-edit f-20"></i>
-                                 </a>
-                                 <a href="#!" class="avtar avtar-xs btn-link-secondary" data-bs-toggle="tooltip"
-                                    title="Eliminar">
-                                    <i class="ti ti-trash f-20"></i>
-                                 </a>
-                              </td>
-                           </tr>
-
-                           <tr>
-                              <td>
-                                 <div class="d-flex align-items-center">
-                                    <div class="flex-shrink-0">
-                                       <img src="/assets/images/user/avatar-1.jpg" alt="Logo Shell"
-                                          class="img-radius wid-40" />
-                                    </div>
-                                    <div class="flex-grow-1 ms-3">
-                                       <h6 class="mb-0">Shell</h6>
-                                    </div>
-                                 </div>
-                              </td>
-                              <td>Línea Helix y Rimula.</td>
-                              <td>3</td>
-                              <td><span class="badge text-bg-success">Activo</span></td>
-                              <td>
-                                 <a href="#!" class="avtar avtar-xs btn-link-secondary" data-bs-toggle="modal"
-                                    data-bs-target="#modalMarca" title="Editar">
-                                    <i class="ti ti-edit f-20"></i>
-                                 </a>
-                                 <a href="#!" class="avtar avtar-xs btn-link-secondary" data-bs-toggle="tooltip"
-                                    title="Eliminar">
-                                    <i class="ti ti-trash f-20"></i>
-                                 </a>
-                              </td>
-                           </tr>
-
-                           <tr>
-                              <td>
-                                 <div class="d-flex align-items-center">
-                                    <div class="flex-shrink-0">
-                                       <img src="/assets/images/user/avatar-1.jpg" alt="Logo Mobil"
-                                          class="img-radius wid-40" />
-                                    </div>
-                                    <div class="flex-grow-1 ms-3">
-                                       <h6 class="mb-0">Mobil</h6>
-                                    </div>
-                                 </div>
-                              </td>
-                              <td>Línea Mobil 1.</td>
-                              <td>2</td>
-                              <td><span class="badge text-bg-success">Activo</span></td>
-                              <td>
-                                 <a href="#!" class="avtar avtar-xs btn-link-secondary" data-bs-toggle="modal"
-                                    data-bs-target="#modalMarca" title="Editar">
-                                    <i class="ti ti-edit f-20"></i>
-                                 </a>
-                                 <a href="#!" class="avtar avtar-xs btn-link-secondary" data-bs-toggle="tooltip"
-                                    title="Eliminar">
-                                    <i class="ti ti-trash f-20"></i>
-                                 </a>
-                              </td>
-                           </tr>
-
-                           <tr>
-                              <td>
-                                 <div class="d-flex align-items-center">
-                                    <div class="flex-shrink-0">
-                                       <img src="/assets/images/user/avatar-1.jpg" alt="Logo"
-                                          class="img-radius wid-40" />
-                                    </div>
-                                    <div class="flex-grow-1 ms-3">
-                                       <h6 class="mb-0">Marca Descontinuada</h6>
-                                    </div>
-                                 </div>
-                              </td>
-                              <td>Ya no se trabaja con esta marca.</td>
-                              <td>0</td>
-                              <td><span class="badge text-bg-secondary">Inactivo</span></td>
-                              <td>
-                                 <a href="#!" class="avtar avtar-xs btn-link-secondary" data-bs-toggle="modal"
-                                    data-bs-target="#modalMarca" title="Editar">
-                                    <i class="ti ti-edit f-20"></i>
-                                 </a>
-                                 <a href="#!" class="avtar avtar-xs btn-link-secondary" data-bs-toggle="tooltip"
-                                    title="Eliminar">
-                                    <i class="ti ti-trash f-20"></i>
-                                 </a>
-                              </td>
-                           </tr>
-
                         </tbody>
                      </table>
                   </div>
@@ -168,7 +57,10 @@
                   <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                </div>
                <div class="modal-body">
-                  <form>
+
+                  <div id="alertMessageMarca" class="alert alert-danger d-none" role="alert"></div>
+
+                  <form id="marcaForm">
                      <div class="mb-3">
                         <label for="marcaNombre" class="form-label">Nombre de la Marca</label>
                         <input type="text" class="form-control" id="marcaNombre" placeholder="Ej: Castrol" required>
@@ -180,12 +72,12 @@
                            placeholder="Ej: Líder en aceites sintéticos"></textarea>
                      </div>
 
-                     <div class="mb-3">
+                     <div class="mb-3" hidden>
                         <label for="marcaLogo" class="form-label">Logo de la Marca</label>
                         <input class="form-control" type="file" id="marcaLogo">
                      </div>
 
-                     <div class="mb-3">
+                     <div class="mb-3" hidden>
                         <label class="form-label">Estado</label>
                         <div class="form-check form-switch">
                            <input class="form-check-input" type="checkbox" role="switch" id="marcaEstado" checked>
@@ -196,11 +88,187 @@
                </div>
                <div class="modal-footer">
                   <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                  <button type="button" class="btn btn-primary">Guardar Cambios</button>
+                  <button type="submit" form="marcaForm" class="btn btn-primary">Guardar
+                     Cambios</button>
                </div>
             </div>
          </div>
       </div>
-      <!-- [ Main Content ] end -->
    </div>
 </div>
+
+<th:block th:fragment="js">
+
+   <script>
+      document.addEventListener('DOMContentLoaded', () => {
+
+         const modalElement = document.getElementById('modalMarca');
+         const modalInstance = new bootstrap.Modal(modalElement);
+         const modalForm = document.getElementById('marcaForm');
+         const modalTitle = document.getElementById('modalMarcaLabel');
+         const alertMessage = document.getElementById('alertMessageMarca');
+         const tableBody = document.querySelector('#pc-dt-simple tbody');
+         const btnNuevaMarca = document.querySelector('button[data-bs-target="#modalMarca"]');
+
+         const showAlert = (message) => {
+            alertMessage.textContent = message;
+            alertMessage.classList.remove('d-none');
+         };
+         const hideAlert = () => {
+            alertMessage.textContent = '';
+            alertMessage.classList.add('d-none');
+         };
+
+         const renderEstado = (estado) => {
+            switch (estado) {
+               case 'ACTIVO':
+                  return '<span class="badge text-bg-success">Activo</span>';
+               case 'INACTIVO':
+                  return '<span class="badge text-bg-secondary">Inactivo</span>';
+               case 'ELIMINADO':
+                  return '<span class="badge text-bg-danger">Eliminado</span>';
+               default:
+                  return `<span class="badge text-bg-warning">${estado}</span>`;
+            }
+         };
+
+         const resetModal = () => {
+            modalForm.reset();
+            modalTitle.textContent = 'Añadir Marca';
+            modalElement._id = null; 
+            hideAlert();
+         };
+
+         const cargarMarcas = async () => {
+            try {
+               const response = await fetch('/api/marcas');
+               if (!response.ok) throw new Error('Error al cargar datos');
+               const marcas = await response.json();
+
+               tableBody.innerHTML = ''; 
+
+               marcas.forEach(marca => {
+                  const tr = document.createElement('tr');
+                  const marcaDataString = JSON.stringify(marca).replace(/'/g, "&apos;");
+                  let toggleBtn = '';
+                  if (marca.estado === 'ACTIVO') {
+                     toggleBtn = `<a href="#" class="avtar avtar-xs btn-link-success btn-toggle-estado" title="Desactivar" data-id="${marca.id}"><i class="ti ti-toggle-left f-20"></i></a>`;
+                  } else if (marca.estado === 'INACTIVO') {
+                     toggleBtn = `<a href="#" class="avtar avtar-xs btn-link-warning btn-toggle-estado" title="Activar" data-id="${marca.id}"><i class="ti ti-toggle-right f-20"></i></a>`;
+                  }
+                  tr.innerHTML = `
+                     <td>
+                     <div class="d-flex align-items-center">
+                        <div class="flex-shrink-0" hidden>
+                        <img src="/assets/images/user/avatar-1.jpg" alt="Logo" class="img-radius wid-40" />
+                        </div>
+                        <div class="flex-grow-1 ms-3">
+                        <h6 class="mb-0">${marca.nombre}</h6>
+                        </div>
+                     </div>
+                     </td>
+                     <td>${marca.descripcion || ''}</td>
+                     <td>0</td>          
+                     <td>${renderEstado(marca.estado)}</td>
+                     <td>
+                                 <a href="#" class="avtar avtar-xs btn-link-secondary btn-edit" title="Editar"
+                        data-id="${marca.id}" 
+                        data-marca='${marcaDataString}'>
+                        <i class="ti ti-edit f-20"></i>
+                     </a>                
+                                 ${toggleBtn}
+
+                                 <a href="#" class="avtar avtar-xs btn-link-secondary btn-delete" title="Eliminar"
+                        data-id="${marca.id}">
+                        <i class="ti ti-trash f-20"></i>
+                     </a>
+                     </td>
+                     `;
+                  tableBody.appendChild(tr);
+               });
+
+            } catch (error) {
+               console.error('Error en cargarMarcas:', error);
+               tableBody.innerHTML = `<tr><td colspan="5" class="text-center text-danger">Error al cargar datos.</td></tr>`;
+            }
+         };
+         btnNuevaMarca.addEventListener('click', () => {
+            resetModal();
+         });
+         tableBody.addEventListener('click', (e) => {
+            e.preventDefault();
+            const btnEdit = e.target.closest('.btn-edit');
+            const btnDelete = e.target.closest('.btn-delete');
+            const btnToggle = e.target.closest('.btn-toggle-estado');
+
+            if (btnEdit) {
+               const marcaData = JSON.parse(btnEdit.dataset.marca);
+               resetModal();
+               modalTitle.textContent = 'Editar Marca';
+               modalElement._id = marcaData.id;
+               modalForm.querySelector('#marcaNombre').value = marcaData.nombre;
+               modalForm.querySelector('#marcaDesc').value = marcaData.descripcion;
+               modalInstance.show();
+
+            } else if (btnDelete) {
+               const id = btnDelete.dataset.id;
+               if (confirm('¿Está seguro de que desea eliminar esta marca?')) {
+                  fetch(`/api/marcas/${id}`, { method: 'DELETE' })
+                     .then(response => {
+                        if (!response.ok) throw new Error('Error al eliminar');
+                        cargarMarcas();
+                     })
+                     .catch(async (error) => {
+                        const msg = await error.response?.text() || error.message;
+                        console.error('Error al eliminar:', msg);
+                        alert('No se pudo eliminar: ' + msg);
+                     });
+               }
+
+            } else if (btnToggle) {
+               const id = btnToggle.dataset.id;
+               if (confirm('¿Desea cambiar el estado (Activo/Inactivo) de esta marca?')) {
+                  fetch(`/api/marcas/${id}`, { method: 'GET' })
+                     .then(response => {
+                        if (!response.ok) throw new Error('Error al cambiar estado');
+                        cargarMarcas();
+                     })
+                     .catch(async (error) => {
+                        const msg = await error.response?.text() || error.message;
+                        console.error('Error al cambiar estado:', msg);
+                        alert('No se pudo cambiar el estado: ' + msg);
+                     });
+               }
+            }
+         });
+         modalForm.addEventListener('submit', async (event) => {
+            event.preventDefault(); 
+            hideAlert();
+            const id = modalElement._id;
+            const url = id ? `/api/marcas/${id}` : '/api/marcas';
+            const method = id ? 'PUT' : 'POST';
+            const data = {
+               nombre: modalForm.querySelector('#marcaNombre').value,
+               descripcion: modalForm.querySelector('#marcaDesc').value
+            };
+            try {
+               const response = await fetch(url, {
+                  method: method,
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify(data)
+               });
+               if (!response.ok) {
+                  const errorMsg = await response.text();
+                  throw new Error(errorMsg || 'Error al guardar');
+               }
+               modalInstance.hide();
+               cargarMarcas();
+            } catch (error) {
+               console.error('Error al guardar:', error);
+               showAlert('Error: ' + error.message);
+            }
+         });
+         cargarMarcas();
+      });
+   </script>
+</th:block>
