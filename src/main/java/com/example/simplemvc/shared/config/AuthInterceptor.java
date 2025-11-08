@@ -48,19 +48,19 @@ public class AuthInterceptor implements HandlerInterceptor {
 
     if (isAuthEntry && usuario != null) {
       usuario.getRoles().stream()
-          .filter(role -> "ADMIN".equalsIgnoreCase(role.getNombre()))
+          .filter(role -> "CLIENTE".equalsIgnoreCase(role.getNombre()))
           .findFirst()
           .ifPresentOrElse(
               role -> {
                 try {
-                  response.sendRedirect("/dashboard");
+                  response.sendRedirect("/");
                 } catch (Exception e) {
                   e.printStackTrace();
                 }
               },
               () -> {
                 try {
-                  response.sendRedirect("/");
+                  response.sendRedirect("/dashboard");
                 } catch (Exception e) {
                   e.printStackTrace();
                 }

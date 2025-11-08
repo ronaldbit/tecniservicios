@@ -1,5 +1,7 @@
 package com.example.simplemvc.controller;
 
+import com.example.simplemvc.model.Persona;
+import com.example.simplemvc.service.JwtTokenEmail;
 import com.example.simplemvc.service.RecuperarPsService;
 import com.example.simplemvc.service.SucursalService;
 import com.example.simplemvc.service.TipoDocumentoService;
@@ -8,6 +10,7 @@ import com.example.simplemvc.service.VerificacionService;
 import lombok.AllArgsConstructor;
 
 import java.util.Map;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -36,6 +39,12 @@ public class AuthController {
   @Autowired
   private final SucursalService sucursalService;
 
+  @Autowired
+  private final JwtTokenEmail jwtTokenUtil;
+
+  @Autowired
+  private final com.example.simplemvc.repository.PersonaRepository personaRepository;
+
   @GetMapping("/registro-persona")
   public String registroPersona(Model model) {
     model.addAttribute("tiposDocumento", tipoDocumentoService.lista());
@@ -56,17 +65,30 @@ public class AuthController {
   }
 
   @GetMapping("/verify")
-  public String verificarEmail(@RequestParam String token, Model model) {
+  public String mostrarVerificacion(@RequestParam String token, Model model) {
     try {
-      verificacionService.verificarEmail(token);
-      model.addAttribute("titulo", "Verificación Exitosa");
-      model.addAttribute("mensaje", "Tu correo electrónico ha sido verificado correctamente.");
-      model.addAttribute("tipo", "success");
-      return "/auth/verificacion";
-    } catch (IllegalArgumentException e) {
-      model.addAttribute("titulo", "Error de Verificación");
-      model.addAttribute("mensaje", e.getMessage());
-      model.addAttribute("tipo", "error");
+      if (!jwtTokenUtil.validateToken(token)) {
+        model.addAttribute("titulo", "Error de Verificación");
+        model.addAttribute("mensaje", "El enlace de verificación es inválido o ha expirado.");
+        model.addAttribute("tipo", "error");
+        return "/auth/verificacion";
+      }
+
+      String email = jwtTokenUtil.extractEmail(token);
+      Optional<Persona> optionalPersona = personaRepository.findByEmail(email);
+      if (optionalPersona.isEmpty()) {
+        model.addAttribute("titulo", "Error de Verificación");
+        model.addAttribute("mensaje", "No se encontró ninguna cuenta asociada a este correo.");
+        model.addAttribute("tipo", "error");
+        return "/auth/verificacion";
+      }
+
+      Persona persona = optionalPersona.get();
+      model.addAttribute("titulo", "Verificación de Correo");
+      model.addAttribute("mensaje", "Por favor, establece una contraseña para activar tu cuenta.");
+      model.addAttribute("tipo", "form");
+      model.addAttribute("token", token);
+
       return "/auth/verificacion";
     } catch (Exception e) {
       model.addAttribute("titulo", "Error Interno");
@@ -76,16 +98,39 @@ public class AuthController {
     }
   }
 
+  @PostMapping("/verify")
+  public String verificarYGuardarPassword(
+      @RequestParam String token,
+      @RequestParam String password,
+      Model model) {
+    try {
+      verificacionService.verificarEmailYGuardarPassword(token, password);
+      model.addAttribute("titulo", "Verificación Exitosa");
+      model.addAttribute("mensaje", "Tu correo fue verificado y la contraseña se estableció correctamente.");
+      model.addAttribute("tipo", "success");
+    } catch (IllegalArgumentException e) {
+      model.addAttribute("titulo", "Error de Verificación");
+      model.addAttribute("mensaje", e.getMessage());
+      model.addAttribute("tipo", "error");
+    } catch (Exception e) {
+      model.addAttribute("titulo", "Error Interno");
+      model.addAttribute("mensaje", "Ocurrió un error inesperado.");
+      model.addAttribute("tipo", "error");
+    }
+    return "/auth/verificacion";
+  }
+
   @GetMapping("/reset-password")
   public String resetPassword(@RequestParam String token, Model model) {
     if (!recuperarPsService.validarToken(token)) {
       model.addAttribute("mensajeError", "El enlace de recuperación es inválido o ha expirado.");
-      return "/auth/error-token"; 
+      return "/auth/error-token";
     }
 
     model.addAttribute("token", token);
     return "/auth/reset-password";
   }
+
   @PostMapping("/update-password")
   public ResponseEntity<String> updatePassword(@RequestBody Map<String, String> data) {
     String token = data.get("token");

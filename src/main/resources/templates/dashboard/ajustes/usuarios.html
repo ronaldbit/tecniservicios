@@ -162,17 +162,17 @@
                   </div>
                 </div>
 
-                <div class="mb-3" id="grupoPassword">
+                <div class="mb-3" id="grupoPassword" hidden>
                   <label for="usuarioPassword" class="form-label">Contraseña</label>
-                  <input type="password" class="form-control" id="usuarioPassword" required minlength="6" />
+                  <input type="password" class="form-control" id="usuarioPassword" minlength="6" />
                   <div class="invalid-feedback">
                     La contraseña debe tener al menos 6 caracteres.
                   </div>
                 </div>
 
-                <div class="mb-3" id="grupoPasswordConfirm">
+                <div class="mb-3" id="grupoPasswordConfirm" hidden>
                   <label for="usuarioPasswordConfirm" class="form-label">Confirmar Contraseña</label>
-                  <input type="password" class="form-control" id="usuarioPasswordConfirm" required minlength="6" />
+                  <input type="password" class="form-control" id="usuarioPasswordConfirm" minlength="6" />
                   <div class="invalid-feedback" id="confirmPasswordFeedback">
                     Las contraseñas no coinciden o son muy cortas.
                   </div>
@@ -419,7 +419,7 @@
         sucursalId: 1,
         rolId: document.getElementById("usuarioRol").value,
         nombreUsuario: document.getElementById("usuarioUsername").value,
-        password: document.getElementById("usuarioPassword").value,
+        password: document.getElementById("usuarioDNI").value,
         estado: document.getElementById("usuarioEstado").value,
         estadoEntidad: parseInt(document.getElementById("usuarioEstado").value)
       };
@@ -647,18 +647,6 @@
       validarCampo(inputs.username, inputs.username.value.length >= 4, "El username debe tener al menos 4 caracteres.");
     });
 
-    inputs.password.addEventListener("input", () => {
-      validarCampo(inputs.password, inputs.password.value.length >= 6, "La contraseña debe tener al menos 6 caracteres.");
-    });
-
-    inputs.passwordConfirm.addEventListener("input", () => {
-      validarCampo(
-        inputs.passwordConfirm,
-        inputs.passwordConfirm.value === inputs.password.value && inputs.passwordConfirm.value.length >= 6,
-        "Las contraseñas no coinciden o son muy cortas."
-      );
-    });
-
     inputs.rol.addEventListener("change", () => {
       validarCampo(inputs.rol, inputs.rol.value !== "", "Debe seleccionar un rol.");
     });
@@ -689,20 +677,7 @@
           case "username":
             valido = input.value.length >= 4;
             break;
-          case "password":
-            if (modoEditar && input.value === "") {
-              valido = true;
-            } else {
-              valido = input.value.length >= 6;
-            }
-            break;
-          case "passwordConfirm":
-            if (modoEditar && input.value === "") {
-              valido = true;
-            } else {
-              valido = input.value === inputs.password.value && input.value.length >= 6;
-            }
-            break;
+
           case "rol":
             valido = input.value !== "";
             break;

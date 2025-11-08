@@ -8,9 +8,18 @@
 <body class="d-flex justify-content-center align-items-center vh-100 bg-light">
   <div class="card shadow p-4 text-center" style="max-width: 400px;">
     <h3 th:text="${titulo}" 
-        th:classappend="${tipo == 'success'} ? 'text-success' : 'text-danger'"></h3>
+        th:classappend="${tipo == 'success'} ? 'text-success' : (${tipo == 'error'} ? 'text-danger' : 'text-primary')">
+    </h3>    
     <p class="mt-3" th:text="${mensaje}"></p>
-    <a href="/auth/login" class="btn btn-primary mt-4">Ir al login</a>
+    <form th:if="${tipo == 'form'}" th:action="@{/auth/verify}" method="post" class="mt-4">
+      <input type="hidden" name="token" th:value="${token}" />
+      <div class="mb-3">
+        <input type="password" name="password" class="form-control" placeholder="Ingresa tu nueva contraseña" required />
+      </div>
+      <button type="submit" class="btn btn-success w-100">Establecer Contraseña</button>
+    </form>
+
+    <a th:if="${tipo == 'success'}" href="/auth/login" class="btn btn-primary mt-4">Ir al login</a>
   </div>
 </body>
 </html>
