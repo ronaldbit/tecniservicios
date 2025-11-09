@@ -119,4 +119,14 @@ public class ProductoService {
         productoRepository.save(producto);
         log.info("Producto eliminado con ID: {}", id);
     }
+
+    @Transactional(readOnly = true)
+    public List<ProductoDto> buscarProductos(String query) {
+        return productoRepository.findByNombreContainingIgnoreCaseOrCodigoContainingIgnoreCase(query, query)
+                .stream()
+                .filter(p -> p.getEstado() != EstadoEntidad.ELIMINADO)
+                .map(productoMapper::toDto)
+                .collect(Collectors.toList());
+    }
+
 }

@@ -36,6 +36,14 @@ public class AuthService {
             .obtenerEntidadPorNombreUsuario(request.getNombreUsuario())
             .orElseThrow(() -> new IllegalArgumentException("Usuario no encontrado"));
 
+    if (!usuario.getPersona().getEmailVerificado()) {
+      log.error(
+          "Error de autenticación: El correo electrónico del usuario con nombre de usuario {} no ha sido verificado.",
+          request.getNombreUsuario());
+
+      throw new IllegalArgumentException("Verifique su correo electrónico antes de iniciar sesión.");
+    }
+
     if (!passwordEncoder.matches(request.getPassword(), usuario.getPassword())) {
       log.error(
           "Error de autenticación: Contraseña inválida para el usuario con nombre de usuario {}.",

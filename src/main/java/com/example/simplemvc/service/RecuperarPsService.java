@@ -50,6 +50,11 @@ public class RecuperarPsService {
             log.error("Datos de verificación incorrectos para el usuario: {}", username);
             throw new IllegalArgumentException("Datos de verificación incorrectos");
         }
+        if (usuario.getPersona().getEmailVerificado() == false) {
+            System.out.println("Estado de la persona: " + usuario.getPersona().getEmailVerificado());
+            log.error("El usuario {} no ha verificado su correo electrónico", username);
+            throw new IllegalArgumentException("Usuario no verificado");
+        }
         UsuarioDto usuarioDto = usuarioMapper.toDto(usuario);
         String token = jwtUsuarioPS.generateToken(usuarioDto);
         usuario.setJwtPSecret(token);

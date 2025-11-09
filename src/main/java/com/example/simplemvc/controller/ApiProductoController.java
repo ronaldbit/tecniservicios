@@ -52,4 +52,11 @@ public class ApiProductoController {
     public void eliminarProducto(@PathVariable Long id) {
         productoService.delete(id);
     }
+
+    @GetMapping("/buscar")
+    public ResponseEntity<List<ProductoDto>> buscarProductos(@RequestParam String query) {
+        List<ProductoDto> resultados = productoService.buscarProductos(query);
+        return ResponseEntity.ok(resultados);
+    }
+
 }

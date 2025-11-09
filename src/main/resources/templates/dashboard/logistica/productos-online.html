@@ -29,15 +29,15 @@
 
 
 
-                  <div class="d-flex">
+                  <div class="d-flex" hidden>
 
-                     <select class="form-select me-2" style="width: 200px;">
+                     <select class="form-select me-2" style="width: 200px;" hidden>
                         <option value="">Todas las categorías</option>
                         <option value="motor">Motor</option>
                         <option value="transmision">Transmisión</option>
                         <option value="diesel">Diésel</option>
                      </select>
-                     <select class="form-select" style="width: 200px;">
+                     <select class="form-select" style="width: 200px;" hidden>
                         <option value="">Todos los estados</option>
                         <option value="publicado">Publicados</option>
                         <option value="oculto">Ocultos</option>
@@ -70,44 +70,8 @@
                                           placeholder="Buscar por SKU o Nombre...">
                                     </div>
 
-                                    <p class="text-muted">Productos no publicados:</p>
                                     <div class="list-group" style="max-height: 400px; overflow-y: auto;">
 
-                                       <a href="#"
-                                          class="list-group-item list-group-item-action d-flex align-items-center">
-                                          <div class="flex-shrink-0">
-                                             <img src="/assets/images/user/avatar-1.jpg" alt="Producto"
-                                                class="img-fluid rounded" style="width: 40px; height: 40px;">
-                                          </div>
-                                          <div class="flex-grow-1 ms-3">
-                                             <h6 class="mb-0">Castrol GTX 20W-50</h6>
-                                             <small class="text-muted d-block">SKU: LUB-0001</small>
-                                          </div>
-                                       </a>
-
-                                       <a href="#"
-                                          class="list-group-item list-group-item-action d-flex align-items-center">
-                                          <div class="flex-shrink-0">
-                                             <img src="/assets/images/user/avatar-1.jpg" alt="Producto"
-                                                class="img-fluid rounded" style="width: 40px; height: 40px;">
-                                          </div>
-                                          <div class="flex-grow-1 ms-3">
-                                             <h6 class="mb-0">Shell Helix Ultra 5W-40</h6>
-                                             <small class="text-muted d-block">SKU: LUB-0002</small>
-                                          </div>
-                                       </a>
-
-                                       <a href="#"
-                                          class="list-group-item list-group-item-action d-flex align-items-center">
-                                          <div class="flex-shrink-0">
-                                             <img src="/assets/images/user/avatar-1.jpg" alt="Producto"
-                                                class="img-fluid rounded" style="width: 40px; height: 40px;">
-                                          </div>
-                                          <div class="flex-grow-1 ms-3">
-                                             <h6 class="mb-0">Valvoline MaxLife 10W-40</h6>
-                                             <small class="text-muted d-block">SKU: LUB-0005</small>
-                                          </div>
-                                       </a>
 
                                     </div>
                                  </div>
@@ -161,131 +125,49 @@
                            </div>
 
                            <div class="modal-footer">
-                              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                              <button type="button" class="btn btn-primary">Publicar Producto</button>
+                              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+                                 onclick="LimpiarModal()">Cancelar</button>
+                              <button type="button" class="btn btn-primary" onclick="publicarProducto()">Publicar
+                                 Producto</button>
+
                            </div>
 
                         </div>
                      </div>
                   </div>
+                  <!--FIN MODAL DE GESTION DE PRODUCTOS ONLINE-->
+
                   <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                     data-bs-target="#exampleModalLive">
+                     data-bs-target="#exampleModalLive" onclick="LimpiarModal()">
                      <i class="ti ti-plus me-1"></i> Publicar Nuevo Producto
                   </button>
-                  <!--FIN MODAL DE GESTION DE PRODUCTOS ONLINE-->
+
+
 
 
                </div>
-               <div class="card-body pt-3">
+               <div class="card-body">
                   <div class="table-responsive">
-                     <table class="table table-hover" id="pc-dt-simple">
-                        <thead>
+                     <table class="table table-hover align-middle">
+                        <thead class="table-light">
                            <tr>
+                              <th>Imagen</th>
                               <th>Producto</th>
-                              <th>SKU</th>
                               <th>Precio Online</th>
-                              <th>Stock Total</th>
-                              <th>Visibilidad</th>
+                              <th>Visible</th>
                               <th>Destacado</th>
                               <th>Acciones</th>
                            </tr>
                         </thead>
-                        <tbody>
-
-                           <tr>
-                              <td>
-                                 <div class="d-flex align-items-center">
-                                    <div class="flex-shrink-0">
-                                       <img src="/assets/images/user/avatar-1.jpg" alt="Castrol GTX 20W-50"
-                                          class="img-radius wid-40" />
-                                    </div>
-                                    <div class="flex-grow-1 ms-3">
-                                       <h6 class="mb-0">Castrol GTX 20W-50</h6>
-                                    </div>
-                                 </div>
-                              </td>
-                              <td>LUB-0001</td>
-                              <td>S/ 95.90</td>
-                              <td>35</td>
-                              <td><span class="badge text-bg-success">Publicado</span></td>
-                              <td><span class="badge text-bg-light">No</span></td>
-                              <td>
-                                 <a href="#!" class="avtar avtar-xs btn-link-secondary" data-bs-toggle="modal"
-                                    data-bs-target="#modalOnlineSettings" title="Ajustes Online">
-                                    <i class="ti ti-settings-cog f-20"></i>
-                                 </a>
-                                 <a href="#!" class="avtar avtar-xs btn-link-secondary" data-bs-toggle="tooltip"
-                                    title="Ver en la Tienda">
-                                    <i class="ti ti-external-link f-20"></i>
-                                 </a>
-                              </td>
-                           </tr>
-
-                           <tr>
-                              <td>
-                                 <div class="d-flex align-items-center">
-                                    <div class="flex-shrink-0">
-                                       <img src="/assets/images/user/avatar-1.jpg" alt="Shell Helix Ultra 5W-40"
-                                          class="img-radius wid-40" />
-                                    </div>
-                                    <div class="flex-grow-1 ms-3">
-                                       <h6 class="mb-0">Shell Helix Ultra 5W-40</h6>
-                                    </div>
-                                 </div>
-                              </td>
-                              <td>LUB-0002</td>
-                              <td>S/ 169.00</td>
-                              <td>18</td>
-                              <td><span class="badge text-bg-secondary">Oculto</span></td>
-                              <td><span class="badge text-bg-light">No</span></td>
-                              <td>
-                                 <a href="#!" class="avtar avtar-xs btn-link-secondary" data-bs-toggle="modal"
-                                    data-bs-target="#modalOnlineSettings" title="Ajustes Online">
-                                    <i class="ti ti-settings-cog f-20"></i>
-                                 </a>
-                                 <a href="#!" class="avtar avtar-xs btn-link-secondary" data-bs-toggle="tooltip"
-                                    title="Ver en la Tienda">
-                                    <i class="ti ti-external-link f-20"></i>
-                                 </a>
-                              </td>
-                           </tr>
-
-                           <tr>
-                              <td>
-                                 <div class="d-flex align-items-center">
-                                    <div class="flex-shrink-0">
-                                       <img src="/assets/images/user/avatar-1.jpg" alt="Mobil 1 0W-20"
-                                          class="img-radius wid-40" />
-                                    </div>
-                                    <div class="flex-grow-1 ms-3">
-                                       <h6 class="mb-0">Mobil 1 0W-20</h6>
-                                    </div>
-                                 </div>
-                              </td>
-                              <td>LUB-0003</td>
-                              <td>S/ 55.00 <small class="text-muted d-block">(Tienda: S/ 54.50)</small></td>
-                              <td><span class="text-danger">0</span></td>
-                              <td><span class="badge text-bg-success">Publicado</span></td>
-                              <td><span class="badge text-bg-info">Sí</span></td>
-                              <td>
-                                 <a href="#!" class="avtar avtar-xs btn-link-secondary" data-bs-toggle="modal"
-                                    data-bs-target="#modalOnlineSettings" title="Ajustes Online">
-                                    <i class="ti ti-settings-cog f-20"></i>
-                                 </a>
-                                 <a href="#!" class="avtar avtar-xs btn-link-secondary" data-bs-toggle="tooltip"
-                                    title="Ver en la Tienda">
-                                    <i class="ti ti-external-link f-20"></i>
-                                 </a>
-                              </td>
-                           </tr>
-
-                        </tbody>
+                        <tbody id="tablaProductosOnline"></tbody>
                      </table>
                   </div>
                </div>
             </div>
          </div>
       </div>
+
+
       <div class="modal fade" id="modalOnlineSettings" tabindex="-1" aria-labelledby="modalOnlineSettingsLabel"
          aria-hidden="true">
          <div class="modal-dialog modal-dialog-centered modal-lg">
@@ -357,7 +239,8 @@
                   </form>
                </div>
                <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+                     onclick="LimpiarModal()">Cancelar</button>
                   <button type="button" class="btn btn-primary">Guardar Cambios</button>
                </div>
             </div>
@@ -368,3 +251,300 @@
       <!-- [ Main Content ] end -->
    </div>
 </div>
+
+
+<script>
+   document.addEventListener("DOMContentLoaded", () => {
+
+      function LimpiarModal() {
+         const buscarInput = document.getElementById("buscarProducto");
+         const precioInput = document.getElementById("onlinePrecio");
+         const descInput = document.getElementById("onlineDesc");
+         const visibleCheck = document.getElementById("onlineVisible");
+         const destacadoCheck = document.getElementById("onlineDestacado");
+         const imagenInput = document.getElementById("onlineImagenes");
+         const form = document.querySelector("#exampleModalLive .modal-body form");
+         const modalTitle = document.getElementById("exampleModalLiveLabel");
+         const listaProductos = document.querySelector(".list-group");
+
+         listaProductos.innerHTML = `<p class="text-muted px-3">escribe para buscar...</p>`;
+
+         if (buscarInput) {
+            buscarInput.disabled = false;
+            buscarInput.value = "";
+            delete buscarInput.dataset.idProducto;
+         }
+         if (precioInput) precioInput.value = "";
+         if (descInput) descInput.value = "";
+
+         if (visibleCheck) visibleCheck.checked = true;
+         if (destacadoCheck) destacadoCheck.checked = false;
+
+         if (imagenInput) imagenInput.value = "";
+
+         if (modalTitle) modalTitle.innerText = "Publicar Producto en Tienda Online";
+
+         if (form) {
+            form.querySelectorAll(".invalid-feedback").forEach(e => e.remove());
+            form.querySelectorAll(".is-invalid").forEach(e => e.classList.remove("is-invalid"));
+         }
+
+         const alerta = document.getElementById("alertaOnline");
+         if (alerta) alerta.remove();
+
+         const btnGuardar = document.querySelector("#exampleModalLive .modal-footer button.btn-primary");
+         if (btnGuardar) {
+            btnGuardar.textContent = "Publicar Producto";
+            btnGuardar.onclick = window.publicarProducto;
+         }
+      }
+
+      const buscarInput = document.getElementById("buscarProducto");
+      const listaProductos = document.querySelector(".list-group");
+      const modalElement = document.getElementById("exampleModalLive");
+      const modal = new bootstrap.Modal(modalElement);
+      const tablaBody = document.getElementById("tablaProductosOnline");
+      const btnGuardar = modalElement.querySelector("button.btn-primary");
+
+      modalElement.addEventListener("hidden.bs.modal", () => {
+         LimpiarModal();
+      });
+
+      let debounceTimeout;
+      buscarInput.addEventListener("input", () => {
+         clearTimeout(debounceTimeout);
+         debounceTimeout = setTimeout(buscarProductos, 400);
+      });
+
+      async function buscarProductos() {
+         const query = buscarInput.value.trim();
+         if (query.length < 2) {
+            listaProductos.innerHTML = `<p class="text-muted px-3">Escribe al menos 2 caracteres...</p>`;
+            return;
+         }
+
+         listaProductos.innerHTML = `<p class="text-primary px-3">Buscando...</p>`;
+         try {
+            const response = await fetch(`/api/productos/buscar?query=${encodeURIComponent(query)}`);
+            if (!response.ok) throw new Error("Error al obtener productos");
+            const productos = await response.json();
+
+            listaProductos.innerHTML = productos.length
+               ? productos.map(p => `
+         <a href="#" class="list-group-item list-group-item-action d-flex align-items-center"
+            onclick="seleccionarProducto(${p.idProducto}, '${escapeHtml(p.nombre)}', '${escapeHtml(p.codigo)}')">
+           <img src="/assets/images/user/avatar-1.jpg" alt="Producto" class="img-fluid rounded me-3" style="width: 40px; height: 40px;">
+           <div>
+             <h6 class="mb-0">${p.nombre}</h6>
+             <small class="text-muted d-block">SKU: ${p.codigo}</small>
+           </div>
+         </a>`).join("")
+               : `<p class="text-muted px-3">No se encontraron productos.</p>`;
+         } catch (err) {
+            console.error(err);
+            listaProductos.innerHTML = `<p class="text-danger px-3">Error al buscar productos.</p>`;
+         }
+      }
+
+      window.seleccionarProducto = function (id, nombre, codigo) {
+         document.getElementById("exampleModalLiveLabel").innerText = `Publicar Producto: ${nombre}`;
+         buscarInput.value = `${nombre} (${codigo})`;
+         buscarInput.dataset.idProducto = id;
+      };
+
+      window.publicarProducto = async function () {
+         limpiarErrores();
+
+         const idProducto = buscarInput.dataset.idProducto;
+         const precioInput = document.getElementById("onlinePrecio");
+         const descInput = document.getElementById("onlineDesc");
+         const imagenInput = document.getElementById("onlineImagenes");
+
+         const precio = parseFloat(precioInput.value);
+         const descripcion = descInput.value.trim();
+         const publicado = document.getElementById("onlineVisible").checked;
+         const destacado = document.getElementById("onlineDestacado").checked;
+
+         let valido = true;
+         if (!idProducto) { mostrarError("buscarProducto", "Debe seleccionar un producto antes de publicar."); valido = false; }
+         if (isNaN(precio) || precio <= 0) { mostrarError("onlinePrecio", "El precio online debe ser mayor que 0."); valido = false; }
+         if (descripcion.length < 10) { mostrarError("onlineDesc", "La descripción debe tener al menos 10 caracteres."); valido = false; }
+         if (!valido) return;
+
+         const data = { idProducto, precioOnline: precio, descripcion, imagenes: null, publicado, destacado };
+
+         try {
+            mostrarMensajeExito("Publicando producto...");
+            const response = await fetch(`/api/productos-online`, {
+               method: "POST",
+               headers: { "Content-Type": "application/json" },
+               body: JSON.stringify(data)
+            });
+            if (!response.ok) throw new Error(await response.text());
+            mostrarMensajeExito("Producto publicado correctamente.");
+            await cargarProductosOnline();
+
+            setTimeout(() => {
+               modal.hide();
+               LimpiarModal();
+            }, 800);
+
+         } catch (err) {
+            mostrarMensajeError("Error al publicar: " + err.message);
+         }
+      };
+
+      async function cargarProductosOnline() {
+         try {
+            const response = await fetch("/api/productos-online");
+            if (!response.ok) throw new Error("Error al cargar productos");
+            const productos = await response.json();
+
+            tablaBody.innerHTML = productos.length ? productos.map(p => `
+       <tr>
+         <td><img src="${p.imagenPrincipal || '/assets/images/user/avatar-1.jpg'}" class="rounded" style="width: 50px; height: 50px;"></td>
+         <td><strong>${escapeHtml(p.producto.nombre)}</strong><br><small class="text-muted">SKU: ${escapeHtml(p.producto.codigo)}</small></td>
+         <td>S/ ${p.precioOnline.toFixed(2)}</td>
+         <td>${p.publicado ? '<span class="badge bg-success">Sí</span>' : '<span class="badge bg-secondary">No</span>'}</td>
+         <td>${p.destacado ? '<span class="badge bg-warning text-dark">Sí</span>' : '<span class="badge bg-secondary">No</span>'}</td>
+         <td>
+           <button class="btn btn-sm btn-outline-primary me-1" onclick="editarProductoOnline(${p.idProductoOnline})"><i class="ti ti-edit"></i></button>
+           <button class="btn btn-sm btn-outline-danger" onclick="eliminarProductoOnline(${p.idProductoOnline})"><i class="ti ti-trash"></i></button>
+         </td>
+       </tr>`).join("") : `<tr><td colspan="6" class="text-center text-muted py-3">No hay productos publicados.</td></tr>`;
+         } catch (err) {
+            console.error(err);
+            alert("Error al listar productos online: " + err.message);
+         }
+      }
+      cargarProductosOnline();
+
+      window.editarProductoOnline = async function (id) {
+         try {
+            const response = await fetch(`/api/productos-online/${id}`);
+            if (!response.ok) throw new Error("No se encontró el producto");
+            const producto = await response.json();
+
+            document.getElementById("exampleModalLiveLabel").innerText = `Editar Producto: ${producto.producto.nombre}`;
+            buscarInput.disabled = true;
+
+            buscarInput.value = `${producto.producto.nombre} (${producto.producto.codigo})`;
+            buscarInput.dataset.idProducto = producto.producto.idProducto;
+            document.getElementById("onlinePrecio").value = producto.precioOnline;
+            document.getElementById("onlineDesc").value = producto.descripcion;
+            document.getElementById("onlineVisible").checked = producto.publicado;
+            document.getElementById("onlineDestacado").checked = producto.destacado;
+            const listaProductos = document.querySelector(".list-group");
+            listaProductos.innerHTML = `
+            <a href="#" class="list-group-item list-group-item-action d-flex align-items-center"
+            onclick="seleccionarProducto(${producto.producto.idProducto}, '${escapeHtml(producto.producto.nombre)}', '${escapeHtml(producto.producto.codigo)}')">
+           <img src="/assets/images/user/avatar-1.jpg" alt="Producto" class="img-fluid rounded me-3" style="width: 40px; height: 40px;">
+           <div>
+             <h6 class="mb-0">${producto.producto.nombre}</h6>
+             <small class="text-muted d-block">SKU: ${producto.producto.codigo}</small>
+           </div>
+         </a>`;
+
+            modal.show();
+
+            const btn = document.querySelector("#exampleModalLive .modal-footer button.btn-primary");
+            if (btn) {
+               btn.textContent = "Actualizar";
+               btn.onclick = () => actualizarProductoOnline(id);
+            }
+         } catch (err) {
+            alert("Error al editar: " + err.message);
+         }
+      };
+
+      async function actualizarProductoOnline(id) {
+         const precio = parseFloat(document.getElementById("onlinePrecio").value);
+         const descripcion = document.getElementById("onlineDesc").value.trim();
+         const publicado = document.getElementById("onlineVisible").checked;
+         const destacado = document.getElementById("onlineDestacado").checked;
+
+         let valido = true;
+         if (isNaN(precio) || precio <= 0) { mostrarError("onlinePrecio", "El precio online debe ser mayor que 0."); valido = false; }
+         if (descripcion.length < 10) { mostrarError("onlineDesc", "La descripción debe tener al menos 10 caracteres."); valido = false; }
+         if (!valido) return;
+
+         const data = {
+            idProducto: buscarInput.dataset.idProducto,
+            precioOnline: precio,
+            descripcion,
+            publicado,
+            destacado
+         };
+
+         try {
+            const response = await fetch(`/api/productos-online/${id}`, {
+               method: "PUT",
+               headers: { "Content-Type": "application/json" },
+               body: JSON.stringify(data)
+            });
+            if (!response.ok) throw new Error(await response.text());
+            mostrarMensajeExito("Producto actualizado correctamente.");
+            await cargarProductosOnline();
+
+            setTimeout(() => {
+               modal.hide();
+               LimpiarModal();
+            }, 800);
+         } catch (err) {
+            alert("Error al actualizar: " + err.message);
+         }
+      }
+
+      window.eliminarProductoOnline = async function (id) {
+         if (!confirm("¿Seguro que deseas eliminar este producto online?")) return;
+         try {
+            const response = await fetch(`/api/productos-online/${id}`, { method: "DELETE" });
+            if (!response.ok) throw new Error(await response.text());
+            alert("Producto eliminado correctamente.");
+            cargarProductosOnline();
+         } catch (err) {
+            alert("Error al eliminar: " + err.message);
+         }
+      };
+
+      function mostrarError(idCampo, mensaje) {
+         const campo = document.getElementById(idCampo);
+         if (!campo) return;
+         campo.classList.add("is-invalid");
+         const small = document.createElement("div");
+         small.classList.add("invalid-feedback");
+         small.textContent = mensaje;
+         campo.parentNode.appendChild(small);
+         campo.addEventListener("input", () => {
+            campo.classList.remove("is-invalid");
+            small.remove();
+         }, { once: true });
+      }
+
+      function limpiarErrores() {
+         document.querySelectorAll(".invalid-feedback").forEach(el => el.remove());
+         document.querySelectorAll(".is-invalid").forEach(el => el.classList.remove("is-invalid"));
+      }
+
+      function mostrarMensajeExito(msg) { mostrarAlertaGlobal(msg, "success"); }
+      function mostrarMensajeError(msg) { mostrarAlertaGlobal(msg, "danger"); }
+
+      function mostrarAlertaGlobal(msg, tipo) {
+         let alerta = document.getElementById("alertaOnline");
+         const form = document.querySelector("#exampleModalLive .modal-body form");
+         if (!alerta) {
+            alerta = document.createElement("div");
+            alerta.id = "alertaOnline";
+            if (form) form.prepend(alerta);
+         }
+         alerta.className = `alert alert-${tipo} mt-3`;
+         alerta.textContent = msg;
+         setTimeout(() => alerta.remove(), 4000);
+      }
+
+      function escapeHtml(text) {
+         return String(text).replace(/[&<>"']/g, m => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#039;" }[m]));
+      }
+
+   });
+</script>

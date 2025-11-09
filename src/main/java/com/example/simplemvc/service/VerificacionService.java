@@ -31,7 +31,7 @@ public class VerificacionService {
         }
         Persona persona = personaRepository.findByEmail(email)
                 .orElseThrow(() -> new IllegalArgumentException("Persona no encontrada."));
-
+        
         if (persona.getEmailVerificado()) {
             throw new IllegalArgumentException("El correo ya fue verificado anteriormente.");
         }
