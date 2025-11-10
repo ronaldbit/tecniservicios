@@ -22,6 +22,7 @@ public class ProductoDto {
     private String unidad;
     private Long idImpuesto;
     private BigDecimal stockMinimo;
+    private BigDecimal stockActual;
     private EstadoEntidad estado;    
     private Timestamp createdAt;
     private Timestamp updatedAt;

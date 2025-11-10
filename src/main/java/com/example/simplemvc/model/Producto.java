@@ -48,6 +48,10 @@ public class Producto {
 
     @Column(name = "stock_minimo", precision = 12, scale = 2)
     private BigDecimal stockMinimo;
+    
+    @Column(name = "stock_actual", precision = 12, scale = 2)
+    @Builder.Default
+    private BigDecimal stockActual = BigDecimal.ZERO;
 
     @Builder.Default
     @Column(nullable = false)

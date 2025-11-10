@@ -1,0 +1,337 @@
+<div class="pc-container"
+    th:replace="~{dashboard/layout :: layout(~{::content}, ${usuario}, 'Productos', '/dashboard/productos')}">
+    <div class="pc-content" th:fragment="content">
+        <!-- [ Main Content ] start -->
+
+    <div class="page-header">
+        <div class="page-block">
+            <div class="row align-items-center">
+                <div class="col-md-12">
+                    <ul class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="/dashboard">Inicio</a></li>
+                        <li class="breadcrumb-item"><a href="javascript:void(0)">Logística</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Proveedores</li>
+                    </ul>
+                </div>
+                <div class="col-md-12">
+                    <div class="page-header-title">
+                        <h2 class="mb-0">Gestión de Proveedores</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card table-card">
+                <div class="card-header d-flex align-items-center justify-content-between">
+                    <h5 class="mb-0">Lista de Proveedores</h5>
+                    <button type="button" class="btn btn-primary" id="btnNuevoProveedor" data-bs-toggle="modal"
+                        data-bs-target="#modalProveedor">
+                        <i class="ti ti-plus me-1"></i> Nuevo Proveedor
+                    </button>
+                </div>
+
+                <div class="card-body pt-3">
+                    <div class="table-responsive">
+                        <table class="table table-hover" id="tablaProveedores">
+                            <thead>
+                                <tr>
+                                    <th>RUC</th>
+                                    <th>Razón Social</th>
+                                    <th>Email</th>
+                                    <th>Teléfono</th>
+                                    <th>Estado</th>
+                                    <th>Acción</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tabla-proveedores-body">
+                                <tr>
+                                    <td colspan="6" class="text-center">Cargando proveedores...</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modalProveedor" tabindex="-1" aria-labelledby="modalProveedorLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalProveedorLabel">Nuevo Proveedor</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+
+                <div class="modal-body">
+                    <div id="alertaProveedor" class="alert d-none" role="alert"></div>
+                    <form id="formProveedor">
+                        <input type="hidden" id="proveedorId">
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="ruc" class="form-label">RUC</label>
+                                <input type="text" class="form-control" id="ruc" maxlength="11" required>
+                                <div class="invalid-feedback" id="rucError"></div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="razonSocial" class="form-label">Razón Social</label>
+                                <input type="text" class="form-control" id="razonSocial" required>
+                                <div class="invalid-feedback" id="razonSocialError"></div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="email" class="form-label">Email</label>
+                                <input type="email" class="form-control" id="email">
+                                <div class="invalid-feedback" id="emailError"></div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="telefono" class="form-label">Teléfono</label>
+                                <input type="text" class="form-control" id="telefono" maxlength="9">
+                                <div class="invalid-feedback" id="telefonoError"></div>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="direccion" class="form-label">Dirección (Opcional)</label>
+                            <textarea class="form-control" id="direccion" rows="2"></textarea>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary" id="btnGuardarProveedor">Guardar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+        <!-- [ Main Content ] end -->
+    </div>
+</div>
+
+
+
+
+
+<th:block th:fragment="js">
+    <script>
+       
+        const urlBase = '/api/proveedores';
+        let modalInstancia;
+
+     
+        const modalEl = document.getElementById('modalProveedor');
+        const modalForm = document.getElementById("formProveedor");
+        const modalLabel = document.getElementById("modalProveedorLabel");
+        const modalAlerta = document.getElementById("alertaProveedor");
+        const btnGuardar = document.getElementById("btnGuardarProveedor");
+        const btnNuevoProveedor = document.getElementById("btnNuevoProveedor");
+        const tablaCuerpo = document.getElementById("tabla-proveedores-body");
+
+      
+
+        function mostrarError(idCampo, mensaje) {
+            const campo = document.getElementById(idCampo);
+            const errorDiv = document.getElementById(idCampo + "Error");
+            if (campo && errorDiv) {
+                campo.classList.add("is-invalid");
+                errorDiv.textContent = mensaje;
+                errorDiv.style.display = "block";
+            }
+        }
+
+        function limpiarErrores() {
+            document.querySelectorAll(".is-invalid").forEach(el => el.classList.remove("is-invalid"));
+            document.querySelectorAll(".invalid-feedback").forEach(el => el.style.display = "none");
+            modalAlerta.classList.add("d-none");
+        }
+
+        function validarFormulario() {
+            limpiarErrores();
+            let valido = true;
+
+            const ruc = document.getElementById("ruc").value.trim();
+            const razonSocial = document.getElementById("razonSocial").value.trim();
+            const email = document.getElementById("email").value.trim();
+            const telefono = document.getElementById("telefono").value.trim();
+
+            
+            const regexRuc = /^[0-9]{11}$/;
+            if (!regexRuc.test(ruc)) {
+                mostrarError("ruc", "El RUC debe tener 11 dígitos numéricos.");
+                valido = false;
+            }
+
+            if (razonSocial.length < 5) {
+                mostrarError("razonSocial", "La Razón Social debe tener al menos 5 caracteres.");
+                valido = false;
+            }
+
+            const regexEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (email.length > 0 && !regexEmail.test(email)) {
+                mostrarError("email", "Ingrese un formato de email válido.");
+                valido = false;
+            }
+
+            const regexTelefono = /^[0-9]{9}$/;
+            if (telefono.length > 0 && !regexTelefono.test(telefono)) {
+                mostrarError("telefono", "El teléfono debe tener 9 dígitos numéricos.");
+                valido = false;
+            }
+
+            return valido;
+        }
+
+        function mostrarAlerta(msg, tipo) {
+            modalAlerta.className = `alert alert-${tipo}`;
+            modalAlerta.textContent = msg;
+            modalAlerta.classList.remove("d-none");
+        }
+
+        function renderEstado(estado) {
+            switch (estado) {
+                case 'ACTIVO':
+                    return '<span class="badge text-bg-success">Activo</span>';
+                case 'INACTIVO':
+                    return '<span class="badge text-bg-secondary">Inactivo</span>';
+                case 'ELIMINADO':
+                    return '<span class="badge text-bg-danger">Eliminado</span>';
+                default:
+                    return `<span class="badge text-bg-warning">${estado}</span>`;
+            }
+        }
+
+        async function listarProveedores() {
+            tablaCuerpo.innerHTML = `<tr><td colspan="6" class="text-center">Cargando...</td></tr>`;
+            try {
+                const resp = await fetch(urlBase);
+                if (!resp.ok) throw new Error(await resp.text());
+
+                const proveedores = await resp.json();
+                if (proveedores.length === 0) {
+                    tablaCuerpo.innerHTML = `<tr><td colspan="6" class="text-center">No hay proveedores registrados.</td></tr>`;
+                    return;
+                }
+
+                tablaCuerpo.innerHTML = proveedores.map(p => `
+        <tr>
+          <td>${p.ruc}</td>
+          <td>${p.razonSocial}</td>
+          <td>${p.email || '-'}</td>
+          <td>${p.telefono || '-'}</td>
+          <td>${renderEstado(p.estado)}</td>
+          <td>
+            <button class="btn btn-sm btn-warning me-1" onclick='editarProveedor(${JSON.stringify(p)})'>
+              <i class="ti ti-edit"></i>
+            </button>
+            <button class="btn btn-sm btn-danger" onclick="eliminarProveedor(${p.id})">
+              <i class="ti ti-trash"></i>
+            </button>
+          </td>
+        </tr>
+      `).join('');
+            } catch (err) {
+                tablaCuerpo.innerHTML = `<tr><td colspan="6" class="text-center text-danger">Error al cargar proveedores: ${err.message}</td></tr>`;
+            }
+        }
+
+        function abrirModalNuevo() {
+            modalForm.reset();
+            document.getElementById("proveedorId").value = "";
+            modalLabel.innerText = "Nuevo Proveedor";
+            btnGuardar.innerText = "Guardar";
+            limpiarErrores();
+        }
+
+        window.editarProveedor = (p) => {
+            abrirModalNuevo(); 
+
+            document.getElementById("proveedorId").value = p.id;
+            document.getElementById("ruc").value = p.ruc;
+            document.getElementById("razonSocial").value = p.razonSocial;
+            document.getElementById("email").value = p.email;
+            document.getElementById("telefono").value = p.telefono;
+            document.getElementById("direccion").value = p.direccion;
+
+            modalLabel.innerText = "Editar Proveedor";
+            btnGuardar.innerText = "Actualizar";
+            modalInstancia.show();
+        }
+
+        window.eliminarProveedor = async (id) => {
+            if (!confirm("¿Seguro de eliminar este proveedor?")) return;
+            try {
+                const resp = await fetch(`${urlBase}/${id}`, { method: "DELETE" });
+
+                if (!resp.ok) {
+                    throw new Error(await resp.text() || "No se pudo eliminar el proveedor");
+                }
+
+                await listarProveedores(); 
+            } catch (err) {
+                alert(`Error al eliminar: ${err.message}`);
+            }
+        }
+
+        async function guardarProveedor() {
+
+            if (!validarFormulario()) {
+                console.warn("Validación fallida.");
+                mostrarAlerta("Por favor, corrija los errores marcados en rojo.", "warning");
+                return; 
+            }
+
+            console.log("Validación correcta. Enviando al backend...");
+
+            const id = document.getElementById("proveedorId").value;
+            const metodo = id ? "PUT" : "POST";
+            const url = id ? `${urlBase}/${id}` : urlBase;
+
+            const body = {
+                ruc: document.getElementById("ruc").value.trim(),
+                razonSocial: document.getElementById("razonSocial").value.trim(),
+                email: document.getElementById("email").value.trim(),
+                telefono: document.getElementById("telefono").value.trim(),
+                direccion: document.getElementById("direccion").value.trim()
+            };
+
+            if (!body.email) delete body.email;
+            if (!body.telefono) delete body.telefono;
+
+            try {
+                const resp = await fetch(url, {
+                    method: metodo,
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(body)
+                });
+
+                if (!resp.ok) {
+                    throw new Error(await resp.text());
+                }
+
+                await listarProveedores(); 
+                modalInstancia.hide(); 
+
+            } catch (err) {
+                mostrarAlerta(`Error al guardar: ${err.message}`, "danger");
+            }
+        }
+
+
+        document.addEventListener("DOMContentLoaded", async () => {
+            modalInstancia = new bootstrap.Modal(modalEl);
+
+            btnNuevoProveedor.addEventListener("click", abrirModalNuevo);
+            btnGuardar.addEventListener("click", guardarProveedor);
+
+            await listarProveedores();
+        });
+    </script>
+</th:block>

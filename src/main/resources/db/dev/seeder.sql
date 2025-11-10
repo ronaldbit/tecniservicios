@@ -66,3 +66,11 @@ INSERT INTO marcas (nombre, descripcion, estado) VALUES
 ('TotalEnergies', 'Línea Quartz para vehículos ligeros.', 2),
 ('Repsol', 'Lubricantes y productos de competición.', 2),
 ('Motul', 'Especialistas en lubricantes para motocicletas y autos.', 2);
+
+INSERT INTO proveedor (ruc, razon_social, direccion, telefono, email, estado)
+VALUES 
+('20145678901', 'Distribuidora Industrial del Norte S.A.C.', 'Av. Balta 1250, Chiclayo', '074-254789', 'contacto@dinorte.com', 2),
+('20678945231', 'Comercial AgroAndes E.I.R.L.', 'Jr. Bolognesi 540, Cajamarca', '076-204589', 'ventas@agroandes.com', 2),
+('20457896543', 'Suministros Técnicos Lambayeque S.R.L.', 'Calle San Martín 321, Lambayeque', '074-205687', 'info@sutecsl.com', 2),
+('20587654321', 'Ferretería Industrial El Tornillo S.A.C.', 'Av. Grau 900, Piura', '073-256780', 'ventas@eltornillo.pe', 2),
+('20123456789', 'Proveedora del Pacífico S.A.', 'Calle Los Olivos 200, Trujillo', '044-309456', 'contacto@provepacifico.pe', 2);

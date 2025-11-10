@@ -2,6 +2,7 @@ package com.example.simplemvc.controller;
 
 import java.util.List;
 
+import com.example.simplemvc.request.ActualizarRequest;
 import com.example.simplemvc.request.CrearProductoRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -58,5 +59,13 @@ public class ApiProductoController {
         List<ProductoDto> resultados = productoService.buscarProductos(query);
         return ResponseEntity.ok(resultados);
     }
-
+    @PostMapping("/actualizarInventario")
+    public ResponseEntity<?> actualizarInventario(@RequestBody ActualizarRequest request) {
+        try {
+            productoService.actualizarInventario(request);
+            return ResponseEntity.ok().build();
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
+    }
 }

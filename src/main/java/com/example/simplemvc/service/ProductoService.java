@@ -19,6 +19,7 @@ import com.example.simplemvc.model.ProductoMapper;
 import com.example.simplemvc.repository.CategoriaRepository;
 import com.example.simplemvc.repository.MarcaRepository;
 import com.example.simplemvc.repository.ProductoRepository;
+import com.example.simplemvc.request.ActualizarRequest;
 import com.example.simplemvc.request.CrearProductoRequest;
 
 import lombok.RequiredArgsConstructor;
@@ -49,6 +50,7 @@ public class ProductoService {
                 .map(productoMapper::toDto)
                 .orElseThrow(() -> new IllegalArgumentException("Producto no encontrado con ID: " + id));
     }
+    
 
     public ProductoDto create(CrearProductoRequest request) {
         log.info("Creando nuevo producto");
@@ -127,6 +129,32 @@ public class ProductoService {
                 .filter(p -> p.getEstado() != EstadoEntidad.ELIMINADO)
                 .map(productoMapper::toDto)
                 .collect(Collectors.toList());
+    }
+
+    @Transactional
+    public void actualizarInventario(ActualizarRequest request) {
+        Producto producto = productoRepository.findById(request.getIdProducto())
+                .orElseThrow(() -> new IllegalArgumentException("Producto no encontrado con ID: " + request.getIdProducto()));
+
+        if (request.getModo().equalsIgnoreCase("AUMENTAR")) {
+            producto.setStockActual(producto.getStockActual().add(
+                    java.math.BigDecimal.valueOf(request.getCantidad())));
+        } else if (request.getModo().equalsIgnoreCase("QUITAR")) {
+            if(producto.getStockActual().compareTo(
+                    java.math.BigDecimal.valueOf(request.getCantidad())) < 0) {
+                throw new IllegalArgumentException("No se puede quitar más stock del que hay disponible.");
+            } else{
+                producto.setStockActual(producto.getStockActual().subtract(
+                    java.math.BigDecimal.valueOf(request.getCantidad())));
+            }
+        } else {
+            throw new IllegalArgumentException("Modo inválido. Use 'AUMENTAR' o 'QUITAR'.");
+        }
+
+        producto.setUpdatedAt(Timestamp.valueOf(LocalDateTime.now()));
+        productoRepository.save(producto);
+        log.info("Inventario actualizado para producto ID: {}", request.getIdProducto());
+        
     }
 
 }

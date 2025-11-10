@@ -29,22 +29,16 @@ public class Proveedor {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(updatable = false, nullable = false)
   private Long id;
-
   @Column(columnDefinition = "varchar(20)", nullable = false)
   private String ruc;
-
   @Column(columnDefinition = "varchar(200)", nullable = false)
   private String razonSocial;
-
   @Column(columnDefinition = "varchar(300)", nullable = true)
   private String direccion;
-
   @Column(columnDefinition = "varchar(50)", nullable = true)
   private String telefono;
-
   @Column(columnDefinition = "varchar(120)", nullable = true)
   private String email;
-
   @Builder.Default
   @Column(nullable = false)
   @Enumerated(EnumType.ORDINAL)

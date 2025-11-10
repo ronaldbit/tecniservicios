@@ -27,11 +27,18 @@
         <div class="card table-card">
           <div class="card-header d-flex align-items-center justify-content-between">
             <h5 class="mb-0">Inventario de lubricantes</h5>
+
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModalLive"
+              onclick="LimpiarModal()">
+              <i class="ti ti-plus me-1"></i> Actualizar Inventario
+            </button>
+
             <button type="button" class="btn btn-primary" id="btnNuevoProducto" data-bs-toggle="modal"
               data-bs-target="#modalProducto">
               <i class="ti ti-plus me-1"></i> Nuevo Producto
             </button>
           </div>
+
 
           <div class="card-body pt-3">
             <div class="table-responsive">
@@ -45,6 +52,7 @@
                     <th>Unidad</th>
                     <th>Precio (S/)</th>
                     <th>Stock Mínimo</th>
+                    <th>Stock Actual</th>
                     <th>Estado</th>
                     <th>Acción</th>
                   </tr>
@@ -118,6 +126,12 @@
                   <input type="number" class="form-control" id="stockMinimo" value="0">
                   <div class="invalid-feedback" id="stockMinimoError"></div>
                 </div>
+                <div class="col-md-4 mb-3">
+                  <label for="stockActual" class="form-label" id="StockActualLabel">Stock inicial (Opcional)</label>
+                  <input type="number" class="form-control" id="stockActual" value="0">
+                  <div class="invalid-feedback" id="stockActualError"></div>
+                </div>
+
               </div>
             </form>
           </div>
@@ -130,6 +144,69 @@
       </div>
     </div>
 
+    <div id="exampleModalLive" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalLiveLabel"
+      aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLiveLabel">Actualizar Inventario de Producto
+            </h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <div class="row">
+              <div class="col-md-5" style="border-right: 1px solid #ddd;">
+                <div class="mb-3">
+                  <label for="buscarProducto" class="form-label">1. Buscar Producto</label>
+                  <input type="text" class="form-control" id="buscarProducto" placeholder="Buscar por SKU o Nombre...">
+                </div>
+
+                <div class="list-group" style="max-height: 400px; overflow-y: auto;">
+                </div>
+              </div>
+
+              <div class="col-md-7">
+                <h6 class="mb-3">Actualizar Inventario</h6>
+                <div id="mensajeInventario" class="alert d-none mt-2" role="alert"></div>
+                <form id="formActualizarInventario">
+                  <div class="mb-3">
+                    <label for="modoInventario" class="form-label">Modo de Actualización</label>
+                    <select class="form-select" id="modoInventario" required>
+                      <option value="" selected disabled>Seleccione una opción</option>
+                      <option value="AUMENTAR">Aumentar Stock</option>
+                      <option value="QUITAR">Quitar Stock</option>
+                    </select>
+                    <small class="form-text text-muted">
+                      Selecciona si deseas aumentar o disminuir el stock disponible.
+                    </small>
+                  </div>
+
+                  <div class="mb-3">
+                    <label for="cantidadInventario" class="form-label">Cantidad</label>
+                    <input type="number" class="form-control" id="cantidadInventario" min="1" placeholder="Ej. 10"
+                      required>
+                    <small class="form-text text-muted">
+                      Ingresa la cantidad que deseas añadir o retirar del inventario.
+                    </small>
+                  </div>
+
+
+                </form>
+              </div>
+            </div>
+          </div>
+
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+              onclick="LimpiarModal()">Cancelar</button>
+            <button type="button" class="btn btn-primary" onclick="ActualizarInventario()">Actualizar
+              Inventario</button>
+
+          </div>
+
+        </div>
+      </div>
+    </div>
     <!-- [ Main Content ] end -->
   </div>
 </div>
@@ -137,7 +214,7 @@
 <script>
 
   const urlBase = '/api/productos';
-  let modalInstancia; 
+  let modalInstancia;
 
 
   const modalEl = document.getElementById('modalProducto');
@@ -165,7 +242,7 @@
   function limpiarErrores() {
     document.querySelectorAll(".is-invalid").forEach(el => el.classList.remove("is-invalid"));
     document.querySelectorAll(".invalid-feedback").forEach(el => el.style.display = "none");
-    modalAlerta.classList.add("d-none"); 
+    modalAlerta.classList.add("d-none");
   }
 
   function validarFormulario() {
@@ -245,8 +322,9 @@
           <td>${p.unidad ?? '-'}</td>
           <td>${p.precio?.toFixed(2) ?? '0.00'}</td>
           <td>${p.stockMinimo ?? 0}</td>
+          <td>${p.stockActual ?? 0}</td>
           <td>${p.estado ?? 'ACTIVO'}</td>
-          <td>
+        <td>
             <button class="btn btn-sm btn-warning me-1" onclick='editarProducto(${JSON.stringify(p)})'>
               <i class="ti ti-edit"></i>
             </button>
@@ -285,16 +363,18 @@
 
   function abrirModalNuevo() {
     modalForm.reset();
+    document.getElementById("stockActual").value = "0";
+    document.getElementById("stockActual").style.display = "block";
+    document.getElementById("StockActualLabel").style.display = "block";
     document.getElementById("productoId").value = "";
     modalLabel.innerText = "Nuevo Producto";
     btnGuardar.innerText = "Guardar";
     limpiarErrores();
   }
 
-  
-  window.editarProducto = (p) => {
-    abrirModalNuevo(); 
 
+  window.editarProducto = (p) => {
+    abrirModalNuevo();
     document.getElementById("productoId").value = p.idProducto;
     document.getElementById("codigo").value = p.codigo;
     document.getElementById("nombre").value = p.nombre;
@@ -303,13 +383,15 @@
     document.getElementById("precio").value = p.precio;
     document.getElementById("unidad").value = p.unidad;
     document.getElementById("stockMinimo").value = p.stockMinimo ?? 0;
-
+    document.getElementById("stockActual").style.display = "none";
+    document.getElementById("StockActualLabel").style.display = "none";
+    document.getElementById("stockActual").value = p.stockActual ?? 0;
     modalLabel.innerText = "Editar Producto";
     btnGuardar.innerText = "Actualizar";
     modalInstancia.show();
   }
 
-  window.eliminarProducto = async (id) => { 
+  window.eliminarProducto = async (id) => {
     if (!confirm("¿Seguro de eliminar este producto?")) return;
     try {
       const resp = await fetch(`${urlBase}/${id}`, { method: "DELETE" });
@@ -341,9 +423,10 @@
       idCategoria: parseInt(document.getElementById("categoria").value),
       precio: parseFloat(document.getElementById("precio").value),
       unidad: document.getElementById("unidad").value.trim(),
-      idImpuesto: 1, 
+      idImpuesto: 1,
       stockMinimo: parseInt(document.getElementById("stockMinimo").value),
-      estado: "ACTIVO" 
+      stockActual: parseInt(document.getElementById("stockActual").value),
+      estado: "ACTIVO"
     };
 
     try {
@@ -373,4 +456,132 @@
     await cargarMarcasYCategorias();
     await listarProductos();
   });
+
+
+  let productoSeleccionado = null;
+  const buscarInput = document.getElementById("buscarProducto");
+  const listaProductos = document.querySelector(".list-group");
+  const mensajeInventario = document.getElementById("mensajeInventario");
+  let debounceTimeout;
+
+  function mostrarMensaje(texto, tipo = "success") {
+    mensajeInventario.textContent = texto;
+    mensajeInventario.className = `alert alert-${tipo} mt-2`;
+    mensajeInventario.classList.remove("d-none");
+
+    setTimeout(() => mensajeInventario.classList.add("d-none"), 4000);
+  }
+
+  function seleccionarProducto(id, nombre, codigo) {
+    productoSeleccionado = { id, nombre, codigo };
+    buscarInput.value = `${nombre} (${codigo})`;
+    listaProductos.innerHTML = `
+    <p class="text-success px-3">Producto seleccionado: <strong>${nombre}</strong></p>
+  `;
+    mostrarMensaje(`Producto "${nombre}" seleccionado.`, "info");
+  }
+
+  buscarInput.addEventListener("input", () => {
+    clearTimeout(debounceTimeout);
+    debounceTimeout = setTimeout(buscarProductos, 400);
+  });
+
+  async function buscarProductos() {
+    const query = buscarInput.value.trim();
+    if (query.length < 2) {
+      listaProductos.innerHTML = `<p class="text-muted px-3">Escribe al menos 2 caracteres...</p>`;
+      return;
+    }
+
+    function escapeHtml(text) {
+      return String(text).replace(/[&<>"']/g, m => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#039;"
+      }[m]));
+    }
+
+    listaProductos.innerHTML = `<p class="text-primary px-3">Buscando...</p>`;
+    try {
+      const response = await fetch(`/api/productos/buscar?query=${encodeURIComponent(query)}`);
+      if (!response.ok) throw new Error("Error al obtener productos");
+      const productos = await response.json();
+
+      listaProductos.innerHTML = productos.length
+        ? productos.map(p => `
+        <a href="#" class="list-group-item list-group-item-action d-flex align-items-center"
+          onclick="seleccionarProducto(${p.idProducto}, '${escapeHtml(p.nombre)}', '${escapeHtml(p.codigo)}')">
+          <img src="/assets/images/user/avatar-1.jpg" alt="Producto" class="img-fluid rounded me-3" style="width: 40px; height: 40px;">
+          <div>
+            <h6 class="mb-0">${p.nombre}</h6>
+            <small class="text-muted d-block">SKU: ${p.codigo}</small>
+          </div>
+        </a>
+      `).join("")
+        : `<p class="text-muted px-3">No se encontraron productos.</p>`;
+    } catch (err) {
+      console.error(err);
+      listaProductos.innerHTML = `<p class="text-danger px-3">Error al buscar productos.</p>`;
+    }
+  }
+
+  async function ActualizarInventario() {
+    const modo = document.getElementById("modoInventario").value;
+    const cantidadInput = document.getElementById("cantidadInventario");
+    const cantidad = parseFloat(cantidadInput.value);
+
+    if (!productoSeleccionado) {
+      mostrarMensaje("Por favor selecciona un producto.", "warning");
+      return;
+    }
+
+    if (!modo) {
+      mostrarMensaje("Selecciona un modo de operación (Entrada o Salida).", "warning");
+      return;
+    }
+
+    if (isNaN(cantidad) || cantidad <= 0) {
+      cantidadInput.classList.add("is-invalid");
+      mostrarMensaje("La cantidad debe ser un número mayor a 0.", "danger");
+      return;
+    } else {
+      cantidadInput.classList.remove("is-invalid");
+    }
+
+    try {
+      const response = await fetch(`/api/productos/actualizarInventario`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          idProducto: productoSeleccionado.id,
+          modo,
+          cantidad,
+        }),
+      });
+
+      const text = await response.text();
+
+      if (!response.ok) {
+        mostrarMensaje(text || "Error al actualizar inventario.", "danger");
+        return;
+      }
+
+      mostrarMensaje("Inventario actualizado correctamente.", "success");
+      LimpiarModal();
+    } catch (error) {
+      console.error(error);
+      mostrarMensaje("Ocurrió un error inesperado al actualizar.", "danger");
+    }
+  }
+
+  function LimpiarModal() {
+    buscarInput.value = "";
+    listaProductos.innerHTML = "";
+    document.getElementById("modoInventario").value = "";
+    document.getElementById("cantidadInventario").value = "";
+    productoSeleccionado = null;
+  }
+
 </script>
