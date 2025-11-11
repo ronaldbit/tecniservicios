@@ -4,18 +4,67 @@
   <meta charset="UTF-8">
   <title th:text="${titulo}">Verificación</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+  <script>
+    function validarContrasena() {
+      const input = document.getElementById("password");
+      const feedback = document.getElementById("passwordFeedback");
+      const value = input.value;
+
+      const requisitos = [
+        { regex: /.{8,}/, msg: "Al menos 8 caracteres" },
+        { regex: /[A-Z]/, msg: "Una letra mayúscula" },
+        { regex: /[a-z]/, msg: "Una letra minúscula" },
+        { regex: /[0-9]/, msg: "Un número" },
+        { regex: /[@$!%*?&]/, msg: "Un carácter especial (@, $, !, %, *, ?, &)" },
+      ];
+
+      const cumplidos = requisitos.filter(r => r.regex.test(value));
+      const progreso = Math.round((cumplidos.length / requisitos.length) * 100);
+
+      const barra = document.getElementById("passwordStrength");
+      barra.style.width = progreso + "%";
+      barra.className = "progress-bar";
+      if (progreso < 40) barra.classList.add("bg-danger");
+      else if (progreso < 80) barra.classList.add("bg-warning");
+      else barra.classList.add("bg-success");
+
+      feedback.innerHTML = cumplidos.length === requisitos.length
+        ? "<span class='text-success'>Contraseña fuerte</span>"
+        : "<ul class='text-start text-muted small mb-0'>" + 
+            requisitos.map(r => 
+              `<li>${r.regex.test(value) ? "✅" : "❌"} ${r.msg}</li>`).join("") + 
+          "</ul>";
+    }
+  </script>
 </head>
+
 <body class="d-flex justify-content-center align-items-center vh-100 bg-light">
   <div class="card shadow p-4 text-center" style="max-width: 400px;">
     <h3 th:text="${titulo}" 
         th:classappend="${tipo == 'success'} ? 'text-success' : (${tipo == 'error'} ? 'text-danger' : 'text-primary')">
     </h3>    
     <p class="mt-3" th:text="${mensaje}"></p>
+
     <form th:if="${tipo == 'form'}" th:action="@{/auth/verify}" method="post" class="mt-4">
       <input type="hidden" name="token" th:value="${token}" />
-      <div class="mb-3">
-        <input type="password" name="password" class="form-control" placeholder="Ingresa tu nueva contraseña" required />
+      <div class="mb-3 text-start">
+        <label for="password" class="form-label fw-semibold">Nueva Contraseña</label>
+        <input 
+          type="password" 
+          name="password" 
+          id="password"
+          class="form-control" 
+          placeholder="Ingresa tu nueva contraseña"
+          required
+          oninput="validarContrasena()" />
       </div>
+
+      <div class="progress mb-2" style="height: 6px;">
+        <div id="passwordStrength" class="progress-bar bg-danger" style="width: 0%;"></div>
+      </div>
+
+      <div id="passwordFeedback" class="small text-muted mb-3"></div>
+
       <button type="submit" class="btn btn-success w-100">Establecer Contraseña</button>
     </form>
 

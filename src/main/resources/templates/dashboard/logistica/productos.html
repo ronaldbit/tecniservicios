@@ -118,9 +118,19 @@
                 </div>
                 <div class="col-md-4 mb-3">
                   <label for="unidad" class="form-label">Unidad</label>
-                  <input type="text" class="form-control" id="unidad" placeholder="Ej: Litro">
+                  <select class="form-control" id="unidad">
+                    <option value="" selected disabled>Seleccione una unidad</option>
+                    <option value="Litro">Litro</option>
+                    <option value="Galón">Galón</option>
+                    <option value="Mililitro">Mililitro</option>
+                    <option value="Caja">Caja</option>
+                    <option value="Envase">Envase</option>
+                    <option value="Bidón">Bidón</option>
+                    <option value="Unidad">Unidad</option>
+                  </select>
                   <div class="invalid-feedback" id="unidadError"></div>
                 </div>
+
                 <div class="col-md-4 mb-3">
                   <label for="stockMinimo" class="form-label">Stock Mínimo</label>
                   <input type="number" class="form-control" id="stockMinimo" value="0">
@@ -212,6 +222,9 @@
 </div>
 
 <script>
+
+  const formValidationsOff = document.getElementById("formProducto");
+  formValidationsOff.setAttribute('autocomplete', 'off');
 
   const urlBase = '/api/productos';
   let modalInstancia;

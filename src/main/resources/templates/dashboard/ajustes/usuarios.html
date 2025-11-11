@@ -88,7 +88,7 @@
     <div class="modal fade" id="modalAgregarUsuario" tabindex="-1" aria-labelledby="modalAgregarUsuarioLabel"
       aria-hidden="true">
       <div class="modal-dialog modal-lg modal-dialog-centered">
-        <form class="modal-content needs-validation" novalidate>
+        <form class="modal-content needs-validation" id="form-Validaciones-Off" novalidate>
           <input type="hidden" id="usuarioId" />
           <input type="hidden" id="personaId" />
           <div class="modal-header">
@@ -592,6 +592,10 @@
 <script>
   document.addEventListener("DOMContentLoaded", () => {
     const form = document.querySelector(".needs-validation");
+
+    const formValidationsOff = document.getElementById("form-Validaciones-Off");
+    form.setAttribute('autocomplete', 'off');
+
 
     const inputs = {
       dni: document.getElementById("usuarioDNI"),
