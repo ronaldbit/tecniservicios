@@ -70,7 +70,7 @@ public class DynamicRouterController {
     }
 
     model.addAttribute("path", relativePath);
-    return "/errors/404";
+    return "errors/404";
   }
 
   public String authMiddleware(HttpServletRequest request, Model model) {

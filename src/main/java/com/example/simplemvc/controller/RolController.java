@@ -28,7 +28,7 @@ public class RolController {
     Usuario usuario = getActualUsuarioService.get();
 
     if (usuario == null) {
-      return "redirect:/auth/login";
+      return "redirect:auth/login";
     }
 
     model.addAttribute("usuario", usuarioMapper.toDto(usuario));
@@ -38,6 +38,6 @@ public class RolController {
         .flatMap(rol -> rol.getPermisos().stream())
         .forEach(permiso -> model.addAttribute("hide" + permiso.getNombre(), false));
 
-    return "/dashboard/ajustes/roles";
+    return "dashboard/ajustes/roles";
   }
 }

@@ -38,6 +38,6 @@ public class UsuarioController {
         .flatMap(rol -> rol.getPermisos().stream())
         .forEach(permiso -> model.addAttribute("hide" + permiso.getNombre(), false));
 
-    return "/dashboard/ajustes/usuarios";
+    return "dashboard/ajustes/usuarios";
   }
 }

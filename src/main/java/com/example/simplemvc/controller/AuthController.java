@@ -49,7 +49,7 @@ public class AuthController {
   public String registroPersona(Model model) {
     model.addAttribute("tiposDocumento", tipoDocumentoService.lista());
 
-    return "/auth/registro-persona";
+    return "auth/registro-persona";
   }
 
   @GetMapping("/registro")
@@ -58,10 +58,10 @@ public class AuthController {
     model.addAttribute("sucursales", sucursalService.lista());
 
     if (model.getAttribute("persona") == null) {
-      return "redirect:/auth/registro-persona";
+      return "redirect:auth/registro-persona";
     }
 
-    return "/auth/registro";
+    return "auth/registro";
   }
 
   @GetMapping("/verify")
@@ -71,7 +71,7 @@ public class AuthController {
         model.addAttribute("titulo", "Error de Verificación");
         model.addAttribute("mensaje", "El enlace de verificación es inválido o ha expirado.");
         model.addAttribute("tipo", "error");
-        return "/auth/verificacion";
+        return "auth/verificacion";
       }
 
       String email = jwtTokenUtil.extractEmail(token);
@@ -80,7 +80,7 @@ public class AuthController {
         model.addAttribute("titulo", "Error de Verificación");
         model.addAttribute("mensaje", "No se encontró ninguna cuenta asociada a este correo.");
         model.addAttribute("tipo", "error");
-        return "/auth/verificacion";
+        return "auth/verificacion";
       }
 
       Persona persona = optionalPersona.get();
@@ -89,12 +89,12 @@ public class AuthController {
       model.addAttribute("tipo", "form");
       model.addAttribute("token", token);
 
-      return "/auth/verificacion";
+      return "auth/verificacion";
     } catch (Exception e) {
       model.addAttribute("titulo", "Error Interno");
       model.addAttribute("mensaje", "Ocurrió un error inesperado.");
       model.addAttribute("tipo", "error");
-      return "/auth/verificacion";
+      return "auth/verificacion";
     }
   }
 
@@ -117,18 +117,18 @@ public class AuthController {
       model.addAttribute("mensaje", "Ocurrió un error inesperado.");
       model.addAttribute("tipo", "error");
     }
-    return "/auth/verificacion";
+    return "auth/verificacion";
   }
 
   @GetMapping("/reset-password")
   public String resetPassword(@RequestParam String token, Model model) {
     if (!recuperarPsService.validarToken(token)) {
       model.addAttribute("mensajeError", "El enlace de recuperación es inválido o ha expirado.");
-      return "/auth/error-token";
+      return "auth/error-token";
     }
 
     model.addAttribute("token", token);
-    return "/auth/reset-password";
+    return "auth/reset-password";
   }
 
   @PostMapping("/update-password")

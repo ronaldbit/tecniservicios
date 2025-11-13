@@ -27,19 +27,15 @@
         <div class="card table-card">
           <div class="card-header d-flex align-items-center justify-content-between">
             <h5 class="mb-0">Inventario de lubricantes</h5>
-
             <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModalLive"
-              onclick="LimpiarModal()">
+              onclick="LimpiarModal()" hidden>
               <i class="ti ti-plus me-1"></i> Actualizar Inventario
             </button>
-
             <button type="button" class="btn btn-primary" id="btnNuevoProducto" data-bs-toggle="modal"
               data-bs-target="#modalProducto">
               <i class="ti ti-plus me-1"></i> Nuevo Producto
             </button>
           </div>
-
-
           <div class="card-body pt-3">
             <div class="table-responsive">
               <table class="table table-hover" id="tablaProductos">
@@ -72,10 +68,11 @@
     <!-- Modal Producto -->
     <div class="modal fade" id="modalProducto" tabindex="-1" aria-labelledby="modalProductoLabel" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered modal-lg">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="modalProductoLabel">Nuevo Producto</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+        <div class="modal-content shadow-lg border-0 rounded-4">
+          <div class="modal-header bg-primary text-white">
+            <h5 class="modal-title fw-bold" id="modalProductoLabel">Nuevo Producto</h5>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+              aria-label="Cerrar"></button>
           </div>
 
           <div class="modal-body">
@@ -85,10 +82,9 @@
 
               <div class="row">
                 <div class="col-md-6 mb-3">
-                  <label for="codigo" class="form-label">Código</label>
+                  <label for="codigo" class="form-label">Código (Opcional)</label>
                   <input type="text" class="form-control" id="codigo" required>
                   <div class="invalid-feedback" id="codigoError"></div>
-
                 </div>
                 <div class="col-md-6 mb-3">
                   <label for="nombre" class="form-label">Nombre</label>
@@ -117,8 +113,14 @@
                   <div class="invalid-feedback" id="precioError"></div>
                 </div>
                 <div class="col-md-4 mb-3">
+                  <label for="precioOnline" class="form-label">Precio Online (S/)</label>
+                  <input type="number" class="form-control" id="precioOnline" step="0.01" required>
+                  <div class="invalid-feedback" id="precioOnlineError"></div>
+                </div>
+
+                <div class="col-md-4 mb-3">
                   <label for="unidad" class="form-label">Unidad</label>
-                  <select class="form-control" id="unidad">
+                  <select class="form-select" id="unidad">
                     <option value="" selected disabled>Seleccione una unidad</option>
                     <option value="Litro">Litro</option>
                     <option value="Galón">Galón</option>
@@ -130,7 +132,9 @@
                   </select>
                   <div class="invalid-feedback" id="unidadError"></div>
                 </div>
+              </div>
 
+              <div class="row">
                 <div class="col-md-4 mb-3">
                   <label for="stockMinimo" class="form-label">Stock Mínimo</label>
                   <input type="number" class="form-control" id="stockMinimo" value="0">
@@ -141,7 +145,28 @@
                   <input type="number" class="form-control" id="stockActual" value="0">
                   <div class="invalid-feedback" id="stockActualError"></div>
                 </div>
+                <div class="col-md-4 mb-3">
+                  <label class="form-label">Destacado</label><br>
+                  <div class="form-check form-switch">
+                    <input class="form-check-input" type="checkbox" id="destacado">
+                    <label class="form-check-label" for="destacado">Producto destacado</label>
+                  </div>
+                </div>
+              </div>
 
+              <div class="row">
+
+                <div class="col-md-6 mb-3">
+                  <label for="imagenes" class="form-label">Imágenes (máx. 5)</label>
+                  <input type="file" class="form-control" id="imagenes" accept="image/*" multiple>
+                  <div id="previewImagenes" class="d-flex flex-wrap gap-2 mt-2"></div>
+                </div>
+              </div>
+
+              <div class="mb-3">
+                <label for="descripcion" class="form-label">Descripción</label>
+                <textarea class="form-control" id="descripcion" rows="3"
+                  placeholder="Describe el producto..."></textarea>
               </div>
             </form>
           </div>
@@ -153,6 +178,124 @@
         </div>
       </div>
     </div>
+
+    <script>
+      let imagenesSeleccionadas = [];
+      const MAX_FILES = 5;
+
+      if (!window.productModalListener) {
+        window.productModalListener = true;
+
+        document.addEventListener('change', function (e) {
+          if (e.target.id === 'imagenes') {
+            const nuevosArchivos = Array.from(e.target.files);
+
+            const archivosUnicos = nuevosArchivos.filter(nuevo => {
+              return !imagenesSeleccionadas.some(existente =>
+                existente.name === nuevo.name && existente.size === nuevo.size
+              );
+            });
+
+            const totalEspacio = MAX_FILES - imagenesSeleccionadas.length;
+            if (archivosUnicos.length > totalEspacio) {
+              alert(`Solo puedes seleccionar un máximo de ${MAX_FILES} imágenes. Puedes añadir ${totalEspacio} más.`);
+            }
+
+            const archivosParaAnadir = archivosUnicos.slice(0, totalEspacio);
+            imagenesSeleccionadas = imagenesSeleccionadas.concat(archivosParaAnadir);
+
+            e.target.value = null;
+            mostrarPreview();
+          }
+        });
+
+        document.addEventListener('click', function (e) {
+          if (e.target.matches('[data-index-to-delete]')) {
+            const index = parseInt(e.target.getAttribute('data-index-to-delete'), 10);
+            imagenesSeleccionadas.splice(index, 1);
+            mostrarPreview();
+          }
+        });
+      }
+
+      function mostrarPreview() {
+        const preview = document.getElementById("previewImagenes");
+        if (!preview) return;
+        preview.innerHTML = "";
+
+        imagenesSeleccionadas.forEach((item, index) => {
+          const wrapper = document.createElement("div");
+          wrapper.className = "position-relative";
+          wrapper.style.width = "80px";
+          wrapper.style.height = "80px";
+
+          const img = document.createElement("img");
+          img.className = "rounded border";
+          img.style.width = "100%";
+          img.style.height = "100%";
+          img.style.objectFit = "cover";
+
+          if (item instanceof File) {
+            const reader = new FileReader();
+            reader.onload = (e2) => (img.src = e2.target.result);
+            reader.readAsDataURL(item);
+          } else if (typeof item === "string") {
+            img.src = item;
+          }
+
+          const btnEliminar = document.createElement("button");
+          btnEliminar.type = "button";
+          btnEliminar.innerHTML = "&times;";
+          btnEliminar.className = "btn btn-sm btn-danger position-absolute top-0 end-0 rounded-circle p-1";
+          btnEliminar.style.transform = "translate(25%, -25%)";
+          btnEliminar.style.zIndex = "10";
+          btnEliminar.setAttribute('data-index-to-delete', index);
+
+          wrapper.appendChild(img);
+          wrapper.appendChild(btnEliminar);
+          preview.appendChild(wrapper);
+        });
+
+        const inputImagenes = document.getElementById("imagenes");
+        if (inputImagenes) {
+          const dataTransfer = new DataTransfer();
+          imagenesSeleccionadas.forEach((f) => {
+            if (f instanceof File) dataTransfer.items.add(f);
+          });
+          inputImagenes.files = dataTransfer.files;
+        }
+      }
+
+      const miModal = document.getElementById('modalProducto');
+      if (miModal) {
+        miModal.addEventListener('hidden.bs.modal', function () {
+          imagenesSeleccionadas = [];
+          mostrarPreview();
+        });
+      }
+
+      async function obtenerImagenesBase64() {
+        const imagenesBase64 = [];
+        for (const item of imagenesSeleccionadas) {
+          if (item instanceof File) {
+            const base64 = await new Promise((resolve, reject) => {
+              const reader = new FileReader();
+              reader.onload = e => resolve(e.target.result);
+              reader.onerror = reject;
+              reader.readAsDataURL(item);
+            });
+            imagenesBase64.push(base64);
+          } else if (typeof item === "string") {
+            imagenesBase64.push(item);
+          }
+        }
+        return imagenesBase64;
+      }
+    </script>
+
+
+
+
 
     <div id="exampleModalLive" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalLiveLabel"
       aria-hidden="true">
@@ -190,7 +333,6 @@
                       Selecciona si deseas aumentar o disminuir el stock disponible.
                     </small>
                   </div>
-
                   <div class="mb-3">
                     <label for="cantidadInventario" class="form-label">Cantidad</label>
                     <input type="number" class="form-control" id="cantidadInventario" min="1" placeholder="Ej. 10"
@@ -199,8 +341,6 @@
                       Ingresa la cantidad que deseas añadir o retirar del inventario.
                     </small>
                   </div>
-
-
                 </form>
               </div>
             </div>
@@ -269,12 +409,21 @@
     const precio = parseFloat(document.getElementById("precio").value);
     const unidad = document.getElementById("unidad").value.trim();
     const stockMinimo = parseFloat(document.getElementById("stockMinimo").value);
+    const precioOnline = parseFloat(document.getElementById("precioOnline").value);
 
-    const regexCodigo = /^[0-9]{8,13}$/;
-    if (!regexCodigo.test(codigo)) {
+
+    if (isNaN(precioOnline) || precioOnline <= 0) {
+      mostrarError("precioOnline", "El precio online debe ser mayor que 0.");
+      valido = false;
+    }
+
+    const regexCodigo = /^[0-9]{8,20}$/;
+
+    if (codigo.length > 0 && !regexCodigo.test(codigo)) {
       mostrarError("codigo", "El código debe tener entre 8 y 13 dígitos numéricos.");
       valido = false;
     }
+
 
     if (nombre.length < 4) {
       mostrarError("nombre", "El nombre debe tener al menos 4 caracteres.");
@@ -316,41 +465,64 @@
   }
 
 
-
   async function listarProductos() {
     tablaCuerpo.innerHTML = `<tr><td colspan="9" class="text-center">Cargando...</td></tr>`;
+
     try {
       const resp = await fetch(urlBase);
       const productos = await resp.json();
-      if (productos.length === 0) {
+
+      if (!productos || productos.length === 0) {
         tablaCuerpo.innerHTML = `<tr><td colspan="9" class="text-center">No hay productos registrados.</td></tr>`;
         return;
       }
-      tablaCuerpo.innerHTML = productos.map(p => `
-        <tr>
-          <td>${p.nombre}</td>
-          <td>${p.codigo}</td>
-          <td>${p.marca?.nombre ?? '-'}</td>
-          <td>${p.categoria?.nombre ?? '-'}</td>
-          <td>${p.unidad ?? '-'}</td>
-          <td>${p.precio?.toFixed(2) ?? '0.00'}</td>
-          <td>${p.stockMinimo ?? 0}</td>
-          <td>${p.stockActual ?? 0}</td>
-          <td>${p.estado ?? 'ACTIVO'}</td>
-        <td>
-            <button class="btn btn-sm btn-warning me-1" onclick='editarProducto(${JSON.stringify(p)})'>
-              <i class="ti ti-edit"></i>
-            </button>
-            <button class="btn btn-sm btn-danger" onclick="eliminarProducto(${p.idProducto})">
-              <i class="ti ti-trash"></i>
-            </button>
-          </td>
-        </tr>
-      `).join('');
+
+      tablaCuerpo.innerHTML = productos.map(p => {
+        const toggleBtn = p.estado === 'ACTIVO'
+          ? `<a href="#" class="avtar avtar-xs btn-link-success btn-toggle-estado" title="Desactivar" onclick="ActualizarEstado(${p.idProducto})"><i class="ti ti-toggle-left f-20"></i></a>`
+          : `<a href="#" class="avtar avtar-xs btn-link-warning btn-toggle-estado" title="Activar" onclick="ActualizarEstado(${p.idProducto})"><i class="ti ti-toggle-right f-20"></i></a>`;
+
+        return `
+              <tr>
+                <td>${p.nombre ?? '-'}</td>
+                <td>${p.codigo ?? '-'}</td>
+                <td>${p.marca?.nombre ?? '-'}</td>
+                <td>${p.categoria?.nombre ?? '-'}</td>
+                <td>${p.unidad ?? '-'}</td>
+                <td>${p.precio?.toFixed(2) ?? '0.00'}</td>
+                <td>${p.stockMinimo ?? 0}</td>
+                <td>${p.stockActual ?? 0}</td>
+                <td>
+                  <span class="badge ${p.estado === 'ACTIVO' ? 'bg-success' : 'bg-secondary'}">
+                    ${p.estado ?? 'ACTIVO'}
+                  </span>
+                </td>
+                <td class="text-center">
+                  <div class="btn-group" role="group">
+                    <button class="btn btn-outline-primary btn-sm" title="Editar"
+                            onclick='editarProducto(${JSON.stringify(p)})'>
+                      <i class="ti ti-edit"></i>
+                    </button>
+                    <button class="btn ${p.estado === 'ACTIVO' ? 'btn-outline-success' : 'btn-outline-warning'} btn-sm"
+                            title="${p.estado === 'ACTIVO' ? 'Desactivar' : 'Activar'}"
+                            onclick="ActualizarEstado(${p.idProducto})">
+                      <i class="ti ${p.estado === 'ACTIVO' ? 'ti-toggle-left' : 'ti-toggle-right'}"></i>
+                    </button>
+                    <button class="btn btn-outline-danger btn-sm" title="Eliminar" onclick="eliminarProducto(${p.idProducto})">
+                      <i class="ti ti-trash"></i>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            `;
+
+      }).join('');
     } catch (err) {
+      console.error(err);
       tablaCuerpo.innerHTML = `<tr><td colspan="9" class="text-center text-danger">Error al cargar productos</td></tr>`;
     }
   }
+
 
   async function cargarMarcasYCategorias() {
     selMarca.innerHTML = `<option disabled selected>Cargando...</option>`;
@@ -386,6 +558,7 @@
   }
 
 
+
   window.editarProducto = (p) => {
     abrirModalNuevo();
     document.getElementById("productoId").value = p.idProducto;
@@ -396,13 +569,27 @@
     document.getElementById("precio").value = p.precio;
     document.getElementById("unidad").value = p.unidad;
     document.getElementById("stockMinimo").value = p.stockMinimo ?? 0;
-    document.getElementById("stockActual").style.display = "none";
-    document.getElementById("StockActualLabel").style.display = "none";
     document.getElementById("stockActual").value = p.stockActual ?? 0;
+    document.getElementById("precioOnline").value = p.precioOnline ?? 0;
+    document.getElementById("descripcion").value = p.descripcion || "";
+    document.getElementById("destacado").checked = p.destacado || false;
+
+    const stockLabel = document.querySelector('label[for="stockActual"]');
+    if (stockLabel) stockLabel.style.display = "none";
+    document.getElementById("stockActual").style.display = "none";
+
+    try {
+      imagenesSeleccionadas = JSON.parse(p.imagenes || "[]");
+    } catch (e) {
+      imagenesSeleccionadas = [];
+      console.error("Error al parsear imágenes existentes:", e);
+    }
+
+    mostrarPreview();
     modalLabel.innerText = "Editar Producto";
     btnGuardar.innerText = "Actualizar";
     modalInstancia.show();
-  }
+  };
 
   window.eliminarProducto = async (id) => {
     if (!confirm("¿Seguro de eliminar este producto?")) return;
@@ -429,8 +616,10 @@
     const metodo = id ? "PUT" : "POST";
     const url = id ? `${urlBase}/${id}` : urlBase;
 
+    const codigoInput = document.getElementById("codigo").value.trim();
+
     const body = {
-      codigo: document.getElementById("codigo").value.trim(),
+      codigo: codigoInput === "" ? null : codigoInput,
       nombre: document.getElementById("nombre").value.trim(),
       idMarca: parseInt(document.getElementById("marca").value),
       idCategoria: parseInt(document.getElementById("categoria").value),
@@ -439,8 +628,13 @@
       idImpuesto: 1,
       stockMinimo: parseInt(document.getElementById("stockMinimo").value),
       stockActual: parseInt(document.getElementById("stockActual").value),
+      precioOnline: parseFloat(document.getElementById("precioOnline").value),
+      descripcion: document.getElementById("descripcion").value.trim(),
+      destacado: document.getElementById("destacado").checked,
+      imagenes: JSON.stringify(await obtenerImagenesBase64()),
       estado: "ACTIVO"
     };
+
 
     try {
       const resp = await fetch(url, {
@@ -484,6 +678,31 @@
 
     setTimeout(() => mensajeInventario.classList.add("d-none"), 4000);
   }
+
+  async function ActualizarEstado(id) {
+    if (!confirm('¿Desea cambiar el estado (Activo/Inactivo) de este producto?')) return;
+
+    try {
+      const resp = await fetch(`/api/productos/${id}/estado`, { method: 'PUT' });
+
+      if (!resp.ok) {
+        const msg = await resp.text();
+        throw new Error(msg || 'Error al cambiar estado');
+      }
+
+      const toast = document.createElement('div');
+      toast.className = 'alert alert-success position-fixed top-0 end-0 m-3';
+      toast.innerHTML = 'Estado del producto actualizado correctamente';
+      document.body.appendChild(toast);
+      setTimeout(() => toast.remove(), 2500);
+
+      listarProductos();
+    } catch (err) {
+      console.error('Error al cambiar estado:', err);
+      alert('No se pudo cambiar el estado: ' + err.message);
+    }
+  }
+
 
   function seleccionarProducto(id, nombre, codigo) {
     productoSeleccionado = { id, nombre, codigo };
@@ -595,6 +814,9 @@
     document.getElementById("modoInventario").value = "";
     document.getElementById("cantidadInventario").value = "";
     productoSeleccionado = null;
+    document.getElementById("previewImagenes").innerHTML = "";
+    document.getElementById("imagenes").value = "";
+    limpiarErrores();
   }
 
 </script>

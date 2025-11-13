@@ -15,7 +15,7 @@ public class ServicioCorreo {
 
   private final JavaMailSender mailSender;
 
-  @Value("${MAIL_USERNAME}")
+  @Value("${spring.mail.username}")
   private String mailFrom;
 
   @Autowired

@@ -47,7 +47,7 @@ public class ApiAuthController {
 
       if (jwt == null) {
         model.addAttribute("message", "El login ha fallado");
-        return "/auth/login";
+        return "auth/login";
       }
 
       model.addAttribute("message", "Login exitoso. JWT: " + jwt.getJwt());
@@ -63,7 +63,7 @@ public class ApiAuthController {
 
       if (usuario.getEstado() == EstadoEntidad.INACTIVO) {
         model.addAttribute("message", "Usuario inactivo. Contacte al administrador.");
-        return "/auth/login";
+        return "auth/login";
       }
 
 
@@ -76,7 +76,7 @@ public class ApiAuthController {
       model.addAttribute("message", e.getMessage());
     }
 
-    return "/auth/login";
+    return "auth/login";
   }
 
   @PostMapping("/registro")
@@ -85,7 +85,7 @@ public class ApiAuthController {
 
     model.addAttribute("usuario", usuario);
 
-    return "/auth/login";
+    return "auth/login";
   }
 
   @GetMapping("/validar-recuperacion")

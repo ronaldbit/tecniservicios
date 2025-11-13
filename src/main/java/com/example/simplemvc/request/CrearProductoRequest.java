@@ -21,6 +21,9 @@ public class CrearProductoRequest {
     private Long idImpuesto;
     private BigDecimal stockMinimo;
     private BigDecimal stockActual;
+    private BigDecimal precioOnline;
+    private String descripcion;
+    private Boolean destacado;    
     private EstadoEntidad estado;
     private String imagenes;
 }

@@ -20,7 +20,6 @@ import com.example.simplemvc.model.enums.EstadoEntidad;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Producto {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_producto")
@@ -48,18 +47,27 @@ public class Producto {
 
     @Column(name = "stock_minimo", precision = 12, scale = 2)
     private BigDecimal stockMinimo;
-    
+
     @Column(name = "stock_actual", precision = 12, scale = 2)
     @Builder.Default
     private BigDecimal stockActual = BigDecimal.ZERO;
 
+    @Column(name = "precio_online", precision = 12, scale = 2, nullable = false)
+    private BigDecimal precioOnline;
+
+    @Column(name = "descripcion", columnDefinition = "TEXT")
+    private String descripcion;
+
+    @Column(name = "imagenes", columnDefinition = "longtext")
+    private String imagenes;
+
+    @Column(name = "destacado", nullable = false)
+    private boolean destacado;
+   
     @Builder.Default
     @Column(nullable = false)
     @Enumerated(EnumType.ORDINAL)
     private EstadoEntidad estado = EstadoEntidad.ACTIVO;
-
-    @Column(name = "imagenes", columnDefinition = "longtext")
-    private String imagenes;
 
     @CreationTimestamp
     @Column(name = "created_at", nullable = false, updatable = false)
@@ -68,5 +76,4 @@ public class Producto {
     @UpdateTimestamp
     @Column(name = "updated_at", nullable = true)
     private Timestamp updatedAt;
-
 }

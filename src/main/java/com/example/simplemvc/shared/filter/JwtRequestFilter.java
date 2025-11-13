@@ -33,6 +33,15 @@ public class JwtRequestFilter extends OncePerRequestFilter {
     String method = request.getMethod();
     String uri = request.getRequestURI();
 
+    if (uri.startsWith("/assets/") ||
+        uri.startsWith("/css/") ||
+        uri.startsWith("/js/") ||
+        uri.startsWith("/images/") ||
+        uri.startsWith("/fonts/")) {
+      filterChain.doFilter(request, response);
+      return;
+    }
+
     log.info("Incoming request: {} {}", method, uri);
 
     String authorizationHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
@@ -72,8 +81,8 @@ public class JwtRequestFilter extends OncePerRequestFilter {
     }
 
     log.debug("Jwt válido recibido en la solicitud a {}.", request.getRequestURI());
-    UsernamePasswordAuthenticationToken authenticationToken =
-        new UsernamePasswordAuthenticationToken(usuario, null, usuario.getAuthorities());
+    UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(usuario, null,
+        usuario.getAuthorities());
 
     SecurityContextHolder.getContext().setAuthentication(authenticationToken);
 

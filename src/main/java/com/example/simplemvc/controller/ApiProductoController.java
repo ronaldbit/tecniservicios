@@ -59,6 +59,7 @@ public class ApiProductoController {
         List<ProductoDto> resultados = productoService.buscarProductos(query);
         return ResponseEntity.ok(resultados);
     }
+
     @PostMapping("/actualizarInventario")
     public ResponseEntity<?> actualizarInventario(@RequestBody ActualizarRequest request) {
         try {
@@ -68,4 +69,15 @@ public class ApiProductoController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }
+
+    @PutMapping("/{id}/estado")
+    public ResponseEntity<?> actualizarEstado(@PathVariable Long id) {
+        try {
+            productoService.actualizarEstado(id);
+            return ResponseEntity.ok("Estado actualizado correctamente");
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("Error: " + e.getMessage());
+        }
+    }
+
 }

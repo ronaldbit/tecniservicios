@@ -34,6 +34,53 @@
             requisitos.map(r => 
               `<li>${r.regex.test(value) ? "✅" : "❌"} ${r.msg}</li>`).join("") + 
           "</ul>";
+
+      validarCoincidencia(); 
+    }
+
+    function validarCoincidencia() {
+      const pass = document.getElementById("password").value;
+      const confirm = document.getElementById("confirmPassword").value;
+      const confirmFeedback = document.getElementById("confirmFeedback");
+
+      if (!confirm) {
+        confirmFeedback.textContent = "";
+        return;
+      }
+
+      if (pass === confirm) {
+        confirmFeedback.innerHTML = "<span class='text-success'>✔ Las contraseñas coinciden</span>";
+      } else {
+        confirmFeedback.innerHTML = "<span class='text-danger'>✖ Las contraseñas no coinciden</span>";
+      }
+    }
+
+    function validarFormulario(event) {
+      const pass = document.getElementById("password").value;
+      const confirm = document.getElementById("confirmPassword").value;
+      const requisitos = [
+        /.{8,}/,
+        /[A-Z]/,
+        /[a-z]/,
+        /[0-9]/,
+        /[@$!%*?&]/
+      ];
+
+      const cumpleTodo = requisitos.every(r => r.test(pass));
+
+      if (!cumpleTodo) {
+        event.preventDefault();
+        alert("La contraseña no cumple con todos los requisitos de seguridad.");
+        return false;
+      }
+
+      if (pass !== confirm) {
+        event.preventDefault();
+        alert("Las contraseñas no coinciden.");
+        return false;
+      }
+
+      return true;
     }
   </script>
 </head>
@@ -45,8 +92,9 @@
     </h3>    
     <p class="mt-3" th:text="${mensaje}"></p>
 
-    <form th:if="${tipo == 'form'}" th:action="@{/auth/verify}" method="post" class="mt-4">
+    <form th:if="${tipo == 'form'}" th:action="@{/auth/verify}" method="post" class="mt-4" onsubmit="return validarFormulario(event)">
       <input type="hidden" name="token" th:value="${token}" />
+
       <div class="mb-3 text-start">
         <label for="password" class="form-label fw-semibold">Nueva Contraseña</label>
         <input 
@@ -64,6 +112,18 @@
       </div>
 
       <div id="passwordFeedback" class="small text-muted mb-3"></div>
+
+      <div class="mb-3 text-start">
+        <label for="confirmPassword" class="form-label fw-semibold">Confirmar Contraseña</label>
+        <input 
+          type="password" 
+          id="confirmPassword"
+          class="form-control" 
+          placeholder="Repite tu nueva contraseña"
+          required
+          oninput="validarCoincidencia()" />
+        <div id="confirmFeedback" class="small mt-1"></div>
+      </div>
 
       <button type="submit" class="btn btn-success w-100">Establecer Contraseña</button>
     </form>

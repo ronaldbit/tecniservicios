@@ -50,22 +50,25 @@ public class ProductoService {
                 .map(productoMapper::toDto)
                 .orElseThrow(() -> new IllegalArgumentException("Producto no encontrado con ID: " + id));
     }
-    
 
     public ProductoDto create(CrearProductoRequest request) {
         log.info("Creando nuevo producto");
-        Optional<Producto> existingProductoOpt = productoRepository.findByCodigo(request.getCodigo());
-        if (existingProductoOpt.isPresent()) {
-            Producto existingProducto = existingProductoOpt.get();
-            if (existingProducto.getEstado() == EstadoEntidad.ELIMINADO) {
-                productoMapper.updateEntityFromRequest(existingProducto, request);
-                existingProducto.setEstado(EstadoEntidad.ACTIVO);
-                existingProducto.setUpdatedAt(Timestamp.valueOf(LocalDateTime.now()));
-                Producto reactivated = productoRepository.save(existingProducto);
-                log.info("Producto reactivado con ID: {}", reactivated.getIdProducto());
-                return productoMapper.toDto(reactivated);
+        if (request.getCodigo() != null) {
+            Optional<Producto> existingProductoOpt = productoRepository.findByCodigo(request.getCodigo());
+            if (existingProductoOpt.isPresent()) {
+                Producto existingProducto = existingProductoOpt.get();
+                if (existingProducto.getEstado() == EstadoEntidad.ELIMINADO) {
+                    productoMapper.updateEntityFromRequest(existingProducto, request);
+                    existingProducto.setEstado(EstadoEntidad.ACTIVO);
+                    existingProducto.setUpdatedAt(Timestamp.valueOf(LocalDateTime.now()));
+                    Producto reactivated = productoRepository.save(existingProducto);
+                    log.info("Producto reactivado con ID: {}", reactivated.getIdProducto());
+                    return productoMapper.toDto(reactivated);
+                }
+                throw new IllegalArgumentException("Ya existe un producto con el código: " + request.getCodigo());
             }
-            throw new IllegalArgumentException("Ya existe un producto con el código: " + request.getCodigo());
+        } else{
+            request.setCodigo(String.valueOf(System.currentTimeMillis()));
         }
 
         Producto nuevoProducto = productoMapper.toEntity(request);
@@ -102,6 +105,10 @@ public class ProductoService {
         existingProducto.setUnidad(request.getUnidad());
         existingProducto.setStockMinimo(request.getStockMinimo());
         existingProducto.setMarca(marca);
+        existingProducto.setImagenes(request.getImagenes());
+        existingProducto.setDescripcion(request.getDescripcion());
+        existingProducto.setPrecioOnline(request.getPrecioOnline());
+        existingProducto.setDestacado(request.getDestacado());
         existingProducto.setCategoria(categoria);
         existingProducto.setUpdatedAt(Timestamp.valueOf(LocalDateTime.now()));
         Producto updated = productoRepository.save(existingProducto);
@@ -134,18 +141,19 @@ public class ProductoService {
     @Transactional
     public void actualizarInventario(ActualizarRequest request) {
         Producto producto = productoRepository.findById(request.getIdProducto())
-                .orElseThrow(() -> new IllegalArgumentException("Producto no encontrado con ID: " + request.getIdProducto()));
+                .orElseThrow(() -> new IllegalArgumentException(
+                        "Producto no encontrado con ID: " + request.getIdProducto()));
 
         if (request.getModo().equalsIgnoreCase("AUMENTAR")) {
             producto.setStockActual(producto.getStockActual().add(
                     java.math.BigDecimal.valueOf(request.getCantidad())));
         } else if (request.getModo().equalsIgnoreCase("QUITAR")) {
-            if(producto.getStockActual().compareTo(
+            if (producto.getStockActual().compareTo(
                     java.math.BigDecimal.valueOf(request.getCantidad())) < 0) {
                 throw new IllegalArgumentException("No se puede quitar más stock del que hay disponible.");
-            } else{
+            } else {
                 producto.setStockActual(producto.getStockActual().subtract(
-                    java.math.BigDecimal.valueOf(request.getCantidad())));
+                        java.math.BigDecimal.valueOf(request.getCantidad())));
             }
         } else {
             throw new IllegalArgumentException("Modo inválido. Use 'AUMENTAR' o 'QUITAR'.");
@@ -154,7 +162,25 @@ public class ProductoService {
         producto.setUpdatedAt(Timestamp.valueOf(LocalDateTime.now()));
         productoRepository.save(producto);
         log.info("Inventario actualizado para producto ID: {}", request.getIdProducto());
-        
+
+    }
+
+    public void actualizarEstado(Long id) {
+        log.info("Actualizando estado del producto con ID: {}", id);
+        Producto producto = productoRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Producto no encontrado con ID: " + id));
+
+        if (producto.getEstado() == EstadoEntidad.ACTIVO) {
+            producto.setEstado(EstadoEntidad.INACTIVO);
+        } else if (producto.getEstado() == EstadoEntidad.INACTIVO) {
+            producto.setEstado(EstadoEntidad.ACTIVO);
+        } else {
+            throw new IllegalArgumentException("No se puede actualizar el estado de un producto eliminado.");
+        }
+
+        producto.setUpdatedAt(Timestamp.valueOf(LocalDateTime.now()));
+        productoRepository.save(producto);
+        log.info("Estado del producto actualizado a {} para el producto ID: {}", producto.getEstado(), id);
     }
 
 }
