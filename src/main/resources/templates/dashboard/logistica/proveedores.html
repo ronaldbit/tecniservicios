@@ -3,114 +3,124 @@
     <div class="pc-content" th:fragment="content">
         <!-- [ Main Content ] start -->
 
-    <div class="page-header">
-        <div class="page-block">
-            <div class="row align-items-center">
-                <div class="col-md-12">
-                    <ul class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="/dashboard">Inicio</a></li>
-                        <li class="breadcrumb-item"><a href="javascript:void(0)">Logística</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">Proveedores</li>
-                    </ul>
-                </div>
-                <div class="col-md-12">
-                    <div class="page-header-title">
-                        <h2 class="mb-0">Gestión de Proveedores</h2>
+        <div class="page-header">
+            <div class="page-block">
+                <div class="row align-items-center">
+                    <div class="col-md-12">
+                        <ul class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="/dashboard">Inicio</a></li>
+                            <li class="breadcrumb-item"><a href="javascript:void(0)">Logística</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Proveedores</li>
+                        </ul>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="page-header-title">
+                            <h2 class="mb-0">Gestión de Proveedores</h2>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <div class="row">
-        <div class="col-12">
-            <div class="card table-card">
-                <div class="card-header d-flex align-items-center justify-content-between">
-                    <h5 class="mb-0">Lista de Proveedores</h5>
-                    <button type="button" class="btn btn-primary" id="btnNuevoProveedor" data-bs-toggle="modal"
-                        data-bs-target="#modalProveedor">
-                        <i class="ti ti-plus me-1"></i> Nuevo Proveedor
-                    </button>
-                </div>
+        <div class="row">
+            <div class="col-12">
+                <div class="card table-card">
+                    <div class="card-header d-flex align-items-center justify-content-between">
+                        <h5 class="mb-0">Lista de Proveedores</h5>
+                        <button type="button" class="btn btn-primary" id="btnNuevoProveedor" data-bs-toggle="modal"
+                            data-bs-target="#modalProveedor">
+                            <i class="ti ti-plus me-1"></i> Nuevo Proveedor
+                        </button>
+                    </div>
 
-                <div class="card-body pt-3">
-                    <div class="table-responsive">
-                        <table class="table table-hover" id="tablaProveedores">
-                            <thead>
-                                <tr>
-                                    <th>RUC</th>
-                                    <th>Razón Social</th>
-                                    <th>Email</th>
-                                    <th>Teléfono</th>
-                                    <th>Estado</th>
-                                    <th>Acción</th>
-                                </tr>
-                            </thead>
-                            <tbody id="tabla-proveedores-body">
-                                <tr>
-                                    <td colspan="6" class="text-center">Cargando proveedores...</td>
-                                </tr>
-                            </tbody>
-                        </table>
+                    <div class="card-body pt-3">
+                        <div class="table-responsive">
+                            <table class="table table-hover" id="tablaProveedores">
+                                <thead>
+                                    <tr>
+                                        <th>RUC</th>
+                                        <th>Razón Social</th>
+                                        <th>Email</th>
+                                        <th>Teléfono</th>
+                                        <th>Estado</th>
+                                        <th>Acción</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tabla-proveedores-body">
+                                    <tr>
+                                        <td colspan="6" class="text-center">Cargando proveedores...</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <div class="modal fade" id="modalProveedor" tabindex="-1" aria-labelledby="modalProveedorLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="modalProveedorLabel">Nuevo Proveedor</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
-                </div>
+        <div class="modal fade" id="modalProveedor" tabindex="-1" aria-labelledby="modalProveedorLabel"
+            aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modalProveedorLabel">Nuevo Proveedor</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                    </div>
 
-                <div class="modal-body">
-                    <div id="alertaProveedor" class="alert d-none" role="alert"></div>
-                    <form id="formProveedor">
-                        <input type="hidden" id="proveedorId">
+                    <div class="modal-body">
+                        <div id="alertaProveedor" class="alert d-none" role="alert"></div>
+                        <form id="formProveedor">
+                            <input type="hidden" id="proveedorId">
 
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label for="ruc" class="form-label">RUC</label>
-                                <input type="text" class="form-control" id="ruc" maxlength="11" required>
-                                <div class="invalid-feedback" id="rucError"></div>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="ruc" class="form-label">RUC</label>
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" id="ruc" maxlength="11"
+                                            placeholder="Ingrese RUC de 11 dígitos" required>
+                                        <button class="btn btn-outline-primary" type="button" id="btnBuscarRuc">
+                                            <span id="btnBuscarRuc-text">Buscar</span>
+                                            <span id="btnBuscarRuc-spinner"
+                                                class="spinner-border spinner-border-sm d-none" role="status"
+                                                aria-hidden="true"></span>
+                                        </button>
+                                        <div class="invalid-feedback" id="rucError"></div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="razonSocial" class="form-label">Razón Social</label>
+                                    <input type="text" class="form-control" id="razonSocial" required>
+                                    <div class="invalid-feedback" id="razonSocialError"></div>
+                                </div>
                             </div>
-                            <div class="col-md-6 mb-3">
-                                <label for="razonSocial" class="form-label">Razón Social</label>
-                                <input type="text" class="form-control" id="razonSocial" required>
-                                <div class="invalid-feedback" id="razonSocialError"></div>
-                            </div>
-                        </div>
 
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label for="email" class="form-label">Email</label>
-                                <input type="email" class="form-control" id="email">
-                                <div class="invalid-feedback" id="emailError"></div>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="email" class="form-label">Email</label>
+                                    <input type="email" class="form-control" id="email">
+                                    <div class="invalid-feedback" id="emailError"></div>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="telefono" class="form-label">Teléfono</label>
+                                    <input type="text" class="form-control" id="telefono" maxlength="9">
+                                    <div class="invalid-feedback" id="telefonoError"></div>
+                                </div>
                             </div>
-                            <div class="col-md-6 mb-3">
-                                <label for="telefono" class="form-label">Teléfono</label>
-                                <input type="text" class="form-control" id="telefono" maxlength="9">
-                                <div class="invalid-feedback" id="telefonoError"></div>
+
+                            <div class="mb-3">
+                                <label for="direccion" class="form-label">Dirección (Opcional)</label>
+                                <textarea class="form-control" id="direccion" rows="2"></textarea>
                             </div>
-                        </div>
+                        </form>
+                    </div>
 
-                        <div class="mb-3">
-                            <label for="direccion" class="form-label">Dirección (Opcional)</label>
-                            <textarea class="form-control" id="direccion" rows="2"></textarea>
-                        </div>
-                    </form>
-                </div>
-
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                    <button type="button" class="btn btn-primary" id="btnGuardarProveedor">Guardar</button>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="button" class="btn btn-primary" id="btnGuardarProveedor">Guardar</button>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 
         <!-- [ Main Content ] end -->
     </div>
@@ -122,11 +132,11 @@
 
 <th:block th:fragment="js">
     <script>
-       
+
         const urlBase = '/api/proveedores';
         let modalInstancia;
 
-     
+
         const modalEl = document.getElementById('modalProveedor');
         const modalForm = document.getElementById("formProveedor");
         const modalLabel = document.getElementById("modalProveedorLabel");
@@ -135,7 +145,7 @@
         const btnNuevoProveedor = document.getElementById("btnNuevoProveedor");
         const tablaCuerpo = document.getElementById("tabla-proveedores-body");
 
-      
+
 
         function mostrarError(idCampo, mensaje) {
             const campo = document.getElementById(idCampo);
@@ -162,7 +172,7 @@
             const email = document.getElementById("email").value.trim();
             const telefono = document.getElementById("telefono").value.trim();
 
-            
+
             const regexRuc = /^[0-9]{11}$/;
             if (!regexRuc.test(ruc)) {
                 mostrarError("ruc", "El RUC debe tener 11 dígitos numéricos.");
@@ -251,7 +261,7 @@
         }
 
         window.editarProveedor = (p) => {
-            abrirModalNuevo(); 
+            abrirModalNuevo();
 
             document.getElementById("proveedorId").value = p.id;
             document.getElementById("ruc").value = p.ruc;
@@ -274,7 +284,7 @@
                     throw new Error(await resp.text() || "No se pudo eliminar el proveedor");
                 }
 
-                await listarProveedores(); 
+                await listarProveedores();
             } catch (err) {
                 alert(`Error al eliminar: ${err.message}`);
             }
@@ -285,7 +295,7 @@
             if (!validarFormulario()) {
                 console.warn("Validación fallida.");
                 mostrarAlerta("Por favor, corrija los errores marcados en rojo.", "warning");
-                return; 
+                return;
             }
 
             console.log("Validación correcta. Enviando al backend...");
@@ -316,8 +326,8 @@
                     throw new Error(await resp.text());
                 }
 
-                await listarProveedores(); 
-                modalInstancia.hide(); 
+                await listarProveedores();
+                modalInstancia.hide();
 
             } catch (err) {
                 mostrarAlerta(`Error al guardar: ${err.message}`, "danger");
@@ -332,6 +342,83 @@
             btnGuardar.addEventListener("click", guardarProveedor);
 
             await listarProveedores();
+        });
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+           
+            const API_RUC_URL = '/api/consulta/ruc';
+
+            const rucInput = document.getElementById('ruc');
+            const btnBuscarRuc = document.getElementById('btnBuscarRuc');
+            const btnBuscarRucText = document.getElementById('btnBuscarRuc-text');
+            const btnBuscarRucSpinner = document.getElementById('btnBuscarRuc-spinner');
+            const rucError = document.getElementById('rucError');
+
+            const razonSocialInput = document.getElementById('razonSocial');
+            const direccionInput = document.getElementById('direccion');
+
+            btnBuscarRuc.addEventListener('click', async () => {
+                const ruc = rucInput.value.trim();
+
+                if (ruc.length !== 11 || !/^\d+$/.test(ruc)) {
+                    setRucError('Por favor, ingrese un RUC válido de 11 dígitos.');
+                    return;
+                }
+                clearRucError();
+
+                setRucLoading(true);
+
+                try {
+                    const response = await fetch(`${API_RUC_URL}?num=${ruc}`);
+                    const result = await response.json();
+
+                    if (result.success && result.data) {
+                        const data = result.data;
+                        razonSocialInput.value = data.nombre_o_razon_social || '';
+                        direccionInput.value = data.direccion_completa || data.direccion || '';
+                        razonSocialInput.focus();
+
+                    } else {
+                        setRucError(result.message || 'No se encontraron datos para el RUC ingresado.');
+                    }
+
+                } catch (error) {
+                    console.error('Error al consultar RUC:', error);
+                    setRucError('Error al conectar con el servicio de RUC.');
+                } finally {
+                    setRucLoading(false);
+                }
+            });
+
+
+            function setRucLoading(isLoading) {
+                if (isLoading) {
+                    btnBuscarRucText.classList.add('d-none');
+                    btnBuscarRucSpinner.classList.remove('d-none');
+                    btnBuscarRuc.disabled = true;
+                    rucInput.disabled = true;
+                } else {
+                    btnBuscarRucText.classList.remove('d-none');
+                    btnBuscarRucSpinner.classList.add('d-none');
+                    btnBuscarRuc.disabled = false;
+                    rucInput.disabled = false;
+                }
+            }
+
+            function setRucError(message) {
+                rucInput.classList.add('is-invalid');
+                rucError.textContent = message;
+            }
+
+            function clearRucError() {
+                rucInput.classList.remove('is-invalid');
+                rucError.textContent = '';
+            }
+
+            rucInput.addEventListener('input', clearRucError);
+
         });
     </script>
 </th:block>

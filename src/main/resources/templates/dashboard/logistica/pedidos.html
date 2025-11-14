@@ -1,23 +1,8 @@
 <div class="pc-container" th:replace="~{dashboard/layout :: layout(~{::content}, ${usuario}, 'Inicio', '/dashboard')}">
    <div class="pc-content" th:fragment="content">
-      <!-- [ Main Content ] start -->
-
       <div class="page-header">
-         <div class="page-block">
-            <div class="row align-items-center">
-               <div class="col-md-12">
-                  <div class="page-header-title">
-                     <h5 class="m-b-10">Pedidos a Proveedores</h5>
-                  </div>
-                  <ul class="breadcrumb">
-                     <li class="breadcrumb-item"><a href="../index.html">Logística</a></li>
-                     <li class="breadcrumb-item"><a href="#!">Almacen</a></li>
-                     <li class="breadcrumb-item" aria-current="page">Pedidos</li>
-                  </ul>
-               </div>
-            </div>
-         </div>
       </div>
+
       <div class="row">
          <div class="col-12">
             <div class="card table-card">
@@ -44,92 +29,7 @@
                               <th>Acciones</th>
                            </tr>
                         </thead>
-                        <tbody>
-
-                           <tr>
-                              <td>
-                                 <h6 class="mb-0">OC-00152</h6>
-                              </td>
-                              <td>Distribuidora Castrol Perú S.A.</td>
-                              <td>01/10/2025</td>
-                              <td>10/10/2025</td>
-                              <td>S/ 2,450.00</td>
-                              <td><span class="badge text-bg-success">Completado</span></td>
-                              <td>
-                                 <a href="#!" class="avtar avtar-xs btn-link-secondary" data-bs-toggle="tooltip"
-                                    title="Ver Detalle">
-                                    <i class="ti ti-eye f-20"></i>
-                                 </a>
-                                 <a href="#!" class="avtar avtar-xs btn-link-secondary" data-bs-toggle="tooltip"
-                                    title="Imprimir Orden">
-                                    <i class="ti ti-printer f-20"></i>
-                                 </a>
-                              </td>
-                           </tr>
-
-                           <tr>
-                              <td>
-                                 <h6 class="mb-0">OC-00153</h6>
-                              </td>
-                              <td>Lubricantes Shell del Perú</td>
-                              <td>15/10/2025</td>
-                              <td>25/10/2025</td>
-                              <td>S/ 1,800.00</td>
-                              <td><span class="badge text-bg-info">Enviado</span></td>
-                              <td>
-                                 <a href="#!" class="avtar avtar-xs btn-link-secondary" data-bs-toggle="tooltip"
-                                    title="Ver Detalle">
-                                    <i class="ti ti-eye f-20"></i>
-                                 </a>
-                                 <a href="#!" class="avtar avtar-xs btn-link-success" data-bs-toggle="tooltip"
-                                    title="Recibir Mercancía">
-                                    <i class="ti ti-truck-delivery f-20"></i>
-                                 </a>
-                              </td>
-                           </tr>
-
-                           <tr>
-                              <td>
-                                 <h6 class="mb-0">OC-00151</h6>
-                              </td>
-                              <td>Importaciones Mobil</td>
-                              <td>28/09/2025</td>
-                              <td>05/10/2025</td>
-                              <td>S/ 3,200.00</td>
-                              <td><span class="badge text-bg-warning">Parcialmente Recibido</span></td>
-                              <td>
-                                 <a href="#!" class="avtar avtar-xs btn-link-secondary" data-bs-toggle="tooltip"
-                                    title="Ver Detalle">
-                                    <i class="ti ti-eye f-20"></i>
-                                 </a>
-                                 <a href="#!" class="avtar avtar-xs btn-link-success" data-bs-toggle="tooltip"
-                                    title="Recibir Mercancía">
-                                    <i class="ti ti-truck-delivery f-20"></i>
-                                 </a>
-                              </td>
-                           </tr>
-
-                           <tr>
-                              <td>
-                                 <h6 class="mb-0">OC-00154</h6>
-                              </td>
-                              <td>(Sin Proveedor)</td>
-                              <td>23/10/2025</td>
-                              <td>--</td>
-                              <td>S/ 0.00</td>
-                              <td><span class="badge text-bg-secondary">Borrador</span></td>
-                              <td>
-                                 <a href="#!" class="avtar avtar-xs btn-link-secondary" data-bs-toggle="tooltip"
-                                    title="Editar Pedido">
-                                    <i class="ti ti-edit f-20"></i>
-                                 </a>
-                                 <a href="#!" class="avtar avtar-xs btn-link-danger" data-bs-toggle="tooltip"
-                                    title="Eliminar Borrador">
-                                    <i class="ti ti-trash f-20"></i>
-                                 </a>
-                              </td>
-                           </tr>
-
+                        <tbody id="pedidosTbody">
                         </tbody>
                      </table>
                   </div>
@@ -140,79 +40,610 @@
 
       <div class="modal fade" id="modalNuevoPedido" tabindex="-1" aria-labelledby="modalNuevoPedidoLabel"
          aria-hidden="true">
-         <div class="modal-dialog modal-dialog-centered modal-lg">
+         <div class="modal-dialog modal-dialog-centered modal-xl">
             <div class="modal-content">
                <div class="modal-header">
-                  <h5 class="modal-title" id="modalNuevoPedidoLabel">Crear Pedido a Proveedor</h5>
-                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  <h5 class="modal-title" id="modalNuevoPedidoLabel">Crear Pedido a Proveedor</h5> <button type="button"
+                     class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                </div>
                <div class="modal-body">
-                  <p class="text-muted">Primero, crea la orden. Luego podrás añadir los productos.</p>
-                  <form>
+                  <form id="formNuevoPedido">
                      <div class="row">
-                        <div class="col-md-12">
-                           <div class="mb-3">
-                              <label for="pedidoProveedor" class="form-label">Proveedor</label>
-                              <select class="form-select" id="pedidoProveedor">
-                                 <option selected disabled>Seleccionar un proveedor...</option>
-                                 <option value="1">Distribuidora Castrol Perú S.A.</option>
-                                 <option value="2">Lubricantes Shell del Perú</option>
-                                 <option value="3">Importaciones Mobil</option>
-                                 <option value="4">Total S.A.C.</option>
-                              </select>
-                           </div>
-                        </div>
-
                         <div class="col-md-6">
-                           <div class="mb-3">
-                              <label for="pedidoAlmacen" class="form-label">Almacén de Destino</label>
-                              <select class="form-select" id="pedidoAlmacen">
-                                 <option value="1">Almacén Central</option>
-                                 <option value="2">Tienda Miraflores</option>
-                                 <option value="3">Tienda Callao</option>
-                              </select>
+                           <div class="mb-3"> <label for="pedidoProveedor" class="form-label">Proveedor</label> <select
+                                 class="form-select" id="pedidoProveedor" required>
+                                 <option value="" selected disabled>Cargando proveedores...</option>
+                              </select> </div>
+                        </div>
+                        <div class="col-md-3">
+                           <div class="mb-3"> <label for="pedidoFecha" class="form-label">Fecha de Emisión</label>
+                              <input type="date" class="form-control" id="pedidoFecha" required>
                            </div>
                         </div>
-
-                        <div class="col-md-6">
-                           <div class="mb-3">
-                              <label for="pedidoFecha" class="form-label">Fecha de Emisión</label>
-                              <input type="date" class="form-control" id="pedidoFecha" value="">
-                           </div>
+                        <div class="col-md-3">
+                           <div class="mb-3"> <label for="pedidoFechaEsp" class="form-label">Fecha de Entrega
+                                 Esperada</label> <input type="date" class="form-control" id="pedidoFechaEsp"> </div>
                         </div>
-
-                        <div class="col-md-6">
-                           <div class="mb-3">
-                              <label for="pedidoFechaEsp" class="form-label">Fecha de Entrega Esperada</label>
-                              <input type="date" class="form-control" id="pedidoFechaEsp">
-                           </div>
-                        </div>
-
-                        <div class="col-md-6">
-                           <div class="mb-3">
-                              <label for="pedidoRef" class="form-label">N° Referencia (Opcional)</label>
-                              <input type="text" class="form-control" id="pedidoRef" placeholder="Ej: Cotización C-123">
-                           </div>
-                        </div>
-
                         <div class="col-12">
-                           <div class="mb-3">
-                              <label for="pedidoNotas" class="form-label">Notas</label>
-                              <textarea class="form-control" id="pedidoNotas" rows="2"
-                                 placeholder="Notas internas o instrucciones para el proveedor..."></textarea>
+                           <div class="mb-3"> <label for="pedidoNotas" class="form-label">Notas</label> <textarea
+                                 class="form-control" id="pedidoNotas" rows="2"
+                                 placeholder="Notas internas o instrucciones para el proveedor..."></textarea> </div>
+                        </div>
+                     </div>
+                     <hr class="my-3">
+                     <div class="row">
+                        <div class="col-12">
+                           <h5>Añadir Productos</h5>
+                           <div class="mb-3"> <label for="productoSearchInput" class="form-label">Buscar producto (por
+                                 nombre o código)</label> <input type="text" class="form-control"
+                                 id="productoSearchInput" placeholder="Escribe para buscar...">
+                              <div id="productoSearchResults" class="list-group mt-1"
+                                 style="max-height: 200px; overflow-y: auto;"></div>
                            </div>
                         </div>
-
+                     </div>
+                     <div class="table-responsive mt-3">
+                        <table class="table table-sm">
+                           <thead>
+                              <tr>
+                                 <th style="width: 40%;">Producto</th>
+                                 <th style="width: 15%;">Stock</th>
+                                 <th style="width: 15%;">Cantidad</th>
+                                 <th style="width: 15%;">Costo Unit.</th>
+                                 <th style="width: 15%;">Subtotal</th>
+                                 <th></th>
+                              </tr>
+                           </thead>
+                           <tbody id="tablaProductosPedido"> </tbody>
+                        </table>
                      </div>
                   </form>
                </div>
+               <div class="modal-footer"> <button type="button" class="btn btn-secondary"
+                     data-bs-dismiss="modal">Cancelar</button> <button type="button" class="btn btn-primary"
+                     id="btnGuardarPedido">Crear y Añadir Productos</button> </div>
+            </div>
+         </div>
+      </div>
+
+      <div class="modal fade" id="modalVistaPrevia" tabindex="-1" aria-labelledby="modalVistaPreviaLabel"
+         aria-hidden="true">
+         <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+               <div class="modal-header">
+                  <h5 class="modal-title" id="modalVistaPreviaLabel">Detalle del Pedido</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+               </div>
+               <div class="modal-body">
+                  <div class="row mb-3">
+                     <div class="col-md-8">
+                        <strong>Proveedor:</strong>
+                        <p id="detalle-proveedor" class="mb-1 text-muted">Cargando...</p>
+                        <strong>ID Pedido:</strong>
+                        <p id="detalle-id" class="mb-0 text-muted">Cargando...</p>
+                     </div>
+                     <div class="col-md-4 text-md-end">
+                        <strong>Estado:</strong>
+                        <p id="detalle-estado" class="mb-1">Cargando...</p>
+                        <strong>Total Pedido:</strong>
+                        <h4 id="detalle-total" class="mb-0 text-primary">Cargando...</h4>
+                     </div>
+                  </div>
+
+                  <div class="row mb-3">
+                     <div class="col-md-4">
+                        <strong>Fecha Emisión:</strong>
+                        <p id="detalle-fecha-emision" class="mb-0 text-muted">Cargando...</p>
+                     </div>
+                     <div class="col-md-4">
+                        <strong>Fecha Esperada:</strong>
+                        <p id="detalle-fecha-esperada" class="mb-0 text-muted">Cargando...</p>
+                     </div>
+                     <div class="col-md-4">
+                        <strong>Creado el:</strong>
+                        <p id="detalle-fecha-creacion" class="mb-0 text-muted">Cargando...</p>
+                     </div>
+                  </div>
+                  <div class="row mb-3">
+                     <div class="col-12">
+                        <strong>Notas:</strong>
+                        <p id="detalle-notas" class="text-muted fst-italic">Cargando...</p>
+                     </div>
+                  </div>
+
+                  <hr>
+                  <h6 class="mb-3">Productos Incluidos</h6>
+
+                  <div class="table-responsive">
+                     <table class="table table-sm">
+                        <thead>
+                           <tr>
+                              <th>Producto</th>
+                              <th>Cantidad</th>
+                              <th>Costo Unit.</th>
+                              <th class="text-end">Subtotal</th>
+                           </tr>
+                        </thead>
+                        <tbody id="detalle-tabla-productos">
+                        </tbody>
+                     </table>
+                  </div>
+               </div>
                <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                  <button type="button" class="btn btn-primary">Crear y Añadir Productos</button>
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                  <button type="button" class="btn btn-primary"><i class="ti ti-printer me-1"></i> Imprimir</button>
                </div>
             </div>
          </div>
       </div>
-      <!-- [ Main Content ] end -->
+
    </div>
 </div>
+
+
+<script>
+   document.addEventListener('DOMContentLoaded', () => {
+
+      const API_PEDIDOS = '/api/pedidos-proveedor';
+      const API_PROVEEDORES = '/api/proveedores';
+      const API_PRODUCTOS = '/api/productos';
+
+      const pedidosTbody = document.getElementById('pedidosTbody');
+      const modalNuevoPedido = document.getElementById('modalNuevoPedido');
+      const formNuevoPedido = document.getElementById('formNuevoPedido');
+      const selectProveedor = document.getElementById('pedidoProveedor');
+      const inputFechaEmision = document.getElementById('pedidoFecha');
+      const btnGuardarPedido = document.getElementById('btnGuardarPedido');
+      const productoSearchInput = document.getElementById('productoSearchInput');
+      const productoSearchResults = document.getElementById('productoSearchResults');
+      const tablaProductosPedido = document.getElementById('tablaProductosPedido');
+
+      async function cargarPedidos() {
+         try {
+            const response = await fetch(API_PEDIDOS);
+            if (!response.ok) throw new Error('Error al cargar pedidos');
+            const pedidos = await response.json();
+
+            pedidosTbody.innerHTML = ''; 
+            pedidos.forEach(pedido => {
+               const tr = document.createElement('tr');
+               tr.innerHTML = `
+                    <td><h6 class="mb-0">${pedido.id || 'N/A'}</h6></td>
+                    <td>${pedido.razonSocialProveedor || '(Sin Proveedor)'}</td>
+                    <td>${formatFecha(pedido.fechaEmision)}</td>
+                    <td>${formatFecha(pedido.fechaEntregaEsperada)}</td>
+                    <td>${formatCurrency(pedido.totalPedido)}</td>
+                    <td>${formatEstado(pedido.estado)}</td>
+                    <td>${generarBotonesAccion(pedido.id, pedido.estado)}</td>
+                `;
+               pedidosTbody.appendChild(tr);
+            });
+         } catch (error) {
+            console.error(error);
+            Swal.fire('Error', 'No se pudieron cargar los pedidos.', 'error');
+         }
+      }
+      async function cargarProveedores() {
+         try {
+            const response = await fetch(API_PROVEEDORES);
+            if (!response.ok) throw new Error('Error al cargar proveedores');
+            const proveedores = await response.json();
+
+            selectProveedor.innerHTML = '<option value="" selected disabled>Seleccionar un proveedor...</option>';
+            proveedores.forEach(p => {
+               if (p.estado === 'ACTIVO') {
+                  const option = document.createElement('option');
+                  option.value = p.id;
+                  option.textContent = p.razonSocial;
+                  selectProveedor.appendChild(option);
+               }
+            });
+         } catch (error) {
+            console.error(error);
+            selectProveedor.innerHTML = '<option value="" selected disabled>Error al cargar</option>';
+         }
+      }
+
+      modalNuevoPedido.addEventListener('show.bs.modal', () => {
+         formNuevoPedido.reset();
+         tablaProductosPedido.innerHTML = ''; 
+         productoSearchResults.innerHTML = '';
+         inputFechaEmision.value = new Date().toISOString().split('T')[0]; 
+         cargarProveedores();
+      });
+
+
+      productoSearchInput.addEventListener('input', debounce(async (e) => {
+         const query = e.target.value.trim();
+         if (query.length < 2) {
+            productoSearchResults.innerHTML = '';
+            return;
+         }
+
+         try {
+            const response = await fetch(`${API_PRODUCTOS}/buscar?query=${query}`);
+            if (!response.ok) throw new Error('Error en la búsqueda');
+            const productos = await response.json();
+
+            productoSearchResults.innerHTML = '';
+            productos.forEach(producto => {
+               const item = document.createElement('a');
+               item.href = '#';
+               item.className = 'list-group-item list-group-item-action d-flex justify-content-between align-items-center';
+
+               let imgHtml = '<div style="width: 40px; height: 40px; background-color: #eee; border-radius: 4px;"></div>';
+               if (producto.imagenes) {
+                  try {
+                     const imagenes = JSON.parse(producto.imagenes);
+                     if (imagenes.length > 0) {
+                        imgHtml = `<img src="${imagenes[0]}" alt="${producto.nombre}" style="width: 40px; height: 40px; object-fit: cover; border-radius: 4px;">`;
+                     }
+                  } catch (e) {  }
+               }
+
+               item.innerHTML = `
+                    <div class="d-flex align-items-center">
+                        ${imgHtml}
+                        <div class="ms-3">
+                            <h6 class="mb-0">${producto.nombre}</h6>
+                            <small class="text-muted">${producto.codigo || ''}</small>
+                        </div>
+                    </div>
+                    <span class="badge bg-light text-dark">Stock: ${producto.stockActual || 0}</span>
+                `;
+               item.addEventListener('click', (e) => {
+                  e.preventDefault();
+                  agregarProductoATabla(producto);
+                  productoSearchInput.value = ''; 
+                  productoSearchResults.innerHTML = ''; 
+               });
+               productoSearchResults.appendChild(item);
+            });
+         } catch (error) {
+            console.error(error);
+            productoSearchResults.innerHTML = '<div class="list-group-item text-danger">Error al buscar</div>';
+         }
+      }, 300)); 
+
+      function agregarProductoATabla(producto) {
+         if (document.getElementById(`prod-${producto.idProducto}`)) {
+            Swal.fire('Atención', 'El producto ya está en la lista.', 'warning');
+            return;
+         }
+
+         const tr = document.createElement('tr');
+         tr.id = `prod-${producto.idProducto}`;
+         tr.dataset.id = producto.idProducto;
+
+         tr.innerHTML = `
+            <td>
+                ${producto.nombre}
+                <small class="d-block text-muted">${producto.codigo || ''}</small>
+            </td>
+            <td>${producto.stockActual || 0}</td>
+            <td>
+                <input type="number" class="form-control form-control-sm" value="1" min="0.01" step="0.01" data-field="cantidad" style="width: 80px;">
+            </td>
+            <td>
+                <input type="number" class="form-control form-control-sm" value="${producto.precio || 0}" min="0.01" step="0.01" data-field="precioCosto" style="width: 100px;">
+            </td>
+            <td class="subtotal" data-field="subtotal">${formatCurrency(producto.precio || 0)}</td>
+            <td>
+                <button type="button" class="btn btn-sm btn-outline-danger btn-remove-item">
+                    <i class="ti ti-trash"></i>
+                </button>
+            </td>
+        `;
+         tablaProductosPedido.appendChild(tr);
+      }
+
+      tablaProductosPedido.addEventListener('input', (e) => {
+         if (e.target.dataset.field === 'cantidad' || e.target.dataset.field === 'precioCosto') {
+            const tr = e.target.closest('tr');
+            const cantidad = parseFloat(tr.querySelector('[data-field="cantidad"]').value) || 0;
+            const precio = parseFloat(tr.querySelector('[data-field="precioCosto"]').value) || 0;
+            const subtotal = cantidad * precio;
+            tr.querySelector('[data-field="subtotal"]').textContent = formatCurrency(subtotal);
+         }
+      });
+
+      tablaProductosPedido.addEventListener('click', (e) => {
+         if (e.target.closest('.btn-remove-item')) {
+            e.target.closest('tr').remove();
+         }
+      });
+
+      btnGuardarPedido.addEventListener('click', async () => {
+         const idProveedor = selectProveedor.value;
+         const fechaEmision = inputFechaEmision.value;
+         const notas = document.getElementById('pedidoNotas').value;
+
+         if (!idProveedor || !fechaEmision) {
+            Swal.fire('Campos Incompletos', 'Debe seleccionar un Proveedor y una Fecha de Emisión.', 'warning');
+            return;
+         }
+
+         const detalles = [];
+         const filas = tablaProductosPedido.querySelectorAll('tr');
+         filas.forEach(tr => {
+            const detalle = {
+               idProducto: parseInt(tr.dataset.id),
+               cantidad: parseFloat(tr.querySelector('[data-field="cantidad"]').value) || 0,
+               precioCosto: parseFloat(tr.querySelector('[data-field="precioCosto"]').value) || 0
+            };
+            if (detalle.cantidad > 0) {
+               detalles.push(detalle);
+            }
+         });
+
+         const request = {
+            idProveedor: parseInt(idProveedor),
+            fechaEmision: fechaEmision,
+            fechaEntregaEsperada: document.getElementById('pedidoFechaEsp').value || null,
+            notas: notas,
+            detalles: detalles 
+         };
+
+         try {
+            btnGuardarPedido.disabled = true;
+            btnGuardarPedido.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Guardando...';
+
+            const response = await fetch(API_PEDIDOS, {
+               method: 'POST',
+               headers: { 'Content-Type': 'application/json' },
+               body: JSON.stringify(request)
+            });
+
+            if (response.ok) {
+               const nuevoPedido = await response.json();
+               Swal.fire('¡Éxito!', `Pedido ${nuevoPedido.id} creado correctamente.`, 'success');
+               bootstrap.Modal.getInstance(modalNuevoPedido).hide();
+               cargarPedidos(); 
+            } else {
+               const errorMsg = await response.text();
+               Swal.fire('Error', errorMsg, 'error');
+            }
+         } catch (error) {
+            console.error(error);
+            Swal.fire('Error', 'No se pudo conectar con el servidor.', 'error');
+         } finally {
+            btnGuardarPedido.disabled = false;
+            btnGuardarPedido.innerHTML = 'Crear y Añadir Productos';
+         }
+      });
+
+      pedidosTbody.addEventListener('click', async (e) => {
+         const btnCancelar = e.target.closest('.btn-cancelar');
+         const btnConfirmar = e.target.closest('.btn-confirmar');
+         const btnVerDetalle = e.target.closest('.btn-ver-detalle');
+
+         if (btnConfirmar) {
+            const id = btnConfirmar.dataset.id;
+            Swal.fire({
+               title: '¿Confirmar Recepción?',
+               text: `¿Estás seguro de que deseas marcar el pedido ${id} como RECIBIDO? Esta acción no se puede deshacer.`,
+               icon: 'warning',
+               showCancelButton: true,
+               confirmButtonColor: '#28a745',
+               cancelButtonColor: '#6c757d',
+               confirmButtonText: 'Sí, confirmar',
+               cancelButtonText: 'Cancelar'
+            }).then(async (result) => {
+               if (result.isConfirmed) {
+                  await ejecutarAccionPedido(id, 'confirmar');
+               }
+            });
+         }
+
+         if (btnCancelar) {
+            const id = btnCancelar.dataset.id;
+            Swal.fire({
+               title: '¿Cancelar Pedido?',
+               text: `¿Estás seguro de que deseas CANCELAR el pedido ${id}?`,
+               icon: 'error',
+               showCancelButton: true,
+               confirmButtonColor: '#dc3545',
+               cancelButtonColor: '#6c757d',
+               confirmButtonText: 'Sí, cancelar',
+               cancelButtonText: 'No'
+            }).then(async (result) => {
+               if (result.isConfirmed) {
+                  await ejecutarAccionPedido(id, 'cancelar');
+               }
+            });
+         }
+         if (btnVerDetalle) {
+            e.preventDefault(); 
+            const id = btnVerDetalle.dataset.id;
+            abrirModalDetalle(id);
+         }
+      });
+
+
+      async function abrirModalDetalle(id) {
+         const modalVistaPreviaEl = document.getElementById('modalVistaPrevia');
+         const modalVistaPrevia = new bootstrap.Modal(modalVistaPreviaEl);
+         const detalleId = document.getElementById('detalle-id');
+         const detalleProveedor = document.getElementById('detalle-proveedor');
+         const detalleEstado = document.getElementById('detalle-estado');
+         const detalleTotal = document.getElementById('detalle-total');
+         const detalleFechaEmision = document.getElementById('detalle-fecha-emision');
+         const detalleFechaEsperada = document.getElementById('detalle-fecha-esperada');
+         const detalleFechaCreacion = document.getElementById('detalle-fecha-creacion');
+         const detalleNotas = document.getElementById('detalle-notas');
+         const detalleTablaProductos = document.getElementById('detalle-tabla-productos');
+
+         detalleId.textContent = 'Cargando...';
+         detalleProveedor.textContent = 'Cargando...';
+         detalleEstado.innerHTML = '<span class="badge text-bg-secondary">Cargando...</span>';
+         detalleTotal.textContent = 'Cargando...';
+         detalleFechaEmision.textContent = 'Cargando...';
+         detalleFechaEsperada.textContent = 'Cargando...';
+         detalleFechaCreacion.textContent = 'Cargando...';
+         detalleNotas.textContent = 'Cargando...';
+         detalleTablaProductos.innerHTML = '<tr><td colspan="4" class="text-center">Cargando...</td></tr>';
+
+         modalVistaPrevia.show();
+
+         try {
+            const response = await fetch(`${API_PEDIDOS}/${id}`);
+            if (!response.ok) {
+               throw new Error('Pedido no encontrado o error del servidor');
+            }
+            const pedido = await response.json();
+            detalleId.textContent = pedido.id || 'N/A';
+            detalleProveedor.textContent = pedido.razonSocialProveedor || '(Sin Proveedor)';
+            detalleEstado.innerHTML = formatEstado(pedido.estado);
+            detalleTotal.textContent = formatCurrency(pedido.totalPedido);
+            detalleFechaEmision.textContent = formatFecha(pedido.fechaEmision);
+            detalleFechaEsperada.textContent = formatFecha(pedido.fechaEntregaEsperada);
+            detalleFechaCreacion.textContent = formatTimestamp(pedido.createdAt); 
+            detalleNotas.textContent = pedido.notas || '(Sin notas)';
+            detalleTablaProductos.innerHTML = ''; 
+            if (pedido.detalles && pedido.detalles.length > 0) {
+               pedido.detalles.forEach(item => {
+                  const tr = document.createElement('tr');
+                  tr.innerHTML = `
+                            <td>
+                                ${item.nombreProducto || 'Producto desconocido'}
+                                <small class="d-block text-muted">${item.codigoProducto || ''}</small> 
+                            </td>
+                            <td>${item.cantidad}</td>
+                            <td>${formatCurrency(item.precioCosto)}</td>
+                            <td class="text-end">${formatCurrency(item.subtotal)}</td>
+                        `;
+                  detalleTablaProductos.appendChild(tr);
+               });
+            } else {
+               detalleTablaProductos.innerHTML = '<tr><td colspan="4" class="text-center">Este pedido no tiene productos.</td></tr>';
+            }
+
+         } catch (error) {
+            console.error(error);
+            detalleProveedor.textContent = 'Error al cargar los datos';
+            detalleId.textContent = error.message;
+         }
+      }
+      async function ejecutarAccionPedido(id, accion) {
+         try {
+            const response = await fetch(`${API_PEDIDOS}/${id}/${accion}`, {
+               method: 'PUT'
+            });
+
+            if (response.ok) {
+               Swal.fire('¡Actualizado!', `El pedido ha sido marcado como ${accion === 'confirmar' ? 'Recibido' : 'Cancelado'}.`, 'success');
+               cargarPedidos(); 
+            } else {
+               const errorMsg = await response.text();
+               Swal.fire('Error', errorMsg, 'error');
+            }
+         } catch (error) {
+            Swal.fire('Error', 'No se pudo conectar con el servidor.', 'error');
+         }
+      }
+
+      function formatCurrency(value) {
+         return new Intl.NumberFormat('es-PE', {
+            style: 'currency',
+            currency: 'PEN' 
+         }).format(value || 0);
+      }
+
+      function formatFecha(fecha) {
+         if (!fecha) return '--';
+         const [year, month, day] = fecha.split('-');
+         return `${day}/${month}/${year}`;
+      }
+      function formatTimestamp(timestamp) {
+         if (!timestamp) return '--';
+         const date = new Date(timestamp);
+         const day = String(date.getDate()).padStart(2, '0');
+         const month = String(date.getMonth() + 1).padStart(2, '0'); 
+         const year = date.getFullYear();
+         const hours = String(date.getHours()).padStart(2, '0');
+         const minutes = String(date.getMinutes()).padStart(2, '0');
+         return `${day}/${month}/${year} ${hours}:${minutes}`;
+      }
+
+      function formatEstado(estado) {
+         switch (estado) {
+            case 'PENDIENTE':
+               return '<span class="badge text-bg-info">Pendiente</span>';
+            case 'RECIBIDO':
+               return '<span class="badge text-bg-success">Recibido</span>';
+            case 'CANCELADO':
+               return '<span class="badge text-bg-danger">Cancelado</span>';
+            default:
+               return `<span class="badge text-bg-secondary">${estado || 'Borrador'}</span>`;
+         }
+      }
+
+      function generarBotonesAccion(id, estado) {
+         let botones = `
+                <a href="#!" class="avtar avtar-xs btn-link-secondary btn-ver-detalle" data-id="${id}" data-bs-toggle="tooltip" title="Ver Detalle">
+                    <i class="ti ti-eye f-20"></i>
+                </a>
+            `;
+         if (estado === 'PENDIENTE') {
+            botones += `
+                <a href="#!" class="avtar avtar-xs btn-link-success btn-confirmar" data-id="${id}" data-bs-toggle="tooltip" title="Confirmar Recepción">
+                    <i class="ti ti-check f-20"></i>
+                </a>
+                <a href="#!" class="avtar avtar-xs btn-link-danger btn-cancelar" data-id="${id}" data-bs-toggle="tooltip" title="Cancelar Pedido">
+                    <i class="ti ti-x f-20"></i>
+                </a>
+            `;
+         }
+         return botones;
+      }
+
+      function activarEventosBotones() {
+         document.querySelectorAll(".btn-confirmar").forEach(btn => {
+            btn.addEventListener("click", function () {
+               const id = this.getAttribute("data-id");
+               ejecutarAccionPedido(id, "confirmar");
+            });
+         });
+         document.querySelectorAll(".btn-cancelar").forEach(btn => {
+            btn.addEventListener("click", function () {
+               const id = this.getAttribute("data-id");
+               ejecutarAccionPedido(id, "cancelar");
+            });
+         });
+      }
+
+
+
+      async function ejecutarAccionPedido(id, accion) {
+         const url = `${API_PEDIDOS}/${id}/${accion}`; 
+         try {
+            const response = await fetch(url, {
+               method: 'PUT'
+            });
+
+            if (response.ok) {
+               Swal.fire(
+                  '¡Actualizado!',
+                  `El pedido ha sido marcado como ${accion === 'confirmar' ? 'Recibido' : 'Cancelado'}.`,
+                  'success'
+               );
+               cargarPedidos();
+            } else {
+               const errorMsg = await response.text();
+               Swal.fire('Error', errorMsg, 'error');
+            }
+         } catch (error) {
+            Swal.fire('Error', 'No se pudo conectar con el servidor.', 'error');
+         }
+      }
+      function debounce(func, delay) {
+         let timeout;
+         return function (...args) {
+            clearTimeout(timeout);
+            timeout = setTimeout(() => func.apply(this, args), delay);
+         };
+      }
+
+      cargarPedidos();
+   });
+</script>

@@ -58,7 +58,6 @@ public class PersonaService {
         throw new IllegalArgumentException("Ya existe una persona activa con el email: " + request.getEmail());
       }
     }
-
     if (personaOpt.isPresent()) {
       Persona existente = personaOpt.get();
 
@@ -66,7 +65,6 @@ public class PersonaService {
         throw new IllegalArgumentException(
             "Ya existe una persona activa con el número de documento: " + request.getNumeroDocumento());
       }
-
       log.info("Reactivando persona existente con ID: {}", existente.getId());
       existente.setTipoDocumento(tipoDocumento);
       existente.setTipoPersona(request.getTipoPersona());
@@ -84,7 +82,6 @@ public class PersonaService {
       log.info("Persona reactivada con ID: {}", reactivada.getId());
       return personaMapper.toDto(reactivada);
     }
-
     Persona persona = personaMapper.fromRequest(request)
         .tipoDocumento(tipoDocumento)
         .estado(true)

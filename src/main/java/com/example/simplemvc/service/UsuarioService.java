@@ -73,7 +73,6 @@ public class UsuarioService {
         sucursalService
             .obtenerEntidadPorId(request.getSucursalId())
             .orElseThrow(() -> new IllegalArgumentException("La sucursal asociada no existe."));
-
     Optional<Usuario> prevUsuario =
         usuarioRepository.findByNombreUsuario(request.getNombreUsuario());
 
@@ -89,20 +88,17 @@ public class UsuarioService {
       log.info(
           "Restaurando usuario previamente eliminado con nombre de usuario: {}",
           request.getNombreUsuario());
-
       Usuario usuarioEliminado = prevUsuario.get();
       usuarioEliminado.setEstado(EstadoEntidad.ACTIVO);
       usuarioEliminado.setPersona(persona);
       usuarioEliminado.setSucursal(sucursal);
       usuarioEliminado.setNombreUsuario(request.getNombreUsuario());
-      usuarioEliminado.setPassword(passwordEncoder.encode(request.getPassword()));
-
+      usuarioEliminado.setPassword(passwordEncoder.encode(persona.getNumeroDocumento()));
       usuarioEliminado = usuarioRepository.save(usuarioEliminado);
 
       log.info("Usuario restaurado con ID: {}", usuarioEliminado.getId());
       return usuarioMapper.toDto(usuarioEliminado);
     }
-
     Rol rol =
         rolRepository
             .findByNombre("CLIENTE")
@@ -111,7 +107,6 @@ public class UsuarioService {
                   log.error("No se puede crear el usuario. El rol CLIENTE no existe.");
                   return new IllegalArgumentException("El rol especificado no existe.");
                 });
-
     if (request.getRolId() != null) {
       rol =
           rolRepository
@@ -132,16 +127,13 @@ public class UsuarioService {
             .roles(Arrays.asList(rol))
             .password(passwordEncoder.encode(request.getPassword()))
             .build();
-
     usuario = usuarioRepository.save(usuario);
 
     log.info("Usuario creado con ID: {}", usuario.getId());
     return usuarioMapper.toDto(usuario);
   }
-
   public UsuarioDto actualizar(Long id, CrearUsuarioRequest request) {
     log.info("Actualizando usuario con ID: {}", id);
-
     Rol rol =
         rolRepository
             .findById(request.getRolId())
@@ -152,7 +144,6 @@ public class UsuarioService {
                       request.getRolId());
                   return new IllegalArgumentException("El rol especificado no existe.");
                 });
-
     Usuario usuario =
         usuarioRepository
             .findById(id)

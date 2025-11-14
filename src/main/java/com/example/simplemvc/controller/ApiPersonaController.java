@@ -29,8 +29,8 @@ public class ApiPersonaController {
   public String crear(
       @ModelAttribute CrearPersonaRequest request, RedirectAttributes redirectAttributes) {
     try {
+      
       PersonaDto personaDto = personaService.crear(request);
-
       redirectAttributes.addFlashAttribute("persona", personaDto);
 
       return "redirect:/auth/registro";

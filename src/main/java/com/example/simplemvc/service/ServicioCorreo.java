@@ -1,11 +1,16 @@
 package com.example.simplemvc.service;
 
+import java.time.format.DateTimeFormatter;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
+import com.example.simplemvc.model.PedidoProveedor;
+import com.example.simplemvc.model.PedidoProveedorDetalle;
 
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
@@ -110,5 +115,137 @@ public class ServicioCorreo {
         </html>
         """;
     return String.format(htmlTemplate, subject, subject, mensaje, actionUrl, actionUrl, actionUrl, email);
+  }
+
+  public void enviarNotificacionNuevoPedidoProveedor(PedidoProveedor pedido) {
+    String emailDestino = pedido.getProveedor().getEmail();
+    if (emailDestino == null || emailDestino.isBlank()) {
+      System.err.println("Error: El proveedor '" + pedido.getProveedor().getRazonSocial()
+          + "' no tiene un email registrado. No se envió la notificación.");
+      return; 
+    }
+
+    String subject = String.format("Nuevo Pedido de Compra de TecnIServicios - N° %d", pedido.getId());
+    String content = construirHtmlPedidoProveedor(pedido, subject);
+
+    try {
+      System.out.println("Preparando correo de pedido para: " + emailDestino);
+      MimeMessage mimeMessage = mailSender.createMimeMessage();
+      MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, "UTF-8");
+
+      helper.setTo(emailDestino);
+      helper.setSubject(subject);
+      helper.setText(content, true); 
+      helper.setFrom(mailFrom);
+
+      mailSender.send(mimeMessage);
+      System.out.println("Correo de pedido enviado con éxito a: " + emailDestino);
+    } catch (MessagingException e) {
+        System.err.println("Error al enviar correo de notificación de pedido: " + e.getMessage());
+    }
+  }
+
+ 
+
+  private String construirHtmlPedidoProveedor(PedidoProveedor pedido, String subject) {
+
+    // --- 1. Formatear datos ---
+    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+    String fechaEmisionFmt = pedido.getFechaEmision().format(dtf);
+    String fechaEsperadaFmt = (pedido.getFechaEntregaEsperada() != null)
+        ? pedido.getFechaEntregaEsperada().format(dtf)
+        : "No especificada";
+
+    StringBuilder filasProductos = new StringBuilder();
+    for (PedidoProveedorDetalle detalle : pedido.getDetalles()) {
+      filasProductos.append(String.format(
+          """
+              <tr>
+                  <td>%s</td>
+                  <td>%s</td>
+                  <td style="text-align:right;">S/ %,.2f</td>
+                  <td style="text-align:right;">S/ %,.2f</td>
+              </tr>
+              """,
+          detalle.getProducto().getNombre(),
+          detalle.getCantidad().toString(),
+          detalle.getPrecioCosto(),
+          detalle.getSubtotal()));
+    }
+
+    String htmlTemplate = """
+        <!doctype html>
+        <html lang="es">
+        <head>
+          <meta charset="utf-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+          <title>%s</title>
+          <style>
+            body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial; margin:0; padding:0; background:#f4f6f8; }
+            .wrapper { width:100%%; padding:40px 0; }
+            .container { max-width:600px; margin:0 auto; background:#ffffff; border-radius:8px; overflow:hidden; box-shadow:0 4px 20px rgba(0,0,0,0.08); }
+            .header { background:#0d6efd; color:#fff; padding:20px; text-align:center; }
+            .content { padding:24px; color:#333333; line-height:1.5; }
+            .footer { padding:16px 24px; background:#fafafa; color:#6b7280; font-size:13px; text-align:center; }
+            .info-box { background: #f9f9f9; border-radius: 6px; padding: 16px; margin: 20px 0; }
+            .info-box p { margin: 4px 0; }
+            .product-table { width: 100%%; border-collapse: collapse; margin-top: 20px; }
+            .product-table th, .product-table td { border: 1px solid #ddd; padding: 8px; text-align: left; font-size: 14px; }
+            .product-table th { background-color: #f2f2f2; }
+            @media (max-width:420px){ .content { padding:16px; } .header { padding:16px; } }
+          </style>
+        </head>
+        <body>
+          <div class="wrapper">
+            <div class="container">
+              <div class="header"><h1 style="margin:0; font-size:20px;">%s</h1></div>
+              <div class="content">
+                <p>Hola, <strong>%s</strong>,</p>
+                <p>Has recibido una nueva orden de compra de parte de <strong>TecnIServicios</strong>. Por favor, revisa los detalles a continuación:</p>
+
+                <div class="info-box">
+                    <p><strong>N° Pedido:</strong> %s</p>
+                    <p><strong>Fecha de Emisión:</strong> %s</p>
+                    <p><strong>Fecha de Entrega Esperada:</strong> %s</p>
+                    <p style="font-size: 1.2em; margin-top: 10px;"><strong>Total del Pedido: S/ %,.2f</strong></p>
+                </div>
+
+                <h3 style="margin-top: 24px; border-bottom: 2px solid #eee; padding-bottom: 5px;">Detalle de Productos</h3>
+                <table class="product-table">
+                    <thead>
+                        <tr>
+                            <th>Producto</th>
+                            <th>Cantidad</th>
+                            <th style="text-align:right;">Costo Unit.</th>
+                            <th style="text-align:right;">Subtotal</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        %s
+                    </tbody>
+                </table>
+
+                <p style="margin-top: 24px;">Por favor, prepara el pedido para su envío según lo acordado.</p>
+                <p>Si tienes alguna consulta sobre este pedido, no dudes en contactarnos respondiendo a este correo.</p>
+                <p style="margin-top:18px;">Saludos,<br><strong>Equipo de TecnIServicios</strong></p>
+              </div>
+              <div class="footer">Correo enviado a: %s</div>
+            </div>
+          </div>
+        </body>
+        </html>
+        """;
+
+    return String.format(
+        htmlTemplate,
+        subject, 
+        subject, 
+        pedido.getProveedor().getRazonSocial(), 
+        pedido.getId().toString(),
+        fechaEmisionFmt,
+        fechaEsperadaFmt,
+        pedido.getTotalPedido(),
+        filasProductos.toString(),
+        pedido.getProveedor().getEmail());
   }
 }

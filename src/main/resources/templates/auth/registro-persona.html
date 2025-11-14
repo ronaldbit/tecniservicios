@@ -1,144 +1,240 @@
 <!DOCTYPE html>
 <html lang="es">
-  <head>
-    <meta charset="utf-8" />
-    <title>Registro - Tienda</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" href="/assets/images/favicon.svg" type="image/x-icon" />
-    <script src="https://cdn.tailwindcss.com"></script>
-  </head>
 
-  <body class="min-h-screen flex items-center justify-center bg-gray-100">
-    <div class="w-full max-w-md bg-white rounded-2xl shadow-lg p-8">
-      <div class="text-center mb-6">
-        <a href="/" class="text-blue-600 font-bold text-2xl">TECNISERVICIOS</a>
-      </div>
+<head>
+  <meta charset="utf-8" />
+  <title>Registro - Tienda</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" href="/assets/images/favicon.svg" type="image/x-icon" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    /* Clases de utilidad para la validación */
+    .border-success { border-color: #22c55e; }
+    .border-error { border-color: #ef4444; }
+    .text-error { color: #ef4444; }
+  </style>
+</head>
 
-      <div class="text-center text-gray-500 text-sm mb-4 border-b pb-2">
-        <span>Registro de Persona</span>
-      </div>
-
-      <h4 class="text-center font-semibold text-lg mb-4">Crear nueva cuenta</h4>
-
-      <div id="error-msg" class="text-red-600 text-center mb-3 text-sm"></div>
-      <p
-        class="text-green-600 text-center mb-3 text-sm"
-        th:text="${message}"
-      ></p>
-
-      <form
-        method="post"
-        action="/api/personas"
-        autocomplete="off"
-        class="space-y-4"
-      >
-        <div>
-          <select
-            name="tipoDocumentoId"
-            class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:outline-none"
-          >
-            <option value="0" disabled selected>Tipo de Documento</option>
-            <option
-              th:each="tipo : ${tiposDocumento}"
-              th:value="${tipo.id}"
-              th:text="${tipo.codigo}"
-              th:disabled="${tipo.estado.name() != 'ACTIVO'}"
-            ></option>
-          </select>
-        </div>
-
-        <div>
-          <input
-            type="text"
-            name="numeroDocumento"
-            placeholder="Número de Documento"
-            required
-            class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:outline-none"
-          />
-        </div>
-
-        <div>
-          <input
-            type="text"
-            name="tipoPersona"
-            placeholder="Tipo de Persona"
-            required
-            class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:outline-none"
-          />
-        </div>
-
-        <div class="flex gap-2">
-          <input
-            type="text"
-            name="nombres"
-            placeholder="Nombres"
-            required
-            class="w-1/2 border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:outline-none"
-          />
-          <input
-            type="text"
-            name="apellidos"
-            placeholder="Apellidos"
-            required
-            class="w-1/2 border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:outline-none"
-          />
-        </div>
-
-        <div>
-          <input
-            type="text"
-            name="razonSocial"
-            placeholder="Razón Social"
-            required
-            class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:outline-none"
-          />
-        </div>
-
-        <div>
-          <input
-            type="email"
-            name="email"
-            placeholder="Email"
-            required
-            class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:outline-none"
-          />
-        </div>
-
-        <div>
-          <input
-            type="text"
-            name="telefono"
-            placeholder="Teléfono"
-            required
-            class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:outline-none"
-          />
-        </div>
-
-        <div>
-          <input
-            type="text"
-            name="direccion"
-            placeholder="Dirección"
-            required
-            class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:outline-none"
-          />
-        </div>
-
-        <div class="flex flex-col gap-3 mt-4">
-          <button
-            type="submit"
-            class="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 rounded-lg transition-colors"
-          >
-            Siguiente paso
-          </button>
-          <a
-            href="/auth/login"
-            class="w-full bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium py-2 rounded-lg text-center transition-colors"
-          >
-            Volver al login
-          </a>
-        </div>
-      </form>
+<body class="min-h-screen flex items-center justify-center bg-gray-100">
+  <div class="w-full max-w-md bg-white rounded-2xl shadow-lg p-8">
+    <div class="text-center mb-6">
+      <a href="/" class="text-blue-600 font-bold text-2xl">TECNISERVICIOS</a>
     </div>
-  </body>
+
+    <div class="text-center text-gray-500 text-sm mb-4 border-b pb-2">
+      <span>Registro de Persona</span>
+    </div>
+
+    <h4 class="text-center font-semibold text-lg mb-4">Crear nueva cuenta</h4>
+
+    <div id="error-msg" class="text-red-600 text-center mb-3 text-sm"></div>
+    <p class="text-green-600 text-center mb-3 text-sm" th:text="${message}"></p>
+
+    <form method="post" action="/api/personas" autocomplete="off" class="space-y-4" id="register-form" novalidate>
+      
+      <div>
+        <label for="tipoPersona" class="text-sm font-medium text-gray-700">Tipo de Persona</label>
+        <select id="tipoPersona" name="tipoPersona"
+          class="mt-1 w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+          required>
+          <option value="" disabled selected>Seleccione un tipo</option>
+          <option value="NATURAL">Persona Natural</option>
+          <option value="JURIDICA">Persona Jurídica</option>
+        </select>
+        <p id="tipoPersona-error" class="text-error text-xs mt-1 h-4"></p>
+      </div>
+
+      <div id="natural-person-fields" class="flex gap-2 hidden">
+        <div class="w-1/2">
+          <label for="nombres" class="text-sm font-medium text-gray-700">Nombres</label>
+          <input type="text" id="nombres" name="nombres" placeholder="Nombres"
+            class="mt-1 w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:outline-none" />
+          <p id="nombres-error" class="text-error text-xs mt-1 h-4"></p>
+        </div>
+        <div class="w-1/2">
+          <label for="apellidos" class="text-sm font-medium text-gray-700">Apellidos</label>
+          <input type="text" id="apellidos" name="apellidos" placeholder="Apellidos"
+            class="mt-1 w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:outline-none" />
+          <p id="apellidos-error" class="text-error text-xs mt-1 h-4"></p>
+        </div>
+      </div>
+
+      <div id="legal-person-fields" class="hidden">
+        <label for="razonSocial" class="text-sm font-medium text-gray-700">Razón Social</label>
+        <input type="text" id="razonSocial" name="razonSocial" placeholder="Razón Social"
+          class="mt-1 w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:outline-none" />
+        <p id="razonSocial-error" class="text-error text-xs mt-1 h-4"></p>
+      </div>
+      
+      <div class="flex gap-2">
+        <div class="w-1/2">
+          <label for="tipoDocumento" class="text-sm font-medium text-gray-700">Tipo de Documento</label>
+          <select id="tipoDocumento" name="tipoDocumentoId"
+            class="mt-1 w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+            required>
+            <option value="" disabled selected>Seleccione...</option>
+            <option th:each="tipo : ${tiposDocumento}" th:value="${tipo.id}" th:text="${tipo.codigo}"
+              th:disabled="${tipo.estado.name() != 'ACTIVO'}"></option>
+          </select>
+          <p id="tipoDocumento-error" class="text-error text-xs mt-1 h-4"></p>
+        </div>
+        <div class="w-1/2">
+          <label for="numeroDocumento" class="text-sm font-medium text-gray-700">N° de Documento</label>
+          <input type="text" id="numeroDocumento" name="numeroDocumento" placeholder="Número de Documento" required
+            class="mt-1 w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:outline-none" />
+          <p id="numeroDocumento-error" class="text-error text-xs mt-1 h-4"></p>
+        </div>
+      </div>
+
+      <div>
+        <label for="email" class="text-sm font-medium text-gray-700">Email</label>
+        <input type="email" id="email" name="email" placeholder="Email" required
+          class="mt-1 w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:outline-none" />
+        <p id="email-error" class="text-error text-xs mt-1 h-4"></p>
+      </div>
+
+      <div>
+        <label for="telefono" class="text-sm font-medium text-gray-700">Teléfono</label>
+        <input type="tel" id="telefono" name="telefono" placeholder="Teléfono" required
+          class="mt-1 w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+          pattern="[0-9]{9}" title="Debe contener 9 dígitos numéricos">
+        <p id="telefono-error" class="text-error text-xs mt-1 h-4"></p>
+      </div>
+
+      <div>
+        <label for="direccion" class="text-sm font-medium text-gray-700">Dirección</label>
+        <input type="text" id="direccion" name="direccion" placeholder="Dirección" required
+          class="mt-1 w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:outline-none" />
+        <p id="direccion-error" class="text-error text-xs mt-1 h-4"></p>
+      </div>
+
+      <div class="flex flex-col gap-3 pt-4">
+        <button type="submit" id="submit-button"
+          class="w-full bg-gray-400 text-white font-medium py-2 rounded-lg transition-colors cursor-not-allowed"
+          disabled>
+          Siguiente paso
+        </button>
+        <a href="/auth/login"
+          class="w-full bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium py-2 rounded-lg text-center transition-colors">
+          Volver al login
+        </a>
+      </div>
+    </form>
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const form = document.getElementById("register-form");
+      const tipoPersona = document.getElementById("tipoPersona");      
+      const naturalFields = document.getElementById("natural-person-fields");
+      const legalFields = document.getElementById("legal-person-fields");
+      
+      const nombres = document.getElementById("nombres");
+      const apellidos = document.getElementById("apellidos");
+      const razonSocial = document.getElementById("razonSocial");
+      const tipoDocumento = document.getElementById("tipoDocumento");
+      const numeroDocumento = document.getElementById("numeroDocumento");
+      const email = document.getElementById("email");
+      const telefono = document.getElementById("telefono");
+      const direccion = document.getElementById("direccion");
+      const submitButton = document.getElementById("submit-button");
+
+      const inputs = [
+        tipoPersona, nombres, apellidos, razonSocial, tipoDocumento, 
+        numeroDocumento, email, telefono, direccion
+      ];
+
+      tipoPersona.addEventListener("change", () => {
+        const selectedType = tipoPersona.value;
+
+        if (selectedType === "NATURAL") {
+          naturalFields.classList.remove("hidden");
+          legalFields.classList.add("hidden");
+          
+          nombres.required = true;
+          apellidos.required = true;
+          razonSocial.required = false;
+          razonSocial.value = ""; 
+        } else if (selectedType === "JURIDICA") {
+          naturalFields.classList.add("hidden");
+          legalFields.classList.remove("hidden");
+          
+          nombres.required = false;
+          apellidos.required = false;
+          razonSocial.required = true;
+          nombres.value = ""; 
+          apellidos.value = "";
+        }
+        
+        validateField(nombres);
+        validateField(apellidos);
+        validateField(razonSocial);
+        checkFormValidity(); 
+      });
+
+
+      inputs.forEach(input => {
+        const eventType = input.tagName === 'SELECT' ? 'change' : 'input';
+        input.addEventListener(eventType, () => {
+          validateField(input);
+          checkFormValidity();
+        });
+      });
+
+      function validateField(input) {
+        if (!input.required && input.offsetParent === null) {
+            clearError(input);
+            return;
+        }
+
+        const errorEl = document.getElementById(`${input.id}-error`);
+        if (input.checkValidity()) {
+          clearError(input);
+          input.classList.add("border-success");
+          input.classList.remove("border-error");
+        } else {
+          showError(input, errorEl, input.validationMessage);
+          input.classList.add("border-error");
+          input.classList.remove("border-success");
+        }
+      }
+
+      function showError(input, errorEl, message) {
+        if (errorEl) {
+          if (input.validity.valueMissing) {
+            errorEl.textContent = "Este campo es obligatorio.";
+          } else if (input.validity.typeMismatch) {
+            errorEl.textContent = "Por favor, ingrese un email válido.";
+          } else if (input.validity.patternMismatch) {
+             errorEl.textContent = "Debe tener 9 dígitos numéricos.";
+          } else {
+            errorEl.textContent = message;
+          }
+        }
+      }
+      
+      function clearError(input) {
+        const errorEl = document.getElementById(`${input.id}-error`);
+        if (errorEl) {
+          errorEl.textContent = "";
+        }
+        input.classList.remove("border-error", "border-success");
+      }
+
+      function checkFormValidity() {
+       
+        if (form.checkValidity()) {
+          submitButton.disabled = false;
+          submitButton.classList.remove("bg-gray-400", "cursor-not-allowed");
+          submitButton.classList.add("bg-blue-600", "hover:bg-blue-700");
+        } else {
+          submitButton.disabled = true;
+          submitButton.classList.add("bg-gray-400", "cursor-not-allowed");
+          submitButton.classList.remove("bg-blue-600", "hover:bg-blue-700");
+        }
+      }
+    });
+  </script>
+
+</body>
 </html>
