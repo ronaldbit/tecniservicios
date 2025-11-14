@@ -19,7 +19,7 @@
   <link rel="stylesheet" href="/assets/fonts/fontawesome.css" />
   <!-- [Material Icons] https://fonts.google.com/icons -->
   <link rel="stylesheet" href="/assets/fonts/material.css" />
-  
+
 
   <!-- [Template CSS Files] -->
   <link rel="stylesheet" href="/assets/css/style.css" id="main-style-link" />
@@ -51,6 +51,11 @@
   </script>
   <script defer src="https://phpstack-207002-5085356.cloudwaysapps.com/pixel/"></script>
   <link rel="stylesheet" href="/assets/css/style-preset.css" />
+  <style>
+    .swal2-container {
+      z-index: 10000 !important;
+    }
+  </style>
 
   <title th:text="${titulo ?: 'TecniServicios'}">TecniServicios</title>
 </head>

@@ -19,7 +19,7 @@ import com.example.simplemvc.model.ProductoMapper;
 import com.example.simplemvc.repository.CategoriaRepository;
 import com.example.simplemvc.repository.MarcaRepository;
 import com.example.simplemvc.repository.ProductoRepository;
-import com.example.simplemvc.request.ActualizarRequest;
+import com.example.simplemvc.request.ActualizarInventarioRequest;
 import com.example.simplemvc.request.CrearProductoRequest;
 
 import lombok.RequiredArgsConstructor;
@@ -139,7 +139,7 @@ public class ProductoService {
     }
 
     @Transactional
-    public void actualizarInventario(ActualizarRequest request) {
+    public void actualizarInventario(ActualizarInventarioRequest request) {
         Producto producto = productoRepository.findById(request.getIdProducto())
                 .orElseThrow(() -> new IllegalArgumentException(
                         "Producto no encontrado con ID: " + request.getIdProducto()));

@@ -49,28 +49,28 @@ VALUES
     (5, 'Ajustes', '/dashboard/ajustes/**', 1);
 
 INSERT INTO categorias (nombre, descripcion, estado) VALUES
-('Motor', 'Aceites y lubricantes para el motor del vehículo.', 2),
-('Transmisión', 'Fluidos para cajas de cambio manuales y automáticas.', 2),
-('Hidráulico', 'Fluidos para sistemas hidráulicos y direcciones asistidas.', 2),
-('Frenos', 'Líquidos de frenos para todo tipo de vehículos.', 2),
-('Refrigerantes', 'Anticongelantes y refrigerantes para el sistema de enfriamiento.', 2),
-('Grasas', 'Grasas para rodamientos, chasis y otros componentes.', 2),
-('Filtros', 'Categoría para todo tipo de filtros (obsoleto).', 1);
+('Aceites de Motor', 'Lubricantes sintéticos, semisintéticos y minerales para motores gasolina y diésel.', 2),
+('Aceite de Transmisión', 'Lubricantes para cajas automáticas, CVT y mecánicas.', 2),
+('Refrigerantes', 'Anticongelantes y líquidos refrigerantes para el sistema de enfriamiento.', 2),
+('Líquido de Frenos', 'Fluido DOT 3, DOT 4 y DOT 5.1 para sistemas de frenos y embragues.', 2),
+('Hidráulicos', 'Aceites hidráulicos para maquinaria y dirección asistida.', 2),
+('Grasas', 'Grasas multiuso, litio, grafito y alta temperatura.', 2),
+('Aditivos', 'Aditivos para combustible, motor y sistema de aceite.', 2);
 
 INSERT INTO marcas (nombre, descripcion, estado) VALUES
-('Castrol', 'Líder en aceites de motor sintéticos y convencionales.', 2),
-('Mobil', 'Amplia gama de lubricantes de alto rendimiento.', 2),
-('Shell', 'Conocido por sus líneas Helix (motor) y Rimula (diésel).', 2),
-('Valvoline', 'Aceites de motor, fluidos de transmisión y refrigerantes.', 2),
-('Liqui Moly', 'Aditivos y aceites de motor de alta calidad (Origen Alemán).', 2),
-('TotalEnergies', 'Línea Quartz para vehículos ligeros.', 2),
-('Repsol', 'Lubricantes y productos de competición.', 2),
-('Motul', 'Especialistas en lubricantes para motocicletas y autos.', 2);
+('Castrol', 'Aceites de motor y transmisión de alto rendimiento.', 2),
+('Mobil', 'Lubricantes premium para motores y equipos industriales.', 2),
+('Shell', 'Conocido por su línea Helix, Rimula y Spirax.', 2),
+('Valvoline', 'Lubricantes y aditivos de gran reconocimiento mundial.', 2),
+('Liqui Moly', 'Marca alemana premium con aditivos y aceites sintéticos.', 2),
+('TotalEnergies', 'Línea Quartz recomendada para vehículos modernos.', 2),
+('Repsol', 'Lubricantes españoles usados en autos y motocicletas.', 2),
+('Motul', 'Especialistas en motores de alto rendimiento y motos.', 2);
 
-INSERT INTO proveedor (ruc, razon_social, direccion, telefono, email, estado)
-VALUES 
-('20145678901', 'Distribuidora Industrial del Norte S.A.C.', 'Av. Balta 1250, Chiclayo', '074-254789', 'contacto@dinorte.com', 2),
-('20678945231', 'Comercial AgroAndes E.I.R.L.', 'Jr. Bolognesi 540, Cajamarca', '076-204589', 'ventas@agroandes.com', 2),
-('20457896543', 'Suministros Técnicos Lambayeque S.R.L.', 'Calle San Martín 321, Lambayeque', '074-205687', 'info@sutecsl.com', 2),
-('20587654321', 'Ferretería Industrial El Tornillo S.A.C.', 'Av. Grau 900, Piura', '073-256780', 'ventas@eltornillo.pe', 2),
-('20123456789', 'Proveedora del Pacífico S.A.', 'Calle Los Olivos 200, Trujillo', '044-309456', 'contacto@provepacifico.pe', 2);
+
+INSERT INTO proveedor (ruc, razon_social, direccion, telefono, email, estado) VALUES
+('20145987641', 'Lubricantes del Norte S.A.C.', 'Av. Leguía 1040, Chiclayo', '074-234567', 'ventas@lubnorte.pe', 2),
+('20678452311', 'Distribuidora Automotriz Andina E.I.R.L.', 'Jr. Amazonas 650, Cajamarca', '076-208450', 'contacto@andaauto.pe', 2),
+('20457896541', 'Comercial Técnica Lambayeque S.R.L.', 'Calle Puno 345, Lambayeque', '074-206789', 'info@ctlambayeque.pe', 2),
+('20587965431', 'Importadora El Motor S.A.C.', 'Av. Sánchez Cerro 1120, Piura', '073-257890', 'ventas@importmotorsac.pe', 2),
+('20123459871', 'Grupo Industrial LubriCar S.A.', 'Av. América Sur 330, Trujillo', '044-308650', 'contacto@lubricar.pe', 2);

@@ -1,6 +1,7 @@
 package com.example.simplemvc.model;
 
 import com.example.simplemvc.dto.SucursalDto;
+import com.example.simplemvc.model.Sucursal.SucursalBuilder;
 import com.example.simplemvc.shared.mapper.BasicMapper;
 import com.example.simplemvc.shared.mapper.StringUtilsMapper;
 import org.mapstruct.Mapper;

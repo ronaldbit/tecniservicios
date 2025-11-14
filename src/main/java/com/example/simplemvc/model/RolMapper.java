@@ -1,6 +1,7 @@
 package com.example.simplemvc.model;
 
 import com.example.simplemvc.dto.RolDto;
+import com.example.simplemvc.model.Rol.RolBuilder;
 import com.example.simplemvc.request.CrearUsuarioRol;
 import com.example.simplemvc.shared.mapper.BasicMapper;
 import com.example.simplemvc.shared.mapper.StringUtilsMapper;

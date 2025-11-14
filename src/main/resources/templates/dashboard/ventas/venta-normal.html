@@ -1,282 +1,26 @@
-<div class="pc-container" th:replace="~{dashboard/layout :: layout(~{::content}, ${usuario}, 'Inicio', '/dashboard')}">
+<style>
+  .swal2-container {
+    z-index: 10000 !important;
+  }
+</style>
+<div class="pc-container" th:replace="~{dashboard/layout :: layout(~{::content}, ${usuario}, 'Ventas', '/dashboard')}">
   <div class="pc-content" th:fragment="content">
-    <!-- [ Main Content ] start -->
+
 
     <div class="page-header">
       <div class="page-block">
         <div class="row align-items-center">
           <div class="col-md-12">
             <ul class="breadcrumb">
-              <li class="breadcrumb-item"><a href="../dashboard/index.html">Inicio</a></li>
+              <li class="breadcrumb-item"><a href="/dashboard">Inicio</a></li>
               <li class="breadcrumb-item"><a href="javascript:void(0)">Ventas</a></li>
-              <li class="breadcrumb-item" aria-current="page">Nueva Venta</li>
+              <li class="breadcrumb-item" aria-current="page">Listado de Ventas</li>
             </ul>
           </div>
           <div class="col-md-12">
             <div class="page-header-title">
-              <h2 class="mb-0">Nueva Venta</h2>
+              <h2 class="mb-0">Gestión de Ventas</h2>
             </div>
-          </div>
-
-        </div>
-      </div>
-    </div>
-
-
-
-    <div class="modal fade" id="exampleModalFullscreen" tabindex="-1" aria-labelledby="exampleModalFullscreenLabel"
-      aria-hidden="true">
-      <div class="modal-dialog modal-fullscreen">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title h4" id="exampleModalFullscreenLabel">Nueva Venta</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"> </button>
-          </div>
-          <div class="modal-body">
-
-            <div class="row">
-              <div class="col-sm-12">
-                <div class="card">
-                  <div class="card-body">
-                    <div class="row g-3">
-
-                      <!-- Tipo de comprobante / Serie / Número / Estado -->
-                      <div class="col-sm-6 col-xl-2">
-                        <div class="mb-3 mb-0">
-                          <label class="form-label">Tipo de comprobante</label>
-                          <select class="form-select" id="cmp-tipo">
-                            <option selected>Boleta</option>
-                            <option>Factura</option>
-                            <option>Nota de venta</option>
-                            <option>Nota de crédito</option>
-                            <option>Nota de débito</option>
-                          </select>
-                        </div>
-                      </div>
-
-                      <div class="col-sm-6 col-xl-1">
-                        <div class="mb-3 mb-0">
-                          <label class="form-label">Serie</label>
-                          <input type="text" class="form-control" id="cmp-serie" placeholder="B001 / F001" value="B001"
-                            readonly />
-                        </div>
-                      </div>
-
-                      <div class="col-sm-6 col-xl-2">
-                        <div class="mb-3 mb-0">
-                          <label class="form-label">Estado</label>
-                          <select class="form-select" id="cmp-estado">
-                            <option selected>Pagado</option>
-                            <option>Pendiente</option>
-                            <option>Pago parcial</option>
-                          </select>
-                        </div>
-                      </div>
-
-                      <!-- Fechas -->
-                      <div class="col-sm-6 col-xl-2">
-                        <div class="mb-3 mb-0">
-                          <label class="form-label">Fecha de emisión</label>
-                          <input type="datetime-local" class="form-control" id="cmp-fecha-emision" />
-                        </div>
-                      </div>
-
-
-                      <div class="col-xl-6">
-                        <div class="border rounded p-3 h-100">
-                          <div class="d-flex align-items-center justify-content-between mb-2">
-                            <h6 class="mb-0">Vendedor:</h6>
-                            <button class="btn btn-sm btn-outline-secondary d-flex align-items-center gap-2"
-                              data-bs-toggle="modal" data-bs-target="#address-edit_add-modal"><i
-                                class="ph-duotone ph-pencil-simple-line"></i> Cambiar</button>
-                          </div>
-                          <h5>Ronald Ramos</h5>
-                          <p class="mb-0">Cajero</p>
-                          <p class="mb-0">5 Años</p>
-                          <p class="mb-0">cod. 4626264965</p>
-                        </div>
-                      </div>
-
-                      <!-- Cliente -->
-                      <div class="col-xl-6">
-                        <div class="border rounded p-3 h-100">
-                          <div class="d-flex align-items-center justify-content-between mb-2">
-                            <h6 class="mb-0">Cliente</h6>
-                            <div class="d-flex gap-2">
-                              <button class="btn btn-sm btn-outline-secondary d-flex align-items-center gap-2"
-                                data-bs-toggle="modal" data-bs-target="#cliente-modal">
-                                <i class="ph-duotone ph-magnifying-glass"></i> Buscar
-                              </button>
-                              <button class="btn btn-sm btn-outline-secondary d-flex align-items-center gap-2"
-                                data-bs-toggle="modal" data-bs-target="#cliente-modal-nuevo">
-                                <i class="ph-duotone ph-plus-circle"></i> Nuevo
-                              </button>
-                            </div>
-                          </div>
-                          <!-- Muestra del cliente seleccionado -->
-                          <div id="cliente-view">
-                            <h5>Cliente Varios</h5>
-                            <p class="mb-0">DNI: 00000000</p>
-                            <p class="mb-0">Sin dirección</p>
-                            <p class="mb-0">sin-correo@correo.com</p>
-                          </div>
-                        </div>
-                      </div>
-
-
-
-
-                      <!-- Detalle -->
-                      <div class="col-12">
-                        <h5>Detalle</h5>
-                        <div class="table-responsive">
-                          <table class="table table-hover mb-0">
-                            <thead>
-                              <tr>
-                                <th>#</th>
-                                <th><span class="text-danger">*</span> Código/Nombre</th>
-                                <th>Descripción</th>
-                                <th><span class="text-danger">*</span> Cant.</th>
-                                <th><span class="text-danger">*</span> Precio unit.</th>
-                                <th>Desc. (%)</th>
-                                <th>Importe</th>
-                                <th class="text-center">Acción</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              <tr>
-                                <td>1</td>
-                                <td>
-                                  <input type="text" class="form-control" placeholder="Código o nombre" value="">
-                                </td>
-                                <td>
-                                  <input type="text" class="form-control" placeholder="Descripción (opcional)" value="">
-                                </td>
-                                <td>
-                                  <input type="number" class="form-control" placeholder="0" min="1" value="1">
-                                </td>
-                                <td>
-                                  <input type="number" class="form-control" placeholder="0.00" step="0.01" value="0.00">
-                                </td>
-                                <td>
-                                  <input type="number" class="form-control" placeholder="0" min="0" max="100"
-                                    step="0.01" value="0">
-                                </td>
-                                <td>S/ 0.00</td>
-                                <td class="text-center">
-                                  <a href="#" class="avtar avtar-s btn-link-danger btn-pc-default">
-                                    <i class="ti ti-trash f-20"></i>
-                                  </a>
-                                </td>
-                              </tr>
-                            </tbody>
-                          </table>
-                        </div>
-
-                        <div class="text-start">
-                          <hr class="mb-4 mt-0 border-secondary border-opacity-50" />
-                          <button class="btn btn-light-primary d-flex align-items-center gap-2" data-bs-toggle="modal"
-                            data-bs-target="#producto-modal">
-                            <i class="ti ti-plus"></i> Agregar ítem
-                          </button>
-                        </div>
-                      </div>
-
-                      <!-- Totales -->
-                      <div class="col-12">
-                        <div class="invoice-total ms-auto">
-                          <div class="row">
-                            <div class="col-6">
-                              <div class="mb-3">
-                                <label class="form-label">Descuento</label>
-                                <div class="input-group">
-                                  <!-- Select cortito: solo % o S/. -->
-                                  <select class="form-select flex-grow-0" id="descuento-tipo" style="width: 4rem;">
-                                    <option value="%">%</option>
-                                    <option value="S">S/.</option>
-                                  </select>
-                                  <!-- Input ocupa el resto -->
-                                  <input type="number" class="form-control" id="descuento-valor" placeholder="0"
-                                    step="0.01" min="0" value="0">
-                                </div>
-                              </div>
-                            </div>
-
-                            <div class="col-6">
-                              <div class="mb-3">
-                                <label class="form-label">Impuesto(18%)</label>
-                                <input type="text" class="form-control" value="0">
-                              </div>
-                            </div>
-
-                            <div class="col-6">
-                              <p class="text-muted mb-1 text-start">Sub total :</p>
-                            </div>
-                            <div class="col-6">
-                              <p class="f-w-600 mb-1 text-end">S/ 0.00</p>
-                            </div>
-
-                            <div class="col-6">
-                              <p class="text-muted mb-1 text-start">Descuento :</p>
-                            </div>
-                            <div class="col-6">
-                              <p class="f-w-600 mb-1 text-end text-success">- S/ 0.00</p>
-                            </div>
-
-                            <div class="col-6">
-                              <p class="text-muted mb-1 text-start">IGV :</p>
-                            </div>
-                            <div class="col-6">
-                              <p class="f-w-600 mb-1 text-end">S/ 0.00</p>
-                            </div>
-
-                            <div class="col-6">
-                              <p class="f-w-600 mb-1 text-start">Total :</p>
-                            </div>
-                            <div class="col-6">
-                              <p class="f-w-600 mb-1 text-end">S/ 0.00</p>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-
-                      <!-- Nota -->
-                      <div class="col-12">
-                        <div class="mb-3 mb-0">
-                          <label class="form-label">Nota</label>
-                          <textarea class="form-control" rows="3"
-                            placeholder="Observaciones para el cliente / interno"></textarea>
-                        </div>
-                      </div>
-
-                      <!-- Acciones / Moneda -->
-                      <div class="col-12">
-                        <div class="row align-items-end justify-content-between g-3">
-                          <div class="col-sm-auto">
-                            <label class="form-label">Moneda*</label>
-                            <select class="form-select w-auto" id="cmp-moneda">
-                              <option value="PEN" selected>PEN (Soles)</option>
-                              <option value="USD">USD (Dólares)</option>
-                            </select>
-                          </div>
-                          <div class="col-sm-auto btn-page">
-                            <a href="../application/invoice-view.html"
-                              class="btn btn-outline-secondary">Previsualizar</a>
-                            <button class="btn btn-outline-secondary">Guardar borrador</button>
-                            <button class="btn btn-primary">Emitir & Enviar</button>
-                          </div>
-                        </div>
-                      </div>
-
-                    </div> <!-- row g-3 -->
-                  </div>
-                </div>
-              </div>
-            </div>
-
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
           </div>
         </div>
       </div>
@@ -285,429 +29,880 @@
     <div class="col-12">
       <div class="card table-card">
         <div class="card-header d-flex align-items-center justify-content-between">
-          <h5 class="mb-0">Ultimas Ventas</h5>
+          <h5 class="mb-0">Últimas Ventas</h5>
           <div class="btn-page">
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-              data-bs-target="#exampleModalFullscreen">Nueva Venta +</button>
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal-nueva-venta">
+              <i class="ti ti-plus me-1"></i> Nueva Venta
+            </button>
           </div>
         </div>
-
         <div class="card-body pt-3">
           <div class="table-responsive">
-            <table class="table table-hover" id="pc-dt-simple">
+            <table class="table table-hover" id="tabla-ventas">
               <thead>
                 <tr>
-                  <th>ID Venta</th>
+                  <th>Comprobante</th>
                   <th>Cliente</th>
                   <th>Fecha</th>
                   <th>Vendedor</th>
-                  <th>Monto Total</th>
+                  <th>Total</th>
                   <th>Estado</th>
                   <th>Acciones</th>
                 </tr>
               </thead>
-              <tbody>
-                <tr>
-                  <td>
-                    <h6 class="mb-0">F001-0158</h6>
-                    <small class="text-muted d-block">Factura</small>
-                  </td>
-                  <td>
-                    <div class="d-flex align-items-center">
-                      <div class="flex-shrink-0">
-                        <img src="/assets/images/user/avatar-1.jpg" alt="Cliente" class="img-radius wid-40" />
-                      </div>
-                      <div class="flex-grow-1 ms-3">
-                        <h6 class="mb-0">Juan Pérez</h6>
-                        <small class="text-muted d-block">jperez@taller.com</small>
-                      </div>
-                    </div>
-                  </td>
-                  <td>22/10/2025</td>
-                  <td>Carlos Ruiz</td>
-                  <td>S/ 191.80</td>
-                  <td><span class="badge text-bg-success">Pagado</span></td>
-                  <td>
-                    <a href="#!" class="avtar avtar-xs btn-link-secondary" data-bs-toggle="tooltip" title="Ver Detalle">
-                      <i class="ti ti-eye f-20"></i>
-                    </a>
-                    <a href="#!" class="avtar avtar-xs btn-link-secondary" data-bs-toggle="tooltip"
-                      title="Imprimir Comprobante">
-                      <i class="ti ti-printer f-20"></i>
-                    </a>
-                  </td>
-                </tr>
-
-                <tr>
-                  <td>
-                    <h6 class="mb-0">B001-0312</h6>
-                    <small class="text-muted d-block">Boleta</small>
-                  </td>
-                  <td>
-                    <div class="d-flex align-items-center">
-                      <div class="flex-shrink-0">
-                        <img src="/assets/images/user/avatar-2.jpg" alt="Cliente" class="img-radius wid-40" />
-                      </div>
-                      <div class="flex-grow-1 ms-3">
-                        <h6 class="mb-0">Ana Gómez</h6>
-                        <small class="text-muted d-block">Consumidor final</small>
-                      </div>
-                    </div>
-                  </td>
-                  <td>21/10/2025</td>
-                  <td>Admin (Web)</td>
-                  <td>S/ 129.50</td>
-                  <td><span class="badge text-bg-warning">Pendiente de Envío</span></td>
-                  <td>
-                    <a href="#!" class="avtar avtar-xs btn-link-secondary" data-bs-toggle="tooltip" title="Ver Detalle">
-                      <i class="ti ti-eye f-20"></i>
-                    </a>
-                    <a href="#!" class="avtar avtar-xs btn-link-secondary" data-bs-toggle="tooltip"
-                      title="Imprimir Comprobante">
-                      <i class="ti ti-printer f-20"></i>
-                    </a>
-                  </td>
-                </tr>
-
-                <tr>
-                  <td>
-                    <h6 class="mb-0">F001-0157</h6>
-                    <small class="text-muted d-block">Factura</small>
-                  </td>
-                  <td>
-                    <div class="d-flex align-items-center">
-                      <div class="flex-shrink-0">
-                        <img src="/assets/images/user/avatar-3.jpg" alt="Cliente" class="img-radius wid-40" />
-                      </div>
-                      <div class="flex-grow-1 ms-3">
-                        <h6 class="mb-0">Taller "El Rápido" SRL</h6>
-                        <small class="text-muted d-block">compras@elrapido.pe</small>
-                      </div>
-                    </div>
-                  </td>
-                  <td>21/10/2025</td>
-                  <td>Carlos Ruiz</td>
-                  <td>S/ 845.00</td>
-                  <td><span class="badge text-bg-success">Pagado</span></td>
-                  <td>
-                    <a href="#!" class="avtar avtar-xs btn-link-secondary" data-bs-toggle="tooltip" title="Ver Detalle">
-                      <i class="ti ti-eye f-20"></i>
-                    </a>
-                    <a href="#!" class="avtar avtar-xs btn-link-secondary" data-bs-toggle="tooltip"
-                      title="Imprimir Comprobante">
-                      <i class="ti ti-printer f-20"></i>
-                    </a>
-                  </td>
-                </tr>
-
-                <tr>
-                  <td>
-                    <h6 class="mb-0">F001-0156</h6>
-                    <small class="text-muted d-block">Factura</small>
-                  </td>
-                  <td>
-                    <div class="d-flex align-items-center">
-                      <div class="flex-shrink-0">
-                        <img src="/assets/images/user/avatar-4.jpg" alt="Cliente" class="img-radius wid-40" />
-                      </div>
-                      <div class="flex-grow-1 ms-3">
-                        <h6 class="mb-0">Transportes del Sur</h6>
-                        <small class="text-muted d-block">logistica@transur.com</small>
-                      </div>
-                    </div>
-                  </td>
-                  <td>22/10/2025</td>
-                  <td>María López</td>
-                  <td>S/ 1,200.00</td>
-                  <td><span class="badge text-bg-success">Pagado</span></td>
-                  <td>
-                    <a href="#!" class="avtar avtar-xs btn-link-secondary" data-bs-toggle="tooltip" title="Ver Detalle">
-                      <i class="ti ti-eye f-20"></i>
-                    </a>
-                    <a href="#!" class="avtar avtar-xs btn-link-secondary" data-bs-toggle="tooltip"
-                      title="Imprimir Comprobante">
-                      <i class="ti ti-printer f-20"></i>
-                    </a>
-                  </td>
-                </tr>
+              <tbody id="ventas-tbody">
               </tbody>
             </table>
           </div>
         </div>
       </div>
     </div>
-    <!-- MODAL: Seleccionar/Agregar dirección (reutilizado, solo traducido) -->
-    <div class="modal fade" id="address-edit_add-modal" data-bs-keyboard="false" tabindex="-1" aria-hidden="true">
-      <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
-        <div class="modal-content">
-          <div class="modal-header justify-content-between">
-            <div class="collapse multi-collapse show">
-              <h5 class="mb-0">Seleccionar dirección</h5>
-            </div>
-            <div class="collapse multi-collapse">
-              <h5 class="mb-0">Agregar nueva dirección</h5>
-            </div>
-            <div class="d-flex align-items-center justify-content-end">
-              <div class="collapse multi-collapse show">
-                <a href="#" class="avtar avtar-s btn-link-secondary" data-bs-toggle="collapse"
-                  data-bs-target=".multi-collapse">
-                  <i class="ti ti-plus f-20"></i>
-                </a>
-              </div>
-              <a href="#" class="avtar avtar-s btn-link-danger" data-bs-dismiss="modal" data-bs-toggle="tooltip"
-                title="Cerrar">
-                <i class="ti ti-x f-20"></i>
-              </a>
-            </div>
-          </div>
-          <div class="modal-body">
-            <!-- listado de direcciones -->
-            <div class="collapse multi-collapse show">
-              <div class="address-check-block">
-                <div class="address-check border rounded p-3">
-                  <div class="form-check">
-                    <input type="radio" name="radio1" class="form-check-input input-primary" id="address-check-1"
-                      checked />
-                    <label class="form-check-label d-block" for="address-check-1">
-                      <span class="h6 mb-0 d-block">Juan Pérez <small class="text-muted">(Casa)</small></span>
-                      <span class="text-muted address-details">Av. Siempre Viva 742, Lima, Perú</span>
-                      <span class="row align-items-center justify-content-between">
-                        <span class="col-6"><span class="text-muted mb-0">+51 999 999 999</span></span>
-                        <span class="col-6 text-end">
-                          <span class="address-btns d-flex align-items-center justify-content-end">
-                            <a href="#" class="avtar avtar-s btn-link-danger btn-pc-default"><i
-                                class="ti ti-trash f-20"></i></a>
-                            <span class="btn btn-sm btn-outline-primary">Enviar a esta dirección</span>
-                          </span>
-                        </span>
-                      </span>
-                    </label>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- formulario nueva dirección -->
-            <div class="collapse multi-collapse">
-              <div class="row">
-                <div class="col-12">
-                  <div class="mb-3 row align-items-center">
-                    <label class="col-lg-4 col-form-label">Tipo de dirección
-                      <small class="text-muted d-block">Selecciona el tipo</small>
-                    </label>
-                    <div class="col-lg-8">
-                      <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="addtypecheck1" checked>
-                        <label class="form-check-label" for="addtypecheck1"> Casa (todo el día) </label>
-                      </div>
-                      <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="addtypecheck2">
-                        <label class="form-check-label" for="addtypecheck2"> Trabajo (10:00–17:00) </label>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="mb-3 row">
-                    <label class="col-lg-4 col-form-label">Nombres:
-                      <small class="text-muted d-block">Ingresa tus nombres</small>
-                    </label>
-                    <div class="col-lg-8"><input type="text" class="form-control"></div>
-                  </div>
-
-                  <div class="mb-3 row">
-                    <label class="col-lg-4 col-form-label">Apellidos:
-                      <small class="text-muted d-block">Ingresa tus apellidos</small>
-                    </label>
-                    <div class="col-lg-8"><input type="text" class="form-control"></div>
-                  </div>
-
-                  <div class="mb-3 row">
-                    <label class="col-lg-4 col-form-label">Correo:
-                      <small class="text-muted d-block">Ingresa tu correo</small>
-                    </label>
-                    <div class="col-lg-8"><input type="email" class="form-control"></div>
-                  </div>
-
-                  <div class="mb-3 row">
-                    <label class="col-lg-4 col-form-label">Fecha de nacimiento:
-                      <small class="text-muted d-block">Ingresa tu fecha</small>
-                    </label>
-                    <div class="col-lg-8"><input type="date" class="form-control"></div>
-                  </div>
-
-                  <div class="mb-3 row">
-                    <label class="col-lg-4 col-form-label">Teléfono:
-                      <small class="text-muted d-block">Ingresa tu teléfono</small>
-                    </label>
-                    <div class="col-lg-8"><input type="text" class="form-control"></div>
-                  </div>
-
-                  <div class="mb-3 row">
-                    <label class="col-lg-4 col-form-label">Ciudad:
-                      <small class="text-muted d-block">Ingresa la ciudad</small>
-                    </label>
-                    <div class="col-lg-8"><input type="text" class="form-control"></div>
-                  </div>
-
-                  <div class="mb-3">
-                    <div class="form-check">
-                      <input class="form-check-input" type="checkbox" id="checkaddres" checked>
-                      <label class="form-check-label" for="checkaddres"> Guardar esta dirección para futuras entregas
-                      </label>
-                    </div>
-                  </div>
-
-                  <div class="text-end btn-page mb-0 mt-4">
-                    <button class="btn btn-outline-secondary" type="button" data-bs-toggle="collapse"
-                      data-bs-target=".multi-collapse">Cancelar</button>
-                    <button class="btn btn-primary" data-bs-dismiss="modal">Guardar y usar esta dirección</button>
-                  </div>
-
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="modal-footer justify-content-between collapse multi-collapse show">
-            <ul class="list-inline me-auto mb-0">
-              <li class="list-inline-item align-bottom">
-                <a href="#" class="avtar avtar-s btn-link-danger w-sm-auto" data-bs-toggle="tooltip" title="Eliminar">
-                  <i class="ti ti-trash f-18"></i>
-                </a>
-              </li>
-            </ul>
-            <div class="flex-grow-1 text-end">
-              <button type="button" class="btn btn-link-danger" data-bs-dismiss="modal">Cancelar</button>
-              <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Guardar</button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- MODAL: Agregar producto -->
-    <div class="modal fade" id="producto-modal" tabindex="-1" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered">
+    <div class="modal fade" id="modal-nueva-venta" aria-labelledby="modal-nueva-venta-label" aria-hidden="true">
+      <div class="modal-dialog modal-fullscreen">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title">Agregar ítem</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+            <h5 class="modal-title h4" id="modal-nueva-venta-label">Nueva Venta</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
-            <form>
-              <div class="mb-3">
-                <label class="col-form-label pt-0">Nombre / Código</label>
-                <div class="position-relative">
-                  <i class="search-icon position-absolute top-50 start-0 translate-middle-y ms-2">
-                    <svg class="pc-icon">
-                      <use xlink:href="#custom-search-normal-1"></use>
-                    </svg>
-                  </i>
-                  <input type="search" class="form-control ps-5" placeholder="Busca por nombre o código">
+            <form id="form-nueva-venta">
+              <div class="row g-3">
+                <div class="col-lg-8">
+                  <div class="card">
+                    <div class="card-body">
+                      <div class="row g-3 mb-3">
+                        <div class="col-sm-6 col-xl-3">
+                          <label class="form-label">Tipo de comprobante</label>
+                          <select class="form-select" id="venta-tipo-comprobante" required>
+                            <option value="Boleta">Boleta</option>
+                            <option value="Factura">Factura</option>
+                          </select>
+                        </div>
+                        <div class="col-sm-6 col-xl-2">
+                          <label class="form-label">Serie</label>
+                          <input type="text" class="form-control" id="venta-serie" value="B001" readonly />
+                        </div>
+                        <div class="col-sm-6 col-xl-2">
+                          <label class="form-label">Número (opcional)</label>
+                          <input type="text" class="form-control" id="venta-numero" placeholder=""/>
+                        </div>
+                        <div class="col-sm-6 col-xl-3">
+                          <label class="form-label">Fecha de emisión</label>
+                          <input type="date" class="form-control" id="venta-fecha-emision" required />
+                        </div>
+                      </div>
+
+                      <div class="mb-3">
+                        <label class="form-label">Buscar Producto (por nombre o código)</label>
+                        <div class="position-relative">
+                          <input type="search" class="form-control ps-5" id="producto-search-input"
+                            placeholder="Escribe para buscar...">
+                          <i class="search-icon position-absolute top-50 start-0 translate-middle-y ms-3">
+                            <svg class="pc-icon">
+                              <use xlink:href="#custom-search-normal-1"></use>
+                            </svg>
+                          </i>
+                        </div>
+                        <div id="producto-search-results"
+                          class="list-group position-absolute w-100 bg-white border rounded shadow-sm"
+                          style="z-index: 1050; max-height: 200px; overflow-y: auto;">
+                        </div>
+                      </div>
+
+                      <div class="table-responsive">
+                        <table class="table table-hover mb-0">
+                          <thead>
+                            <tr>
+                              <th>Producto</th>
+                              <th style="width: 15%;">Cant.</th>
+                              <th style="width: 15%;">Precio Unit.</th>
+                              <th style="width: 15%;">Desc. (S/)</th>
+                              <th style="width: 15%;">Importe</th>
+                              <th class="text-center">Acción</th>
+                            </tr>
+                          </thead>
+                          <tbody id="detalle-tbody">
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-              </div>
-              <div class="mb-3">
-                <label class="col-form-label">Resultado</label>
-                <select class="form-select">
-                  <option value="">Selecciona un producto</option>
-                  <!-- llena dinámicamente -->
-                </select>
-              </div>
-              <div class="row g-2">
-                <div class="col-4">
-                  <label class="form-label">Cant.</label>
-                  <input type="number" class="form-control" min="1" value="1">
-                </div>
-                <div class="col-4">
-                  <label class="form-label">Precio</label>
-                  <input type="number" class="form-control" step="0.01" value="0.00">
-                </div>
-                <div class="col-4">
-                  <label class="form-label">Desc. %</label>
-                  <input type="number" class="form-control" min="0" max="100" step="0.01" value="0">
+
+                <div class="col-lg-4">
+                  <div class="card">
+                    <div class="card-body">
+                      <h6 class="mb-2">Vendedor:</h6>
+                      <div class="border rounded p-3 mb-3">
+                        <h5 th:text="${usuario.persona.nombres} + ' ' + ${usuario.persona.apellidos}">Ronald Ramos</h5>
+                        <p class="mb-0" th:text="${usuario.roles[0].nombre}">Cajero</p>
+                        <p class="mb-0" th:text="'Cod. ' + ${usuario.persona.numeroDocumento}">cod. 4626264965</p>
+                      </div>
+
+                      <div class="d-flex align-items-center justify-content-between mb-2">
+                        <h6 class="mb-0">Cliente:</h6>
+                        <div class="d-flex gap-2">
+                          <button class="btn btn-sm btn-outline-primary" type="button" id="btn-buscar-cliente">
+                            <i class="ti ti-search"></i> Buscar
+                          </button>
+                          <button class="btn btn-sm btn-outline-secondary" type="button" id="btn-nuevo-cliente">
+                            <i class="ti ti-plus"></i> Nuevo
+                          </button>
+                        </div>
+                      </div>
+                      <div class="border rounded p-3 mb-3">
+                        <div id="cliente-view">
+                          <h5 id="cliente-view-nombre">Cliente</h5>
+                          <p class="mb-0" id="cliente-view-doc">DNI: 00000000</p>
+                          <p class="mb-0" id="cliente-view-dir">Sin dirección</p>
+                        </div>
+                      </div>
+
+                      <div class="mb-3">
+                        <label class="form-label">Método de Pago</label>
+                        <select class="form-select" id="venta-metodo-pago" required>
+                          <option th:each="metodo : ${T(com.example.simplemvc.model.enums.MetodoPago).values()}"
+                            th:value="${metodo}" th:text="${metodo.name()}"></option>
+                        </select>
+                      </div>
+
+                      <hr class="my-3">
+                      <div class="invoice-total ms-auto">
+                        <div class="row g-2 mb-1">
+                          <div class="col-6">
+                            <p class="text-muted mb-0 text-start">Sub total :</p>
+                          </div>
+                          <div class="col-6">
+                            <p class="f-w-600 mb-0 text-end" id="total-subtotal">S/ 0.00</p>
+                          </div>
+                        </div>
+                        <div class="row g-2 mb-1">
+                          <div class="col-6">
+                            <p class="text-muted mb-0 text-start">IGV (18%) :</p>
+                          </div>
+                          <div class="col-6">
+                            <p class="f-w-600 mb-0 text-end" id="total-igv">S/ 0.00</p>
+                          </div>
+                        </div>
+                        <div class="row g-2">
+                          <div class="col-6">
+                            <h5 class="mb-0 text-start">Total :</h5>
+                          </div>
+                          <div class="col-6">
+                            <h5 class="mb-0 text-end" id="total-total">S/ 0.00</h5>
+                          </div>
+                        </div>
+                      </div>
+                      <hr class="my-3">
+
+                      <div class="d-grid gap-2">
+                        <button class="btn btn-primary" type="button" id="btn-crear-venta" disabled>
+                          <i class="ti ti-device-floppy me-1"></i> Emitir Venta
+                        </button>
+                      </div>
+
+                    </div>
+                  </div>
                 </div>
               </div>
             </form>
           </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal fade" id="modal-cliente" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="cliente-modal-title">Buscar Cliente</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+          </div>
+          <div class="modal-body">
+            <form id="cliente-form">
+              <div class="row g-2">
+                <div class="col-6">
+                  <label class="form-label">Tipo doc.</label>
+                  <select class="form-select" id="cliente-form-tipo-doc" required>
+                    <option value="DNI">DNI</option>
+                    <option value="RUC">RUC</option>
+                    <option value="CE">CE</option>
+                  </select>
+                </div>
+                <div class="col-6">
+                  <label class="form-label">N° documento</label>
+                  <div class="input-group">
+                    <input class="form-control" type="text" id="cliente-form-numero" required>
+                    <button class="btn btn-outline-primary" type="button" id="btn-buscar-doc-api">
+                      <span id="btn-buscar-doc-spinner" class="spinner-border spinner-border-sm d-none me-1"
+                        role="status" aria-hidden="true"></span>
+                      <i class="ti ti-search" id="btn-buscar-doc-icon"></i>
+                    </button>
+                  </div>
+                </div>
+                <div class="col-12">
+                  <label class="form-label">Razón social / Nombres</label>
+                  <input class="form-control" type="text" id="cliente-form-nombre" required>
+                </div>
+                <div class="col-12">
+                  <label class="form-label">Dirección</label>
+                  <input class="form-control" type="text" id="cliente-form-direccion">
+                </div>
+              </div>
+              <div id="cliente-form-error" class="text-danger mt-2 d-none"></div>
+            </form>
+          </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-            <button type="button" class="btn btn-primary">Agregar</button>
+            <button type="button" class="btn btn-primary" id="btn-guardar-cliente">Guardar Cliente</button>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- MODAL: Buscar/Nuevo cliente (esqueleto) -->
-    <div class="modal fade" id="cliente-modal" tabindex="-1" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered">
+    <div class="modal fade" id="modal-vista-previa" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title">Buscar cliente</h5>
+            <h5 class="modal-title">Detalle de Venta</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
           </div>
           <div class="modal-body">
-            <label class="form-label">DNI / RUC / Nombre</label>
-            <input type="search" class="form-control" placeholder="Ingresa DNI, RUC o nombre">
-            <small class="text-muted">Puedes conectar a tu padrón SUNAT/RENIEC si aplica.</small>
-            <div class="mt-3">
-              <label class="form-label">Resultados</label>
-              <select class="form-select">
-                <option value="">Selecciona un cliente</option>
-              </select>
+            <div class="row mb-3">
+              <div class="col-md-8">
+                <strong>Cliente:</strong>
+                <p id="vp-cliente-nombre" class="mb-1 text-muted">Cargando...</p>
+                <strong>Documento:</strong>
+                <p id="vp-cliente-doc" class="mb-0 text-muted">Cargando...</p>
+              </div>
+              <div class="col-md-4 text-md-end">
+                <strong>Estado:</strong>
+                <p id="vp-estado" class="mb-1">Cargando...</p>
+                <strong>Total:</strong>
+                <h4 id="vp-total" class="mb-0 text-primary">Cargando...</h4>
+              </div>
+            </div>
+            <div class="row mb-3">
+              <div class="col-md-4">
+                <strong>Comprobante:</strong>
+                <p id="vp-comprobante" class="mb-0 text-muted">Cargando...</p>
+              </div>
+              <div class="col-md-4">
+                <strong>Fecha:</strong>
+                <p id="vp-fecha" class="mb-0 text-muted">Cargando...</p>
+              </div>
+              <div class="col-md-4">
+                <strong>Vendedor:</strong>
+                <p id="vp-vendedor" class="mb-0 text-muted">Cargando...</p>
+              </div>
+            </div>
+            <hr>
+            <h6 class="mb-3">Productos</h6>
+            <div class="table-responsive">
+              <table class="table table-sm">
+                <thead>
+                  <tr>
+                    <th>Producto</th>
+                    <th>Cant.</th>
+                    <th>P. Unit.</th>
+                    <th>Desc.</th>
+                    <th class="text-end">Subtotal</th>
+                  </tr>
+                </thead>
+                <tbody id="vp-detalle-tbody">
+                </tbody>
+              </table>
             </div>
           </div>
           <div class="modal-footer">
-            <button class="btn btn-outline-secondary" data-bs-target="#cliente-modal-nuevo" data-bs-toggle="modal">Nuevo
-              cliente</button>
-            <button class="btn btn-primary" data-bs-dismiss="modal">Seleccionar</button>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+            <button type="button" class="btn btn-primary"><i class="ti ti-printer me-1"></i> Imprimir</button>
           </div>
         </div>
       </div>
     </div>
 
-    <div class="modal fade" id="cliente-modal-nuevo" tabindex="-1" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title">Nuevo cliente</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
-          </div>
-          <div class="modal-body">
-            <div class="row g-2">
-              <div class="col-6">
-                <label class="form-label">Tipo doc.</label>
-                <select class="form-select">
-                  <option>DNI</option>
-                  <option>RUC</option>
-                  <option>CE</option>
-                </select>
-              </div>
-              <div class="col-6">
-                <label class="form-label">N° documento</label>
-                <input class="form-control" type="text" placeholder="">
-              </div>
-              <div class="col-12">
-                <label class="form-label">Razón social / Nombres</label>
-                <input class="form-control" type="text" placeholder="">
-              </div>
-              <div class="col-12">
-                <label class="form-label">Correo</label>
-                <input class="form-control" type="email" placeholder="">
-              </div>
-              <div class="col-12">
-                <label class="form-label">Dirección</label>
-                <input class="form-control" type="text" placeholder="">
-              </div>
-            </div>
-          </div>
-          <div class="modal-footer">
-            <button class="btn btn-outline-secondary" data-bs-target="#cliente-modal"
-              data-bs-toggle="modal">Volver</button>
-            <button class="btn btn-primary" data-bs-dismiss="modal">Guardar</button>
-          </div>
-        </div>
-      </div>
-    </div>
-    <!-- [ Main Content ] end -->
   </div>
 </div>
+
+
+
+<script th:inline="javascript">
+  document.addEventListener('DOMContentLoaded', () => {
+
+    const API_VENTAS = '/api/ventas';
+    const API_PRODUCTOS = '/api/productos';
+    const API_CONSULTA = '/api/consulta';
+
+    const IGV_RATE = 1.18;
+    const DEFAULT_CLIENTE = {
+      tipoDocumento: "DNI",
+      numeroDocumento: "00000000",
+      nombreCompleto: "Cliente",
+      direccion: "Sin dirección"
+    };
+
+    let clienteSeleccionado = {
+      ...DEFAULT_CLIENTE
+    };
+    let productosEnCarrito = []; 
+
+    const ventasTbody = document.getElementById('ventas-tbody');
+    const modalVistaPrevia = new bootstrap.Modal(document.getElementById('modal-vista-previa'));
+
+    const modalNuevaVentaEl = document.getElementById('modal-nueva-venta');
+    const formNuevaVenta = document.getElementById('form-nueva-venta');
+    const ventaTipoComprobante = document.getElementById('venta-tipo-comprobante');
+    const ventaSerie = document.getElementById('venta-serie');
+    const ventaNumero = document.getElementById('venta-numero');
+    const ventaFechaEmision = document.getElementById('venta-fecha-emision');
+    const ventaMetodoPago = document.getElementById('venta-metodo-pago');
+    const clienteViewNombre = document.getElementById('cliente-view-nombre');
+    const clienteViewDoc = document.getElementById('cliente-view-doc');
+    const clienteViewDir = document.getElementById('cliente-view-dir');
+    const detalleTbody = document.getElementById('detalle-tbody');
+    const totalSubtotalEl = document.getElementById('total-subtotal');
+    const totalIgvEl = document.getElementById('total-igv');
+    const totalTotalEl = document.getElementById('total-total');
+    const btnCrearVenta = document.getElementById('btn-crear-venta');
+
+    const modalCliente = new bootstrap.Modal(document.getElementById('modal-cliente'));
+    const clienteModalTitle = document.getElementById('cliente-modal-title');
+    const clienteForm = document.getElementById('cliente-form');
+    const clienteFormTipoDoc = document.getElementById('cliente-form-tipo-doc');
+    const clienteFormNumero = document.getElementById('cliente-form-numero');
+    const clienteFormNombre = document.getElementById('cliente-form-nombre');
+    const clienteFormDireccion = document.getElementById('cliente-form-direccion');
+    const btnBuscarDocApi = document.getElementById('btn-buscar-doc-api');
+    const btnBuscarDocSpinner = document.getElementById('btn-buscar-doc-spinner');
+    const btnBuscarDocIcon = document.getElementById('btn-buscar-doc-icon');
+    const clienteFormError = document.getElementById('cliente-form-error');
+    const btnGuardarCliente = document.getElementById('btn-guardar-cliente');
+
+    const productoSearchInput = document.getElementById('producto-search-input');
+    const productoSearchResults = document.getElementById('producto-search-results');
+
+
+    async function cargarVentas() {
+      try {
+        const response = await fetch(API_VENTAS);
+        if (!response.ok) throw new Error('Error al cargar ventas');
+        const ventas = await response.json();
+
+        ventasTbody.innerHTML = '';
+        ventas.forEach(venta => {
+          ventasTbody.appendChild(crearFilaVenta(venta));
+        });
+      } catch (error) {
+        console.error(error);
+        ventasTbody.innerHTML = `<tr><td colspan="7" class="text-center text-danger">Error al cargar las ventas.</td></tr>`;
+      }
+    }
+
+    function crearFilaVenta(venta) {
+      const tr = document.createElement('tr');
+      const fechaVenta = new Date(venta.fechaVenta);
+      const hoy = new Date();
+      const diffTime = Math.abs(hoy - fechaVenta);
+      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+      const anularDisabled = venta.estado === 'ANULADA' || diffDays > 7;
+
+      tr.innerHTML = `
+        <td>
+          <h6 class="mb-0">${venta.serieComprobante}-${venta.numeroComprobante}</h6>
+          <small class="text-muted d-block">${venta.tipoComprobante}</small>
+        </td>
+        <td>
+          <h6 class="mb-0">${venta.clienteNombreCompleto}</h6>
+          <small class="text-muted d-block">${venta.clienteTipoDocumento}: ${venta.clienteNumeroDocumento}</small>
+        </td>
+        <td>${formatTimestamp(venta.fechaVenta)}</td>
+        <td>${venta.nombreVendedor}</td>
+        <td>${formatCurrency(venta.total)}</td>
+        <td>${formatEstadoVenta(venta.estado)}</td>
+        <td>
+          <a href="#" class="avtar avtar-xs btn-link-secondary btn-ver-venta" data-id="${venta.idVenta}" data-bs-toggle="tooltip" title="Ver Detalle">
+            <i class="ti ti-eye f-20"></i>
+          </a>
+          <a href="#" class="avtar avtar-xs btn-link-danger btn-anular-venta" data-id="${venta.idVenta}" ${anularDisabled ? 'disabled' : ''} data-bs-toggle="tooltip" title="${anularDisabled ? 'No se puede anular (límite 7 días)' : 'Anular Venta'}">
+            <i class="ti ti-ban f-20"></i>
+          </a>
+        </td>
+      `;
+      return tr;
+    }
+
+    async function abrirModalVistaPrevia(id) {
+      document.getElementById('vp-cliente-nombre').textContent = 'Cargando...';
+      document.getElementById('vp-cliente-doc').textContent = 'Cargando...';
+      document.getElementById('vp-estado').innerHTML = '<span class="badge text-bg-secondary">Cargando...</span>';
+      document.getElementById('vp-total').textContent = 'Cargando...';
+      document.getElementById('vp-comprobante').textContent = 'Cargando...';
+      document.getElementById('vp-fecha').textContent = 'Cargando...';
+      document.getElementById('vp-vendedor').textContent = 'Cargando...';
+      document.getElementById('vp-detalle-tbody').innerHTML = '<tr><td colspan="5" class="text-center">Cargando...</td></tr>';
+
+      modalVistaPrevia.show();
+
+      try {
+        const response = await fetch(`${API_VENTAS}/${id}`);
+        if (!response.ok) throw new Error('Venta no encontrada');
+        const venta = await response.json();
+
+        document.getElementById('vp-cliente-nombre').textContent = venta.clienteNombreCompleto;
+        document.getElementById('vp-cliente-doc').textContent = `${venta.clienteTipoDocumento}: ${venta.clienteNumeroDocumento}`;
+        document.getElementById('vp-estado').innerHTML = formatEstadoVenta(venta.estado);
+        document.getElementById('vp-total').textContent = formatCurrency(venta.total);
+        document.getElementById('vp-comprobante').textContent = `${venta.tipoComprobante} | ${venta.serieComprobante}-${venta.numeroComprobante}`;
+        document.getElementById('vp-fecha').textContent = formatTimestamp(venta.fechaVenta);
+        document.getElementById('vp-vendedor').textContent = venta.nombreVendedor;
+
+        const detalleBody = document.getElementById('vp-detalle-tbody');
+        detalleBody.innerHTML = '';
+        venta.detalles.forEach(item => {
+          detalleBody.innerHTML += `
+            <tr>
+              <td>${item.nombreProducto}</td>
+              <td>${item.cantidad}</td>
+              <td>${formatCurrency(item.precioUnitario)}</td>
+              <td>${formatCurrency(item.descuentoUnitario)}</td>
+              <td class="text-end">${formatCurrency(item.subtotal)}</td>
+            </tr>
+          `;
+        });
+
+      } catch (error) {
+        console.error(error);
+        document.getElementById('vp-cliente-nombre').textContent = 'Error al cargar la venta.';
+      }
+    }
+
+ 
+    function solicitarAnulacion(id) {
+      Swal.fire({
+        title: '¿Estás seguro?',
+        text: "Esta acción anulará la venta y devolverá los productos al stock. No se puede revertir.",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#6c757d',
+        confirmButtonText: 'Sí, anular venta',
+        cancelButtonText: 'Cancelar'
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          try {
+            const response = await fetch(`${API_VENTAS}/${id}/anular`, { method: 'PUT' });
+
+            if (response.ok) {
+              await response.json();
+              Swal.fire('¡Anulada!', 'La venta ha sido anulada correctamente.', 'success');
+              cargarVentas();
+            } else {
+              const errorMsg = await response.text();
+              throw new Error(errorMsg);
+            }
+          } catch (error) {
+            Swal.fire('Error', error.message, 'error');
+          }
+        }
+      });
+    }
+
+
+
+    function resetFormVenta() {
+      formNuevaVenta.reset();
+      detalleTbody.innerHTML = '';
+      productosEnCarrito = [];
+      clienteSeleccionado = {
+        ...DEFAULT_CLIENTE
+      };
+      actualizarVistaCliente();
+      recalcularTotales();
+      ventaFechaEmision.value = new Date().toISOString().split('T')[0]; 
+      ventaTipoComprobante.value = "Boleta";
+      ventaSerie.value = "B001";
+      btnCrearVenta.disabled = true;
+    }
+
+
+    function toggleClienteLogic() {
+      const tipo = ventaTipoComprobante.value;
+      if (tipo === 'Factura') {
+        ventaSerie.value = 'F001';
+        clienteFormTipoDoc.value = 'RUC';
+      } else {
+        ventaSerie.value = 'B001';
+        clienteFormTipoDoc.value = 'DNI';
+      }
+    }
+    async function buscarProductos(query) {
+      if (query.length < 2) {
+        productoSearchResults.innerHTML = '';
+        return;
+      }
+
+      try {
+        const response = await fetch(`${API_PRODUCTOS}/buscar?query=${query}`);
+        if (!response.ok) throw new Error('Error al buscar');
+        const productos = await response.json();
+
+        productoSearchResults.innerHTML = '';
+        productos.forEach(producto => {
+          const item = document.createElement('a');
+          item.href = '#';
+          item.className = 'list-group-item list-group-item-action';
+          item.textContent = `${producto.nombre} (Stock: ${producto.stockActual})`;
+          item.onclick = (e) => {
+            e.preventDefault();
+            seleccionarProducto(producto);
+          };
+          productoSearchResults.appendChild(item);
+        });
+      } catch (error) {
+        console.error(error);
+      }
+    }
+
+    function seleccionarProducto(producto) {
+      productoSearchInput.value = '';
+      productoSearchResults.innerHTML = '';
+
+      if (productosEnCarrito.find(p => p.idProducto === producto.idProducto)) {
+        alert('El producto ya está en el carrito.');
+        return;
+      }
+
+      productosEnCarrito.push(producto);
+      const tr = document.createElement('tr');
+      tr.dataset.idProducto = producto.idProducto;
+      tr.innerHTML = `
+        <td>${producto.nombre}<br><small class="text-muted">${producto.codigo}</small></td>
+        <td><input type="number" class="form-control form-control-sm" data-field="cantidad" value="1" min="1" max="${producto.stockActual}"></td>
+        <td><input type="number" class="form-control form-control-sm" data-field="precio" value="${producto.precio}" step="0.01" min="0"></td>
+        <td><input type="number" class="form-control form-control-sm" data-field="descuento" value="0" step="0.01" min="0"></td>
+        <td class="text-end" data-field="importe">${formatCurrency(producto.precio)}</td>
+        <td class="text-center">
+          <a href="#" class="avtar avtar-s btn-link-danger btn-remover-item">
+            <i class="ti ti-trash f-20"></i>
+          </a>
+        </td>
+      `;
+      detalleTbody.appendChild(tr);
+      recalcularTotales();
+    }
+
+    function removerProductoDelCarrito(e) {
+      const tr = e.target.closest('tr');
+      if (tr) {
+        const id = tr.dataset.idProducto;
+        productosEnCarrito = productosEnCarrito.filter(p => p.idProducto != id);
+        tr.remove();
+        recalcularTotales();
+      }
+    }
+
+
+    function recalcularTotales() {
+      let totalAcumulado = 0;
+      detalleTbody.querySelectorAll('tr').forEach(tr => {
+        const cantidad = parseFloat(tr.querySelector('[data-field="cantidad"]').value) || 0;
+        const precio = parseFloat(tr.querySelector('[data-field="precio"]').value) || 0;
+        const descuento = parseFloat(tr.querySelector('[data-field="descuento"]').value) || 0;
+
+        const precioFinal = precio - descuento;
+        const subtotalLinea = precioFinal * cantidad;
+
+        tr.querySelector('[data-field="importe"]').textContent = formatCurrency(subtotalLinea);
+        totalAcumulado += subtotalLinea;
+      });
+
+      const total = totalAcumulado;
+      const subtotal = total / IGV_RATE;
+      const igv = total - subtotal;
+
+      totalSubtotalEl.textContent = formatCurrency(subtotal);
+      totalIgvEl.textContent = formatCurrency(igv);
+      totalTotalEl.textContent = formatCurrency(total);
+
+      validarFormularioVenta();
+    }
+
+    function validarFormularioVenta() {
+      let esValido = true;
+
+      if (detalleTbody.rows.length === 0) {
+        esValido = false;
+      }
+      if (clienteSeleccionado.tipoDocumento === 'RUC' && ventaTipoComprobante.value === 'Boleta') {
+        esValido = false;
+      }
+      if (clienteViewNombre.textContent === 'Cliente') {
+        esValido = false;
+      }
+
+      if (clienteSeleccionado.numeroDocumento === '00000000' && ventaTipoComprobante.value === 'Factura') {
+        esValido = false;
+      }
+
+      if (clienteSeleccionado.nombreCompleto.trim() === '') {
+        esValido = false;
+      }
+
+      if (ventaFechaEmision.value.trim() === '') {
+        esValido = false;
+      }
+
+      detalleTbody.querySelectorAll('tr').forEach(tr => {
+        const id = tr.dataset.idProducto;
+        const producto = productosEnCarrito.find(p => p.idProducto == id);
+        const cantidadInput = tr.querySelector('[data-field="cantidad"]');
+        const cantidad = parseFloat(cantidadInput.value) || 0;
+
+        if (cantidad > producto.stockActual) {
+          cantidadInput.classList.add('is-invalid');
+          esValido = false;
+        } else {
+          cantidadInput.classList.remove('is-invalid');
+        }
+      });
+
+      btnCrearVenta.disabled = !esValido;
+    }
+
+
+
+    function abrirModalBuscarCliente() {
+      clienteModalTitle.textContent = "Buscar Cliente";
+      clienteForm.reset();
+      clienteFormError.classList.add('d-none');
+
+      const tipo = ventaTipoComprobante.value;
+      clienteFormTipoDoc.value = (tipo === 'Factura') ? 'RUC' : 'DNI';
+      clienteFormNumero.disabled = false;
+      clienteFormNombre.disabled = true;
+      clienteFormDireccion.disabled = true;
+      btnBuscarDocApi.classList.remove('d-none');
+
+      modalCliente.show();
+    }
+
+    function abrirModalNuevoCliente() {
+      clienteModalTitle.textContent = "Nuevo Cliente";
+      clienteForm.reset();
+      clienteFormError.classList.add('d-none');
+
+      clienteFormTipoDoc.value = (ventaTipoComprobante.value === 'Factura') ? 'RUC' : 'DNI';
+      clienteFormNumero.disabled = false;
+      clienteFormNombre.disabled = false;
+      clienteFormDireccion.disabled = false;
+      btnBuscarDocApi.classList.add('d-none');
+
+      modalCliente.show();
+    }
+
+
+    async function consultarDocumentoApi() {
+      const tipo = clienteFormTipoDoc.value;
+      const numero = clienteFormNumero.value.trim();
+
+      if (numero === '') {
+        clienteFormError.textContent = 'Ingrese un número de documento.';
+        clienteFormError.classList.remove('d-none');
+        return;
+      }
+
+      const endpoint = (tipo === 'RUC') ? 'ruc' : 'dni';
+      clienteFormError.classList.add('d-none');
+      setBuscandoDoc(true);
+
+      try {
+        const response = await fetch(`${API_CONSULTA}/${endpoint}?num=${numero}`);
+        const result = await response.json();
+
+        if (result.success && result.data) {
+          if (tipo === 'RUC') {
+            clienteFormNombre.value = result.data.nombre_o_razon_social || '';
+            clienteFormDireccion.value = result.data.direccion_completa || result.data.direccion || '';
+          } else {
+            clienteFormNombre.value = result.data.nombre_completo || '';
+            clienteFormDireccion.value = '';
+          }
+          clienteFormNombre.disabled = false;
+          clienteFormDireccion.disabled = false;
+        } else {
+          clienteFormError.textContent = result.message || 'No se encontraron datos.';
+          clienteFormError.classList.remove('d-none');
+        }
+
+      } catch (error) {
+        clienteFormError.textContent = 'Error al conectar con el servicio de consulta.';
+        clienteFormError.classList.remove('d-none');
+      } finally {
+        setBuscandoDoc(false);
+      }
+    }
+
+
+    function guardarClienteSeleccionado() {
+      if (clienteFormNumero.value.trim() === '' || clienteFormNombre.value.trim() === '') {
+        clienteFormError.textContent = 'Debe completar el número y nombre/razón social.';
+        clienteFormError.classList.remove('d-none');
+        return;
+      }
+
+      clienteSeleccionado = {
+        tipoDocumento: clienteFormTipoDoc.value,
+        numeroDocumento: clienteFormNumero.value,
+        nombreCompleto: clienteFormNombre.value,
+        direccion: clienteFormDireccion.value
+      };
+
+      actualizarVistaCliente();
+      modalCliente.hide();
+      validarFormularioVenta();
+    }
+
+    function actualizarVistaCliente() {
+      clienteViewNombre.textContent = clienteSeleccionado.nombreCompleto;
+      clienteViewDoc.textContent = `${clienteSeleccionado.tipoDocumento}: ${clienteSeleccionado.numeroDocumento}`;
+      clienteViewDir.textContent = clienteSeleccionado.direccion || 'Sin dirección';
+    }
+
+    function setBuscandoDoc(buscando) {
+      btnBuscarDocApi.disabled = buscando;
+      btnBuscarDocSpinner.classList.toggle('d-none', !buscando);
+      btnBuscarDocIcon.classList.toggle('d-none', buscando);
+    }
+    async function validarYCrearVenta() {
+      validarFormularioVenta();
+      if (btnCrearVenta.disabled) {
+        alert('El formulario contiene errores. Por favor, revíselo antes de continuar.');       
+        return;
+      }
+
+      const request = {
+        clienteTipoDocumento: clienteSeleccionado.tipoDocumento,
+        clienteNumeroDocumento: clienteSeleccionado.numeroDocumento,
+        clienteNombreCompleto: clienteSeleccionado.nombreCompleto,
+        clienteDireccion: clienteSeleccionado.direccion,
+        tipoComprobante: ventaTipoComprobante.value,
+        serieComprobante: ventaSerie.value,
+        numeroComprobante: ventaNumero.value == "" ? null : ventaNumero.value,
+        metodoPago: ventaMetodoPago.value,
+        detalles: []
+      };
+
+      detalleTbody.querySelectorAll('tr').forEach(tr => {
+        request.detalles.push({
+          idProducto: tr.dataset.idProducto,
+          cantidad: parseFloat(tr.querySelector('[data-field="cantidad"]').value),
+          precioUnitario: parseFloat(tr.querySelector('[data-field="precio"]').value),
+          descuentoUnitario: parseFloat(tr.querySelector('[data-field="descuento"]').value)
+        });
+      });
+
+      setCreandoVenta(true);
+      try {
+        const response = await fetch(API_VENTAS, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(request)
+        });
+
+        if (response.ok) {
+          const nuevaVenta = await response.json();
+          Swal.fire('¡Éxito!', `Venta ${nuevaVenta.idVenta} creada correctamente.`, 'success');
+          bootstrap.Modal.getInstance(modalNuevaVentaEl).hide();
+          cargarVentas();
+        } else {
+          const errorMsg = await response.text();
+          throw new Error(errorMsg);
+        }
+
+      } catch (error) {
+        Swal.fire('Error al crear Venta', error.message, 'error');
+      } finally {
+        setCreandoVenta(false);
+      }
+    }
+
+    function setCreandoVenta(creando) {
+      btnCrearVenta.disabled = creando;
+      btnCrearVenta.innerHTML = creando
+        ? '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Procesando...'
+        : '<i class="ti ti-device-floppy me-1"></i> Emitir Venta';
+    }
+
+    function formatCurrency(value) {
+      return new Intl.NumberFormat('es-PE', { style: 'currency', currency: 'PEN' }).format(value || 0);
+    }
+
+    function formatTimestamp(timestamp) {
+      if (!timestamp) return '--';
+      const date = new Date(timestamp);
+      return date.toLocaleDateString('es-PE') + ' ' + date.toLocaleTimeString('es-PE', { hour: '2-digit', minute: '2-digit' });
+    }
+
+    function formatEstadoVenta(estado) {
+      switch (estado) {
+        case 'COMPLETADA': return '<span class="badge text-bg-success">Completada</span>';
+        case 'ANULADA': return '<span class="badge text-bg-danger">Anulada</span>';
+        default: return `<span class="badge text-bg-secondary">${estado}</span>`;
+      }
+    }
+
+    function debounce(func, delay) {
+      let timeout;
+      return function (...args) {
+        clearTimeout(timeout);
+        timeout = setTimeout(() => func.apply(this, args), delay);
+      };
+    }
+
+    function initVentasPage() {
+      cargarVentas();
+
+      ventasTbody.addEventListener('click', e => {
+        const btnVer = e.target.closest('.btn-ver-venta');
+        const btnAnular = e.target.closest('.btn-anular-venta');
+
+        if (btnVer) {
+          e.preventDefault();
+          abrirModalVistaPrevia(btnVer.dataset.id);
+        }
+        if (btnAnular && !btnAnular.disabled) {
+          e.preventDefault();
+          solicitarAnulacion(btnAnular.dataset.id);
+        }
+      });
+
+      modalNuevaVentaEl.addEventListener('show.bs.modal', resetFormVenta);
+      ventaTipoComprobante.addEventListener('change', toggleClienteLogic);
+      btnCrearVenta.addEventListener('click', validarYCrearVenta);
+
+      productoSearchInput.addEventListener('input', debounce(e => buscarProductos(e.target.value), 300));
+
+      detalleTbody.addEventListener('click', e => {
+        if (e.target.closest('.btn-remover-item')) {
+          e.preventDefault();
+          removerProductoDelCarrito(e);
+        }
+      });
+      detalleTbody.addEventListener('input', e => {
+        if (e.target.dataset.field) {
+          recalcularTotales();
+        }
+      });
+
+      document.getElementById('btn-buscar-cliente').addEventListener('click', abrirModalBuscarCliente);
+      document.getElementById('btn-nuevo-cliente').addEventListener('click', abrirModalNuevoCliente);
+      btnBuscarDocApi.addEventListener('click', consultarDocumentoApi);
+      btnGuardarCliente.addEventListener('click', guardarClienteSeleccionado);
+    }
+
+    initVentasPage();
+
+  });
+</script>

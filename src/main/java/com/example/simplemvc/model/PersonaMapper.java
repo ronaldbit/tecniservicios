@@ -1,6 +1,7 @@
 package com.example.simplemvc.model;
 
 import com.example.simplemvc.dto.PersonaDto;
+import com.example.simplemvc.model.Persona.PersonaBuilder;
 import com.example.simplemvc.request.CrearPersonaRequest;
 import com.example.simplemvc.shared.mapper.BasicMapper;
 import com.example.simplemvc.shared.mapper.StringUtilsMapper;

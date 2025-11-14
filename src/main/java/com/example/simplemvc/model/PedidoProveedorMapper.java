@@ -1,6 +1,7 @@
 package com.example.simplemvc.model;
 
 import com.example.simplemvc.dto.PedidoProveedorDto;
+
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 

@@ -1,6 +1,7 @@
 package com.example.simplemvc.model;
 
 import com.example.simplemvc.dto.TipoDocumentoDto;
+import com.example.simplemvc.model.TipoDocumento.TipoDocumentoBuilder;
 import com.example.simplemvc.shared.mapper.BasicMapper;
 import com.example.simplemvc.shared.mapper.StringUtilsMapper;
 import org.mapstruct.Mapper;

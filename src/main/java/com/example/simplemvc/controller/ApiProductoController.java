@@ -2,7 +2,7 @@ package com.example.simplemvc.controller;
 
 import java.util.List;
 
-import com.example.simplemvc.request.ActualizarRequest;
+import com.example.simplemvc.request.ActualizarInventarioRequest;
 import com.example.simplemvc.request.CrearProductoRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -61,7 +61,7 @@ public class ApiProductoController {
     }
 
     @PostMapping("/actualizarInventario")
-    public ResponseEntity<?> actualizarInventario(@RequestBody ActualizarRequest request) {
+    public ResponseEntity<?> actualizarInventario(@RequestBody ActualizarInventarioRequest request) {
         try {
             productoService.actualizarInventario(request);
             return ResponseEntity.ok().build();

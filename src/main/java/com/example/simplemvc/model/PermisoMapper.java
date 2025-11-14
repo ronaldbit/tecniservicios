@@ -1,6 +1,7 @@
 package com.example.simplemvc.model;
 
 import com.example.simplemvc.dto.PermisoDto;
+import com.example.simplemvc.model.Permiso.PermisoBuilder;
 import com.example.simplemvc.request.CrearPermisoRequest;
 import com.example.simplemvc.shared.config.LombokBuilderConfig;
 import com.example.simplemvc.shared.mapper.BasicMapper;

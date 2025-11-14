@@ -1,6 +1,7 @@
 package com.example.simplemvc.model;
 
 import com.example.simplemvc.dto.UsuarioDto;
+import com.example.simplemvc.model.Usuario.UsuarioBuilder;
 import com.example.simplemvc.request.CrearUsuarioRequest;
 import com.example.simplemvc.shared.mapper.CrudMapper;
 import com.example.simplemvc.shared.mapper.StringUtilsMapper;
