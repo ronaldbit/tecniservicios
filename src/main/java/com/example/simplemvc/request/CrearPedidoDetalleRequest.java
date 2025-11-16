@@ -8,8 +8,7 @@ import java.math.BigDecimal;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class CrearPedidoDetalleRequest {    
+public class CrearPedidoDetalleRequest {
     private Long idProducto;
     private BigDecimal cantidad;
-    private BigDecimal precioCosto;
 }

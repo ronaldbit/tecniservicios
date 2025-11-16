@@ -11,17 +11,9 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @AllArgsConstructor
 public class PedidoProveedorDetalleDto {
-
-    private Long id; // ID del detalle
-    
-    private Long idProducto;
-    
-    // Es útil incluir el nombre para mostrarlo fácilmente
+    private Long id;     
+    private Long idProducto;  
     private String nombreProducto; 
-
-    private BigDecimal cantidad;
-    
-    private BigDecimal precioCosto;
-    
-    private BigDecimal subtotal;
+    private BigDecimal cantidad;    
+    private boolean recibido;
 }

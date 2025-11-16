@@ -24,7 +24,7 @@
                               <th>Proveedor</th>
                               <th>Fecha Emisión</th>
                               <th>Fecha Esperada</th>
-                              <th>Monto Total</th>
+                              <th>Costo Cotización</th>
                               <th>Estado</th>
                               <th>Acciones</th>
                            </tr>
@@ -66,8 +66,8 @@
                         </div>
                         <div class="col-12">
                            <div class="mb-3"> <label for="pedidoNotas" class="form-label">Notas</label> <textarea
-                                 class="form-control" id="pedidoNotas" rows="2"
-                                 placeholder="Notas internas o instrucciones para el proveedor..."></textarea> </div>
+                                 class="form-control" id="pedidoNotas" rows="2" placeholder="Notas internas"></textarea>
+                           </div>
                         </div>
                      </div>
                      <hr class="my-3">
@@ -87,15 +87,19 @@
                            <thead>
                               <tr>
                                  <th style="width: 40%;">Producto</th>
-                                 <th style="width: 15%;">Stock</th>
+                                 <th style="width: 15%;">Stock actual</th>
                                  <th style="width: 15%;">Cantidad</th>
-                                 <th style="width: 15%;">Costo Unit.</th>
-                                 <th style="width: 15%;">Subtotal</th>
                                  <th></th>
                               </tr>
                            </thead>
                            <tbody id="tablaProductosPedido"> </tbody>
                         </table>
+                     </div>
+                     <div class="col-12">
+                        <div class="mb-3"> <label for="pedidoNotas" class="form-label">Costo Cotización</label>
+                           <input type="number" class="form-control" id="pedidoCostoCotizacion" step="0.01" min="0"
+                              placeholder="Ingrese el costo total de la cotización" required>
+                        </div>
                      </div>
                   </form>
                </div>
@@ -125,7 +129,7 @@
                      <div class="col-md-4 text-md-end">
                         <strong>Estado:</strong>
                         <p id="detalle-estado" class="mb-1">Cargando...</p>
-                        <strong>Total Pedido:</strong>
+                        <strong>Total Cotización:</strong>
                         <h4 id="detalle-total" class="mb-0 text-primary">Cargando...</h4>
                      </div>
                   </div>
@@ -160,8 +164,7 @@
                            <tr>
                               <th>Producto</th>
                               <th>Cantidad</th>
-                              <th>Costo Unit.</th>
-                              <th class="text-end">Subtotal</th>
+                              <th>Estado Entrega</th>
                            </tr>
                         </thead>
                         <tbody id="detalle-tabla-productos">
@@ -173,6 +176,66 @@
                   <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
                   <button type="button" class="btn btn-primary"><i class="ti ti-printer me-1"></i> Imprimir</button>
                </div>
+            </div>
+         </div>
+      </div>
+
+      <div class="modal fade" id="modalReciboParcial" tabindex="-1" aria-labelledby="modalReciboParcialLabel"
+         aria-hidden="true">
+         <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+               <div class="modal-header">
+                  <h5 class="modal-title" id="modalReciboParcialLabel">Recibo Parcial</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+               </div>
+
+               <div class="modal-body">
+
+                  <div class="row mb-3">
+                     <div class="col-md-8">
+                        <strong>Proveedor:</strong>
+                        <p id="rp-proveedor" class="mb-1 text-muted">Cargando...</p>
+
+                        <strong>ID Pedido:</strong>
+                        <p id="rp-id" class="mb-0 text-muted">Cargando...</p>
+                     </div>
+
+                     <div class="col-md-4 text-md-end">
+                        <strong>Estado:</strong>
+                        <p id="rp-estado" class="mb-1">Cargando...</p>
+
+                        <strong>Total Cotización:</strong>
+                        <h4 id="rp-total" class="mb-0 text-primary">Cargando...</h4>
+                     </div>
+                  </div>
+
+                  <hr>
+                  <h6 class="mb-3">Productos del pedido</h6>
+
+                  <div class="table-responsive">
+                     <table class="table table-sm">
+                        <thead>
+                           <tr>
+                              <th>Producto</th>
+                              <th>Cantidad</th>
+                              <th>¿Recibido?</th>
+                           </tr>
+                        </thead>
+                        <tbody id="rp-tabla-productos">
+                        </tbody>
+                     </table>
+                  </div>
+
+               </div>
+
+               <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                  <button type="button" class="btn btn-primary" onclick="guardarReciboParcial()">
+                     Guardar Cambios
+                  </button>
+
+               </div>
+
             </div>
          </div>
       </div>
@@ -204,7 +267,7 @@
             if (!response.ok) throw new Error('Error al cargar pedidos');
             const pedidos = await response.json();
 
-            pedidosTbody.innerHTML = ''; 
+            pedidosTbody.innerHTML = '';
             pedidos.forEach(pedido => {
                const tr = document.createElement('tr');
                tr.innerHTML = `
@@ -212,7 +275,7 @@
                     <td>${pedido.razonSocialProveedor || '(Sin Proveedor)'}</td>
                     <td>${formatFecha(pedido.fechaEmision)}</td>
                     <td>${formatFecha(pedido.fechaEntregaEsperada)}</td>
-                    <td>${formatCurrency(pedido.totalPedido)}</td>
+                    <td>${formatCurrency(pedido.costoCotizacion)}</td>
                     <td>${formatEstado(pedido.estado)}</td>
                     <td>${generarBotonesAccion(pedido.id, pedido.estado)}</td>
                 `;
@@ -246,9 +309,9 @@
 
       modalNuevoPedido.addEventListener('show.bs.modal', () => {
          formNuevoPedido.reset();
-         tablaProductosPedido.innerHTML = ''; 
+         tablaProductosPedido.innerHTML = '';
          productoSearchResults.innerHTML = '';
-         inputFechaEmision.value = new Date().toISOString().split('T')[0]; 
+         inputFechaEmision.value = new Date().toISOString().split('T')[0];
          cargarProveedores();
       });
 
@@ -278,7 +341,7 @@
                      if (imagenes.length > 0) {
                         imgHtml = `<img src="${imagenes[0]}" alt="${producto.nombre}" style="width: 40px; height: 40px; object-fit: cover; border-radius: 4px;">`;
                      }
-                  } catch (e) {  }
+                  } catch (e) { }
                }
 
                item.innerHTML = `
@@ -294,8 +357,8 @@
                item.addEventListener('click', (e) => {
                   e.preventDefault();
                   agregarProductoATabla(producto);
-                  productoSearchInput.value = ''; 
-                  productoSearchResults.innerHTML = ''; 
+                  productoSearchInput.value = '';
+                  productoSearchResults.innerHTML = '';
                });
                productoSearchResults.appendChild(item);
             });
@@ -303,7 +366,7 @@
             console.error(error);
             productoSearchResults.innerHTML = '<div class="list-group-item text-danger">Error al buscar</div>';
          }
-      }, 300)); 
+      }, 300));
 
       function agregarProductoATabla(producto) {
          if (document.getElementById(`prod-${producto.idProducto}`)) {
@@ -324,10 +387,6 @@
             <td>
                 <input type="number" class="form-control form-control-sm" value="1" min="0.01" step="0.01" data-field="cantidad" style="width: 80px;">
             </td>
-            <td>
-                <input type="number" class="form-control form-control-sm" value="${producto.precio || 0}" min="0.01" step="0.01" data-field="precioCosto" style="width: 100px;">
-            </td>
-            <td class="subtotal" data-field="subtotal">${formatCurrency(producto.precio || 0)}</td>
             <td>
                 <button type="button" class="btn btn-sm btn-outline-danger btn-remove-item">
                     <i class="ti ti-trash"></i>
@@ -357,6 +416,8 @@
          const idProveedor = selectProveedor.value;
          const fechaEmision = inputFechaEmision.value;
          const notas = document.getElementById('pedidoNotas').value;
+         const costoCotizacionInput = document.getElementById('pedidoCostoCotizacion').value;
+         const costoCotizacion = costoCotizacionInput ? parseFloat(costoCotizacionInput) : null;
 
          if (!idProveedor || !fechaEmision) {
             Swal.fire('Campos Incompletos', 'Debe seleccionar un Proveedor y una Fecha de Emisión.', 'warning');
@@ -369,7 +430,6 @@
             const detalle = {
                idProducto: parseInt(tr.dataset.id),
                cantidad: parseFloat(tr.querySelector('[data-field="cantidad"]').value) || 0,
-               precioCosto: parseFloat(tr.querySelector('[data-field="precioCosto"]').value) || 0
             };
             if (detalle.cantidad > 0) {
                detalles.push(detalle);
@@ -381,7 +441,8 @@
             fechaEmision: fechaEmision,
             fechaEntregaEsperada: document.getElementById('pedidoFechaEsp').value || null,
             notas: notas,
-            detalles: detalles 
+            costoCotizacion: costoCotizacion,
+            detalles: detalles
          };
 
          try {
@@ -398,7 +459,7 @@
                const nuevoPedido = await response.json();
                Swal.fire('¡Éxito!', `Pedido ${nuevoPedido.id} creado correctamente.`, 'success');
                bootstrap.Modal.getInstance(modalNuevoPedido).hide();
-               cargarPedidos(); 
+               cargarPedidos();
             } else {
                const errorMsg = await response.text();
                Swal.fire('Error', errorMsg, 'error');
@@ -416,6 +477,7 @@
          const btnCancelar = e.target.closest('.btn-cancelar');
          const btnConfirmar = e.target.closest('.btn-confirmar');
          const btnVerDetalle = e.target.closest('.btn-ver-detalle');
+         const btnReciboParcial = e.target.closest('.btn-reciboParcial');
 
          if (btnConfirmar) {
             const id = btnConfirmar.dataset.id;
@@ -452,12 +514,108 @@
                }
             });
          }
+         if (btnReciboParcial) {
+            const id = btnReciboParcial.dataset.id;
+            abrirModalParcial(id);
+         }
          if (btnVerDetalle) {
-            e.preventDefault(); 
+            e.preventDefault();
             const id = btnVerDetalle.dataset.id;
             abrirModalDetalle(id);
          }
       });
+
+      async function abrirModalParcial(id) {
+
+         const modalReciboEl = document.getElementById('modalReciboParcial');
+         const modalRecibo = new bootstrap.Modal(modalReciboEl);
+
+         const rpId = document.getElementById('rp-id');
+         const rpProveedor = document.getElementById('rp-proveedor');
+         const rpEstado = document.getElementById('rp-estado');
+         const rpTotal = document.getElementById('rp-total');
+         const rpTablaProductos = document.getElementById('rp-tabla-productos');
+
+         rpId.textContent = "Cargando...";
+         rpProveedor.textContent = "Cargando...";
+         rpEstado.innerHTML = '<span class="badge text-bg-secondary">Cargando...</span>';
+         rpTotal.textContent = "Cargando...";
+         rpTablaProductos.innerHTML = '<tr><td colspan="3" class="text-center">Cargando...</td></tr>';
+
+         modalRecibo.show();
+
+         try {
+            const response = await fetch(`${API_PEDIDOS}/${id}`);
+            if (!response.ok) {
+               throw new Error("No se pudo obtener el pedido");
+            }
+            const pedido = await response.json();
+            rpId.textContent = pedido.id;
+            rpProveedor.textContent = pedido.razonSocialProveedor || '(Sin Proveedor)';
+            rpEstado.innerHTML = formatEstado(pedido.estado);
+            rpTotal.textContent = formatCurrency(pedido.costoCotizacion);
+            rpTablaProductos.innerHTML = "";
+            if (pedido.detalles && pedido.detalles.length > 0) {
+               pedido.detalles.forEach(item => {
+                  const tr = document.createElement("tr");
+                  tr.innerHTML = `
+                  <td>
+                     ${item.nombreProducto}
+                     <small class="d-block text-muted">${item.idProducto}</small>
+                  </td>
+                  <td>${item.cantidad}</td>
+                  <td class="text-center">
+                     <input 
+                        type="checkbox" 
+                        class="form-check-input recibo-checkbox"
+                        data-id-detalle="${item.id}" 
+                        ${item.recibido ? "checked" : ""}
+                     >
+                  </td>
+               `;
+                  rpTablaProductos.appendChild(tr);
+               });
+            } else {
+               rpTablaProductos.innerHTML = `<tr><td colspan="3" class="text-center">No hay productos.</td></tr>`;
+            }
+         } catch (error) {
+            console.error(error);
+            rpProveedor.textContent = "Error al cargar";
+            rpId.textContent = error.message;
+         }
+      }
+
+      window.guardarReciboParcial = async function () {
+
+         const checkboxes = document.querySelectorAll(".recibo-checkbox");
+         const detallesActualizados = [];
+         checkboxes.forEach(cb => {
+            detallesActualizados.push({
+               idDetalle: cb.dataset.idDetalle,
+               recibido: cb.checked
+            });
+         });
+         const pedidoId = document.getElementById("rp-id").textContent;
+
+         console.log(JSON.stringify(detallesActualizados));
+         try {
+            const response = await fetch(`${API_PEDIDOS}/${pedidoId}/recibo-parcial`, {
+               method: "PUT",
+               headers: { "Content-Type": "application/json" },
+               body: JSON.stringify(detallesActualizados)
+            });
+            if (!response.ok) {
+               throw new Error("No se pudo guardar los cambios");
+            }
+            
+         } catch (error) {
+            console.error(error);
+            alert("Error al guardar los cambios");
+         }
+         const modalElement = document.getElementById('modalReciboParcial');
+         bootstrap.Modal.getInstance(modalElement).hide();
+         cargarPedidos();
+      }
 
 
       async function abrirModalDetalle(id) {
@@ -494,12 +652,12 @@
             detalleId.textContent = pedido.id || 'N/A';
             detalleProveedor.textContent = pedido.razonSocialProveedor || '(Sin Proveedor)';
             detalleEstado.innerHTML = formatEstado(pedido.estado);
-            detalleTotal.textContent = formatCurrency(pedido.totalPedido);
+            detalleTotal.textContent = formatCurrency(pedido.costoCotizacion);
             detalleFechaEmision.textContent = formatFecha(pedido.fechaEmision);
             detalleFechaEsperada.textContent = formatFecha(pedido.fechaEntregaEsperada);
-            detalleFechaCreacion.textContent = formatTimestamp(pedido.createdAt); 
+            detalleFechaCreacion.textContent = formatTimestamp(pedido.createdAt);
             detalleNotas.textContent = pedido.notas || '(Sin notas)';
-            detalleTablaProductos.innerHTML = ''; 
+            detalleTablaProductos.innerHTML = '';
             if (pedido.detalles && pedido.detalles.length > 0) {
                pedido.detalles.forEach(item => {
                   const tr = document.createElement('tr');
@@ -509,8 +667,7 @@
                                 <small class="d-block text-muted">${item.codigoProducto || ''}</small> 
                             </td>
                             <td>${item.cantidad}</td>
-                            <td>${formatCurrency(item.precioCosto)}</td>
-                            <td class="text-end">${formatCurrency(item.subtotal)}</td>
+                            <td>${item.recibido == true ? 'Sí' : 'No'}</td>
                         `;
                   detalleTablaProductos.appendChild(tr);
                });
@@ -532,7 +689,7 @@
 
             if (response.ok) {
                Swal.fire('¡Actualizado!', `El pedido ha sido marcado como ${accion === 'confirmar' ? 'Recibido' : 'Cancelado'}.`, 'success');
-               cargarPedidos(); 
+               cargarPedidos();
             } else {
                const errorMsg = await response.text();
                Swal.fire('Error', errorMsg, 'error');
@@ -545,7 +702,7 @@
       function formatCurrency(value) {
          return new Intl.NumberFormat('es-PE', {
             style: 'currency',
-            currency: 'PEN' 
+            currency: 'PEN'
          }).format(value || 0);
       }
 
@@ -558,7 +715,7 @@
          if (!timestamp) return '--';
          const date = new Date(timestamp);
          const day = String(date.getDate()).padStart(2, '0');
-         const month = String(date.getMonth() + 1).padStart(2, '0'); 
+         const month = String(date.getMonth() + 1).padStart(2, '0');
          const year = date.getFullYear();
          const hours = String(date.getHours()).padStart(2, '0');
          const minutes = String(date.getMinutes()).padStart(2, '0');
@@ -584,14 +741,19 @@
                     <i class="ti ti-eye f-20"></i>
                 </a>
             `;
-         if (estado === 'PENDIENTE') {
+         if (estado === 'PENDIENTE' || estado === 'PARTIALMENTE_RECIBIDO') {
             botones += `
-                <a href="#!" class="avtar avtar-xs btn-link-success btn-confirmar" data-id="${id}" data-bs-toggle="tooltip" title="Confirmar Recepción">
-                    <i class="ti ti-check f-20"></i>
-                </a>
-                <a href="#!" class="avtar avtar-xs btn-link-danger btn-cancelar" data-id="${id}" data-bs-toggle="tooltip" title="Cancelar Pedido">
-                    <i class="ti ti-x f-20"></i>
-                </a>
+               <a href="#!" class="avtar avtar-xs btn-link-warning btn-reciboParcial" data-id="${id}" data-bs-toggle="tooltip" title="Recibo Parcial">
+                  <i class="ti ti-slice f-20"></i>
+               </a>
+
+               <a href="#!" class="avtar avtar-xs btn-link-success btn-confirmar" data-id="${id}" data-bs-toggle="tooltip" title="Confirmar Recepción">
+                  <i class="ti ti-check f-20"></i>
+               </a>
+
+               <a href="#!" class="avtar avtar-xs btn-link-danger btn-cancelar" data-id="${id}" data-bs-toggle="tooltip" title="Cancelar Pedido">
+                  <i class="ti ti-x f-20"></i>
+               </a>
             `;
          }
          return botones;
@@ -615,7 +777,7 @@
 
 
       async function ejecutarAccionPedido(id, accion) {
-         const url = `${API_PEDIDOS}/${id}/${accion}`; 
+         const url = `${API_PEDIDOS}/${id}/${accion}`;
          try {
             const response = await fetch(url, {
                method: 'PUT'

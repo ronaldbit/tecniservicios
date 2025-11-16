@@ -32,21 +32,21 @@ public class PedidoProveedor {
     private Proveedor proveedor;
 
     @Column(name = "fecha_emision", nullable = false)
-    private LocalDate fechaEmision; 
+    private LocalDate fechaEmision;
 
     @Column(name = "fecha_entrega_esperada")
-    private LocalDate fechaEntregaEsperada; 
+    private LocalDate fechaEntregaEsperada;
 
     @Column(columnDefinition = "TEXT")
-    private String notas; 
+    private String notas;
 
     @Builder.Default
     @Column(nullable = false)
-    @Enumerated(EnumType.STRING) 
+    @Enumerated(EnumType.STRING)
     private EstadoPedido estado = EstadoPedido.PENDIENTE;
 
-    @Column(name = "total_pedido", precision = 12, scale = 2)
-    private BigDecimal totalPedido; 
+    @Column(name = "costo_cotizacion", precision = 12, scale = 2)
+    private BigDecimal costoCotizacion;
 
     @OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<PedidoProveedorDetalle> detalles;

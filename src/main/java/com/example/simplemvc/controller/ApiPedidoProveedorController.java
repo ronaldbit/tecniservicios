@@ -2,6 +2,7 @@ package com.example.simplemvc.controller;
 
 import com.example.simplemvc.dto.PedidoProveedorDto;
 import com.example.simplemvc.request.CrearPedidoProveedorRequest;
+import com.example.simplemvc.request.DetalleReciboRequest;
 import com.example.simplemvc.service.PedidoProveedorService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
@@ -30,6 +31,7 @@ public class ApiPedidoProveedorController {
                     .body("Error al crear el pedido: " + e.getMessage());
         }
     }
+
     @GetMapping
     public ResponseEntity<?> listarTodos() {
         try {
@@ -40,6 +42,7 @@ public class ApiPedidoProveedorController {
                     .body("Error al obtener los pedidos: " + e.getMessage());
         }
     }
+
     @GetMapping("/{id}")
     public ResponseEntity<?> obtenerPorId(@PathVariable Long id) {
         try {
@@ -52,6 +55,7 @@ public class ApiPedidoProveedorController {
                     .body("Error al obtener el pedido: " + e.getMessage());
         }
     }
+
     @PutMapping("/{id}/confirmar")
     public ResponseEntity<?> confirmarPedido(@PathVariable Long id) {
         try {
@@ -64,6 +68,7 @@ public class ApiPedidoProveedorController {
                     .body("Error al confirmar el pedido: " + e.getMessage());
         }
     }
+
     @PutMapping("/{id}/cancelar")
     public ResponseEntity<?> cancelarPedido(@PathVariable Long id) {
         try {
@@ -76,4 +81,13 @@ public class ApiPedidoProveedorController {
                     .body("Error al cancelar el pedido: " + e.getMessage());
         }
     }
+
+    @PutMapping("/{id}/recibo-parcial")
+    public void actualizarReciboParcial(    
+            @PathVariable Long id,
+            @RequestBody List<DetalleReciboRequest> detallesRequests) {
+        System.out.println("Recibo parcial para pedido ID: " + id);
+        pedidoProveedorService.reciboParcialPedidoPorId(id, detallesRequests);
+    }
+
 }

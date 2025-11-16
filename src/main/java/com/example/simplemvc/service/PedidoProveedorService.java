@@ -12,8 +12,12 @@ import com.example.simplemvc.repository.ProductoRepository;
 import com.example.simplemvc.repository.ProveedorRepository;
 import com.example.simplemvc.request.CrearPedidoDetalleRequest;
 import com.example.simplemvc.request.CrearPedidoProveedorRequest;
+import com.example.simplemvc.request.DetalleReciboRequest;
+
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.math.BigDecimal;
@@ -40,9 +44,8 @@ public class PedidoProveedorService {
         pedido.setFechaEmision(request.getFechaEmision());
         pedido.setFechaEntregaEsperada(request.getFechaEntregaEsperada());
         pedido.setNotas(request.getNotas());
-        pedido.setTotalPedido(BigDecimal.ZERO);
+        pedido.setCostoCotizacion(request.getCostoCotizacion());
         pedido.setDetalles(new ArrayList<>());
-        BigDecimal totalAcumulado = BigDecimal.ZERO;
         for (CrearPedidoDetalleRequest detalleRequest : request.getDetalles()) {
             Producto producto = productoRepository.findById(detalleRequest.getIdProducto())
                     .orElseThrow(() -> new EntityNotFoundException(
@@ -50,14 +53,12 @@ public class PedidoProveedorService {
             PedidoProveedorDetalle detalle = new PedidoProveedorDetalle();
             detalle.setProducto(producto);
             detalle.setCantidad(detalleRequest.getCantidad());
-            detalle.setPrecioCosto(detalleRequest.getPrecioCosto());
-            BigDecimal subtotal = detalleRequest.getCantidad().multiply(detalleRequest.getPrecioCosto());
-            detalle.setSubtotal(subtotal);
-            totalAcumulado = totalAcumulado.add(subtotal);
+            detalle.setRecibido(false);
             detalle.setPedido(pedido);
             pedido.getDetalles().add(detalle);
         }
-        pedido.setTotalPedido(totalAcumulado);
+        request.setCostoCotizacion(request.getCostoCotizacion());
+        pedido.setEstado(EstadoPedido.PENDIENTE);
         PedidoProveedor pedidoGuardado = pedidoProveedorRepository.save(pedido);
         servicioCorreo.enviarNotificacionNuevoPedidoProveedor(pedidoGuardado);
         return pedidoProveedorMapper.toDto(pedidoGuardado);
@@ -94,7 +95,9 @@ public class PedidoProveedorService {
                     .orElseThrow(() -> new EntityNotFoundException(
                             "Producto no encontrado con ID: " + detalle.getProducto().getIdProducto()));
             BigDecimal nuevoStock = producto.getStockActual().add(detalle.getCantidad());
+            detalle.setRecibido(true);
             producto.setStockActual(nuevoStock);
+            detalle.setPedido(pedidoToUpdate);
             productoRepository.save(producto);
         });
         pedidoToUpdate.setEstado(EstadoPedido.RECIBIDO);
@@ -110,6 +113,32 @@ public class PedidoProveedorService {
             pedido.setEstado(EstadoPedido.CANCELADO);
             pedidoProveedorRepository.save(pedido);
         });
+    }
+
+    @Transactional
+    public void reciboParcialPedidoPorId(Long id, List<DetalleReciboRequest> request) {
+        PedidoProveedor pedido = pedidoProveedorRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException(
+                        "Pedido no encontrado con ID: " + id));
+
+        for (DetalleReciboRequest dto : request) {
+            pedido.getDetalles().forEach(det -> {
+                if (det.getId().equals(dto.getIdDetalle())) {
+                    det.setRecibido(dto.getRecibido());
+                }
+            });
+        }
+        boolean todos = pedido.getDetalles().stream().allMatch(d -> d.isRecibido());
+        boolean ninguno = pedido.getDetalles().stream().noneMatch(d -> d.isRecibido());
+        if (todos) {
+            pedido.setEstado(EstadoPedido.RECIBIDO);
+
+        } else if (ninguno) {
+            pedido.setEstado(EstadoPedido.PENDIENTE);
+        } else {
+            pedido.setEstado(EstadoPedido.PARTIALMENTE_RECIBIDO);
+        }
+        pedidoProveedorRepository.save(pedido);
     }
 
 }

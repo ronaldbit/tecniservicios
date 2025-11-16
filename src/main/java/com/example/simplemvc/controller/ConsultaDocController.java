@@ -20,14 +20,12 @@ public class ConsultaDocController {
   private final ApiPeruClient api;
 
   @GetMapping("/dni")
-  @PreAuthorize("hasRole('ADMIN')")
   public ResponseEntity<StdOk<DniData>> dni(@RequestParam("num") String num) {
     StdOk<DniData> response = api.consultarDni(num);
     return ResponseEntity.status(response.success() ? 200 : 400).body(response);
   }
 
   @GetMapping("/ruc")
-  @PreAuthorize("hasRole('ADMIN')")
   public ResponseEntity<StdOk<RucData>> ruc(@RequestParam("num") String num) {
     StdOk<RucData> response = api.consultarRuc(num);
     return ResponseEntity.status(response.success() ? 200 : 400).body(response);

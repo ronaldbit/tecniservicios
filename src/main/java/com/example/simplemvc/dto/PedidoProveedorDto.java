@@ -16,24 +16,14 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class PedidoProveedorDto {
-
-    private Long id;
-    
-    private Long idProveedor;
-    
-    private String razonSocialProveedor; 
-
-    private LocalDate fechaEmision;
-    
-    private LocalDate fechaEntregaEsperada;
-    
-    private String notas;
-    
-    private EstadoPedido estado;
-    
-    private BigDecimal totalPedido;
-    
+    private Long id;    
+    private Long idProveedor;    
+    private String razonSocialProveedor;
+    private LocalDate fechaEmision;    
+    private LocalDate fechaEntregaEsperada;    
+    private String notas;    
+    private EstadoPedido estado;    
+    private BigDecimal costoCotizacion;    
     private Timestamp createdAt;
-
     private List<PedidoProveedorDetalleDto> detalles;
 }

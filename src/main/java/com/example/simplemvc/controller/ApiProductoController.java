@@ -27,7 +27,6 @@ public class ApiProductoController {
     }
 
     @PostMapping
-    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> crearProducto(@RequestBody CrearProductoRequest request) {
         try {
             ProductoDto nuevoProducto = productoService.create(request);
@@ -38,7 +37,6 @@ public class ApiProductoController {
     }
 
     @PutMapping("/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> actualizarProducto(@PathVariable Long id, @RequestBody CrearProductoRequest request) {
         try {
             ProductoDto productoActualizado = productoService.update(id, request);
@@ -49,7 +47,6 @@ public class ApiProductoController {
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
     public void eliminarProducto(@PathVariable Long id) {
         productoService.delete(id);
     }

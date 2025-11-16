@@ -32,9 +32,6 @@ public class PedidoProveedorDetalle {
     @Column(nullable = false, precision = 12, scale = 2)
     private BigDecimal cantidad;
 
-    @Column(name = "precio_costo", nullable = false, precision = 12, scale = 2)
-    private BigDecimal precioCosto; 
-
-    @Column(nullable = false, precision = 12, scale = 2)
-    private BigDecimal subtotal; 
+    @Column(name = "recibido", nullable = false)
+    private boolean recibido;
 }

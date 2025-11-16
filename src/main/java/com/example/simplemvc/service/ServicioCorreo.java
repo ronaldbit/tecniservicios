@@ -162,15 +162,11 @@ public class ServicioCorreo {
           """
               <tr>
                   <td>%s</td>
-                  <td>%s</td>
-                  <td style="text-align:right;">S/ %,.2f</td>
-                  <td style="text-align:right;">S/ %,.2f</td>
+                  <td>%s</td>   
               </tr>
               """,
           detalle.getProducto().getNombre(),
-          detalle.getCantidad().toString(),
-          detalle.getPrecioCosto(),
-          detalle.getSubtotal()));
+          detalle.getCantidad().toString()));     
     }
 
     String htmlTemplate = """
@@ -244,7 +240,7 @@ public class ServicioCorreo {
         pedido.getId().toString(),
         fechaEmisionFmt,
         fechaEsperadaFmt,
-        pedido.getTotalPedido(),
+        pedido.getCostoCotizacion(),
         filasProductos.toString(),
         pedido.getProveedor().getEmail());
   }

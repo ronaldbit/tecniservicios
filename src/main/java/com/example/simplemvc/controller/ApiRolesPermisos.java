@@ -29,7 +29,6 @@ public class ApiRolesPermisos {
   private final RolService rolService;
   private final PermisoService permisoService;
 
-  // Gestión de roles de usuario
   @GetMapping
   @PreAuthorize("hasRole('ADMIN')")
   public ResponseEntity<List<RolDto>> listarRoles() {

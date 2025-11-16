@@ -2,6 +2,7 @@ package com.example.simplemvc.model.enums;
 
 public enum EstadoPedido {
     PENDIENTE,
-    RECIBIDO,  
+    RECIBIDO, 
+    PARTIALMENTE_RECIBIDO, 
     CANCELADO   
 }
