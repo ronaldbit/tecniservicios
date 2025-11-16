@@ -1,5 +1,10 @@
 <div class="pc-container" th:replace="~{dashboard/layout :: layout(~{::content}, ${usuario}, 'Inicio', '/dashboard')}">
    <div class="pc-content" th:fragment="content">
+      <style>
+         .swal2-container {
+            z-index: 99999 !important;
+         }
+      </style>
       <div class="page-header">
       </div>
 
@@ -56,13 +61,13 @@
                               </select> </div>
                         </div>
                         <div class="col-md-3">
-                           <div class="mb-3"> <label for="pedidoFecha" class="form-label">Fecha de Emisión</label>
-                              <input type="date" class="form-control" id="pedidoFecha" required>
+                           <div class="mb-3">
+                              <label for="pedidoFecha" class="form-label">Fecha de Emisión</label>
+
+                              <input type="date" class="form-control" id="pedidoFecha"
+                                 th:value="${#dates.format(#dates.createNow(), 'yyyy-MM-dd')}" readonly required>
+
                            </div>
-                        </div>
-                        <div class="col-md-3">
-                           <div class="mb-3"> <label for="pedidoFechaEsp" class="form-label">Fecha de Entrega
-                                 Esperada</label> <input type="date" class="form-control" id="pedidoFechaEsp"> </div>
                         </div>
                         <div class="col-12">
                            <div class="mb-3"> <label for="pedidoNotas" class="form-label">Notas</label> <textarea
@@ -95,17 +100,12 @@
                            <tbody id="tablaProductosPedido"> </tbody>
                         </table>
                      </div>
-                     <div class="col-12">
-                        <div class="mb-3"> <label for="pedidoNotas" class="form-label">Costo Cotización</label>
-                           <input type="number" class="form-control" id="pedidoCostoCotizacion" step="0.01" min="0"
-                              placeholder="Ingrese el costo total de la cotización" required>
-                        </div>
-                     </div>
                   </form>
                </div>
-               <div class="modal-footer"> <button type="button" class="btn btn-secondary"
-                     data-bs-dismiss="modal">Cancelar</button> <button type="button" class="btn btn-primary"
-                     id="btnGuardarPedido">Crear y Añadir Productos</button> </div>
+               <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                  <button type="button" class="btn btn-primary" id="btnGuardarPedido">Realizar Cotización</button>
+               </div>
             </div>
          </div>
       </div>
@@ -180,6 +180,39 @@
          </div>
       </div>
 
+      <div class="modal fade" id="modalRegistrarCotizacion" tabindex="-1" aria-labelledby="modalCotizacionLabel"
+         aria-hidden="true">
+         <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+               <div class="modal-header">
+                  <h5 class="modal-title" id="modalCotizacionLabel">Registrar Cotización</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+               </div>
+               <form id="formRegistrarCotizacion">
+                  <div class="modal-body">
+                     <input type="hidden" id="cotizacion-pedido-id">
+                     <div class="mb-3">
+                        <label for="cotizacion-costo-total" class="form-label">Costo Total de Cotización (S/)</label>
+                        <input type="number" class="form-control" id="cotizacion-costo-total" step="0.01" min="0"
+                           placeholder="0.00" required>
+                     </div>
+                     <div class="mb-3">
+                        <label for="cotizacion-fecha-entrega" class="form-label">Fecha de Entrega Esperada</label>
+                        <input type="date" class="form-control" id="cotizacion-fecha-entrega" required>
+                     </div>
+                  </div>
+                  <div class="modal-footer">
+                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                     <button type="submit" class="btn btn-primary" id="btn-guardar-cotizacion"
+                        onclick="guardarCotizacion()">Guardar
+                        Cotización</button>
+                  </div>
+               </form>
+
+            </div>
+         </div>
+      </div>
+
       <div class="modal fade" id="modalReciboParcial" tabindex="-1" aria-labelledby="modalReciboParcialLabel"
          aria-hidden="true">
          <div class="modal-dialog modal-dialog-centered modal-lg">
@@ -240,6 +273,8 @@
          </div>
       </div>
 
+
+
    </div>
 </div>
 
@@ -268,6 +303,7 @@
             const pedidos = await response.json();
 
             pedidosTbody.innerHTML = '';
+            pedidos.reverse();
             pedidos.forEach(pedido => {
                const tr = document.createElement('tr');
                tr.innerHTML = `
@@ -416,8 +452,6 @@
          const idProveedor = selectProveedor.value;
          const fechaEmision = inputFechaEmision.value;
          const notas = document.getElementById('pedidoNotas').value;
-         const costoCotizacionInput = document.getElementById('pedidoCostoCotizacion').value;
-         const costoCotizacion = costoCotizacionInput ? parseFloat(costoCotizacionInput) : null;
 
          if (!idProveedor || !fechaEmision) {
             Swal.fire('Campos Incompletos', 'Debe seleccionar un Proveedor y una Fecha de Emisión.', 'warning');
@@ -439,9 +473,9 @@
          const request = {
             idProveedor: parseInt(idProveedor),
             fechaEmision: fechaEmision,
-            fechaEntregaEsperada: document.getElementById('pedidoFechaEsp').value || null,
+            fechaEntregaEsperada: null,
             notas: notas,
-            costoCotizacion: costoCotizacion,
+            costoCotizacion: null,
             detalles: detalles
          };
 
@@ -457,7 +491,7 @@
 
             if (response.ok) {
                const nuevoPedido = await response.json();
-               Swal.fire('¡Éxito!', `Pedido ${nuevoPedido.id} creado correctamente.`, 'success');
+               Swal.fire('¡Éxito!', `Pedido ${nuevoPedido.id}, se ha enviado un correo de notificación al proveedor para la cotización.`, 'success');
                bootstrap.Modal.getInstance(modalNuevoPedido).hide();
                cargarPedidos();
             } else {
@@ -469,7 +503,7 @@
             Swal.fire('Error', 'No se pudo conectar con el servidor.', 'error');
          } finally {
             btnGuardarPedido.disabled = false;
-            btnGuardarPedido.innerHTML = 'Crear y Añadir Productos';
+            btnGuardarPedido.innerHTML = 'Realizar Cotización';
          }
       });
 
@@ -477,8 +511,9 @@
          const btnCancelar = e.target.closest('.btn-cancelar');
          const btnConfirmar = e.target.closest('.btn-confirmar');
          const btnVerDetalle = e.target.closest('.btn-ver-detalle');
-         const btnReciboParcial = e.target.closest('.btn-reciboParcial');
-
+         const btnReciboParcial = e.target.closest('.btn-recibo-parcial');
+         const btnAprobar = e.target.closest('.btn-aprobar');
+         const btnCotizar = e.target.closest('.btn-cotizar');
          if (btnConfirmar) {
             const id = btnConfirmar.dataset.id;
             Swal.fire({
@@ -523,7 +558,96 @@
             const id = btnVerDetalle.dataset.id;
             abrirModalDetalle(id);
          }
+
+         if (btnCotizar) {
+            const id = btnCotizar.dataset.id;
+            abrirModalCotizar(id);
+         }
+
+         if (btnAprobar) {
+            const id = btnAprobar.dataset.id;
+            Swal.fire({
+               title: '¿Aprobar y Proceder Pedido?',
+               text: `¿Estás seguro de que deseas aprobar y proceder con el pedido ${id}?`,
+               icon: 'question',
+               showCancelButton: true,
+               confirmButtonColor: '#007bff',
+               cancelButtonColor: '#6c757d',
+               confirmButtonText: 'Sí, aprobar',
+               cancelButtonText: 'Cancelar'
+            }).then(async (result) => {
+               if (result.isConfirmed) {
+                  await ejecutarAccionPedido(id, 'aprobar');
+               }
+            });
+         }
       });
+
+
+      async function abrirModalCotizar(id) {
+         const modalCotizacionEl = document.getElementById('modalRegistrarCotizacion');
+         const modalCotizacion = new bootstrap.Modal(modalCotizacionEl);
+         const inputPedidoId = document.getElementById('cotizacion-pedido-id');
+         inputPedidoId.value = id;
+         const today = new Date();
+         const year = today.getFullYear();
+         const month = String(today.getMonth() + 1).padStart(2, '0'); 
+         const day = String(today.getDate()).padStart(2, '0');
+         const minDate = `${year}-${month}-${day}`;
+         const fechaInput = document.getElementById('cotizacion-fecha-entrega');
+         fechaInput.setAttribute('min', minDate);
+         fechaInput.value = "";
+         modalCotizacion.show();
+      }
+
+
+      function getMensajeExito(accion) {
+         switch (accion) {
+            case 'cotizar':
+               return 'La cotización ha sido registrada. El pedido está listo para aprobar.';
+            case 'aprobar':
+               return 'El pedido ha sido aprobado y marcado como Pendiente.';
+            case 'recibo-parcial':
+               return 'Se ha registrado un recibo parcial para este pedido.';
+            case 'recibir-completo':
+               return 'El pedido ha sido marcado como Recibido Completamente.';
+            case 'cancelar':
+               return 'El pedido ha sido cancelado.';
+            default:
+               return 'El estado del pedido ha sido actualizado.';
+         }
+      }
+
+      window.guardarCotizacion = async function () {
+         const id = document.getElementById("cotizacion-pedido-id").value;
+         const costoTotal = parseFloat(document.getElementById("cotizacion-costo-total").value);
+         const fechaEntrega = document.getElementById("cotizacion-fecha-entrega").value;
+         if (isNaN(costoTotal) || costoTotal <= 0 || !fechaEntrega) {
+            Swal.fire('Campos Incompletos', 'Debe ingresar un costo total válido y una fecha de entrega esperada.', 'warning');
+            return;
+         }
+         try {
+            const response = await fetch(`${API_PEDIDOS}/${id}/cotizar`, {
+               method: "PUT",
+               headers: { "Content-Type": "application/json" },
+               body: JSON.stringify({
+                  costoCotizacion: costoTotal,
+                  fechaEntregaEsperada: fechaEntrega
+               })
+            });
+            if (!response.ok) {
+               throw new Error("No se pudo guardar la cotización");
+            }
+            Swal.fire('¡Éxito!', getMensajeExito('cotizar'), 'success');
+            const modalElement = document.getElementById('modalRegistrarCotizacion');
+            bootstrap.Modal.getInstance(modalElement).hide();
+            cargarPedidos();
+         } catch (error) {
+            console.error(error);
+            Swal.fire('Error', 'No se pudo guardar la cotización.', 'error');
+         }
+      }
+
 
       async function abrirModalParcial(id) {
 
@@ -586,7 +710,6 @@
       }
 
       window.guardarReciboParcial = async function () {
-
          const checkboxes = document.querySelectorAll(".recibo-checkbox");
          const detallesActualizados = [];
          checkboxes.forEach(cb => {
@@ -607,7 +730,7 @@
             if (!response.ok) {
                throw new Error("No se pudo guardar los cambios");
             }
-            
+
          } catch (error) {
             console.error(error);
             alert("Error al guardar los cambios");
@@ -681,6 +804,7 @@
             detalleId.textContent = error.message;
          }
       }
+
       async function ejecutarAccionPedido(id, accion) {
          try {
             const response = await fetch(`${API_PEDIDOS}/${id}/${accion}`, {
@@ -688,7 +812,8 @@
             });
 
             if (response.ok) {
-               Swal.fire('¡Actualizado!', `El pedido ha sido marcado como ${accion === 'confirmar' ? 'Recibido' : 'Cancelado'}.`, 'success');
+               const mensajeExito = getMensajeExito(accion);
+               Swal.fire('¡Actualizado!', mensajeExito, 'success');
                cargarPedidos();
             } else {
                const errorMsg = await response.text();
@@ -724,40 +849,70 @@
 
       function formatEstado(estado) {
          switch (estado) {
+            case 'BORRADOR':
+               return '<span class="badge text-bg-secondary">Borrador</span>';
+            case 'COTIZADO':
+               return '<span class="badge text-bg-primary">Cotizado</span>';
             case 'PENDIENTE':
                return '<span class="badge text-bg-info">Pendiente</span>';
+            case 'PARTIALMENTE_RECIBIDO':
+               return '<span class="badge text-bg-warning">Recibido Parcial</span>';
             case 'RECIBIDO':
                return '<span class="badge text-bg-success">Recibido</span>';
             case 'CANCELADO':
                return '<span class="badge text-bg-danger">Cancelado</span>';
             default:
-               return `<span class="badge text-bg-secondary">${estado || 'Borrador'}</span>`;
+               return `<span class="badge text-bg-dark">${estado || 'Desconocido'}</span>`;
          }
       }
+
 
       function generarBotonesAccion(id, estado) {
          let botones = `
-                <a href="#!" class="avtar avtar-xs btn-link-secondary btn-ver-detalle" data-id="${id}" data-bs-toggle="tooltip" title="Ver Detalle">
-                    <i class="ti ti-eye f-20"></i>
-                </a>
-            `;
-         if (estado === 'PENDIENTE' || estado === 'PARTIALMENTE_RECIBIDO') {
+        <a href="#!" class="avtar avtar-xs btn-link-secondary btn-ver-detalle" data-id="${id}" data-bs-toggle="tooltip" title="Ver Detalle">
+            <i class="ti ti-eye f-20"></i>
+        </a>
+         `;
+         if (estado === 'BORRADOR') {
             botones += `
-               <a href="#!" class="avtar avtar-xs btn-link-warning btn-reciboParcial" data-id="${id}" data-bs-toggle="tooltip" title="Recibo Parcial">
-                  <i class="ti ti-slice f-20"></i>
-               </a>
+            <a href="#!" class="avtar avtar-xs btn-link-info btn-cotizar" data-id="${id}" data-bs-toggle="tooltip" title="Registrar Cotización">
+                <i class="ti ti-pencil f-20"></i>
+            </a>
+            
+            <a href="#!" class="avtar avtar-xs btn-link-danger btn-cancelar" data-id="${id}" data-bs-toggle="tooltip" title="Cancelar Pedido">
+                <i class="ti ti-x f-20"></i>
+            </a>
+        `;
+         }
+         else if (estado === 'COTIZADO') {
+            botones += `
+            <a href="#!" class="avtar avtar-xs btn-link-success btn-aprobar" data-id="${id}" data-bs-toggle="tooltip" title="Aprobar y Proceder Pedido">
+                <i class="ti ti-check f-20"></i>
+            </a>
 
-               <a href="#!" class="avtar avtar-xs btn-link-success btn-confirmar" data-id="${id}" data-bs-toggle="tooltip" title="Confirmar Recepción">
-                  <i class="ti ti-check f-20"></i>
-               </a>
+            <a href="#!" class="avtar avtar-xs btn-link-danger btn-cancelar" data-id="${id}" data-bs-toggle="tooltip" title="Cancelar Pedido">
+                <i class="ti ti-x f-20"></i>
+            </a>
+        `;
+         }
+         else if (estado === 'PENDIENTE' || estado === 'PARTIALMENTE_RECIBIDO') {
+            botones += `
+            <a href="#!" class="avtar avtar-xs btn-link-warning btn-recibo-parcial" data-id="${id}" data-bs-toggle="tooltip" title="Recibo Parcial">
+                <i class="ti ti-slice f-20"></i>
+            </a>
 
-               <a href="#!" class="avtar avtar-xs btn-link-danger btn-cancelar" data-id="${id}" data-bs-toggle="tooltip" title="Cancelar Pedido">
-                  <i class="ti ti-x f-20"></i>
-               </a>
-            `;
+            <a href="#!" class="avtar avtar-xs btn-link-success btn-confirmar" data-id="${id}" data-bs-toggle="tooltip" title="Confirmar Recepción Completa">
+                <i class="ti ti-checks f-20"></i>
+            </a>
+
+            <a href="#!" class="avtar avtar-xs btn-link-danger btn-cancelar" data-id="${id}" data-bs-toggle="tooltip" title="Cancelar Pedido">
+                <i class="ti ti-x f-20"></i>
+            </a>
+        `;
          }
          return botones;
       }
+
 
       function activarEventosBotones() {
          document.querySelectorAll(".btn-confirmar").forEach(btn => {
@@ -776,28 +931,7 @@
 
 
 
-      async function ejecutarAccionPedido(id, accion) {
-         const url = `${API_PEDIDOS}/${id}/${accion}`;
-         try {
-            const response = await fetch(url, {
-               method: 'PUT'
-            });
 
-            if (response.ok) {
-               Swal.fire(
-                  '¡Actualizado!',
-                  `El pedido ha sido marcado como ${accion === 'confirmar' ? 'Recibido' : 'Cancelado'}.`,
-                  'success'
-               );
-               cargarPedidos();
-            } else {
-               const errorMsg = await response.text();
-               Swal.fire('Error', errorMsg, 'error');
-            }
-         } catch (error) {
-            Swal.fire('Error', 'No se pudo conectar con el servidor.', 'error');
-         }
-      }
       function debounce(func, delay) {
          let timeout;
          return function (...args) {

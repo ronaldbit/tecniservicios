@@ -1,6 +1,7 @@
 package com.example.simplemvc.controller;
 
 import com.example.simplemvc.dto.PedidoProveedorDto;
+import com.example.simplemvc.request.CotizacionRequest;
 import com.example.simplemvc.request.CrearPedidoProveedorRequest;
 import com.example.simplemvc.request.DetalleReciboRequest;
 import com.example.simplemvc.service.PedidoProveedorService;
@@ -69,6 +70,26 @@ public class ApiPedidoProveedorController {
         }
     }
 
+    @PutMapping("/{id}/cotizar")
+    public void cotizarPedido(
+            @PathVariable Long id,
+            @RequestBody CotizacionRequest cotizacionRequest) {
+        pedidoProveedorService.EstablecerCotizacionPedido(id, cotizacionRequest);
+    }
+
+    @PutMapping("/{id}/aprobar")
+    public ResponseEntity<?> confirmarAprobacion(@PathVariable Long id) {
+        try {
+            pedidoProveedorService.confirmarAprobacionporId(id);
+            return ResponseEntity.ok().build();
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Error al confirmar el pedido: " + e.getMessage());
+        }
+    }
+
     @PutMapping("/{id}/cancelar")
     public ResponseEntity<?> cancelarPedido(@PathVariable Long id) {
         try {
@@ -83,7 +104,7 @@ public class ApiPedidoProveedorController {
     }
 
     @PutMapping("/{id}/recibo-parcial")
-    public void actualizarReciboParcial(    
+    public void actualizarReciboParcial(
             @PathVariable Long id,
             @RequestBody List<DetalleReciboRequest> detallesRequests) {
         System.out.println("Recibo parcial para pedido ID: " + id);

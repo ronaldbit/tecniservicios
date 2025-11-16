@@ -122,53 +122,45 @@ public class ServicioCorreo {
     if (emailDestino == null || emailDestino.isBlank()) {
       System.err.println("Error: El proveedor '" + pedido.getProveedor().getRazonSocial()
           + "' no tiene un email registrado. No se envió la notificación.");
-      return; 
+      return;
     }
-
-    String subject = String.format("Nuevo Pedido de Compra de TecnIServicios - N° %d", pedido.getId());
-    String content = construirHtmlPedidoProveedor(pedido, subject);
-
+    String subject = String.format("Solicitud de Cotización de TecnIServicios - Pedido N° %d", pedido.getId());
+    String content = construirHtmlSolicitudCotizacion(pedido, subject);
     try {
-      System.out.println("Preparando correo de pedido para: " + emailDestino);
+      System.out.println("Preparando correo de solicitud para: " + emailDestino);
       MimeMessage mimeMessage = mailSender.createMimeMessage();
       MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, "UTF-8");
-
       helper.setTo(emailDestino);
       helper.setSubject(subject);
-      helper.setText(content, true); 
+      helper.setText(content, true);
       helper.setFrom(mailFrom);
-
       mailSender.send(mimeMessage);
-      System.out.println("Correo de pedido enviado con éxito a: " + emailDestino);
+      System.out.println("Correo de solicitud enviado con éxito a: " + emailDestino);
     } catch (MessagingException e) {
-        System.err.println("Error al enviar correo de notificación de pedido: " + e.getMessage());
+      System.err.println("Error al enviar correo de solicitud de cotización: " + e.getMessage());
     }
   }
 
- 
-
-  private String construirHtmlPedidoProveedor(PedidoProveedor pedido, String subject) {
-
-    // --- 1. Formatear datos ---
+  private String construirHtmlSolicitudCotizacion(PedidoProveedor pedido, String subject) {
     DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
     String fechaEmisionFmt = pedido.getFechaEmision().format(dtf);
     String fechaEsperadaFmt = (pedido.getFechaEntregaEsperada() != null)
         ? pedido.getFechaEntregaEsperada().format(dtf)
-        : "No especificada";
-
+        : "Lo antes posible";
     StringBuilder filasProductos = new StringBuilder();
     for (PedidoProveedorDetalle detalle : pedido.getDetalles()) {
       filasProductos.append(String.format(
           """
-              <tr>
-                  <td>%s</td>
-                  <td>%s</td>   
-              </tr>
+                  <tr>
+                      <td>%s</td>
+                      <td>%s</td>
+                      <td>%s</td>
+                  </tr>
               """,
+          detalle.getProducto().getCodigo(),
           detalle.getProducto().getNombre(),
-          detalle.getCantidad().toString()));     
+          detalle.getCantidad().toString()));
     }
-
     String htmlTemplate = """
         <!doctype html>
         <html lang="es">
@@ -196,24 +188,22 @@ public class ServicioCorreo {
             <div class="container">
               <div class="header"><h1 style="margin:0; font-size:20px;">%s</h1></div>
               <div class="content">
-                <p>Hola, <strong>%s</strong>,</p>
-                <p>Has recibido una nueva orden de compra de parte de <strong>TecnIServicios</strong>. Por favor, revisa los detalles a continuación:</p>
+                <p>Estimados, <strong>%s</strong>,</p>
+                <p>Por medio del presente, <strong>TecnIServicios</strong> solicita formalmente la cotización de los siguientes productos:</p>
 
                 <div class="info-box">
-                    <p><strong>N° Pedido:</strong> %s</p>
+                    <p><strong>N° de Solicitud:</strong> %s</p>
                     <p><strong>Fecha de Emisión:</strong> %s</p>
-                    <p><strong>Fecha de Entrega Esperada:</strong> %s</p>
-                    <p style="font-size: 1.2em; margin-top: 10px;"><strong>Total del Pedido: S/ %,.2f</strong></p>
+                    <p><strong>Fecha de Entrega Requerida:</strong> %s</p>
                 </div>
 
-                <h3 style="margin-top: 24px; border-bottom: 2px solid #eee; padding-bottom: 5px;">Detalle de Productos</h3>
+                <h3 style="margin-top: 24px; border-bottom: 2px solid #eee; padding-bottom: 5px;">Detalle de Productos Solicitados</h3>
                 <table class="product-table">
                     <thead>
                         <tr>
+                            <th>Código</th>
                             <th>Producto</th>
                             <th>Cantidad</th>
-                            <th style="text-align:right;">Costo Unit.</th>
-                            <th style="text-align:right;">Subtotal</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -221,17 +211,133 @@ public class ServicioCorreo {
                     </tbody>
                 </table>
 
-                <p style="margin-top: 24px;">Por favor, prepara el pedido para su envío según lo acordado.</p>
-                <p>Si tienes alguna consulta sobre este pedido, no dudes en contactarnos respondiendo a este correo.</p>
-                <p style="margin-top:18px;">Saludos,<br><strong>Equipo de TecnIServicios</strong></p>
+                <p style="margin-top: 24px;">Agradeceremos enviarnos su mejor oferta (precios unitarios y totales), incluyendo el tiempo de entrega estimado, a la brevedad posible.</p>
+                <p>Quedamos a la espera de su pronta respuesta.</p>
+                <p style="margin-top:18px;">Saludos cordiales,<br><strong>Equipo de Compras<br>TecnIServicios</strong></p>
               </div>
-              <div class="footer">Correo enviado a: %s</div>
+              <div class="footer">Este es un correo automático de solicitud. Correo de respuesta: %s</div>
             </div>
           </div>
         </body>
         </html>
         """;
+    return String.format(
+        htmlTemplate,
+        subject,
+        subject,
+        pedido.getProveedor().getRazonSocial(),
+        pedido.getId().toString(),
+        fechaEmisionFmt,
+        fechaEsperadaFmt,
+        filasProductos.toString(),
+        mailFrom);
+  }
 
+  public void enviarConfirmacionPedido(PedidoProveedor pedido) {
+    String emailDestino = pedido.getProveedor().getEmail();
+    if (emailDestino == null || emailDestino.isBlank()) {
+      System.err.println("Error: El proveedor '" + pedido.getProveedor().getRazonSocial()
+          + "' no tiene un email registrado. No se envió la confirmación.");
+      return;
+    }
+    String subject = String.format("Confirmación de Orden de Compra N° %d - TecnIServicios", pedido.getId());
+    String content = construirHtmlConfirmacionPedido(pedido, subject);
+    try {
+      System.out.println("Preparando correo de CONFIRMACIÓN para: " + emailDestino);
+      MimeMessage mimeMessage = mailSender.createMimeMessage();
+      MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, "UTF-8");
+
+      helper.setTo(emailDestino);
+      helper.setSubject(subject);
+      helper.setText(content, true);
+      helper.setFrom(mailFrom);
+
+      mailSender.send(mimeMessage);
+      System.out.println("Correo de CONFIRMACIÓN enviado con éxito a: " + emailDestino);
+    } catch (MessagingException e) {
+      System.err.println("Error al enviar correo de confirmación de pedido: " + e.getMessage());
+    }
+  }
+  private String construirHtmlConfirmacionPedido(PedidoProveedor pedido, String subject) {
+    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+    String fechaEmisionFmt = pedido.getFechaEmision().format(dtf);
+    String fechaEsperadaFmt = (pedido.getFechaEntregaEsperada() != null)
+        ? pedido.getFechaEntregaEsperada().format(dtf)
+        : "No especificada";
+    StringBuilder filasProductos = new StringBuilder();
+    for (PedidoProveedorDetalle detalle : pedido.getDetalles()) {
+      filasProductos.append(String.format(
+          """
+                  <tr>
+                      <td>%s</td>
+                      <td>%s</td>
+                      <td>%s</td>
+                  </tr>
+              """,
+          detalle.getProducto().getCodigo(),
+          detalle.getProducto().getNombre(),
+          detalle.getCantidad().toString()));
+    }
+    String htmlTemplate = """
+        <!doctype html>
+        <html lang="es">
+        <head>
+          <meta charset="utf-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+          <title>%s</title>
+          <style>
+            body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial; margin:0; padding:0; background:#f4f6f8; }
+            .wrapper { width:100%%; padding:40px 0; }
+            .container { max-width:600px; margin:0 auto; background:#ffffff; border-radius:8px; overflow:hidden; box-shadow:0 4px 20px rgba(0,0,0,0.08); }
+            .header { background:#28a745; color:#fff; padding:20px; text-align:center; } /* Verde para confirmación */
+            .content { padding:24px; color:#333333; line-height:1.5; }
+            .footer { padding:16px 24px; background:#fafafa; color:#6b7280; font-size:13px; text-align:center; }
+            .info-box { background: #f9f9f9; border-radius: 6px; padding: 16px; margin: 20px 0; }
+            .info-box p { margin: 4px 0; }
+            .product-table { width: 100%%; border-collapse: collapse; margin-top: 20px; }
+            .product-table th, .product-table td { border: 1px solid #ddd; padding: 8px; text-align: left; font-size: 14px; }
+            .product-table th { background-color: #f2f2f2; }
+            @media (max-width:420px){ .content { padding:16px; } .header { padding:16px; } }
+          </style>
+        </head>
+        <body>
+          <div class="wrapper">
+            <div class="container">
+              <div class="header"><h1 style="margin:0; font-size:20px;">%s</h1></div>
+              <div class="content">
+                <p>Estimados, <strong>%s</strong>,</p>
+                <p>Confirmamos nuestra <strong>Orden de Compra</strong> basada en la cotización recibida. Por favor, proceda con el despacho de los siguientes productos según los términos acordados:</p>
+
+                <div class="info-box">
+                    <p><strong>N° de Orden de Compra:</strong> %s</p>
+                    <p><strong>Fecha de Emisión:</strong> %s</p>
+                    <p><strong>Fecha de Entrega Acordada:</strong> <strong style="color: #28a745;">%s</strong></p>
+                    <p style="font-size: 1.2em; margin-top: 10px;"><strong>Costo Total Acordado: S/ %,.2f</strong></p>
+                </div>
+
+                <h3 style="margin-top: 24px; border-bottom: 2px solid #eee; padding-bottom: 5px;">Detalle de Productos</h3>
+                <table class="product-table">
+                    <thead>
+                        <tr>
+                            <th>Código</th>
+                            <th>Producto</th>
+                            <th>Cantidad</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        %s
+                    </tbody>
+                </table>
+
+                <p style="margin-top: 24px;">Agradeceremos confirmar la recepción de esta orden y la fecha de despacho.</p>
+                <p>Saludos cordiales,<br><strong>Equipo de Compras<br>TecnIServicios</strong></p>
+              </div>
+              <div class="footer">Este es un correo automático de confirmación. Correo de respuesta: %s</div>
+            </div>
+          </div>
+        </body>
+        </html>
+        """;
     return String.format(
         htmlTemplate,
         subject, 
@@ -239,9 +345,10 @@ public class ServicioCorreo {
         pedido.getProveedor().getRazonSocial(), 
         pedido.getId().toString(),
         fechaEmisionFmt,
-        fechaEsperadaFmt,
-        pedido.getCostoCotizacion(),
+        fechaEsperadaFmt, 
+        pedido.getCostoCotizacion(), 
         filasProductos.toString(),
-        pedido.getProveedor().getEmail());
+        mailFrom 
+    );
   }
 }

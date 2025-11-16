@@ -42,8 +42,8 @@ public class PedidoProveedor {
 
     @Builder.Default
     @Column(nullable = false)
-    @Enumerated(EnumType.STRING)
-    private EstadoPedido estado = EstadoPedido.PENDIENTE;
+    @Enumerated(EnumType.ORDINAL) 
+    private EstadoPedido estado = EstadoPedido.BORRADOR;
 
     @Column(name = "costo_cotizacion", precision = 12, scale = 2)
     private BigDecimal costoCotizacion;

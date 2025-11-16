@@ -10,6 +10,7 @@ import com.example.simplemvc.model.enums.EstadoPedido;
 import com.example.simplemvc.repository.PedidoProveedorRepository;
 import com.example.simplemvc.repository.ProductoRepository;
 import com.example.simplemvc.repository.ProveedorRepository;
+import com.example.simplemvc.request.CotizacionRequest;
 import com.example.simplemvc.request.CrearPedidoDetalleRequest;
 import com.example.simplemvc.request.CrearPedidoProveedorRequest;
 import com.example.simplemvc.request.DetalleReciboRequest;
@@ -44,7 +45,7 @@ public class PedidoProveedorService {
         pedido.setFechaEmision(request.getFechaEmision());
         pedido.setFechaEntregaEsperada(request.getFechaEntregaEsperada());
         pedido.setNotas(request.getNotas());
-        pedido.setCostoCotizacion(request.getCostoCotizacion());
+        pedido.setCostoCotizacion(null);
         pedido.setDetalles(new ArrayList<>());
         for (CrearPedidoDetalleRequest detalleRequest : request.getDetalles()) {
             Producto producto = productoRepository.findById(detalleRequest.getIdProducto())
@@ -58,10 +59,21 @@ public class PedidoProveedorService {
             pedido.getDetalles().add(detalle);
         }
         request.setCostoCotizacion(request.getCostoCotizacion());
-        pedido.setEstado(EstadoPedido.PENDIENTE);
+        pedido.setEstado(EstadoPedido.BORRADOR);
         PedidoProveedor pedidoGuardado = pedidoProveedorRepository.save(pedido);
         servicioCorreo.enviarNotificacionNuevoPedidoProveedor(pedidoGuardado);
         return pedidoProveedorMapper.toDto(pedidoGuardado);
+    }
+
+    @Transactional
+    public void EstablecerCotizacionPedido(Long id, CotizacionRequest costoCotizacion) {
+        PedidoProveedor pedido = pedidoProveedorRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException(
+                        "Pedido no encontrado con ID: " + id));
+        pedido.setCostoCotizacion(costoCotizacion.getCostoCotizacion());
+        pedido.setFechaEntregaEsperada(costoCotizacion.getFechaEntregaEsperada());
+        pedido.setEstado(EstadoPedido.COTIZADO);
+        pedidoProveedorRepository.save(pedido);
     }
 
     @Transactional
@@ -105,22 +117,29 @@ public class PedidoProveedorService {
     }
 
     @Transactional
+    public void confirmarAprobacionporId(Long id) {
+        PedidoProveedor pedido = pedidoProveedorRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Pedido no encontrado con ID: " + id));
+        pedido.setEstado(EstadoPedido.PENDIENTE);
+        PedidoProveedor pedidoGuardado = pedidoProveedorRepository.save(pedido);
+        servicioCorreo.enviarConfirmacionPedido(pedidoGuardado);
+    }
+    @Transactional
     public void cancelarPedidoPorId(Long id) {
         if (!pedidoProveedorRepository.existsById(id)) {
             throw new EntityNotFoundException("Pedido no encontrado con ID: " + id);
         }
         pedidoProveedorRepository.findById(id).ifPresent(pedido -> {
             pedido.setEstado(EstadoPedido.CANCELADO);
+            pedido.getDetalles().forEach(detalle -> detalle.setRecibido(false));
             pedidoProveedorRepository.save(pedido);
         });
     }
-
     @Transactional
     public void reciboParcialPedidoPorId(Long id, List<DetalleReciboRequest> request) {
         PedidoProveedor pedido = pedidoProveedorRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException(
                         "Pedido no encontrado con ID: " + id));
-
         for (DetalleReciboRequest dto : request) {
             pedido.getDetalles().forEach(det -> {
                 if (det.getId().equals(dto.getIdDetalle())) {
