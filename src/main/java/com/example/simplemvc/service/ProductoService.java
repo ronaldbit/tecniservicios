@@ -60,9 +60,16 @@ public class ProductoService {
                 .map(productoMapper::toDto)
                 .orElseThrow(() -> new IllegalArgumentException("Producto no encontrado con ID: " + id));
     }
-/***
-    public ProductoDto create(CrearProductoRequest request) {
-        log.info("Creando nuevo producto");
+
+    @Transactional
+    public ProductoDto create(CrearProductoRequest request, List<String> nombresImagenes)
+            throws JsonProcessingException {
+        String imagenesJson = "[]";
+        if (nombresImagenes != null && !nombresImagenes.isEmpty()) {
+            ObjectMapper mapper = new ObjectMapper();
+            imagenesJson = mapper.writeValueAsString(nombresImagenes);
+        }
+        System.out.println(" este es: " + request.getCodigo() + " codigo recibido");
         if (request.getCodigo() != null) {
             Optional<Producto> existingProductoOpt = productoRepository.findByCodigo(request.getCodigo());
             if (existingProductoOpt.isPresent()) {
@@ -71,48 +78,24 @@ public class ProductoService {
                     productoMapper.updateEntityFromRequest(existingProducto, request);
                     existingProducto.setEstado(EstadoEntidad.ACTIVO);
                     existingProducto.setUpdatedAt(Timestamp.valueOf(LocalDateTime.now()));
+                    existingProducto.setImagenes(imagenesJson);
                     Producto reactivated = productoRepository.save(existingProducto);
                     log.info("Producto reactivado con ID: {}", reactivated.getIdProducto());
                     return productoMapper.toDto(reactivated);
                 }
-                throw new IllegalArgumentException("Ya existe un producto con el código: " + request.getCodigo());
+                throw new IllegalArgumentException("Ya existe un producto con el código: " +
+                        request.getCodigo());
             }
-        } else{
+        } else {
             request.setCodigo(String.valueOf(System.currentTimeMillis()));
         }
-
-        Producto nuevoProducto = productoMapper.toEntity(request);
-        nuevoProducto.setEstado(EstadoEntidad.ACTIVO);
-        nuevoProducto.setCreatedAt(Timestamp.valueOf(LocalDateTime.now()));
-        nuevoProducto.setUpdatedAt(null);
-        Producto saved = productoRepository.save(nuevoProducto);
-        log.info("Producto creado con ID: {}", saved.getIdProducto());
-
+        Producto producto = productoMapper.toEntity(request);
+        producto.setImagenes(imagenesJson);
+        producto.setEstado(EstadoEntidad.ACTIVO);
+        producto.setCreatedAt(Timestamp.valueOf(LocalDateTime.now()));
+        Producto saved = productoRepository.save(producto);
         return productoMapper.toDto(saved);
-    } **/
-
-public ProductoDto create(CrearProductoRequest request, List<String> nombresImagenes) throws JsonProcessingException {
-    if (request.getCodigo() == null) {
-        request.setCodigo(String.valueOf(System.currentTimeMillis()));
     }
-
-    // Convertir lista de nombres a JSON
-    String imagenesJson = "[]";
-    if (nombresImagenes != null && !nombresImagenes.isEmpty()) {
-        ObjectMapper mapper = new ObjectMapper();
-        imagenesJson = mapper.writeValueAsString(nombresImagenes); // guarda como ["img1.jpg","img2.jpg"]
-    }
-
-    Producto producto = productoMapper.toEntity(request);
-    producto.setImagenes(imagenesJson);
-    producto.setEstado(EstadoEntidad.ACTIVO);
-    producto.setCreatedAt(Timestamp.valueOf(LocalDateTime.now()));
-
-    Producto saved = productoRepository.save(producto);
-    return productoMapper.toDto(saved);
-}
-
-
 
     @Transactional
     public ProductoDto update(Long id, CrearProductoRequest request) {
@@ -138,7 +121,7 @@ public ProductoDto create(CrearProductoRequest request, List<String> nombresImag
         existingProducto.setUnidad(request.getUnidad());
         existingProducto.setStockMinimo(request.getStockMinimo());
         existingProducto.setMarca(marca);
-        //existingProducto.setImagenes(request.getImagenes());
+        // existingProducto.setImagenes(request.getImagenes());
         existingProducto.setDescripcion(request.getDescripcion());
         existingProducto.setPrecioOnline(request.getPrecioOnline());
         existingProducto.setDestacado(request.getDestacado());

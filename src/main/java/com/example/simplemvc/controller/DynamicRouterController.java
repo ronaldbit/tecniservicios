@@ -37,7 +37,7 @@ public class DynamicRouterController {
   //public String homeView(Model model) throws Exception { }
 
   @RequestMapping(
-      value = "/{path:^(?!assets|assets_shop|api|captcha|favicon\\.ico$|webjars$).*}/**")
+      value = "/{path:^(?!assets|assets_shop|api|captcha|favicon\\.ico$|webjars|uploads$).*}/**")
   public String dynamic(@PathVariable String path, HttpServletRequest request, Model model) {
     String requestURI = request.getRequestURI();
 

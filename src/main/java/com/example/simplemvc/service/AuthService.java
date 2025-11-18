@@ -21,7 +21,6 @@ public class AuthService {
   public JwtDto login(LoginUsuarioRequest request) {
     log.info(
         "Iniciando sesión para el usuario con nombre de usuario: {}", request.getNombreUsuario());
-
     try {
       getCurrentUsuarioService.get();
 

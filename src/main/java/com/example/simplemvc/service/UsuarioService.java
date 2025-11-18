@@ -183,51 +183,5 @@ public class UsuarioService {
   }
 
 
-  //para el cliente
-public Optional<Usuario> loginClientePorIdentificador(String identificador, String passwordPlano) {
-    String trimmed = identificador == null ? "" : identificador.trim();
-
-    boolean esSoloNumeros = trimmed.matches("\\d+");
-    String dni = null;
-    String email = null;
-
-    if (esSoloNumeros) {
-        dni = trimmed;
-    } else {
-        email = trimmed;
-    }
-
-    Optional<Usuario> optUsuario = usuarioRepository
-            .findByPersonaNumeroDocumentoOrPersonaEmail(
-                    dni != null ? dni : null,
-                    email != null ? email : null
-            );
-
-    if (optUsuario.isEmpty()) {
-        return Optional.empty();
-    }
-
-    Usuario usuario = optUsuario.get();
-
-    // Solo usuarios activos
-    if (usuario.getEstado() == EstadoEntidad.INACTIVO ||
-        usuario.getEstado() == EstadoEntidad.ELIMINADO) {
-        return Optional.empty();
-    }
-
-    // Solo rol CLIENTE
-    boolean esCliente = usuario.getRoles().stream()
-            .anyMatch(r -> "CLIENTE".equalsIgnoreCase(r.getNombre()));
-    if (!esCliente) {
-        return Optional.empty();
-    }
-
-    // Validar contraseña con BCrypt
-    if (!passwordEncoder.matches(passwordPlano, usuario.getPassword())) {
-        return Optional.empty();
-    }
-
-    return Optional.of(usuario);
-}
 
 }

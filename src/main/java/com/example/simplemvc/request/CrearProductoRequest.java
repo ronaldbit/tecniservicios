@@ -29,6 +29,5 @@ public class CrearProductoRequest {
     private String descripcion;
     private Boolean destacado;
     private EstadoEntidad estado;
-    //private String imagenes;
-    private List<MultipartFile> imagenes; //sin strg
+    private List<MultipartFile> imagenes;
 }

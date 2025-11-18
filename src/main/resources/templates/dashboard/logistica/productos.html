@@ -240,7 +240,7 @@
             reader.onload = (e2) => (img.src = e2.target.result);
             reader.readAsDataURL(item);
           } else if (typeof item === "string") {
-            img.src = item;
+            img.src = "/uploads/productos/" + item;
           }
 
           const btnEliminar = document.createElement("button");
@@ -272,24 +272,6 @@
           imagenesSeleccionadas = [];
           mostrarPreview();
         });
-      }
-
-      async function obtenerImagenesBase64() {
-        const imagenesBase64 = [];
-        for (const item of imagenesSeleccionadas) {
-          if (item instanceof File) {
-            const base64 = await new Promise((resolve, reject) => {
-              const reader = new FileReader();
-              reader.onload = e => resolve(e.target.result);
-              reader.onerror = reject;
-              reader.readAsDataURL(item);
-            });
-            imagenesBase64.push(base64);
-          } else if (typeof item === "string") {
-            imagenesBase64.push(item);
-          }
-        }
-        return imagenesBase64;
       }
     </script>
 
@@ -616,11 +598,13 @@
     const metodo = id ? "PUT" : "POST";
     const url = id ? `${urlBase}/${id}` : urlBase;
 
-    const codigoInput = document.getElementById("codigo").value.trim();
-
     let formData = new FormData();
 
-    formData.append("codigo", document.getElementById("codigo").value);
+    const codigo = document.getElementById("codigo").value.trim();
+
+    if (codigo !== "") {
+      formData.append("codigo", codigo);
+    }
     formData.append("nombre", document.getElementById("nombre").value);
     formData.append("idMarca", document.getElementById("marca").value);
     formData.append("idCategoria", document.getElementById("categoria").value);
@@ -632,16 +616,15 @@
     formData.append("precioOnline", document.getElementById("precioOnline").value);
     formData.append("descripcion", document.getElementById("descripcion").value);
     formData.append("destacado", document.getElementById("destacado").checked);
-
     const input = document.getElementById("imagenes");
-    for (let f of input.files) {
-        formData.append("imagenes", f);
-    }
 
+    for (let f of input.files) {
+      formData.append("imagenes", f);
+    }
     try {
       const resp = await fetch(url, {
-          method: metodo,
-          body: formData
+        method: metodo,
+        body: formData
       });
 
       if (!resp.ok) throw new Error(await resp.text());
