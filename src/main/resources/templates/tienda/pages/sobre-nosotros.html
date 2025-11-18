@@ -1,18 +1,18 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title th:text="${pageTitle}">Sobre nosotros</title>
-    <link rel="stylesheet" href="/assets_shop/vendor/bootstrap/css/bootstrap.css" />
-</head>
+<head th:replace="tienda/framer/head :: head(${pageTitle})"></head>
 <body>
 <div class="site">
+
+    <div th:replace="tienda/framer/header :: siteHeaderMobile"></div>
     <div th:replace="tienda/framer/header :: siteHeader"></div>
+
     <div class="site__body container my-4">
         <h1>Sobre nosotros</h1>
         <p>Aquí contarás quiénes son, misión, visión, etc.</p>
     </div>
     <div th:replace="tienda/framer/footer :: siteFooter"></div>
 </div>
+<div th:replace="tienda/framer/scripts :: scripts"></div>
 </body>
 </html>
