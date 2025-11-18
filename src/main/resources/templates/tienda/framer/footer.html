@@ -16,8 +16,7 @@
 							<div class="col-12 col-xl-4">
 								<div class="site-footer__widget footer-contacts">
 									<h5 class="footer-contacts__title">Contacto</h5>
-									<div class="footer-contacts__text">Empresa dedicada a la venta de aceites para vender en la venta que se vende una venta</div>
-									<address class="footer-contacts__contacts">
+ 									<address class="footer-contacts__contacts">
 										<dl>
 											<dt>Numero telefonico</dt>
 											<dd>+51 167-456-157</dd>
@@ -45,8 +44,6 @@
 										<li class="footer-links__item"><a href="#" class="footer-links__link">Politicas de privacidad</a></li>
 										<li class="footer-links__item"><a href="#" class="footer-links__link">Marcas</a></li>
 										<li class="footer-links__item"><a href="#" class="footer-links__link">Contacto</a></li>
-										<li class="footer-links__item"><a href="#"class="footer-links__link">Returns</a></li>
-										<li class="footer-links__item"><a href="#" class="footer-links__link">Site Map</a></li>
 									</ul>
 								</div>
 							</div>
@@ -58,40 +55,18 @@
 										<li class="footer-links__item"><a href="#" class="footer-links__link">Compras</a></li>
 										<li class="footer-links__item"><a href="#" class="footer-links__link">Favoritos</a></li>
  										<li class="footer-links__item"><a href="#" class="footer-links__link">Ofertas</a></li>
-										<li class="footer-links__item"><a href="#" class="footer-links__link">Descuentos</a></li>
-										<li class="footer-links__item"><a href="#" class="footer-links__link">Ajustes</a></li>
 									</ul>
 								</div>
 							</div>
 							<div class="col-12 col-md-6 col-xl-4">
 								<div class="site-footer__widget footer-newsletter">
 									<h5 class="footer-newsletter__title">Noticias</h5>
-									<div class="footer-newsletter__text">Introduce tu correo electrónico a continuación para suscribirte a nuestro boletín y estar al día de descuentos y ofertas especiales.</div>
-									<form action="#" class="footer-newsletter__form"><label class="sr-only"
-											for="footer-newsletter-address">Direción de correo electornico...</label> <input type="text"
-											class="footer-newsletter__form-input" id="footer-newsletter-address"
-											placeholder="Direción de correo electornico..."> <button
-											class="footer-newsletter__form-button">Subscribir</button></form>
-									<div class="footer-newsletter__text footer-newsletter__text--social">Síguenos en las redes sociales</div>
-									<div class="footer-newsletter__social-links social-links">
-										<ul class="social-links__list">
-											<li class="social-links__item social-links__item--facebook"><a
-													href="https://themeforest.net/user/kos9" target="_blank"><i
-														class="fab fa-facebook-f"></i></a></li>
-											<li class="social-links__item social-links__item--twitter"><a
-													href="https://themeforest.net/user/kos9" target="_blank"><i
-														class="fab fa-twitter"></i></a></li>
-											<li class="social-links__item social-links__item--youtube"><a
-													href="https://themeforest.net/user/kos9" target="_blank"><i
-														class="fab fa-youtube"></i></a></li>
-											<li class="social-links__item social-links__item--instagram"><a
-													href="https://themeforest.net/user/kos9" target="_blank"><i
-														class="fab fa-instagram"></i></a></li>
-											<li class="social-links__item social-links__item--rss"><a
-													href="https://themeforest.net/user/kos9" target="_blank"><i
-														class="fas fa-rss"></i></a></li>
-										</ul>
-									</div>
+									<div class="footer-newsletter__text">Ingrese su correo para suscribirte a nuestro boletín y estar al día de descuentos y ofertas especiales.</div>
+									<form action="#" class="footer-newsletter__form">
+                    <label class="sr-only" for="footer-newsletter-address">Direción de correo electornico...</label>
+                    <input type="text" class="footer-newsletter__form-input" id="footer-newsletter-address" placeholder="Direción de correo electornico...">
+                    <button class="footer-newsletter__form-button">Subscribir</button>
+                  </form>
 								</div>
 							</div>
 						</div>
@@ -101,7 +76,7 @@
 					<div class="container">
 						<div class="site-footer__bottom-row">
 							<div class="site-footer__copyright">@ <span th:text="${#temporals.format(#temporals.createNow(), 'yyyy')}">2025</span> Programado y diseñado por UTPinos</div>
-							<div class="site-footer__payments"><img src="images/payments.png" alt=""></div>
+							<div class="site-footer__payments"><img src="/assets_shop/images/payments.png" alt=""></div>
 						</div>
 					</div>
 				</div>
