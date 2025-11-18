@@ -42,13 +42,13 @@ public class Persona {
   @Column(columnDefinition = "varchar(10)", nullable = false)
   private String tipoPersona;
 
-  @Column(columnDefinition = "varchar(120)", nullable = false)
+  @Column(columnDefinition = "varchar(120)", nullable = true)
   private String nombres;
 
-  @Column(columnDefinition = "varchar(120)", nullable = false)
+  @Column(columnDefinition = "varchar(120)", nullable = true)
   private String apellidos;
 
-  @Column(columnDefinition = "varchar(200)", nullable = false)
+  @Column(columnDefinition = "varchar(200)", nullable = true)
   private String razonSocial;
 
   @Column(columnDefinition = "varchar(120)", nullable = false)

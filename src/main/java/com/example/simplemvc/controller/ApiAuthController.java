@@ -4,6 +4,7 @@ import com.example.simplemvc.dto.JwtDto;
 import com.example.simplemvc.dto.UsuarioDto;
 import com.example.simplemvc.model.Usuario;
 import com.example.simplemvc.model.enums.EstadoEntidad;
+import com.example.simplemvc.request.CrearUsuarioClienteRequest;
 import com.example.simplemvc.request.CrearUsuarioRequest;
 import com.example.simplemvc.request.LoginUsuarioRequest;
 import com.example.simplemvc.service.AuthService;
@@ -29,13 +30,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class ApiAuthController {
   @Autowired
   private final UsuarioService usuarioService;
-
   @Autowired
   private final AuthService authService;
-
   @Autowired
   private final RecuperarPsService recuperarPsService;
-
   @Autowired
   private final JwtAuthenticationService jwtAuthenticationService;
 
@@ -49,9 +47,7 @@ public class ApiAuthController {
         model.addAttribute("message", "El login ha fallado");
         return "auth/login";
       }
-
       model.addAttribute("message", "Login exitoso. JWT: " + jwt.getJwt());
-
       Cookie jwtCookie = new Cookie("JWT_TOKEN", jwt.getJwt());
       jwtCookie.setHttpOnly(true);
       jwtCookie.setPath("/");
@@ -108,5 +104,30 @@ public class ApiAuthController {
     }
   }
 
+  @PostMapping("/registro-cliente")
+  public String RegisteClient(
+      @ModelAttribute("usuarioRequest") CrearUsuarioClienteRequest request,
+      @RequestParam("confirmarPassword") String confirmarPassword,
+      Model model) {
 
+    if (request.getPassword() == null || !request.getPassword().equals(confirmarPassword)) {
+      model.addAttribute("errorGlobal", "Las contraseñas no coinciden.");
+      return "tienda/perfil/index";
+    }
+    if (request.getTipoDocumentoId() == 1) {
+      request.setTipoPersona("Natural");
+      request.setRazonSocial(null);
+    } else if (request.getTipoDocumentoId() == 2) {
+      request.setTipoPersona("Juridica");
+      request.setNombres(null);
+      request.setApellidos(null);
+    }
+    try {
+      UsuarioDto usuario = usuarioService.CrearCliente(request);
+      return "redirect:/tienda/perfil/index?registro=exitoso";
+    } catch (Exception e) {
+      model.addAttribute("errorGlobal", e.getMessage());
+      return "tienda/perfil/index";
+    }
+  }
 }

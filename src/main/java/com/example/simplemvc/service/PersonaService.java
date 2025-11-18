@@ -6,6 +6,8 @@ import com.example.simplemvc.model.PersonaMapper;
 import com.example.simplemvc.model.TipoDocumento;
 import com.example.simplemvc.repository.PersonaRepository;
 import com.example.simplemvc.request.CrearPersonaRequest;
+import com.example.simplemvc.request.CrearUsuarioClienteRequest;
+
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -135,4 +137,33 @@ public class PersonaService {
     log.info("Persona actualizada con ID: {}", personaActualizada.getId());
     return personaMapper.toDto(personaActualizada);
   }
+
+  public Persona crearDesdeClienteRequest(CrearUsuarioClienteRequest request) {
+    personaRepository.findByEmail(request.getEmail()).ifPresent(existingPersona -> {
+      throw new IllegalArgumentException("Ya existe una persona con el email: " + request.getEmail());
+    });
+    Persona per = Persona.builder()
+        .tipoDocumento(
+            tipoDocumentoService
+                .obtenerEntidadPorId(request.getTipoDocumentoId())
+                .orElseThrow(
+                    () -> new IllegalArgumentException(
+                        "Tipo de documento no encontrado con ID: " + request.getTipoDocumentoId())))
+        .tipoPersona(request.getTipoPersona())
+        .numeroDocumento(request.getNumeroDocumento()) 
+        .razonSocial(null)         
+        .nombres(request.getNombres())
+        .apellidos(request.getApellidos())
+        .razonSocial(request.getRazonSocial())
+        .email(request.getEmail())
+        .telefono(request.getTelefono())
+        .direccion(request.getDireccion())
+        .estado(true)
+        .emailVerificado(false)
+        .tokenVerificacionEmail(JwtTokenEmail.generateToken(request.getEmail()))
+        .build();
+    personaRepository.save(per);
+    return per;
+  }
+
 }

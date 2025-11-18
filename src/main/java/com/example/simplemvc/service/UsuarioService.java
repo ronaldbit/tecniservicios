@@ -1,5 +1,6 @@
 package com.example.simplemvc.service;
 
+import com.example.simplemvc.dto.PersonaDto;
 import com.example.simplemvc.dto.UsuarioDto;
 import com.example.simplemvc.model.Persona;
 import com.example.simplemvc.model.Rol;
@@ -8,7 +9,9 @@ import com.example.simplemvc.model.Usuario;
 import com.example.simplemvc.model.UsuarioMapper;
 import com.example.simplemvc.model.enums.EstadoEntidad;
 import com.example.simplemvc.repository.RolRepository;
+import com.example.simplemvc.repository.SucursalRepository;
 import com.example.simplemvc.repository.UsuarioRepository;
+import com.example.simplemvc.request.CrearUsuarioClienteRequest;
 import com.example.simplemvc.request.CrearUsuarioRequest;
 import jakarta.transaction.Transactional;
 import java.util.Arrays;
@@ -17,6 +20,8 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -30,8 +35,12 @@ public class UsuarioService {
   private final SucursalService sucursalService;
 
   private final PasswordEncoder passwordEncoder;
+  private final SucursalRepository sucursalRepository;
 
   private final PersonaService personaService;
+  
+  @Autowired
+  private ServicioCorreo servicioCorreo;
 
   public List<UsuarioDto> listaTodos() {
     log.info("Obteniendo lista de todos los usuarios");
@@ -50,14 +59,13 @@ public class UsuarioService {
   public UsuarioDto obtenerPorId(Long id) {
     log.info("Obteniendo usuario con ID: {}", id);
 
-    Usuario usuario =
-        usuarioRepository
-            .findById(id)
-            .orElseThrow(
-                () -> {
-                  log.error("Usuario con ID {} no encontrado.", id);
-                  return new IllegalArgumentException("Usuario no encontrado.");
-                });
+    Usuario usuario = usuarioRepository
+        .findById(id)
+        .orElseThrow(
+            () -> {
+              log.error("Usuario con ID {} no encontrado.", id);
+              return new IllegalArgumentException("Usuario no encontrado.");
+            });
 
     return usuarioMapper.toDto(usuario);
   }
@@ -65,16 +73,13 @@ public class UsuarioService {
   @Transactional
   public UsuarioDto crear(CrearUsuarioRequest request) {
     log.info("Creando usuario");
-    Persona persona =
-        personaService
-            .obtenerEntidadPorId(request.getPersonaId())
-            .orElseThrow(() -> new IllegalArgumentException("La persona asociada no existe."));
-    Sucursal sucursal =
-        sucursalService
-            .obtenerEntidadPorId(request.getSucursalId())
-            .orElseThrow(() -> new IllegalArgumentException("La sucursal asociada no existe."));
-    Optional<Usuario> prevUsuario =
-        usuarioRepository.findByNombreUsuario(request.getNombreUsuario());
+    Persona persona = personaService
+        .obtenerEntidadPorId(request.getPersonaId())
+        .orElseThrow(() -> new IllegalArgumentException("La persona asociada no existe."));
+    Sucursal sucursal = sucursalService
+        .obtenerEntidadPorId(request.getSucursalId())
+        .orElseThrow(() -> new IllegalArgumentException("La sucursal asociada no existe."));
+    Optional<Usuario> prevUsuario = usuarioRepository.findByNombreUsuario(request.getNombreUsuario());
 
     if (prevUsuario.isPresent() && prevUsuario.get().getEstado() == EstadoEntidad.ACTIVO) {
       log.error(
@@ -99,59 +104,55 @@ public class UsuarioService {
       log.info("Usuario restaurado con ID: {}", usuarioEliminado.getId());
       return usuarioMapper.toDto(usuarioEliminado);
     }
-    Rol rol =
-        rolRepository
-            .findByNombre("CLIENTE")
-            .orElseThrow(
-                () -> {
-                  log.error("No se puede crear el usuario. El rol CLIENTE no existe.");
-                  return new IllegalArgumentException("El rol especificado no existe.");
-                });
+    Rol rol = rolRepository
+        .findByNombre("CLIENTE")
+        .orElseThrow(
+            () -> {
+              log.error("No se puede crear el usuario. El rol CLIENTE no existe.");
+              return new IllegalArgumentException("El rol especificado no existe.");
+            });
     if (request.getRolId() != null) {
-      rol =
-          rolRepository
-              .findById(request.getRolId())
-              .orElseThrow(
-                  () -> {
-                    log.error(
-                        "No se puede crear el usuario. El rol con ID {} no existe.",
-                        request.getRolId());
-                    return new IllegalArgumentException("El rol especificado no existe.");
-                  });
+      rol = rolRepository
+          .findById(request.getRolId())
+          .orElseThrow(
+              () -> {
+                log.error(
+                    "No se puede crear el usuario. El rol con ID {} no existe.",
+                    request.getRolId());
+                return new IllegalArgumentException("El rol especificado no existe.");
+              });
     }
-    Usuario usuario =
-        usuarioMapper
-            .fromRequest(request)
-            .persona(persona)
-            .sucursal(sucursal)
-            .roles(Arrays.asList(rol))
-            .password(passwordEncoder.encode(request.getPassword()))
-            .build();
+    Usuario usuario = usuarioMapper
+        .fromRequest(request)
+        .persona(persona)
+        .sucursal(sucursal)
+        .roles(Arrays.asList(rol))
+        .password(passwordEncoder.encode(request.getPassword()))
+        .build();
     usuario = usuarioRepository.save(usuario);
 
     log.info("Usuario creado con ID: {}", usuario.getId());
     return usuarioMapper.toDto(usuario);
   }
+
   public UsuarioDto actualizar(Long id, CrearUsuarioRequest request) {
     log.info("Actualizando usuario con ID: {}", id);
-    Rol rol =
-        rolRepository
-            .findById(request.getRolId())
-            .orElseThrow(
-                () -> {
-                  log.error(
-                      "No se puede actualizar el usuario. El rol con ID {} no existe.",
-                      request.getRolId());
-                  return new IllegalArgumentException("El rol especificado no existe.");
-                });
-    Usuario usuario =
-        usuarioRepository
-            .findById(id)
-            .orElseThrow(
-                () -> {
-                  log.error("Usuario con ID {} no encontrado.", id);
-                  return new IllegalArgumentException("Usuario no encontrado.");
-                });
+    Rol rol = rolRepository
+        .findById(request.getRolId())
+        .orElseThrow(
+            () -> {
+              log.error(
+                  "No se puede actualizar el usuario. El rol con ID {} no existe.",
+                  request.getRolId());
+              return new IllegalArgumentException("El rol especificado no existe.");
+            });
+    Usuario usuario = usuarioRepository
+        .findById(id)
+        .orElseThrow(
+            () -> {
+              log.error("Usuario con ID {} no encontrado.", id);
+              return new IllegalArgumentException("Usuario no encontrado.");
+            });
 
     System.out.println("Actualizar Usuario ID: " + id + ", Request: " + request);
     usuario.setEstado(
@@ -159,14 +160,14 @@ public class UsuarioService {
             ? EstadoEntidad.INACTIVO
             : request.getEstadoEntidad() == 2 ? EstadoEntidad.ACTIVO : EstadoEntidad.ELIMINADO);
 
-    if (request.getEstadoEntidad() != 1 && request.getEstadoEntidad() != 2 ) {
-       log.info("Eliminando persona asociada al usuario con ID: {}", id);
-       Usuario temp = usuarioRepository.findById(id).orElseThrow();
-       personaService.eliminarPorId(temp.getPersona().getId());
-       log.info("Persona eliminada con ID: {}", temp.getPersona().getId());
+    if (request.getEstadoEntidad() != 1 && request.getEstadoEntidad() != 2) {
+      log.info("Eliminando persona asociada al usuario con ID: {}", id);
+      Usuario temp = usuarioRepository.findById(id).orElseThrow();
+      personaService.eliminarPorId(temp.getPersona().getId());
+      log.info("Persona eliminada con ID: {}", temp.getPersona().getId());
     }
     usuario.setNombreUsuario(request.getNombreUsuario());
-    if(request.getPassword() != null && !request.getPassword().isEmpty()){
+    if (request.getPassword() != null && !request.getPassword().isEmpty()) {
       usuario.setPassword(passwordEncoder.encode(request.getPassword()));
     } else {
       log.info("La contraseña no se actualiza para el usuario con ID: {}", id);
@@ -182,52 +183,61 @@ public class UsuarioService {
     return usuarioRepository.findByNombreUsuario(nombreUsuario);
   }
 
-
-  //para el cliente
-public Optional<Usuario> loginClientePorIdentificador(String identificador, String passwordPlano) {
+  // para el cliente
+  public Optional<Usuario> loginClientePorIdentificador(String identificador, String passwordPlano) {
     String trimmed = identificador == null ? "" : identificador.trim();
-
     boolean esSoloNumeros = trimmed.matches("\\d+");
     String dni = null;
     String email = null;
-
     if (esSoloNumeros) {
-        dni = trimmed;
+      dni = trimmed;
     } else {
-        email = trimmed;
+      email = trimmed;
     }
-
     Optional<Usuario> optUsuario = usuarioRepository
-            .findByPersonaNumeroDocumentoOrPersonaEmail(
-                    dni != null ? dni : null,
-                    email != null ? email : null
-            );
+        .findByPersonaNumeroDocumentoOrPersonaEmail(
+            dni != null ? dni : null,
+            email != null ? email : null);
 
     if (optUsuario.isEmpty()) {
-        return Optional.empty();
+      return Optional.empty();
     }
-
     Usuario usuario = optUsuario.get();
-
-    // Solo usuarios activos
     if (usuario.getEstado() == EstadoEntidad.INACTIVO ||
         usuario.getEstado() == EstadoEntidad.ELIMINADO) {
-        return Optional.empty();
+      return Optional.empty();
     }
-
-    // Solo rol CLIENTE
     boolean esCliente = usuario.getRoles().stream()
-            .anyMatch(r -> "CLIENTE".equalsIgnoreCase(r.getNombre()));
+        .anyMatch(r -> "CLIENTE".equalsIgnoreCase(r.getNombre()));
     if (!esCliente) {
-        return Optional.empty();
+      return Optional.empty();
     }
-
-    // Validar contraseña con BCrypt
     if (!passwordEncoder.matches(passwordPlano, usuario.getPassword())) {
-        return Optional.empty();
+      return Optional.empty();
     }
-
     return Optional.of(usuario);
-}
+  }
 
+  public UsuarioDto CrearCliente(CrearUsuarioClienteRequest request) throws Exception {
+    Persona persona = personaService.crearDesdeClienteRequest(request);
+
+    Rol rol = rolRepository
+        .findByNombre("CLIENTE")
+        .orElseThrow(
+            () -> {
+              log.error("No se puede crear el usuario. El rol CLIENTE no existe.");
+              return new IllegalArgumentException("El rol especificado no existe.");
+            });
+    Usuario usuario;
+    usuario = Usuario.builder()
+        .nombreUsuario(request.getNumeroDocumento())
+        .password(passwordEncoder.encode(request.getPassword()))
+        .persona(persona)   
+        .sucursal(sucursalRepository.findById(1L).orElseThrow(() -> new IllegalArgumentException("Sucursal por defecto no encontrada.")))
+        .estado(EstadoEntidad.ACTIVO)
+        .roles(Arrays.asList(rol))
+        .build();
+    servicioCorreo.enviarVerificacionCorreo(persona.getEmail(), persona.getTokenVerificacionEmail());
+    return usuarioMapper.toDto(usuarioRepository.save(usuario));
+  }
 }

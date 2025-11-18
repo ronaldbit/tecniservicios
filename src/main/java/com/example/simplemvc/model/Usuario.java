@@ -53,7 +53,7 @@ public class Usuario implements UserDetails {
   private Persona persona;
 
   @ManyToOne
-  @JoinColumn(name = "sucursal_id", nullable = false)
+  @JoinColumn(name = "sucursal_id", nullable = true)
   private Sucursal sucursal;
 
   @Column(columnDefinition = "varchar(100)", nullable = false)

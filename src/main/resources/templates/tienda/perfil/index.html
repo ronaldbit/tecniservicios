@@ -1,8 +1,10 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head th:replace="tienda/framer/head :: head(${pageTitle})"></head>
+
 <body>
-<div class="site">
+  <div class="site">
     <div th:replace="tienda/framer/header :: siteHeaderMobile"></div>
     <div th:replace="tienda/framer/header :: siteHeader"></div>
 
@@ -18,26 +20,23 @@
                   <div class="card-body card-body--padding--2">
                     <h3 class="card-title">Login</h3>
                     <form>
-                      <div class="form-group"><label for="signin-email">Email address</label> <input
-                          id="signin-email" type="email" class="form-control"
-                          placeholder="customer@example.com"></div>
-                      <div class="form-group"><label for="signin-password">Password</label> <input
-                          id="signin-password" type="password" class="form-control"
-                          placeholder="Secret word"> <small class="form-text text-muted"><a
-                            href="#">Forgot password?</a></small></div>
+                      <div class="form-group"><label for="signin-email">NUMERO DE DOCUMENTO</label> <input
+                          id="signin-email" type="email" class="form-control" placeholder="00000000"></div>
+                      <div class="form-group"><label for="signin-password">Password</label> <input id="signin-password"
+                          type="password" class="form-control" placeholder="Secret word"> <small
+                          class="form-text text-muted"><a href="/auth/forgot">¿Olvidaste la contraseña?</a></small>
+                      </div>
                       <div class="form-group">
                         <div class="form-check"><span class="input-check form-check-input"><span
-                              class="input-check__body"><input class="input-check__input"
-                                type="checkbox" id="signin-remember"> <span
-                                class="input-check__box"></span> <span
+                              class="input-check__body"><input class="input-check__input" type="checkbox"
+                                id="signin-remember"> <span class="input-check__box"></span> <span
                                 class="input-check__icon"><svg width="9px" height="7px">
-                                  <path
-                                    d="M9,1.395L3.46,7L0,3.5L1.383,2.095L3.46,4.2L7.617,0L9,1.395Z" />
+                                  <path d="M9,1.395L3.46,7L0,3.5L1.383,2.095L3.46,4.2L7.617,0L9,1.395Z" />
                                 </svg> </span></span></span><label class="form-check-label"
                             for="signin-remember">Remember Me</label></div>
                       </div>
-                      <div class="form-group mb-0"><button type="submit"
-                          class="btn btn-primary mt-3">Login</button></div>
+                      <div class="form-group mb-0"><button type="submit" class="btn btn-primary mt-3">Login</button>
+                      </div>
                     </form>
                   </div>
                 </div>
@@ -46,18 +45,92 @@
                 <div class="card flex-grow-1 mb-0 ml-0 ml-lg-3 mr-0 mr-lg-4">
                   <div class="card-body card-body--padding--2">
                     <h3 class="card-title">Register</h3>
-                    <form>
-                      <div class="form-group"><label for="signup-email">Email address</label> <input
-                          id="signup-email" type="email" class="form-control"
-                          placeholder="customer@example.com"></div>
-                      <div class="form-group"><label for="signup-password">Password</label> <input
-                          id="signup-password" type="password" class="form-control"
-                          placeholder="Secret word"></div>
-                      <div class="form-group"><label for="signup-confirm">Repeat password</label>
-                        <input id="signup-confirm" type="password" class="form-control"
-                          placeholder="Secret word"></div>
-                      <div class="form-group mb-0"><button type="submit"
-                          class="btn btn-primary mt-3">Register</button></div>
+                    <form id="registroForm" th:action="@{/api/auth/registro-cliente}" th:object="${usuarioRequest}"
+                      method="post" novalidate>
+
+                      <div th:if="${errorGlobal}" class="alert alert-danger" role="alert">
+                        <span th:text="${errorGlobal}"></span>
+                      </div>
+
+                      <div th:if="${param.registro == 'exitoso'}" class="alert alert-success">
+                        ¡Registro exitoso! Por favor, Verifique su email en su bandeja de entrada.
+                      </div>
+
+                      <div class="row">
+                        <div class="col-md-6 mb-3">
+                          <label for="tipoDocumento" class="form-label">Tipo de documento</label>
+                          <select id="tipoDocumento" class="form-select" th:field="*{tipoDocumentoId}" required>
+                            <option value="" disabled selected>Seleccione...</option>
+                            <option value="1">DNI</option>
+                            <option value="2">RUC</option>
+                          </select>
+                          <div class="invalid-feedback" id="tipoDocumentoError"></div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                          <label for="numeroDocumento" class="form-label">N. de documento</label>
+                          <input type="text" class="form-control" id="numeroDocumento" th:field="*{numeroDocumento}"
+                            required>
+                          <div class="invalid-feedback" id="numeroDocumentoError"></div>
+                        </div>
+                      </div>
+
+                      <div id="camposPersonaNatural">
+                        <div class="row">
+                          <div class="col-md-6 mb-3">
+                            <label for="nombres" class="form-label">Nombres</label>
+                            <input type="text" class="form-control" id="nombres" th:field="*{nombres}">
+                            <div class="invalid-feedback" id="nombresError"></div>
+                          </div>
+                          <div class="col-md-6 mb-3">
+                            <label for="apellidos" class="form-label">Apellidos</label>
+                            <input type="text" class="form-control" id="apellidos" th:field="*{apellidos}">
+                            <div class="invalid-feedback" id="apellidosError"></div>
+                          </div>
+                        </div>
+                      </div>
+                      <div id="camposPersonaJuridica" style="display: none;">
+                        <div class="mb-3">
+                          <label for="razonSocial" class="form-label">Razón Social</label>
+                          <input type="text" class="form-control" id="razonSocial" th:field="*{razonSocial}">
+                          <div class="invalid-feedback" id="razonSocialError"></div>
+                        </div>
+                      </div>
+
+                      <div class="form-group mb-3">
+                        <label for="email">Email</label>
+                        <input id="email" type="email" class="form-control" th:field="*{email}"
+                          placeholder="customer@example.com" required>
+                        <div class="invalid-feedback" id="emailError"></div>
+                      </div>
+                      <div class="form-group mb-3">
+                        <label for="telefono">Teléfono</label>
+                        <input id="telefono" type="tel" class="form-control" th:field="*{telefono}"
+                          placeholder="987654321">
+                      </div>
+                      <div class="form-group mb-3">
+                        <label for="direccion">Dirección</label>
+                        <input id="direccion" type="text" class="form-control" th:field="*{direccion}"
+                          placeholder="Av. Siempre Viva 123">
+                      </div>
+
+                      <div class="form-group mb-3">
+                        <label for="password">Password</label>
+                        <input id="password" type="password" class="form-control" th:field="*{password}"
+                          placeholder="Secret word" required>
+                        <div class="invalid-feedback" id="passwordError"></div>
+                        <small class="form-text text-muted">Mín. 8 caracteres, 1 mayúscula, 1 minúscula y 1
+                          número.</small>
+                      </div>
+                      <div class="form-group mb-3">
+                        <label for="confirmarPassword">Repeat password</label>
+                        <input id="confirmarPassword" type="password" class="form-control" name="confirmarPassword"
+                          placeholder="Secret word" required>
+                        <div class="invalid-feedback" id="confirmarPasswordError"></div>
+                      </div>
+
+                      <div class="form-group mb-0">
+                        <button type="submit" class="btn btn-primary mt-3">Register</button>
+                      </div>
                     </form>
                   </div>
                 </div>
@@ -172,7 +245,123 @@
 
     </div>
     <div th:replace="tienda/framer/footer :: siteFooter"></div>
-</div>
-<div th:replace="tienda/framer/scripts :: scripts"></div>
+  </div>
+  <div th:replace="tienda/framer/scripts :: scripts"></div>
 </body>
+
 </html>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const tipoDocEl = document.getElementById("tipoDocumento");
+    const camposDNI = document.getElementById("camposPersonaNatural");
+    const camposRUC = document.getElementById("camposPersonaJuridica");
+
+    function toggleCampos() {
+      if (!tipoDocEl) return;
+
+      const tipo = tipoDocEl.value;
+      if (tipo === "1") {
+        camposDNI.style.display = "block";
+        camposRUC.style.display = "none";
+      } else if (tipo === "2") {
+        camposDNI.style.display = "none";
+        camposRUC.style.display = "block";
+      } else {
+        camposDNI.style.display = "none";
+        camposRUC.style.display = "none";
+      }
+    }
+    if (tipoDocEl) {
+      tipoDocEl.addEventListener("change", toggleCampos);
+      toggleCampos();
+    }
+    const form = document.getElementById("registroForm");
+    if (form) {
+      form.addEventListener("submit", function (event) {
+        if (!validarRegistro()) {
+          event.preventDefault();
+          console.warn("Validación de JS fallida. Formulario no enviado.");
+        }
+      });
+    }
+  });
+
+  function validarRegistro() {
+    limpiarErrores();
+    let esValido = true;
+
+    const tipoDocId = document.getElementById("tipoDocumento").value;
+    const numeroDoc = document.getElementById("numeroDocumento").value.trim();
+    const email = document.getElementById("email").value.trim();
+    const pass1 = document.getElementById("password").value;
+    const pass2 = document.getElementById("confirmarPassword").value;
+
+    if (!tipoDocId) {
+      mostrarError("tipoDocumento", "Seleccione un tipo de documento.");
+      esValido = false;
+    }
+
+    if (tipoDocId === "1") {
+      if (numeroDoc.length !== 8 || !/^\d+$/.test(numeroDoc)) {
+        mostrarError("numeroDocumento", "El DNI debe tener 8 dígitos numéricos.");
+        esValido = false;
+      }
+      if (!document.getElementById("nombres").value.trim()) {
+        mostrarError("nombres", "El nombre es obligatorio.");
+        esValido = false;
+      }
+      if (!document.getElementById("apellidos").value.trim()) {
+        mostrarError("apellidos", "El apellido es obligatorio.");
+        esValido = false;
+      }
+    } else if (tipoDocId === "2") {
+      if (numeroDoc.length !== 11 || !/^\d+$/.test(numeroDoc)) {
+        mostrarError("numeroDocumento", "El RUC debe tener 11 dígitos numéricos.");
+        esValido = false;
+      }
+      if (!document.getElementById("razonSocial").value.trim()) {
+        mostrarError("razonSocial", "La Razón Social es obligatoria.");
+        esValido = false;
+      }
+    } else if (!numeroDoc) {
+      mostrarError("numeroDocumento", "El número de documento es obligatorio.");
+      esValido = false;
+    }
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      mostrarError("email", "Ingrese un correo electrónico válido.");
+      esValido = false;
+    }
+    const passRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$/;
+    if (!passRegex.test(pass1)) {
+      mostrarError("password", "Debe tener mín. 8 caracteres, 1 mayúscula, 1 minúscula y 1 número.");
+      esValido = false;
+    }
+    if (pass1 !== pass2) {
+      mostrarError("confirmarPassword", "Las contraseñas no coinciden.");
+      esValido = false;
+    }
+
+    return esValido;
+  }
+
+  function mostrarError(campoId, mensaje) {
+    const campo = document.getElementById(campoId);
+    if (campo) {
+      campo.classList.add("is-invalid");
+      const errorDiv = document.getElementById(campoId + "Error");
+      if (errorDiv) {
+        errorDiv.textContent = mensaje;
+      }
+    }
+  }
+
+  function limpiarErrores() {
+    const camposInvalidos = document.querySelectorAll(".is-invalid");
+    camposInvalidos.forEach(campo => {
+      campo.classList.remove("is-invalid");
+    });
+  }
+
+</script>

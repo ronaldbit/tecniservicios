@@ -1,10 +1,16 @@
 package com.example.simplemvc.controller;
 
 import com.example.simplemvc.model.Usuario;
+import com.example.simplemvc.request.CrearUsuarioClienteRequest;
 import com.example.simplemvc.shared.ClienteSesion;
 import com.example.simplemvc.service.UsuarioService;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+
+import org.antlr.v4.runtime.atn.SemanticContext.OR;
+import org.aspectj.weaver.ast.Or;
+import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -13,15 +19,20 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @Controller
 @RequestMapping("/perfil")
 @RequiredArgsConstructor
+@Order(Ordered.HIGHEST_PRECEDENCE) // dejalo pa que dynamic no interfira dskfjha
 public class PerfilController {
 
     private final UsuarioService usuarioService;
 
-    // /perfil  -> aquí luego pondrás perfil o formulario de registro según sesión
     @GetMapping
     public String perfilInicio(Model model, HttpSession session) {
+
         model.addAttribute("pageTitle", "Mi perfil");
-        // clienteSesion ya viene de GlobalModelAttributes, no hace falta setear aquí
+
+        if (!model.containsAttribute("usuarioRequest")) {
+            model.addAttribute("usuarioRequest", new CrearUsuarioClienteRequest());
+        }
+
         return "tienda/perfil/index";
     }
 
@@ -31,8 +42,7 @@ public class PerfilController {
             @RequestParam("identificador") String identificador,
             @RequestParam("password") String password,
             RedirectAttributes ra,
-            HttpSession session
-    ) {
+            HttpSession session) {
         String trimmed = identificador == null ? "" : identificador.trim();
 
         if (trimmed.isEmpty() || password == null || password.isBlank()) {
@@ -63,8 +73,7 @@ public class PerfilController {
         clienteSesion.setIdCliente(persona.getId()); // o usuario.getId(), como prefieras
         clienteSesion.setNombreCompleto(
                 (persona.getNombres() != null ? persona.getNombres() : "") + " " +
-                (persona.getApellidos() != null ? persona.getApellidos() : "")
-        );
+                        (persona.getApellidos() != null ? persona.getApellidos() : ""));
         clienteSesion.setEmail(persona.getEmail());
         clienteSesion.setDni(persona.getNumeroDocumento());
 
