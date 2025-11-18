@@ -112,22 +112,24 @@ public class ApiAuthController {
 
     if (request.getPassword() == null || !request.getPassword().equals(confirmarPassword)) {
       model.addAttribute("errorGlobal", "Las contraseñas no coinciden.");
-      return "tienda/perfil/index";
+      model.addAttribute("login", new LoginUsuarioRequest());
+      return "tienda/perfil/index"; 
     }
-    if (request.getTipoDocumentoId() == 1) {
+    if (request.getTipoDocumentoId() == 1L) {
       request.setTipoPersona("Natural");
       request.setRazonSocial(null);
-    } else if (request.getTipoDocumentoId() == 2) {
+    } else if (request.getTipoDocumentoId() == 2L) {
       request.setTipoPersona("Juridica");
       request.setNombres(null);
       request.setApellidos(null);
     }
     try {
       UsuarioDto usuario = usuarioService.CrearCliente(request);
-      return "redirect:/tienda/perfil/index?registro=exitoso";
+      return "redirect:/perfil?registro=exitoso";
     } catch (Exception e) {
       model.addAttribute("errorGlobal", e.getMessage());
-      return "tienda/perfil/index";
+      model.addAttribute("login", new LoginUsuarioRequest());
+      return "tienda/perfil/index"; 
     }
   }
 }

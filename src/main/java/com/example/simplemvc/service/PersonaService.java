@@ -142,6 +142,10 @@ public class PersonaService {
     personaRepository.findByEmail(request.getEmail()).ifPresent(existingPersona -> {
       throw new IllegalArgumentException("Ya existe una persona con el email: " + request.getEmail());
     });
+    personaRepository.findByNumeroDocumento(request.getNumeroDocumento()).ifPresent(existingPersona -> {
+      throw new IllegalArgumentException(
+          "Ya existe una persona con el número de documento: " + request.getNumeroDocumento());
+    });
     Persona per = Persona.builder()
         .tipoDocumento(
             tipoDocumentoService

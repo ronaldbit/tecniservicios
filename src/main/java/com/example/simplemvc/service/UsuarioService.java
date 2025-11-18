@@ -219,8 +219,7 @@ public class UsuarioService {
   }
 
   public UsuarioDto CrearCliente(CrearUsuarioClienteRequest request) throws Exception {
-    Persona persona = personaService.crearDesdeClienteRequest(request);
-
+    Persona persona = personaService.crearDesdeClienteRequest(request);    
     Rol rol = rolRepository
         .findByNombre("CLIENTE")
         .orElseThrow(
