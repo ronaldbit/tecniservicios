@@ -12,6 +12,7 @@ import com.example.simplemvc.request.CrearProductoRequest;
 
 //import org.apache.tomcat.util.http.parser.MediaType;
 import org.apache.xmlbeans.impl.xb.xsdschema.Public;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -25,58 +26,48 @@ import lombok.RequiredArgsConstructor;
 
 import org.springframework.http.MediaType;
 
-
 @RestController
 @RequestMapping("/api/productos")
 @RequiredArgsConstructor
 public class ApiProductoController {
     private final ProductoService productoService;
 
+    @Value("${spring.image.path}")
+    private String uploadPath;
+
     @GetMapping
     public ResponseEntity<List<ProductoDto>> listarProductos() {
         List<ProductoDto> productos = productoService.findAll();
         return ResponseEntity.ok(productos);
     }
-/**
-    @PostMapping
-    public ResponseEntity<?> crearProducto(@RequestBody CrearProductoRequest request) {
+
+    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<?> crearProducto(@ModelAttribute CrearProductoRequest request) {
         try {
-            ProductoDto nuevoProducto = productoService.create(request);
+            List<String> nombresGuardados = new ArrayList<>();
+
+            if (request.getImagenes() != null) {
+                for (MultipartFile file : request.getImagenes()) {
+                    if (!file.isEmpty()) {
+                        String nombre = UUID.randomUUID() + "_" + file.getOriginalFilename();
+
+                        Path path = Paths.get(uploadPath).resolve(nombre);
+                        Files.createDirectories(path.getParent());
+                        Files.write(path, file.getBytes());
+                        System.out.println("Imagen guardada en: " + path.toString());
+
+                        nombresGuardados.add(nombre);
+                    }
+                }
+            }
+
+            ProductoDto nuevoProducto = productoService.create(request, nombresGuardados);
+
             return ResponseEntity.status(HttpStatus.CREATED).body(nuevoProducto);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
-    } **/
-
-
-@PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-public ResponseEntity<?> crearProducto(@ModelAttribute CrearProductoRequest request) {
-    try {
-        List<String> nombresGuardados = new ArrayList<>();
-
-        if (request.getImagenes() != null) {
-            for (MultipartFile file : request.getImagenes()) {
-                if (!file.isEmpty()) {
-                    String nombre = UUID.randomUUID() + "_" + file.getOriginalFilename();
-
-                    Path path = Paths.get("/imgs/productos/" + nombre);
-                    Files.createDirectories(path.getParent()); // crea la carpeta si no existe
-                    Files.write(path, file.getBytes());
-
-
-                    nombresGuardados.add(nombre);
-                }
-            }
-        }
-
-        ProductoDto nuevoProducto = productoService.create(request, nombresGuardados);
-
-        return ResponseEntity.status(HttpStatus.CREATED).body(nuevoProducto);
-    } catch (Exception e) {
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
     }
-}
-
 
     @PutMapping("/{id}")
     public ResponseEntity<?> actualizarProducto(@PathVariable Long id, @RequestBody CrearProductoRequest request) {
