@@ -1,21 +1,23 @@
 package com.example.simplemvc.controller;
 
+import java.math.BigInteger;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 import com.example.simplemvc.request.ActualizarInventarioRequest;
 import com.example.simplemvc.request.CrearProductoRequest;
 
-//import org.apache.tomcat.util.http.parser.MediaType;
-import org.apache.xmlbeans.impl.xb.xsdschema.Public;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -23,12 +25,14 @@ import com.example.simplemvc.dto.ProductoDto;
 import com.example.simplemvc.service.ProductoService;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.http.MediaType;
 
 @RestController
 @RequestMapping("/api/productos")
 @RequiredArgsConstructor
+@Slf4j
 public class ApiProductoController {
     private final ProductoService productoService;
 
@@ -50,17 +54,14 @@ public class ApiProductoController {
                 for (MultipartFile file : request.getImagenes()) {
                     if (!file.isEmpty()) {
                         String nombre = UUID.randomUUID() + "_" + file.getOriginalFilename();
-
                         Path path = Paths.get(uploadPath).resolve(nombre);
                         Files.createDirectories(path.getParent());
                         Files.write(path, file.getBytes());
-                        System.out.println("Imagen guardada en: " + path.toString());
-
+                        System.out.println();
                         nombresGuardados.add(nombre);
                     }
                 }
             }
-
             ProductoDto nuevoProducto = productoService.create(request, nombresGuardados);
 
             return ResponseEntity.status(HttpStatus.CREATED).body(nuevoProducto);
@@ -69,12 +70,39 @@ public class ApiProductoController {
         }
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<?> actualizarProducto(@PathVariable Long id, @RequestBody CrearProductoRequest request) {
+    @PutMapping(value = "/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<?> actualizarProducto(@PathVariable Long id,
+            @ModelAttribute CrearProductoRequest request) {
         try {
-            ProductoDto productoActualizado = productoService.update(id, request);
+            Set<String> hashesVistos = new HashSet<>();
+            List<String> nombresNuevosGuardados = new ArrayList<>();
+            if (request.getImagenes() != null) {
+                for (MultipartFile file : request.getImagenes()) {
+                    if (!file.isEmpty()) {
+                        byte[] fileBytes = file.getBytes();
+                        String fileHash = getFileHash(fileBytes);
+                        if (hashesVistos.contains(fileHash)) {
+                            log.warn("Archivo duplicado detectado (hash: {}). Omitiendo.", fileHash);
+                            continue;
+                        }
+                        hashesVistos.add(fileHash);
+                        String nombreOriginal = file.getOriginalFilename();
+                        String nombreLimpio = nombreOriginal.replaceAll("\\s+", "_");
+                        String nombre = UUID.randomUUID() + "_" + nombreLimpio;
+
+                        Path path = Paths.get(uploadPath).resolve(nombre);
+                        Files.createDirectories(path.getParent());
+                        Files.write(path, fileBytes);
+
+                        nombresNuevosGuardados.add(nombre);
+                    }
+                }
+            }
+            ProductoDto productoActualizado = productoService.update(id, request, nombresNuevosGuardados);
             return ResponseEntity.ok(productoActualizado);
+
         } catch (Exception e) {
+            log.error("Error al actualizar el producto con ID {}: {}", id, e.getMessage(), e);
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }
@@ -110,4 +138,14 @@ public class ApiProductoController {
         }
     }
 
+    private String getFileHash(byte[] bytes) {
+        try {
+            MessageDigest md = MessageDigest.getInstance("MD5");
+            byte[] digest = md.digest(bytes);
+            return new BigInteger(1, digest).toString(16);
+        } catch (NoSuchAlgorithmException e) {
+            log.error("Error: No se encontró el algoritmo MD5", e);
+            return UUID.randomUUID().toString();
+        }
+    }
 }
