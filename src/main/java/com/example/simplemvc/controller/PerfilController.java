@@ -2,12 +2,10 @@ package com.example.simplemvc.controller;
 
 import com.example.simplemvc.dto.JwtDto;
 import com.example.simplemvc.model.Usuario;
-import com.example.simplemvc.model.enums.EstadoEntidad;
 import com.example.simplemvc.request.CrearUsuarioClienteRequest;
 import com.example.simplemvc.request.LoginUsuarioRequest;
 import com.example.simplemvc.shared.ClienteSesion;
 import com.example.simplemvc.service.AuthService;
-import com.example.simplemvc.service.JwtAuthenticationService;
 import com.example.simplemvc.service.UsuarioService;
 
 import jakarta.servlet.http.Cookie;
@@ -15,8 +13,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 
-import org.antlr.v4.runtime.atn.SemanticContext.OR;
-import org.aspectj.weaver.ast.Or;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
@@ -32,8 +28,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 public class PerfilController {
 
     private final UsuarioService usuarioService;
-    @Autowired
-    private final JwtAuthenticationService jwtAuthenticationService;
     @Autowired
     private final AuthService authService;
 
@@ -56,57 +50,85 @@ public class PerfilController {
         return "tienda/perfil/index"; // Carga tu plantilla
     }
 
-    // LOGIN CLIENTE (desde menú/header)
     @PostMapping("/login")
     public String loginCliente(
             @RequestParam("identificador") String identificador,
             @RequestParam("password") String password,
+            @RequestParam(value = "origen", required = false, defaultValue = "perfil") String origen,
             RedirectAttributes ra,
-            HttpServletResponse response) { 
+            HttpServletResponse response,
+            HttpSession session) {
 
         String trimmed = identificador == null ? "" : identificador.trim();
+
         if (trimmed.isEmpty() || password == null || password.isBlank()) {
             ra.addFlashAttribute("loginError", "Ingresa tu DNI o correo y la contraseña.");
-            return "redirect:/perfil"; 
+            return redirect(origen);
         }
-
         boolean esSoloNumeros = trimmed.matches("\\d+");
         if (esSoloNumeros && trimmed.length() != 8) {
             ra.addFlashAttribute("loginError", "El DNI debe tener 8 dígitos.");
-            return "redirect:/perfil"; 
-        }      
+            return redirect(origen);
+        }
+
+        if (!esSoloNumeros && !trimmed.matches("^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$")) {
+            ra.addFlashAttribute("loginError", "Ingresa un correo válido.");
+            return redirect(origen);
+        }
+
         var optUsuario = usuarioService.loginClientePorIdentificador(trimmed, password);
+
         if (optUsuario.isEmpty()) {
             ra.addFlashAttribute("loginError", "Credenciales inválidas o usuario no permitido.");
-            return "redirect:/perfil"; 
+            return redirect(origen);
         }
-        LoginUsuarioRequest request = new LoginUsuarioRequest();
-        request.setNombreUsuario(optUsuario.get().getUsername()); 
-        request.setPassword(password);
 
-        try {
-            JwtDto jwt = authService.login(request);
-            if (jwt == null) {
-                ra.addFlashAttribute("loginError", "El login ha fallado. Intente de nuevo.");
-                return "redirect:/perfil"; 
+        Usuario usuario = optUsuario.get();
+
+        if (origen.equals("perfil")) {
+
+            LoginUsuarioRequest request = new LoginUsuarioRequest();
+            request.setNombreUsuario(usuario.getUsername());
+            request.setPassword(password);
+
+            try {
+                JwtDto jwt = authService.login(request);
+
+                if (jwt == null) {
+                    ra.addFlashAttribute("loginError", "El login ha fallado. Intente de nuevo.");
+                    return redirect(origen);
+                }
+
+                Cookie jwtCookie = new Cookie("JWT_TOKEN", jwt.getJwt());
+                jwtCookie.setHttpOnly(true);
+                jwtCookie.setPath("/");
+                jwtCookie.setMaxAge(24 * 60 * 60);
+                response.addCookie(jwtCookie);
+
+            } catch (Exception e) {
+                ra.addFlashAttribute("loginError", "Error al iniciar sesión: " + e.getMessage());
+                return redirect(origen);
             }
-            Cookie jwtCookie = new Cookie("JWT_TOKEN", jwt.getJwt());
-            jwtCookie.setHttpOnly(true);
-            jwtCookie.setPath("/");
-            jwtCookie.setMaxAge(24 * 60 * 60); 
-            response.addCookie(jwtCookie); 
-            Usuario usuario = jwtAuthenticationService.fromJwt(jwt.getJwt());
-            if (usuario.getEstado() == EstadoEntidad.INACTIVO) {
-                ra.addFlashAttribute("loginError", "Usuario inactivo. Contacte al administrador.");
-                return "redirect:/perfil"; 
-            }
-            System.out.println("Usuario logueado: " + usuario.getUsername());
-            ra.addFlashAttribute("loginSuccess", "Sesión iniciada correctamente.");
-            return "redirect:/perfil"; //ACA ES DONDE SE VA LA DIRECCION DESPUES DE LOGIN
-        } catch (Exception e) {
-            ra.addFlashAttribute("loginError", "Error al iniciar sesión: " + e.getMessage());
-            return "redirect:/perfil"; 
         }
+        var persona = usuario.getPersona();
+        ClienteSesion clienteSesion = new ClienteSesion();
+        clienteSesion.setIdCliente(persona.getId());
+        clienteSesion.setNombreCompleto(
+                (persona.getNombres() != null ? persona.getNombres() : "") + " " +
+                        (persona.getApellidos() != null ? persona.getApellidos() : ""));
+        clienteSesion.setEmail(persona.getEmail());
+        clienteSesion.setDni(persona.getNumeroDocumento());
+        session.setAttribute("CLIENTE_SESION", clienteSesion);
+
+        ra.addFlashAttribute("loginSuccess", "Sesión iniciada correctamente.");
+        return redirect(origen);
+    }
+
+    private String redirect(String origen) {
+        if (origen.equals("menu")) {
+            return "redirect:/";
+        }
+        return "redirect:/perfil";
     }
 
     // LOGOUT CLIENTE

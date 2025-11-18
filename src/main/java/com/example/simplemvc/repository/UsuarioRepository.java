@@ -10,6 +10,6 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
   Optional<Usuario> findByPersona_Id(Long idPersona);
   Optional<Usuario> findByRoles_Id(Long idRol);
   Optional<Usuario> findByJwtPSecret(String jwtPSecret);
-    Optional<Usuario> findByPersonaNumeroDocumentoOrPersonaEmail(String numeroDocumento, String email);
+  Optional<Usuario> findByPersonaNumeroDocumentoOrPersonaEmail(String numeroDocumento, String email);
 
 }
