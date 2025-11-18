@@ -36,7 +36,7 @@ public class ProductoDto {
     private Timestamp createdAt;
     private Timestamp updatedAt;
 
-    // Método auxiliar para acceder a las imágenes como lista
+    // Método para todas las imágenes
     public List<String> getImagenesList() {
         if (imagenes == null || imagenes.isEmpty()) return List.of();
         try {
@@ -45,5 +45,11 @@ public class ProductoDto {
         } catch (JsonProcessingException e) {
             return List.of();
         }
+    }
+
+    // Método para la primera imagen (para cards o botón)
+    public String getPrimeraImagen() {
+        List<String> list = getImagenesList();
+        return list.isEmpty() ? "/assets_shop/images/default-product.png" : list.get(0);
     }
 }

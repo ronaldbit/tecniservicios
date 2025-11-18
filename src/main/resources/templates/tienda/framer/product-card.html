@@ -5,10 +5,10 @@
     <div class="card h-100">
         <a th:href="@{/producto/{id}(id=${product.idProducto})}">
 
-
-             <img class="card-img-top" th:src="${#lists.isEmpty(product.imagenesList)
-              ? '/assets_shop/images/default-product.png'
-              : '/uploads/productos/' + product.imagenesList[0]}"
+<img class="card-img-top"
+     th:src="${#lists.isEmpty(product.imagenesList)
+               ? '/assets_shop/images/default-product.png'
+               : '/uploads/productos/' + product.imagenesList[0]}"
      th:alt="${product.nombre}">
 
         </a>

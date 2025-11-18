@@ -32,45 +32,38 @@
 								<div class="product__body">
 									<div class="product__card product__card--one"></div>
 									<div class="product__card product__card--two"></div>
-<div class="product-gallery product-gallery--layout--product-full product__gallery" data-layout="product-full">
-
-    <!-- Imagen principal -->
-    <div class="product-gallery__featured">
-        <button type="button" class="product-gallery__zoom">
-            <svg width="24" height="24">
-                <path d="M15,18c-2,0-3.8-0.6-5.2-1.7c-1,1.3-2.1,2.8-3.5,4.6c-2.2,2.8-3.4,1.9-3.4,1.9s-0.6-0.3-1.1-0.7
-                         c-0.4-0.4-0.7-1-0.7-1s-0.9-1.2,1.9-3.3c1.8-1.4,3.3-2.5,4.6-3.5C6.6,12.8,6,11,6,9c0-5,4-9,9-9s9,4,9,9S20,18,15,18z
-                         M15,2 c-3.9,0-7,3.1-7,7s3.1,7,7,7s7-3.1,7-7S18.9,2,15,2z M16,13h-2v-3h-3V8h3V5h2v3h3v2h-3V13z" />
-            </svg>
-        </button>
-
-        <div class="owl-carousel">
-            <a th:each="img : ${producto.imagenesList()}"
-               th:href="'/uploads/productos/' + ${img}"
-               class="image image--type--product"
-               target="_blank"
-               data-width="700"
-               data-height="700">
-                <div class="image__body">
-                    <img th:src="'/uploads/productos/' + ${img}" class="image__tag" th:alt="${producto.nombre}">
-                </div>
-            </a>
-        </div>
-    </div>
-
-    <!-- Miniaturas -->
-    <div class="product-gallery__thumbnails">
-        <div class="owl-carousel">
-            <div th:each="img : ${producto.imagenesList()}" class="product-gallery__thumbnails-item image image--type--product">
-                <div class="image__body">
-                    <img th:src="'/uploads/productos/' + ${img}" class="image__tag" th:alt="${producto.nombre}">
-                </div>
-            </div>
-        </div>
-    </div>
-
-</div>
-
+                  <div class="product-gallery product-gallery--layout--product-full product__gallery" data-layout="product-full">
+                      <!-- Imagen principal -->
+                      <div class="product-gallery__featured">
+                          <button type="button" class="product-gallery__zoom">
+                              <svg width="24" height="24">
+                                  <path d="M15,18c-2,0-3.8-0.6-5.2-1.7c-1,1.3-2.1,2.8-3.5,4.6c-2.2,2.8-3.4,1.9-3.4,1.9s-0.6-0.3-1.1-0.7
+                                          c-0.4-0.4-0.7-1-0.7-1s-0.9-1.2,1.9-3.3c1.8-1.4,3.3-2.5,4.6-3.5C6.6,12.8,6,11,6,9c0-5,4-9,9-9s9,4,9,9S20,18,15,18z
+                                          M15,2 c-3.9,0-7,3.1-7,7s3.1,7,7,7s7-3.1,7-7S18.9,2,15,2z M16,13h-2v-3h-3V8h3V5h2v3h3v2h-3V13z" />
+                              </svg>
+                          </button>
+                          <div class="owl-carousel">
+                            <a th:each="img : ${producto.imagenesList}" th:href="@{'/uploads/productos/' + ${img}}" class="image image--type--product" target="_blank" data-width="700" data-height="700">
+                                <div class="image__body">
+                                    <img th:src="@{'/uploads/productos/' + ${img}}" class="image__tag" th:alt="${producto.nombre}">
+                                </div>
+                            </a>
+                          </div>
+                      </div>
+                      <!-- Miniaturas -->
+                      <div class="product-gallery__thumbnails">
+                          <div class="owl-carousel">
+                            <div th:each="img : ${producto.imagenesList}"
+                                class="product-gallery__thumbnails-item image image--type--product">
+                                <div class="image__body">
+                                    <img th:src="@{'/uploads/productos/' + ${img}}"
+                                        class="image__tag"
+                                        th:alt="${producto.nombre}">
+                                </div>
+                            </div>
+                          </div>
+                      </div>
+                  </div>
 									<div class="product__header">
 										<h1 class="product__title" th:text="${producto.nombre}">Nombre producto</h1>
 										<div class="product__subtitle">
@@ -128,9 +121,7 @@
 											<div class="product__info-body">
 												<div class="product__badge tag-badge tag-badge--sale">Sale</div>
 												<div class="product__prices-stock">
-													<div class="product__prices">
-														<div class="product__price product__price--current" th:text="${producto.precioOnline != null ? producto.precioOnline : producto.precio}">S/. 00.00
-														</div>
+													<div class="product__price product__price--current d-flex">S/. <div th:text="${producto.precioOnline != null ? producto.precioOnline : producto.precio}">S/. 00.00</div>
 													</div>
 													<div
 														class="status-badge status-badge--style--success product__stock status-badge--has-text">
@@ -224,14 +215,15 @@
 												</div>
 												<div class="product__actions-item product__actions-item--addtocart">
 
-                            <button type="button"
-        class="btn btn-primary btn-lg btn-block"
-        th:attr="data-id=${producto.idProducto},
-                 data-nombre=${producto.nombre},
-                 data-precio=${producto.precioOnline != null ? producto.precioOnline : producto.precio},
-                 data-imagen=${#strings.isEmpty(producto.imagenes) ? '/assets_shop/images/default-product.png' : producto.imagenes}">
-    Agregar al carrito
-</button>
+                       <button type="button"
+                              class="btn btn-primary btn-lg btn-block"
+                              th:attr="data-id=${producto.idProducto},
+                                      data-nombre=${producto.nombre},
+                                      data-precio=${producto.precioOnline != null ? producto.precioOnline : producto.precio},
+                                      data-imagen=${#lists.isEmpty(producto.imagenesList) ? '/assets_shop/images/default-product.png' : '/uploads/productos/' + producto.imagenesList[0]}">
+                          Comprar
+                      </button>
+
                         </div>
 												<div class="product__actions-divider"></div><button
 													class="product__actions-item product__actions-item--wishlist"
