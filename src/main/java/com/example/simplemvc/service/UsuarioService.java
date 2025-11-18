@@ -160,7 +160,7 @@ public class UsuarioService {
             : request.getEstadoEntidad() == 2 ? EstadoEntidad.ACTIVO : EstadoEntidad.ELIMINADO);
 
     if (request.getEstadoEntidad() != 1 && request.getEstadoEntidad() != 2 ) {
-       log.info("Eliminando persona asociada al usuario con ID: {}", id);       
+       log.info("Eliminando persona asociada al usuario con ID: {}", id);
        Usuario temp = usuarioRepository.findById(id).orElseThrow();
        personaService.eliminarPorId(temp.getPersona().getId());
        log.info("Persona eliminada con ID: {}", temp.getPersona().getId());
@@ -170,7 +170,7 @@ public class UsuarioService {
       usuario.setPassword(passwordEncoder.encode(request.getPassword()));
     } else {
       log.info("La contraseña no se actualiza para el usuario con ID: {}", id);
-    }    
+    }
     usuario.setRoles(Arrays.asList(rol));
     usuario = usuarioRepository.save(usuario);
     log.info("Usuario actualizado con ID: {}", usuario.getId());
@@ -181,4 +181,53 @@ public class UsuarioService {
     log.info("Obteniendo usuario con nombre de usuario: {}", nombreUsuario);
     return usuarioRepository.findByNombreUsuario(nombreUsuario);
   }
+
+
+  //para el cliente
+public Optional<Usuario> loginClientePorIdentificador(String identificador, String passwordPlano) {
+    String trimmed = identificador == null ? "" : identificador.trim();
+
+    boolean esSoloNumeros = trimmed.matches("\\d+");
+    String dni = null;
+    String email = null;
+
+    if (esSoloNumeros) {
+        dni = trimmed;
+    } else {
+        email = trimmed;
+    }
+
+    Optional<Usuario> optUsuario = usuarioRepository
+            .findByPersonaNumeroDocumentoOrPersonaEmail(
+                    dni != null ? dni : null,
+                    email != null ? email : null
+            );
+
+    if (optUsuario.isEmpty()) {
+        return Optional.empty();
+    }
+
+    Usuario usuario = optUsuario.get();
+
+    // Solo usuarios activos
+    if (usuario.getEstado() == EstadoEntidad.INACTIVO ||
+        usuario.getEstado() == EstadoEntidad.ELIMINADO) {
+        return Optional.empty();
+    }
+
+    // Solo rol CLIENTE
+    boolean esCliente = usuario.getRoles().stream()
+            .anyMatch(r -> "CLIENTE".equalsIgnoreCase(r.getNombre()));
+    if (!esCliente) {
+        return Optional.empty();
+    }
+
+    // Validar contraseña con BCrypt
+    if (!passwordEncoder.matches(passwordPlano, usuario.getPassword())) {
+        return Optional.empty();
+    }
+
+    return Optional.of(usuario);
+}
+
 }

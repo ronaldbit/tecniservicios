@@ -53,12 +53,12 @@ spring:
         dialect: org.hibernate.dialect.MySQL8Dialect
 
   image:
-    path: ./uploads/productos
+    path: c:\uploads\productos\
 
   servlet:
     multipart:
       max-file-size: 50MB
-      
+
 security:
   allowed-methods:
     - GET

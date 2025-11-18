@@ -4,11 +4,13 @@
 <div th:fragment="productCard(product)">
     <div class="card h-100">
         <a th:href="@{/producto/{id}(id=${product.idProducto})}">
-            <img class="card-img-top"
-                 th:src="${#strings.isEmpty(product.imagenes)
-                           ? '/assets_shop/images/default-product.png'
-                           : product.imagenes}"
-                 th:alt="${product.nombre}">
+
+
+             <img class="card-img-top" th:src="${#lists.isEmpty(product.imagenesList)
+              ? '/assets_shop/images/default-product.png'
+              : '/uploads/productos/' + product.imagenesList[0]}"
+     th:alt="${product.nombre}">
+
         </a>
         <div class="card-body">
             <h6 class="card-title" th:text="${product.nombre}">Nombre producto</h6>

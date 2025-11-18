@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments/head :: head(${pageTitle})"></head>
+<head th:replace="tienda/framer/head :: head(${pageTitle})"></head>
 <body>
 <div class="site">
 
@@ -30,7 +30,7 @@
     <div th:replace="tienda/framer/footer :: siteFooter"></div>
 </div>
 
-<div th:replace="fragments/scripts :: scripts"></div>
+<div th:replace="tienda/framer/scripts :: scripts"></div>
 
 <script>
 function slugify(str) {
