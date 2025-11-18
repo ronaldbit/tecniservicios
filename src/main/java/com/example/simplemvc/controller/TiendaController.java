@@ -105,17 +105,10 @@ public class TiendaController {
     // buscador ajax
     @GetMapping("/tienda/api/buscar")
     @ResponseBody
-    public java.util.List<com.example.simplemvc.dto.ProductoDto> buscarPreview(
-            @RequestParam("q") String q
-    ) {
-        if (q == null || q.trim().isEmpty()) {
-            return java.util.List.of();
-        }
+    public java.util.List<com.example.simplemvc.dto.ProductoDto> buscarPreview(@RequestParam("q") String q) {
+        if (q == null || q.trim().isEmpty()) { return java.util.List.of();}
         // Versión simple: busca en todos y filtra por nombre
-        return productoService.findAll().stream()
-                .filter(p -> p.getNombre() != null && p.getNombre().toLowerCase().contains(q.toLowerCase()))
-                .limit(10)
-                .toList();
+        return productoService.findAll().stream().filter(p -> p.getNombre() != null && p.getNombre().toLowerCase().contains(q.toLowerCase())).limit(10).toList();
     }
 
     // CARRITO: /carrito

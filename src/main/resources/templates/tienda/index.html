@@ -292,15 +292,52 @@ document.addEventListener("DOMContentLoaded", function () {
                     preview.innerHTML = "";
                     return;
                 }
-                preview.innerHTML = "";
-                data.slice(0, 5).forEach(p => {
-                    const a = document.createElement("a");
-                    a.className = "list-group-item list-group-item-action";
-                    // por ahora usamos /producto/{id}
-                    a.href = "/producto/" + (p.idProducto ?? "");
-                    a.textContent = p.nombre ?? "Producto";
-                    preview.appendChild(a);
-                });
+
+                // Construimos el HTML con tu diseño
+                const html = data.slice(0, 5).map(p => {
+                    const id   = p.idProducto ?? "";
+                    const name = p.nombre ?? "Producto";
+                    const price = p.precioOnline ?? p.precio ?? 0;
+
+                    // De momento una imagen por defecto.
+                    // Luego puedes cambiarlo a p.imagenMini, p.imagenPrincipal, etc.
+                    const imgUrl = "images/products/product-4-40x40.jpg";
+
+                    return `
+<a class="suggestions__item suggestions__product" href="/producto/${id}">
+  <div class="suggestions__product-image image image--type--product">
+    <div class="image__body">
+      <img class="image__tag" src="${imgUrl}" alt="${name}">
+    </div>
+  </div>
+  <div class="suggestions__product-info">
+    <div class="suggestions__product-name">${name}</div>
+
+    <!-- RATING (dejado listo para más adelante) -->
+    <!--
+    <div class="suggestions__product-rating">
+      <div class="suggestions__product-rating-stars">
+        <div class="rating">
+          <div class="rating__body">
+            <div class="rating__star rating__star--active"></div>
+            <div class="rating__star rating__star--active"></div>
+            <div class="rating__star rating__star--active"></div>
+            <div class="rating__star rating__star--active"></div>
+            <div class="rating__star"></div>
+          </div>
+        </div>
+      </div>
+      <div class="suggestions__product-rating-label">4.0 en 26 reseñas</div>
+    </div>
+    -->
+  </div>
+  <div class="suggestions__product-price">
+    S/. ${price}
+  </div>
+</a>`;
+                }).join("");
+
+                preview.innerHTML = html;
                 preview.style.display = "block";
             })
             .catch(() => {
@@ -310,6 +347,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 </script>
+
 
 </body>
 </html>

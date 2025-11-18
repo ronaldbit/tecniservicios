@@ -38,7 +38,7 @@ public class UsuarioService {
   private final SucursalRepository sucursalRepository;
 
   private final PersonaService personaService;
-  
+
   @Autowired
   private ServicioCorreo servicioCorreo;
 
@@ -219,7 +219,7 @@ public class UsuarioService {
   }
 
   public UsuarioDto CrearCliente(CrearUsuarioClienteRequest request) throws Exception {
-    Persona persona = personaService.crearDesdeClienteRequest(request);    
+    Persona persona = personaService.crearDesdeClienteRequest(request);
     Rol rol = rolRepository
         .findByNombre("CLIENTE")
         .orElseThrow(
@@ -231,7 +231,7 @@ public class UsuarioService {
     usuario = Usuario.builder()
         .nombreUsuario(request.getNumeroDocumento())
         .password(passwordEncoder.encode(request.getPassword()))
-        .persona(persona)   
+        .persona(persona)
         .sucursal(sucursalRepository.findById(1L).orElseThrow(() -> new IllegalArgumentException("Sucursal por defecto no encontrada.")))
         .estado(EstadoEntidad.ACTIVO)
         .roles(Arrays.asList(rol))
