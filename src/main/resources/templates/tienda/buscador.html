@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${pageTitle}">Resultados de búsqueda</title>
+    <link rel="stylesheet" href="/assets_shop/vendor/bootstrap/css/bootstrap.css" />
+</head>
+<body>
+<div class="site">
+    <div th:replace="tienda/framer/header :: siteHeader"></div>
+
+    <div class="site__body container my-4">
+        <h1 class="mb-3">Resultados de búsqueda</h1>
+
+        <p th:if="${query != null}">
+            Buscaste: <strong th:text="${query}"></strong>
+        </p>
+
+        <div th:if="${resultados != null and !resultados.isEmpty()}" class="row g-3 mt-3">
+            <div class="col-12 col-md-4" th:each="p : ${resultados}">
+                <div th:replace="tienda/framer/product-card :: productCard(${p})"></div>
+            </div>
+        </div>
+
+        <p th:if="${resultados == null or resultados.isEmpty()}">
+            No se encontraron productos.
+        </p>
+    </div>
+
+    <div th:replace="tienda/framer/footer :: siteFooter"></div>
+</div>
+</body>
+</html>

@@ -4,12 +4,12 @@ import com.example.simplemvc.model.Usuario;
 import com.example.simplemvc.model.UsuarioMapper;
 import com.example.simplemvc.service.GetActualUsuarioService;
 import com.example.simplemvc.service.JwtAuthenticationService;
-import com.ronaldbit.Mopla;
+//import com.ronaldbit.Mopla;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+//import java.util.HashMap;
+//import java.util.List;
+//import java.util.Map;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
@@ -32,17 +32,9 @@ public class DynamicRouterController {
 
   @Autowired private final GetActualUsuarioService getActualUsuarioService;
 
-  @GetMapping("/")
-  @ResponseBody
-  public String homeView(Model model) throws Exception {
-    Mopla mopla = new Mopla("src/main/resources/templates");
-    Map<String, Object> vars = new HashMap<>();
-    vars.put("titulo", "Bienvenido");
-    vars.put("mensaje", "Este mensaje solo aparece si showMessage es true");
-    vars.put("showMessage", true);
-    vars.put("users", List.of("Ronald", "User2", "Pedro"));
-    return mopla.render("index.html", vars);
-  }
+  //@GetMapping("/")
+  //@ResponseBody
+  //public String homeView(Model model) throws Exception { }
 
   @RequestMapping(
       value = "/{path:^(?!assets|assets_shop|api|captcha|favicon\\.ico$|webjars$).*}/**")

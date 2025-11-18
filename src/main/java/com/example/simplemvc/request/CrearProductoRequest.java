@@ -7,6 +7,10 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import java.math.BigDecimal;
 
+import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
+
 @Data
 @Builder
 @NoArgsConstructor
@@ -23,7 +27,8 @@ public class CrearProductoRequest {
     private BigDecimal stockActual;
     private BigDecimal precioOnline;
     private String descripcion;
-    private Boolean destacado;    
+    private Boolean destacado;
     private EstadoEntidad estado;
-    private String imagenes;
+    //private String imagenes;
+    private List<MultipartFile> imagenes; //sin strg
 }

@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<footer th:fragment="siteFooter" class="bg-light mt-5">
+    <div class="container py-4 text-center">
+        <p class="mb-1">© <span th:text="${#temporals.format(#temporals.createNow(), 'yyyy')}">2025</span> Mi Tienda</p>
+        <a th:href="@{/politicas}">Políticas</a>
+    </div>
+</footer>
+</body>
+</html>

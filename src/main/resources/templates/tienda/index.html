@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head :: head(${pageTitle})"></head>
+<body>
+<div class="site">
+
+    <div th:replace="tienda/framer/header :: siteHeaderMobile"></div>
+    <div th:replace="tienda/framer/header :: siteHeader"></div>
+
+    <div class="site__body container my-4">
+
+        <h1 class="mb-3">Tienda</h1>
+
+
+        <section th:if="${listaHome != null and !listaHome.isEmpty()}">
+            <h3>Todos los productos</h3>
+            <div class="row g-3 mt-2">
+                <div class="col-6 col-md-3" th:each="p : ${listaHome}">
+                    <div th:replace="tienda/framer/product-card :: productCard(${p})"></div>
+                </div>
+            </div>
+        </section>
+
+        <p th:if="${listaHome == null or listaHome.isEmpty()}">
+            Aún no hay productos para mostrar.
+        </p>
+
+    </div>
+
+    <div th:replace="tienda/framer/footer :: siteFooter"></div>
+</div>
+
+<div th:replace="fragments/scripts :: scripts"></div>
+
+<script>
+function slugify(str) {
+    return str
+        .normalize("NFD").replace(/[\u0300-\u036f]/g, "") // quitar tildes
+        .toLowerCase()
+        .trim()
+        .replace(/[^a-z0-9\s-]/g, "")   // quitar raros
+        .replace(/\s+/g, "-")           // espacios → guiones
+        .replace(/-+/g, "-");           // guiones dobles → uno
+}
+
+// Ir a /resultado/palabra-a-buscar
+function goToResultados(event) {
+    event.preventDefault();
+    const input = document.getElementById("search-input");
+    const q = (input.value || "").trim();
+    if (!q) return false;
+    const slug = slugify(q);
+    window.location.href = "/resultado/" + encodeURIComponent(slug);
+    return false;
+}
+
+document.addEventListener("DOMContentLoaded", function () {
+    const input = document.getElementById("search-input");
+    const preview = document.getElementById("search-preview");
+    if (!input || !preview) return;
+
+    let lastQuery = "";
+
+    input.addEventListener("input", function () {
+        const q = input.value.trim();
+        if (q.length < 2) {
+            preview.style.display = "none";
+            preview.innerHTML = "";
+            return;
+        }
+        if (q === lastQuery) return;
+        lastQuery = q;
+
+        fetch("/tienda/api/buscar?q=" + encodeURIComponent(q))
+            .then(r => r.ok ? r.json() : [])
+            .then(data => {
+                if (!Array.isArray(data) || data.length === 0) {
+                    preview.style.display = "none";
+                    preview.innerHTML = "";
+                    return;
+                }
+                preview.innerHTML = "";
+                data.slice(0, 5).forEach(p => {
+                    const a = document.createElement("a");
+                    a.className = "list-group-item list-group-item-action";
+                    // por ahora usamos /producto/{id}
+                    a.href = "/producto/" + (p.idProducto ?? "");
+                    a.textContent = p.nombre ?? "Producto";
+                    preview.appendChild(a);
+                });
+                preview.style.display = "block";
+            })
+            .catch(() => {
+                preview.style.display = "none";
+                preview.innerHTML = "";
+            });
+    });
+});
+</script>
+
+</body>
+</html>

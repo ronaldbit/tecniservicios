@@ -618,29 +618,30 @@
 
     const codigoInput = document.getElementById("codigo").value.trim();
 
-    const body = {
-      codigo: codigoInput === "" ? null : codigoInput,
-      nombre: document.getElementById("nombre").value.trim(),
-      idMarca: parseInt(document.getElementById("marca").value),
-      idCategoria: parseInt(document.getElementById("categoria").value),
-      precio: parseFloat(document.getElementById("precio").value),
-      unidad: document.getElementById("unidad").value.trim(),
-      idImpuesto: 1,
-      stockMinimo: parseInt(document.getElementById("stockMinimo").value),
-      stockActual: parseInt(document.getElementById("stockActual").value),
-      precioOnline: parseFloat(document.getElementById("precioOnline").value),
-      descripcion: document.getElementById("descripcion").value.trim(),
-      destacado: document.getElementById("destacado").checked,
-      imagenes: JSON.stringify(await obtenerImagenesBase64()),
-      estado: "ACTIVO"
-    };
+    let formData = new FormData();
 
+    formData.append("codigo", document.getElementById("codigo").value);
+    formData.append("nombre", document.getElementById("nombre").value);
+    formData.append("idMarca", document.getElementById("marca").value);
+    formData.append("idCategoria", document.getElementById("categoria").value);
+    formData.append("precio", document.getElementById("precio").value);
+    formData.append("unidad", document.getElementById("unidad").value);
+    formData.append("idImpuesto", 1);
+    formData.append("stockMinimo", document.getElementById("stockMinimo").value);
+    formData.append("stockActual", document.getElementById("stockActual").value);
+    formData.append("precioOnline", document.getElementById("precioOnline").value);
+    formData.append("descripcion", document.getElementById("descripcion").value);
+    formData.append("destacado", document.getElementById("destacado").checked);
+
+    const input = document.getElementById("imagenes");
+    for (let f of input.files) {
+        formData.append("imagenes", f);
+    }
 
     try {
       const resp = await fetch(url, {
-        method: metodo,
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(body)
+          method: metodo,
+          body: formData
       });
 
       if (!resp.ok) throw new Error(await resp.text());
@@ -651,6 +652,8 @@
     } catch (err) {
       mostrarAlerta(`Error al guardar: ${err.message}`, "danger");
     }
+
+
   }
 
 

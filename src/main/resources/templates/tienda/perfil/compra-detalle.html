@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${pageTitle}">Detalle compra</title>
+    <link rel="stylesheet" href="/assets_shop/vendor/bootstrap/css/bootstrap.css" />
+</head>
+<body>
+<div class="site">
+    <div th:replace="tienda/framer/header :: siteHeader"></div>
+    <div class="site__body container my-4">
+        <h1>Detalle de compra</h1>
+        <p>ID compra: <span th:text="${idCompra}">1</span></p>
+        <p>Aquí luego mostrarás lista de productos, totales, estado, etc.</p>
+    </div>
+    <div th:replace="tienda/framer/footer :: siteFooter"></div>
+</div>
+</body>
+</html>

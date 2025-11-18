@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${pageTitle}">Detalle producto</title>
+    <link rel="stylesheet" href="/assets_shop/vendor/bootstrap/css/bootstrap.css" />
+    <link rel="stylesheet" href="/assets_shop/css/style.css" />
+</head>
+<body>
+<div class="site">
+    <div th:replace="tienda/framer/header :: siteHeader"></div>
+
+    <div class="site__body container my-4" th:if="${producto != null}">
+        <div class="row">
+            <div class="col-md-5">
+                <img class="img-fluid"
+                     th:src="${#strings.isEmpty(producto.imagenes)
+                               ? '/assets_shop/images/default-product.png'
+                               : producto.imagenes}"
+                     th:alt="${producto.nombre}">
+            </div>
+            <div class="col-md-7">
+                <h1 th:text="${producto.nombre}">Nombre producto</h1>
+                <p th:text="${producto.descripcion}">Descripción del producto</p>
+
+                <p class="fs-4">
+                    <strong>Precio: </strong>
+                    <span th:text="${producto.precioOnline != null ? producto.precioOnline : producto.precio}">
+                        S/ 0.00
+                    </span>
+                </p>
+
+                <button type="button"
+        class="btn btn-primary js-add-to-cart"
+        th:attr="data-id=${producto.idProducto},
+                 data-nombre=${producto.nombre},
+                 data-precio=${producto.precioOnline != null ? producto.precioOnline : producto.precio},
+                 data-imagen=${#strings.isEmpty(producto.imagenes) ? '/assets_shop/images/default-product.png' : producto.imagenes}">
+    Agregar al carrito
+</button>
+
+            </div>
+        </div>
+    </div>
+
+    <div th:replace="tienda/framer/footer :: siteFooter"></div>
+</div>
+</body>
+</html>

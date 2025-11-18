@@ -16,6 +16,7 @@ public interface ProductoMapper extends BasicMapper<Producto, ProductoDto> {
     @Mapping(target = "idProducto", ignore = true)
     @Mapping(target = "createdAt", ignore = true)
     @Mapping(target = "updatedAt", ignore = true)
+    @Mapping(target = "imagenes", ignore = true)
     Producto toEntity(CrearProductoRequest requestDto);
 
     @Mapping(source = "idMarca", target = "marca.id")
@@ -23,5 +24,6 @@ public interface ProductoMapper extends BasicMapper<Producto, ProductoDto> {
     @Mapping(target = "idProducto", ignore = true)
     @Mapping(target = "createdAt", ignore = true)
     @Mapping(target = "updatedAt", ignore = true)
+    @Mapping(target = "imagenes", ignore = true)
     void updateEntityFromRequest(@MappingTarget Producto producto, CrearProductoRequest requestDto);
 }

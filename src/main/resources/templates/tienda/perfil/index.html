@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head :: head(${pageTitle})"></head>
+<body>
+<div class="site">
+    <div th:replace="tienda/framer/header :: siteHeader"></div>
+
+    <div class="site__body container my-4">
+
+      <div th:if="${clienteSesion == null}">
+        <!-- Aquí pondre 2 formularios: login + registro cliente -->
+         formularios
+      </div>
+
+      <div th:if="${clienteSesion != null}">
+        <!-- Aquí muestro datos del perfil del clienteSesion -->
+        <h1>Mi perfil</h1>
+          <p>Aquí mostrarás datos del usuario, resumen de actividad, etc.</p>
+
+          <ul>
+              <li><a th:href="@{/perfil/compras}">Mis compras</a></li>
+              <li><a th:href="@{/perfil/favoritos}">Mis favoritos</a></li>
+          </ul>
+      </div>
+
+    </div>
+    <div th:replace="tienda/framer/footer :: siteFooter"></div>
+</div>
+<div th:replace="fragments/scripts :: scripts"></div>
+</body>
+</html>

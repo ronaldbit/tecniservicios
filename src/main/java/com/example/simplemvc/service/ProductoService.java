@@ -1,15 +1,23 @@
 package com.example.simplemvc.service;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import com.example.simplemvc.model.enums.EstadoEntidad;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.example.simplemvc.dto.ProductoDto;
 import com.example.simplemvc.model.Categoria;
@@ -21,6 +29,8 @@ import com.example.simplemvc.repository.MarcaRepository;
 import com.example.simplemvc.repository.ProductoRepository;
 import com.example.simplemvc.request.ActualizarInventarioRequest;
 import com.example.simplemvc.request.CrearProductoRequest;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -50,7 +60,7 @@ public class ProductoService {
                 .map(productoMapper::toDto)
                 .orElseThrow(() -> new IllegalArgumentException("Producto no encontrado con ID: " + id));
     }
-
+/***
     public ProductoDto create(CrearProductoRequest request) {
         log.info("Creando nuevo producto");
         if (request.getCodigo() != null) {
@@ -79,7 +89,30 @@ public class ProductoService {
         log.info("Producto creado con ID: {}", saved.getIdProducto());
 
         return productoMapper.toDto(saved);
+    } **/
+
+public ProductoDto create(CrearProductoRequest request, List<String> nombresImagenes) throws JsonProcessingException {
+    if (request.getCodigo() == null) {
+        request.setCodigo(String.valueOf(System.currentTimeMillis()));
     }
+
+    // Convertir lista de nombres a JSON
+    String imagenesJson = "[]";
+    if (nombresImagenes != null && !nombresImagenes.isEmpty()) {
+        ObjectMapper mapper = new ObjectMapper();
+        imagenesJson = mapper.writeValueAsString(nombresImagenes); // guarda como ["img1.jpg","img2.jpg"]
+    }
+
+    Producto producto = productoMapper.toEntity(request);
+    producto.setImagenes(imagenesJson);
+    producto.setEstado(EstadoEntidad.ACTIVO);
+    producto.setCreatedAt(Timestamp.valueOf(LocalDateTime.now()));
+
+    Producto saved = productoRepository.save(producto);
+    return productoMapper.toDto(saved);
+}
+
+
 
     @Transactional
     public ProductoDto update(Long id, CrearProductoRequest request) {
@@ -105,7 +138,7 @@ public class ProductoService {
         existingProducto.setUnidad(request.getUnidad());
         existingProducto.setStockMinimo(request.getStockMinimo());
         existingProducto.setMarca(marca);
-        existingProducto.setImagenes(request.getImagenes());
+        //existingProducto.setImagenes(request.getImagenes());
         existingProducto.setDescripcion(request.getDescripcion());
         existingProducto.setPrecioOnline(request.getPrecioOnline());
         existingProducto.setDestacado(request.getDestacado());

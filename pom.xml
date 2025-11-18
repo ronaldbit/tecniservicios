@@ -54,7 +54,7 @@
     <!-- Email -->
     <dependency>
       <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-mail</artifactId> 
+      <artifactId>spring-boot-starter-mail</artifactId>
     </dependency>
 
     <!-- Validations -->
@@ -128,13 +128,6 @@
       <groupId>com.fasterxml.jackson.datatype</groupId>
       <artifactId>jackson-datatype-jsr310</artifactId>
       <version>2.18.3</version>
-    </dependency>
-
-    <!-- Motor de plantillas -->
-    <dependency>
-      <groupId>com.github.ronaldbit</groupId>
-      <artifactId>mopla-java</artifactId>
-      <version>v0.1.1</version>
     </dependency>
 
   </dependencies>

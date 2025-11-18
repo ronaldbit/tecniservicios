@@ -30,14 +30,14 @@ spring:
           connectiontimeout: 5000
           timeout: 5000
           writetimeout: 5000
-  datasource:  
+  datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://${DB_HOST}:${DB_PORT}/${DB_NAME}?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=America/Lima
     username: ${DB_USERNAME}
     password: ${DB_PASSWORD}
     hikari:
       max-lifetime: 240000
-      idle-timeout: 200000 
+      idle-timeout: 200000
       connection-timeout: 30000
       validation-timeout: 5000
       minimum-idle: 5
@@ -53,8 +53,11 @@ spring:
         dialect: org.hibernate.dialect.MySQL8Dialect
 
   image:
-    path: /var/img
+    path: ./uploads/productos
 
+  servlet:
+    multipart:
+      max-file-size: 50MB
 security:
   allowed-methods:
     - GET

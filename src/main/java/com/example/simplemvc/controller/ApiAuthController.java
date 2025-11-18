@@ -66,7 +66,6 @@ public class ApiAuthController {
         return "auth/login";
       }
 
-
       model.addAttribute("usuario", usuario);
 
       System.out.println("Usuario logueado: " + usuario.getUsername());

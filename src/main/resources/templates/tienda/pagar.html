@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${pageTitle}">Pagar</title>
+    <link rel="stylesheet" href="/assets_shop/vendor/bootstrap/css/bootstrap.css" />
+</head>
+<body>
+<div class="site">
+    <div th:replace="tienda/framer/header :: siteHeader"></div>
+
+    <div class="site__body container my-4">
+        <h1>Pago</h1>
+        <p>Resumen del carrito, datos de envío, etc. (luego lo completas).</p>
+
+        <form>
+            <div class="mb-3">
+                <label class="form-label">Nombre completo</label>
+                <input class="form-control" type="text">
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Correo</label>
+                <input class="form-control" type="email">
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Dirección</label>
+                <input class="form-control" type="text">
+            </div>
+
+            <button class="btn btn-primary" type="submit">Confirmar compra</button>
+        </form>
+    </div>
+
+    <div th:replace="tienda/framer/footer :: siteFooter"></div>
+</div>
+</body>
+</html>
