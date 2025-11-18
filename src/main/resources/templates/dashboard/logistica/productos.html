@@ -159,6 +159,7 @@
                 <div class="col-md-6 mb-3">
                   <label for="imagenes" class="form-label">Imágenes (máx. 5)</label>
                   <input type="file" class="form-control" id="imagenes" accept="image/*" multiple>
+                  <input type="hidden" id="imagenesExistentes" name="imagenesExistentes">
                   <div id="previewImagenes" class="d-flex flex-wrap gap-2 mt-2"></div>
                 </div>
               </div>
@@ -259,10 +260,21 @@
         const inputImagenes = document.getElementById("imagenes");
         if (inputImagenes) {
           const dataTransfer = new DataTransfer();
+
           imagenesSeleccionadas.forEach((f) => {
-            if (f instanceof File) dataTransfer.items.add(f);
+            if (f instanceof File) {
+              dataTransfer.items.add(f);
+            }
           });
+
           inputImagenes.files = dataTransfer.files;
+        }
+
+        const inputExistentes = document.getElementById("imagenesExistentes");
+        if (inputExistentes) {
+          const nombresExistentes = imagenesSeleccionadas
+            .filter(item => typeof item === "string");
+          inputExistentes.value = nombresExistentes.join(',');
         }
       }
 
@@ -274,8 +286,6 @@
         });
       }
     </script>
-
-
 
 
 
@@ -616,11 +626,19 @@
     formData.append("precioOnline", document.getElementById("precioOnline").value);
     formData.append("descripcion", document.getElementById("descripcion").value);
     formData.append("destacado", document.getElementById("destacado").checked);
-    const input = document.getElementById("imagenes");
+    
 
-    for (let f of input.files) {
+    const inputNuevas = document.getElementById("imagenes");
+    for (let f of inputNuevas.files) {
       formData.append("imagenes", f);
+    }   
+     
+    const inputExistentes = document.getElementById("imagenesExistentes");
+    if (inputExistentes) {
+      formData.append("imagenesExistentes", inputExistentes.value);
     }
+
+
     try {
       const resp = await fetch(url, {
         method: metodo,

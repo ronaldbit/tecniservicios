@@ -8,6 +8,7 @@ import java.nio.file.Paths;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -15,6 +16,7 @@ import java.util.stream.Collectors;
 
 import com.example.simplemvc.model.enums.EstadoEntidad;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -30,6 +32,7 @@ import com.example.simplemvc.repository.ProductoRepository;
 import com.example.simplemvc.request.ActualizarInventarioRequest;
 import com.example.simplemvc.request.CrearProductoRequest;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.RequiredArgsConstructor;
@@ -43,6 +46,10 @@ public class ProductoService {
     private final ProductoMapper productoMapper;
     private final MarcaRepository marcaRepository;
     private final CategoriaRepository categoriaRepository;
+
+    @Value("${spring.image.path}")
+    private String uploadPath;
+    private final ObjectMapper objectMapper = new ObjectMapper();
 
     @Transactional(readOnly = true)
     public List<ProductoDto> findAll() {
@@ -98,35 +105,66 @@ public class ProductoService {
     }
 
     @Transactional
-    public ProductoDto update(Long id, CrearProductoRequest request) {
+    public ProductoDto update(Long id, CrearProductoRequest request, List<String> nombresNuevosGuardados) {
         log.info("Actualizando producto con ID: {}", id);
 
         Producto existingProducto = productoRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Producto no encontrado con ID: " + id));
-
         Optional<Producto> productoWithSameCodigo = productoRepository.findByCodigo(request.getCodigo());
         if (productoWithSameCodigo.isPresent() && !productoWithSameCodigo.get().getIdProducto().equals(id)) {
             throw new IllegalArgumentException("Ya existe un producto con el código: " + request.getCodigo());
         }
-
         Marca marca = marcaRepository.findById(request.getIdMarca())
                 .orElseThrow(() -> new IllegalArgumentException("Marca no encontrada con ID: " + request.getIdMarca()));
-
         Categoria categoria = categoriaRepository.findById(request.getIdCategoria())
                 .orElseThrow(() -> new IllegalArgumentException(
                         "Categoría no encontrada con ID: " + request.getIdCategoria()));
-
+        List<String> imagenesActualesDB = new ArrayList<>();
+        try {
+            if (existingProducto.getImagenes() != null && !existingProducto.getImagenes().equals("[]")) {
+                imagenesActualesDB = objectMapper.readValue(existingProducto.getImagenes(),
+                        new TypeReference<List<String>>() {
+                        });
+            }
+        } catch (Exception e) {
+            log.warn("Error al parsear JSON de imágenes actuales del producto {}: {}", id, e.getMessage());
+        }       
+        List<String> imagenesExistentesAConservar = new ArrayList<>();
+        if (request.getImagenesExistentes() != null && !request.getImagenesExistentes().isEmpty()) {
+            imagenesExistentesAConservar = Arrays.asList(request.getImagenesExistentes().split(","));
+        }       
+        List<String> imagenesAEliminar = new ArrayList<>(imagenesActualesDB);
+        imagenesAEliminar.removeAll(imagenesExistentesAConservar);
+        for (String nombreImagen : imagenesAEliminar) {
+            try {
+                Path path = Paths.get(uploadPath).resolve(nombreImagen);
+                Files.deleteIfExists(path);
+                log.info("Imagen eliminada del disco: {}", path.toString());
+            } catch (Exception e) {
+                log.warn("No se pudo eliminar la imagen del disco: {}. Causa: {}", nombreImagen, e.getMessage());
+            }
+        }       
+        List<String> listaFinalDeImagenes = new ArrayList<>(imagenesExistentesAConservar);
+        listaFinalDeImagenes.addAll(nombresNuevosGuardados);
+        String imagenesJson = "[]";
+        try {
+            if (!listaFinalDeImagenes.isEmpty()) {
+                imagenesJson = objectMapper.writeValueAsString(listaFinalDeImagenes);
+            }
+        } catch (Exception e) {
+            log.warn("Error al crear JSON de imágenes finales: {}", e.getMessage());
+        }       
         existingProducto.setNombre(request.getNombre());
         existingProducto.setPrecio(request.getPrecio());
         existingProducto.setUnidad(request.getUnidad());
         existingProducto.setStockMinimo(request.getStockMinimo());
         existingProducto.setMarca(marca);
-        // existingProducto.setImagenes(request.getImagenes());
         existingProducto.setDescripcion(request.getDescripcion());
         existingProducto.setPrecioOnline(request.getPrecioOnline());
         existingProducto.setDestacado(request.getDestacado());
         existingProducto.setCategoria(categoria);
         existingProducto.setUpdatedAt(Timestamp.valueOf(LocalDateTime.now()));
+        existingProducto.setImagenes(imagenesJson);
         Producto updated = productoRepository.save(existingProducto);
         log.info("Producto actualizado con ID: {}", updated.getIdProducto());
         return productoMapper.toDto(updated);

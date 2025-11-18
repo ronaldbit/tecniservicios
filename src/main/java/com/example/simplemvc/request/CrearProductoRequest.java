@@ -30,4 +30,5 @@ public class CrearProductoRequest {
     private Boolean destacado;
     private EstadoEntidad estado;
     private List<MultipartFile> imagenes;
+    private String imagenesExistentes;
 }
