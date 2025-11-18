@@ -118,7 +118,7 @@ public class PerfilController {
                         (persona.getApellidos() != null ? persona.getApellidos() : ""));
         clienteSesion.setEmail(persona.getEmail());
         clienteSesion.setDni(persona.getNumeroDocumento());
-        session.setAttribute("CLIENTE_SESION", clienteSesion);
+        session.setAttribute("clienteSesion", clienteSesion);
 
         ra.addFlashAttribute("loginSuccess", "Sesión iniciada correctamente.");
         return redirect(origen);

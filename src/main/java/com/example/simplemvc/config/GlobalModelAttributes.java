@@ -11,7 +11,7 @@ public class GlobalModelAttributes {
 
     @ModelAttribute
     public void addAttributes(Model model, HttpSession session) {
-        Object clienteSesion = session.getAttribute("CLIENTE_SESION");
+        Object clienteSesion = session.getAttribute("clienteSesion");
         model.addAttribute("clienteSesion", clienteSesion);
     }
 }
