@@ -77,6 +77,19 @@ public class ApiPedidoProveedorController {
         pedidoProveedorService.EstablecerCotizacionPedido(id, cotizacionRequest);
     }
 
+    @PutMapping("/{id}/cancelar-cotizacion")
+    public ResponseEntity<?> cancelarCotizacion(@PathVariable Long id) {
+        try {
+            pedidoProveedorService.cancelarCotizacion(id);
+            return ResponseEntity.ok().build();
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Error al cancelar la cotización: " + e.getMessage());
+        }
+    }
+
     @PutMapping("/{id}/aprobar")
     public ResponseEntity<?> confirmarAprobacion(@PathVariable Long id) {
         try {
@@ -102,6 +115,8 @@ public class ApiPedidoProveedorController {
                     .body("Error al cancelar el pedido: " + e.getMessage());
         }
     }
+
+    
 
     @PutMapping("/{id}/recibo-parcial")
     public void actualizarReciboParcial(

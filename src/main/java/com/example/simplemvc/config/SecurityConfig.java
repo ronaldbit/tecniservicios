@@ -60,37 +60,48 @@ public class SecurityConfig {
             authRequest -> {
               // authRequest.requestMatchers(securityProperties.getPublicRoutes()).permitAll();
               /**
-               * provideRoutes(securityProperties.getNoAdminOperationToSelfRoutes(), (method, paths)
-               * -> authRequest.requestMatchers(method, paths) .access((authentication, object) ->
+               * provideRoutes(securityProperties.getNoAdminOperationToSelfRoutes(), (method,
+               * paths)
+               * -> authRequest.requestMatchers(method, paths) .access((authentication,
+               * object) ->
                * new AuthorizationDecision( isAdminAndNotSelf(authentication, object))));
                *
-               * <p>provideRoutes(securityProperties.getAdminRoutes(), (method, paths) ->
+               * <p>
+               * provideRoutes(securityProperties.getAdminRoutes(), (method, paths) ->
                * authRequest.requestMatchers(method, paths).hasRole("ADMIN"));
                */
               authRequest.anyRequest().permitAll();
             })
+        .headers(headers -> headers
+            .contentSecurityPolicy(csp -> csp
+                .policyDirectives(
+                    "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.tailwindcss.com https://unpkg.com https://cdn.jsdelivr.net; "
+                        +
+                        "style-src 'self' 'unsafe-inline' https://cdn.tailwindcss.com https://unpkg.com https://cdn.jsdelivr.net; "
+                        +                   
+                        "img-src 'self' data: https:; " +
+                        "font-src 'self' data: https:;")))
         .exceptionHandling(
-            (exceptionHandling) ->
-                exceptionHandling
-                    .authenticationEntryPoint(this::manageNoAuthorized)
-                    .accessDeniedHandler(this::manageNoAuthorized))
+            (exceptionHandling) -> exceptionHandling
+                .authenticationEntryPoint(this::manageNoAuthorized)
+                .accessDeniedHandler(this::manageNoAuthorized))
         .logout(
-            logout ->
-                logout
-                    .logoutUrl("/auth/logout")
-                    .logoutSuccessHandler(
-                        (request, response, authentication) -> {
-                          if (request.getSession(false) != null) request.getSession().invalidate();
+            logout -> logout
+                .logoutUrl("/auth/logout")
+                .logoutSuccessHandler(
+                    (request, response, authentication) -> {
+                      if (request.getSession(false) != null)
+                        request.getSession().invalidate();
 
-                          response.addHeader(
-                              "Set-Cookie",
-                              "JWT_TOKEN=; Path=/; Max-Age=0; HttpOnly; SameSite=Lax");
-                          response.addHeader(
-                              "Set-Cookie",
-                              "JSESSIONID=; Path=/; Max-Age=0; HttpOnly; SameSite=Lax");
+                      response.addHeader(
+                          "Set-Cookie",
+                          "JWT_TOKEN=; Path=/; Max-Age=0; HttpOnly; SameSite=Lax");
+                      response.addHeader(
+                          "Set-Cookie",
+                          "JSESSIONID=; Path=/; Max-Age=0; HttpOnly; SameSite=Lax");
 
-                          response.sendRedirect("/auth/login");
-                        }))
+                      response.sendRedirect("/auth/login");
+                    }))
         .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class)
         .build();
   }

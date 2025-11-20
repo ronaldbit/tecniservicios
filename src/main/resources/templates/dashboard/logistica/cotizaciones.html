@@ -12,11 +12,11 @@
          <div class="col-12">
             <div class="card table-card">
                <div class="card-header d-flex align-items-center justify-content-between">
-                  <h5 class="mb-0">Órdenes de Compra</h5>
+                  <h5 class="mb-0">Órdenes de Cotización</h5>
                   <div class="btn-page">
                      <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                        data-bs-target="#modalNuevoPedido" hidden>
-                        <i class="ti ti-plus me-1"></i> Nuevo Pedido
+                        data-bs-target="#modalNuevoPedido">
+                        <i class="ti ti-plus me-1"></i> Nueva cotización
                      </button>
                   </div>
                </div>
@@ -48,7 +48,7 @@
          <div class="modal-dialog modal-dialog-centered modal-xl">
             <div class="modal-content">
                <div class="modal-header">
-                  <h5 class="modal-title" id="modalNuevoPedidoLabel">Crear Pedido a Proveedor</h5> <button type="button"
+                  <h5 class="modal-title" id="modalNuevoPedidoLabel">Crear Nueva cotizacion</h5> <button type="button"
                      class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                </div>
                <div class="modal-body">
@@ -115,7 +115,7 @@
          <div class="modal-dialog modal-dialog-centered modal-lg">
             <div class="modal-content">
                <div class="modal-header">
-                  <h5 class="modal-title" id="modalVistaPreviaLabel">Detalle del Pedido</h5>
+                  <h5 class="modal-title" id="modalVistaPreviaLabel">Detalle de la Cotización</h5>
                   <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                </div>
                <div class="modal-body">
@@ -266,9 +266,7 @@
                   <button type="button" class="btn btn-primary" onclick="guardarReciboParcial()">
                      Guardar Cambios
                   </button>
-
                </div>
-
             </div>
          </div>
       </div>
@@ -306,18 +304,26 @@
             pedidos.reverse();
             pedidos.forEach(pedido => {
                const tr = document.createElement('tr');
-               if (pedido.estado === 'PENDIENTE' || pedido.estado === 'RECIBIDO' || pedido.estado === 'CANCELADO' || pedido.estado === 'PARTIALMENTE_RECIBIDO') {
-                  tr.innerHTML = `
+               let estadoDato = '';
+
+               if (pedido.estado !== 'BORRADOR' &&
+                  pedido.estado !== 'COTIZADO' &&
+                  pedido.estado !== 'COTIZACION_CANCELADA') {
+                  estadoDato = "APROBADO";
+               } else {
+                  estadoDato = pedido.estado;
+               }
+
+               tr.innerHTML = `
                     <td><h6 class="mb-0">${pedido.id || 'N/A'}</h6></td>
                     <td>${pedido.razonSocialProveedor || '(Sin Proveedor)'}</td>
                     <td>${formatFecha(pedido.fechaEmision)}</td>
                     <td>${formatFecha(pedido.fechaEntregaEsperada)}</td>
                     <td>${formatCurrency(pedido.costoCotizacion)}</td>
-                    <td>${formatEstado(pedido.estado)}</td>
+                    <td>${formatEstado(estadoDato)}</td>
                     <td>${generarBotonesAccion(pedido.id, pedido.estado)}</td>
                 `;
-                  pedidosTbody.appendChild(tr);
-               }
+               pedidosTbody.appendChild(tr);
             });
          } catch (error) {
             console.error(error);
@@ -490,7 +496,6 @@
                headers: { 'Content-Type': 'application/json' },
                body: JSON.stringify(request)
             });
-
             if (response.ok) {
                const nuevoPedido = await response.json();
                Swal.fire('¡Éxito!', `Pedido ${nuevoPedido.id}, se ha enviado un correo de notificación al proveedor para la cotización.`, 'success');
@@ -547,7 +552,7 @@
                cancelButtonText: 'No'
             }).then(async (result) => {
                if (result.isConfirmed) {
-                  await ejecutarAccionPedido(id, 'cancelar');
+                  await ejecutarAccionPedido(id, 'cancelar-cotizacion');
                }
             });
          }
@@ -605,6 +610,8 @@
 
       function getMensajeExito(accion) {
          switch (accion) {
+            case 'cancelar-cotizacion':
+               return 'la cotizacion fue cancelada.';
             case 'cotizar':
                return 'La cotización ha sido registrada. El pedido está listo para aprobar.';
             case 'aprobar':
@@ -861,6 +868,8 @@
                return '<span class="badge text-bg-warning">Recibido Parcial</span>';
             case 'RECIBIDO':
                return '<span class="badge text-bg-success">Recibido</span>';
+            case 'APROBADO':
+               return '<span class="badge text-bg-info">Cotización aprobada</span>';
             case 'CANCELADO':
                return '<span class="badge text-bg-danger">Cancelado</span>';
             default:
@@ -897,21 +906,7 @@
             </a>
         `;
          }
-         else if (estado === 'PENDIENTE' || estado === 'PARTIALMENTE_RECIBIDO') {
-            botones += `
-            <a href="#!" class="avtar avtar-xs btn-link-warning btn-recibo-parcial" data-id="${id}" data-bs-toggle="tooltip" title="Recibo Parcial">
-                <i class="ti ti-slice f-20"></i>
-            </a>
 
-            <a href="#!" class="avtar avtar-xs btn-link-success btn-confirmar" data-id="${id}" data-bs-toggle="tooltip" title="Confirmar Recepción Completa">
-                <i class="ti ti-checks f-20"></i>
-            </a>
-
-            <a href="#!" class="avtar avtar-xs btn-link-danger btn-cancelar" data-id="${id}" data-bs-toggle="tooltip" title="Cancelar Pedido">
-                <i class="ti ti-x f-20"></i>
-            </a>
-        `;
-         }
          return botones;
       }
 

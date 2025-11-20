@@ -1,29 +1,57 @@
 <!DOCTYPE html>
-<html lang="es">
-  <head>
-    <meta charset="utf-8" />
-    <title>404 - Página no encontrada</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" href="/assets/images/favicon.svg" type="image/x-icon" />
-    <script src="https://cdn.tailwindcss.com"></script>
-  </head>
-  <body class="min-h-screen flex items-center justify-center bg-gray-100">
-    <div class="w-full max-w-md bg-white rounded-2xl shadow-lg p-8 text-center">
-      <div class="text-blue-600 font-bold text-3xl mb-2">TECNISERVICIOS</div>
-      <div class="text-gray-500 text-sm mb-6 border-b pb-2">
-        <span>Error 404</span>
-      </div>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
 
-      <h1 class="text-5xl font-bold text-gray-800 mb-3">404</h1>
-      <p class="text-gray-600 mb-2">La vista solicitada no fue encontrada.</p>
-      <p class="text-gray-400 text-sm mb-6" th:text="${path}"></p>
+<head>
+  <meta charset="utf-8" />
+  <title>404 - Página no encontrada</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" th:href="@{/assets/images/favicon.svg}" type="image/x-icon" />
+  <script src="https://unpkg.com/tailwindcss-jit-cdn"></script>
+</head>
 
-      <a
-        href="/"
-        class="inline-block w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 rounded-lg transition-colors"
-      >
-        Volver al inicio
-      </a>
+<body
+  class="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-50 to-gray-100 text-gray-800 px-4">
+
+  <div
+    class="w-full max-w-lg bg-white rounded-3xl shadow-2xl p-10 text-center transform transition-all hover:shadow-blue-100/50">
+
+    <div class="mb-8">
+      <span class="text-blue-600 font-black text-2xl tracking-wider uppercase">TECNISERVICIOS</span>
     </div>
-  </body>
+
+    <div class="flex justify-center mb-6">
+      <div class="bg-blue-50 p-4 rounded-full">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-blue-500" fill="none" viewBox="0 0 24 24"
+          stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round"
+            d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+        </svg>
+      </div>
+    </div>
+
+    <h1 class="text-8xl font-black text-gray-900 mb-2 tracking-tighter">404</h1>
+
+    <div class="text-xl font-semibold text-gray-700 mb-2">¡Ups! Página no encontrada</div>
+
+    <p class="text-gray-500 mb-8 text-base leading-relaxed">
+      Lo sentimos, no pudimos encontrar la ruta que buscas.<br>
+      Puede que haya sido eliminada o la dirección sea incorrecta.
+    </p>
+
+    <div th:if="${path}" class="bg-gray-50 rounded-lg p-2 mb-8 text-xs text-gray-400 font-mono break-all">
+      Ruta: <span th:text="${path}"></span>
+    </div>
+
+    <a th:href="@{/}"
+      class="inline-flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-xl text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all duration-200 transform hover:-translate-y-1 hover:shadow-lg">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+        <path fill-rule="evenodd"
+          d="M9.707 14.707a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 1.414L7.414 9H15a1 1 0 110 2H7.414l2.293 2.293a1 1 0 010 1.414z"
+          clip-rule="evenodd" />
+      </svg>
+      Volver al inicio
+    </a>
+  </div>
+</body>
+
 </html>

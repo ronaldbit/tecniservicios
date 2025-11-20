@@ -136,6 +136,15 @@ public class PedidoProveedorService {
         });
     }
     @Transactional
+    public void cancelarCotizacion(Long id) {
+        PedidoProveedor pedido = pedidoProveedorRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException(
+                        "Pedido no encontrado con ID: " + id));
+        pedido.setCostoCotizacion(null);
+        pedido.setEstado(EstadoPedido.COTIZACION_CANCELADA);
+        pedidoProveedorRepository.save(pedido);
+    }
+    @Transactional
     public void reciboParcialPedidoPorId(Long id, List<DetalleReciboRequest> request) {
         PedidoProveedor pedido = pedidoProveedorRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException(
