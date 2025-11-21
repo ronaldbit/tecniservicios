@@ -5,8 +5,6 @@
 </style>
 <div class="pc-container" th:replace="~{dashboard/layout :: layout(~{::content}, ${usuario}, 'Ventas', '/dashboard')}">
   <div class="pc-content" th:fragment="content">
-
-
     <div class="page-header">
       <div class="page-block">
         <div class="row align-items-center">
@@ -73,7 +71,10 @@
                       <div class="row g-3 mb-3">
                         <div class="col-sm-6 col-xl-3">
                           <label class="form-label">Tipo de comprobante</label>
-                          <select class="form-select" id="venta-tipo-comprobante" required>
+                          <select class="form-select" id="venta-tipo-comprobante" required
+                            onchange="toggleClienteLogic()">
+                            <option value="" selected disabled>Seleccione...</option>
+
                             <option value="Boleta">Boleta</option>
                             <option value="Factura">Factura</option>
                           </select>
@@ -83,13 +84,21 @@
                           <input type="text" class="form-control" id="venta-serie" value="B001" readonly />
                         </div>
                         <div class="col-sm-6 col-xl-2">
-                          <label class="form-label">Número (opcional)</label>
-                          <input type="text" class="form-control" id="venta-numero" placeholder=""/>
+                          <label class="form-label">Número</label>
+                          <input type="text" class="form-control" id="venta-numero" placeholder="" readonly />
                         </div>
                         <div class="col-sm-6 col-xl-3">
                           <label class="form-label">Fecha de emisión</label>
                           <input type="date" class="form-control" id="venta-fecha-emision" required />
                         </div>
+
+                        <script>
+                          const hoy = new Date().toISOString().split("T")[0];
+                          const inputFecha = document.getElementById("venta-fecha-emision");
+                          inputFecha.value = hoy;
+                          inputFecha.min = hoy;
+                          inputFecha.max = hoy;        
+                        </script>
                       </div>
 
                       <div class="mb-3">
@@ -345,7 +354,7 @@
     let clienteSeleccionado = {
       ...DEFAULT_CLIENTE
     };
-    let productosEnCarrito = []; 
+    let productosEnCarrito = [];
 
     const ventasTbody = document.getElementById('ventas-tbody');
     const modalVistaPrevia = new bootstrap.Modal(document.getElementById('modal-vista-previa'));
@@ -405,9 +414,16 @@
       const hoy = new Date();
       const diffTime = Math.abs(hoy - fechaVenta);
       const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-
-      const anularDisabled = venta.estado === 'ANULADA' || diffDays > 7;
-
+          const diasLimite = (venta.tipoComprobante === 'Factura') ? 4 : 3;
+      const esAnulada = venta.estado === 'ANULADA';
+      const plazoVencido = diffDays > diasLimite;
+      const anularDisabled = esAnulada || plazoVencido;
+      let tooltipText = 'Anular Venta';
+      if (esAnulada) {
+        tooltipText = 'Esta venta ya está anulada';
+      } else if (plazoVencido) {
+        tooltipText = `No se puede anular (límite ${diasLimite} días para ${venta.tipoComprobante})`;
+      }
       tr.innerHTML = `
         <td>
           <h6 class="mb-0">${venta.serieComprobante}-${venta.numeroComprobante}</h6>
@@ -425,7 +441,11 @@
           <a href="#" class="avtar avtar-xs btn-link-secondary btn-ver-venta" data-id="${venta.idVenta}" data-bs-toggle="tooltip" title="Ver Detalle">
             <i class="ti ti-eye f-20"></i>
           </a>
-          <a href="#" class="avtar avtar-xs btn-link-danger btn-anular-venta" data-id="${venta.idVenta}" ${anularDisabled ? 'disabled' : ''} data-bs-toggle="tooltip" title="${anularDisabled ? 'No se puede anular (límite 7 días)' : 'Anular Venta'}">
+          <a href="#" class="avtar avtar-xs btn-link-danger btn-anular-venta" 
+             data-id="${venta.idVenta}" 
+             ${anularDisabled ? 'disabled style="pointer-events: none; opacity: 0.6;"' : ''} 
+             data-bs-toggle="tooltip" 
+             title="${tooltipText}">
             <i class="ti ti-ban f-20"></i>
           </a>
         </td>
@@ -478,7 +498,7 @@
       }
     }
 
- 
+
     function solicitarAnulacion(id) {
       Swal.fire({
         title: '¿Estás seguro?',
@@ -509,8 +529,6 @@
       });
     }
 
-
-
     function resetFormVenta() {
       formNuevaVenta.reset();
       detalleTbody.innerHTML = '';
@@ -520,21 +538,34 @@
       };
       actualizarVistaCliente();
       recalcularTotales();
-      ventaFechaEmision.value = new Date().toISOString().split('T')[0]; 
-      ventaTipoComprobante.value = "Boleta";
-      ventaSerie.value = "B001";
+      ventaFechaEmision.value = new Date().toISOString().split('T')[0];
       btnCrearVenta.disabled = true;
     }
 
-
-    function toggleClienteLogic() {
+    async function toggleClienteLogic() {
       const tipo = ventaTipoComprobante.value;
       if (tipo === 'Factura') {
+        const numero = await ObtenerNumeroBoletaFactura('Factura');
+        ventaNumero.value = numero || '';
         ventaSerie.value = 'F001';
         clienteFormTipoDoc.value = 'RUC';
       } else {
+        const numero = await ObtenerNumeroBoletaFactura('Boleta');
+        ventaNumero.value = numero || '';
         ventaSerie.value = 'B001';
         clienteFormTipoDoc.value = 'DNI';
+      }
+    }
+
+    async function ObtenerNumeroBoletaFactura(tipo) {
+      try {
+        const response = await fetch(`${API_VENTAS}/siguiente-numero?tipo=${tipo}`);
+        if (!response.ok) throw new Error('Error al obtener número');
+        const data = await response.json();
+        return data.numero;
+      } catch (error) {
+        console.error("Error obteniendo correlativo:", error);
+        return "00000000";
       }
     }
     async function buscarProductos(query) {
@@ -564,7 +595,6 @@
         console.error(error);
       }
     }
-
     function seleccionarProducto(producto) {
       productoSearchInput.value = '';
       productoSearchResults.innerHTML = '';
@@ -575,20 +605,59 @@
       }
 
       productosEnCarrito.push(producto);
+      const subtotalInicial = producto.precio * 1;
+      const maxDesc = (subtotalInicial * 0.05).toFixed(2);
+
       const tr = document.createElement('tr');
       tr.dataset.idProducto = producto.idProducto;
+
       tr.innerHTML = `
-        <td>${producto.nombre}<br><small class="text-muted">${producto.codigo}</small></td>
-        <td><input type="number" class="form-control form-control-sm" data-field="cantidad" value="1" min="1" max="${producto.stockActual}"></td>
-        <td><input type="number" class="form-control form-control-sm" data-field="precio" value="${producto.precio}" step="0.01" min="0"></td>
-        <td><input type="number" class="form-control form-control-sm" data-field="descuento" value="0" step="0.01" min="0"></td>
-        <td class="text-end" data-field="importe">${formatCurrency(producto.precio)}</td>
+        <td>
+            <div class="fw-bold">${producto.nombre}</div>
+            <small class="text-muted">${producto.codigo}</small>
+        </td>
+        
+        <td>
+            <input type="number" 
+                   class="form-control form-control-sm input-cantidad" 
+                   data-field="cantidad" 
+                   value="1" 
+                   min="1" 
+                   max="${producto.stockActual}"
+                   oninput="window.recalcularFila(this)"> 
+        </td>
+        
+        <td>
+            <input type="number" 
+                   class="form-control form-control-sm input-precio" 
+                   data-field="precio" 
+                   value="${producto.precio}" 
+                   step="0.01" 
+                   readonly>
+        </td>
+        
+        <td>
+            <input type="number" 
+                   class="form-control form-control-sm input-descuento" 
+                   data-field="descuento" 
+                   value="0" 
+                   step="0.01" 
+                   min="0" 
+                   oninput="window.recalcularFila(this)"> 
+            <small class="text-muted texto-max-desc" style="font-size: 10px;">Max: S/ ${maxDesc}</small>
+        </td>
+        
+        <td class="text-end fw-bold" data-field="importe">
+            ${formatCurrency(subtotalInicial)}
+        </td>
+        
         <td class="text-center">
-          <a href="#" class="avtar avtar-s btn-link-danger btn-remover-item">
-            <i class="ti ti-trash f-20"></i>
-          </a>
+            <a href="#" class="avtar avtar-s btn-link-danger btn-remover-item">
+                <i class="ti ti-trash f-20"></i>
+            </a>
         </td>
       `;
+
       detalleTbody.appendChild(tr);
       recalcularTotales();
     }
@@ -603,19 +672,13 @@
       }
     }
 
-
     function recalcularTotales() {
       let totalAcumulado = 0;
+
       detalleTbody.querySelectorAll('tr').forEach(tr => {
-        const cantidad = parseFloat(tr.querySelector('[data-field="cantidad"]').value) || 0;
-        const precio = parseFloat(tr.querySelector('[data-field="precio"]').value) || 0;
-        const descuento = parseFloat(tr.querySelector('[data-field="descuento"]').value) || 0;
-
-        const precioFinal = precio - descuento;
-        const subtotalLinea = precioFinal * cantidad;
-
-        tr.querySelector('[data-field="importe"]').textContent = formatCurrency(subtotalLinea);
-        totalAcumulado += subtotalLinea;
+        const importeTexto = tr.querySelector('[data-field="importe"]').textContent;
+        const importe = parseFloat(importeTexto.replace(/[^0-9.-]+/g, "")) || 0;
+        totalAcumulado += importe;
       });
 
       const total = totalAcumulado;
@@ -628,6 +691,47 @@
 
       validarFormularioVenta();
     }
+
+    window.recalcularFila = function (input) {
+      const tr = input.closest('tr');
+
+      const inputCantidad = tr.querySelector('[data-field="cantidad"]');
+      const inputPrecio = tr.querySelector('[data-field="precio"]');
+      const inputDescuento = tr.querySelector('[data-field="descuento"]');
+      const textoMaxDesc = tr.querySelector('.texto-max-desc');
+      const celdaImporte = tr.querySelector('[data-field="importe"]');
+
+      const cantidad = parseFloat(inputCantidad.value) || 0;
+      const precioUnit = parseFloat(inputPrecio.value) || 0;
+      let descuentoTotalIngresado = parseFloat(inputDescuento.value);
+
+      if (isNaN(descuentoTotalIngresado)) descuentoTotalIngresado = 0;
+
+      const subtotalBruto = precioUnit * cantidad;
+      const maxDescPermitido = subtotalBruto * 0.05;
+
+      if (descuentoTotalIngresado > maxDescPermitido + 0.009) {
+        inputDescuento.classList.add('is-invalid', 'border-danger', 'text-danger');
+        textoMaxDesc.classList.add('text-danger');
+        textoMaxDesc.classList.remove('text-muted');
+        textoMaxDesc.innerHTML = `<i class="ti ti-alert-circle"></i> Excede el 5% (Max: S/ ${maxDescPermitido.toFixed(2)})`;
+        tr.dataset.invalid = "true";
+      } else if (descuentoTotalIngresado < 0) {
+        inputDescuento.value = 0;
+        descuentoTotalIngresado = 0;
+      } else {
+        inputDescuento.classList.remove('is-invalid', 'border-danger', 'text-danger');
+        textoMaxDesc.classList.remove('text-danger');
+        textoMaxDesc.classList.add('text-muted');
+        textoMaxDesc.textContent = `Max: S/ ${maxDescPermitido.toFixed(2)}`;
+        tr.dataset.invalid = "false";
+      }
+      const importeFinal = Math.max(0, subtotalBruto - descuentoTotalIngresado);
+      celdaImporte.textContent = formatCurrency(importeFinal);
+
+      recalcularTotales();
+    };
+
 
     function validarFormularioVenta() {
       let esValido = true;
@@ -643,6 +747,9 @@
       }
 
       if (clienteSeleccionado.numeroDocumento === '00000000' && ventaTipoComprobante.value === 'Factura') {
+        esValido = false;
+      }
+      if (totalTotalEl.textContent === 'S/ 0.00') {
         esValido = false;
       }
 
@@ -778,7 +885,7 @@
     async function validarYCrearVenta() {
       validarFormularioVenta();
       if (btnCrearVenta.disabled) {
-        alert('El formulario contiene errores. Por favor, revíselo antes de continuar.');       
+        alert('El formulario contiene errores. Por favor, revíselo antes de continuar.');
         return;
       }
 
@@ -789,7 +896,7 @@
         clienteDireccion: clienteSeleccionado.direccion,
         tipoComprobante: ventaTipoComprobante.value,
         serieComprobante: ventaSerie.value,
-        numeroComprobante: ventaNumero.value == "" ? null : ventaNumero.value,
+        numeroComprobante: ventaNumero.value,
         metodoPago: ventaMetodoPago.value,
         detalles: []
       };

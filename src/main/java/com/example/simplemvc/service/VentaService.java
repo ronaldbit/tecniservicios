@@ -39,10 +39,10 @@ public class VentaService {
         Usuario vendedor = getActualUsuarioService.get();
         if (vendedor == null) {
             throw new IllegalStateException("No se pudo identificar al vendedor. El usuario no está autenticado.");
-        }
-        if (request.getNumeroComprobante() == null) {
-            int numero = (int) (Math.random() * 900000) + 100000; 
-            request.setNumeroComprobante(String.valueOf(numero));
+        }      
+        if (request.getNumeroComprobante() == null || request.getNumeroComprobante().isEmpty()) {
+            String nuevoNumero = generarSiguienteNumero(request.getTipoComprobante());
+            request.setNumeroComprobante(nuevoNumero);
         }
 
         Venta venta = new Venta();
@@ -128,5 +128,21 @@ public class VentaService {
         }
         Venta ventaAnulada = ventaRepository.save(venta);
         return ventaMapper.toDto(ventaAnulada);
+    }
+
+    @Transactional(readOnly = true)
+    public String generarSiguienteNumero(String tipoComprobante) {
+        String ultimoNumero = ventaRepository.obtenerUltimoNumeroPorTipo(tipoComprobante);
+        if (ultimoNumero == null) {
+            return "00000001";
+        }
+
+        try {
+            int numeroActual = Integer.parseInt(ultimoNumero);
+            int siguienteNumero = numeroActual + 1;
+            return String.format("%08d", siguienteNumero);
+        } catch (NumberFormatException e) {
+            return "00000001";
+        }
     }
 }
