@@ -228,7 +228,7 @@ public class UsuarioService {
     Usuario usuario;
     usuario = Usuario.builder()
         .nombreUsuario(request.getNumeroDocumento())
-        .password(passwordEncoder.encode(request.getPassword()))
+        .password(passwordEncoder.encode(request.getNumeroDocumento()))
         .persona(persona)
         .sucursal(sucursalRepository.findById(1L)
             .orElseThrow(() -> new IllegalArgumentException("Sucursal por defecto no encontrada.")))

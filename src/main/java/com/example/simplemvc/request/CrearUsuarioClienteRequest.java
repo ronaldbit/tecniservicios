@@ -13,5 +13,4 @@ public class CrearUsuarioClienteRequest {
     private String email;
     private String telefono;
     private String direccion;
-    private String password;
 }

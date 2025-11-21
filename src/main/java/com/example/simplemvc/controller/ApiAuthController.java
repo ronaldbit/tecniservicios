@@ -107,14 +107,7 @@ public class ApiAuthController {
   @PostMapping("/registro-cliente")
   public String RegisteClient(
       @ModelAttribute("usuarioRequest") CrearUsuarioClienteRequest request,
-      @RequestParam("confirmarPassword") String confirmarPassword,
       Model model) {
-
-    if (request.getPassword() == null || !request.getPassword().equals(confirmarPassword)) {
-      model.addAttribute("errorGlobal", "Las contraseñas no coinciden.");
-      model.addAttribute("login", new LoginUsuarioRequest());
-      return "tienda/perfil/index"; 
-    }
     if (request.getTipoDocumentoId() == 1L) {
       request.setTipoPersona("Natural");
       request.setRazonSocial(null);
@@ -129,7 +122,7 @@ public class ApiAuthController {
     } catch (Exception e) {
       model.addAttribute("errorGlobal", e.getMessage());
       model.addAttribute("login", new LoginUsuarioRequest());
-      return "tienda/perfil/index"; 
+      return "tienda/perfil/index";
     }
   }
 }

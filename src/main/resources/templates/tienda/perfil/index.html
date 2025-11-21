@@ -122,21 +122,7 @@
                         <input id="direccion" type="text" class="form-control" th:field="*{direccion}"
                           placeholder="Av. Siempre Viva 123">
                       </div>
-
-                      <div class="form-group mb-3">
-                        <label for="password">Password</label>
-                        <input id="password" type="password" class="form-control" th:field="*{password}"
-                          placeholder="Secret word" required>
-                        <div class="invalid-feedback" id="passwordError"></div>
-                        <small class="form-text text-muted">Mín. 8 caracteres, 1 mayúscula, 1 minúscula y 1
-                          número.</small>
-                      </div>
-                      <div class="form-group mb-3">
-                        <label for="confirmarPassword">Repeat password</label>
-                        <input id="confirmarPassword" type="password" class="form-control" name="confirmarPassword"
-                          placeholder="Secret word" required>
-                        <div class="invalid-feedback" id="confirmarPasswordError"></div>
-                      </div>
+                     
 
                       <div class="form-group mb-0">
                         <button type="submit" class="btn btn-primary mt-3">Register</button>
@@ -304,8 +290,6 @@
     const tipoDocId = document.getElementById("tipoDocumento").value;
     const numeroDoc = document.getElementById("numeroDocumento").value.trim();
     const email = document.getElementById("email").value.trim();
-    const pass1 = document.getElementById("password").value;
-    const pass2 = document.getElementById("confirmarPassword").value;
 
     if (!tipoDocId) {
       mostrarError("tipoDocumento", "Seleccione un tipo de documento.");
@@ -343,16 +327,7 @@
       mostrarError("email", "Ingrese un correo electrónico válido.");
       esValido = false;
     }
-    const passRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$/;
-    if (!passRegex.test(pass1)) {
-      mostrarError("password", "Debe tener mín. 8 caracteres, 1 mayúscula, 1 minúscula y 1 número.");
-      esValido = false;
-    }
-    if (pass1 !== pass2) {
-      mostrarError("confirmarPassword", "Las contraseñas no coinciden.");
-      esValido = false;
-    }
-
+ 
     return esValido;
   }
 
