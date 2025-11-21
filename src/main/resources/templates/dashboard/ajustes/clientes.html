@@ -1,7 +1,4 @@
-<div
-  class="pc-container"
-  th:replace="~{dashboard/layout :: layout(~{::content}, ${usuario}, 'Inicio', '/dashboard')}"
->
+<div class="pc-container" th:replace="~{dashboard/layout :: layout(~{::content}, ${usuario}, 'Inicio', '/dashboard')}">
   <div class="pc-content" th:fragment="content">
     <!-- [ breadcrumb ] start -->
     <div class="page-header">
@@ -30,315 +27,8 @@
     <!-- [ Main Content ] start -->
     <div class="row">
       <div class="col-12">
-        <div class="card table-card">
-          <div
-            class="card-header d-flex align-items-center justify-content-between"
-          >
-            <div>
-              <h5 class="mb-1">Gestión de clientes</h5>
-              <small class="text-muted d-block mb-2"
-                >Tipo: <strong>Interno</strong> (registrado por vendedor) /
-                <strong>Externo</strong> (compra en línea)</small
-              >
-              <button
-                type="button"
-                class="btn btn-primary"
-                data-bs-toggle="modal"
-                data-bs-target="#exampleModalLive"
-              >
-                <i class="ti ti-plus me-1"></i> Nuevo Cliente
-              </button>
-            </div>
-            <div class="d-flex align-items-center">
-              <div class="me-2">
-                <label for="filtro-tipo" class="form-label visually-hidden"
-                  >Filtrar por Tipo</label
-                >
-                <select class="form-select" id="filtro-tipo">
-                  <option value="">Todos los tipos</option>
-                  <option value="Interno">Interno</option>
-                  <option value="Externo">Externo</option>
-                  <option value="Online">Online</option>
-                </select>
-              </div>
-              <div>
-                <label for="filtro-estado" class="form-label visually-hidden"
-                  >Filtrar por Estado</label
-                >
-                <select class="form-select" id="filtro-estado">
-                  <option value="">Todos los estados</option>
-                  <option value="Activo">Activo</option>
-                  <option value="Inactivo">Inactivo</option>
-                </select>
-              </div>
-            </div>
-          </div>
-          <div
-            id="exampleModalLive"
-            class="modal fade"
-            tabindex="-1"
-            role="dialog"
-            aria-labelledby="exampleModalLiveLabel"
-            aria-hidden="true"
-          >
-            <div
-              class="modal-dialog modal-dialog-centered modal-lg"
-              role="document"
-            >
-              <form class="modal-content needs-validation" novalidate>
-                <div class="modal-header">
-                  <h5 class="modal-title" id="exampleModalLiveLabel">
-                    Añadir Nuevo Cliente
-                  </h5>
-                  <button
-                    type="button"
-                    class="btn-close"
-                    data-bs-dismiss="modal"
-                    aria-label="Close"
-                  ></button>
-                </div>
-                <div class="modal-body">
-                  <div class="row">
-                    <div class="col-md-6">
-                      <div class="mb-3">
-                        <label for="clienteTipoDoc" class="form-label"
-                          >Tipo Documento</label
-                        >
-                        <select
-                          class="form-select"
-                          id="clienteTipoDoc"
-                          required
-                        >
-                          <option value="" selected disabled>
-                            Seleccionar...
-                          </option>
-                          <option value="DNI">DNI</option>
-                          <option value="RUC">RUC</option>
-                        </select>
-                        <div class="invalid-feedback">
-                          Seleccione el tipo de documento.
-                        </div>
-                      </div>
-                      <div
-                        class="mb-3 d-flex"
-                        style="gap: 8px; align-items: end"
-                      >
-                        <div style="flex: 1">
-                          <label for="clienteNumDoc" class="form-label"
-                            >Número Documento</label
-                          >
-                          <input
-                            type="text"
-                            class="form-control"
-                            id="clienteNumDoc"
-                            required
-                          />
-                          <div
-                            class="invalid-feedback"
-                            id="clienteNumDocFeedback"
-                          >
-                            Ingrese un número de documento válido.
-                          </div>
-                        </div>
-                        <button
-                          type="button"
-                          class="btn btn-outline-primary"
-                          id="btnBuscarDoc"
-                        >
-                          Buscar
-                        </button>
-                      </div>
+        <div class="card table-card">   
 
-                      <div class="mb-3">
-                        <label for="clienteNombreRazon" class="form-label"
-                          >Nombre / Razón Social</label
-                        >
-                        <input
-                          type="text"
-                          class="form-control"
-                          id="clienteNombreRazon"
-                          required
-                        />
-                        <div class="invalid-feedback">
-                          El nombre o razón social es obligatorio.
-                        </div>
-                      </div>
-                      <div
-                        class="mb-3"
-                        id="campoApellidos"
-                        style="display: none"
-                      >
-                        <label for="clienteApellidos" class="form-label"
-                          >Apellidos (Opcional)</label
-                        >
-                        <input
-                          type="text"
-                          class="form-control"
-                          id="clienteApellidos"
-                        />
-                      </div>
-                      <div class="mb-3">
-                        <label for="clienteNombreComercial" class="form-label"
-                          >Nombre Comercial (Opcional)</label
-                        >
-                        <input
-                          type="text"
-                          class="form-control"
-                          id="clienteNombreComercial"
-                        />
-                      </div>
-                      <div class="mb-3">
-                        <label for="clienteContacto" class="form-label"
-                          >Contacto Principal (Opcional)</label
-                        >
-                        <input
-                          type="text"
-                          class="form-control"
-                          id="clienteContacto"
-                          placeholder="Nombre de la persona de contacto"
-                        />
-                      </div>
-                    </div>
-                    <div class="col-md-6">
-                      <div class="mb-3">
-                        <label for="clienteTelefono" class="form-label"
-                          >Teléfono</label
-                        >
-                        <input
-                          type="tel"
-                          class="form-control"
-                          id="clienteTelefono"
-                          pattern="[0-9]{7,9}"
-                          required
-                        />
-                        <div class="invalid-feedback">
-                          Ingrese un teléfono válido (7 a 9 dígitos).
-                        </div>
-                      </div>
-                      <div class="mb-3">
-                        <label for="clienteEmail" class="form-label"
-                          >Correo Electrónico</label
-                        >
-                        <input
-                          type="email"
-                          class="form-control"
-                          id="clienteEmail"
-                          required
-                        />
-                        <div class="invalid-feedback">
-                          Ingrese un correo electrónico válido.
-                        </div>
-                      </div>
-                      <div class="mb-3">
-                        <label for="clienteDireccion" class="form-label"
-                          >Dirección Fiscal</label
-                        >
-                        <input
-                          type="text"
-                          class="form-control"
-                          id="clienteDireccion"
-                          required
-                        />
-                        <div class="invalid-feedback">
-                          La dirección es obligatoria.
-                        </div>
-                      </div>
-                      <div class="mb-3">
-                        <label for="clienteTipo" class="form-label"
-                          >Tipo Cliente</label
-                        >
-                        <select class="form-select" id="clienteTipo" required>
-                          <option value="" selected disabled>
-                            Seleccionar...
-                          </option>
-                          <option value="Interno">Interno</option>
-                          <option value="Externo">Externo</option>
-                          <option value="Online">Online</option>
-                        </select>
-                        <div class="invalid-feedback">
-                          Seleccione el tipo de cliente.
-                        </div>
-                      </div>
-                      <div class="row">
-                        <div class="col-6">
-                          <div class="mb-3">
-                            <label for="clienteLimiteCredito" class="form-label"
-                              >Límite Crédito (S/)</label
-                            >
-                            <input
-                              type="number"
-                              class="form-control"
-                              id="clienteLimiteCredito"
-                              value="0.00"
-                              step="0.01"
-                              min="0"
-                              required
-                            />
-                            <div class="invalid-feedback">
-                              Ingrese un monto válido (>= 0).
-                            </div>
-                          </div>
-                        </div>
-                        <div class="col-6">
-                          <div class="mb-3">
-                            <label for="clienteDiasCredito" class="form-label"
-                              >Días Crédito</label
-                            >
-                            <input
-                              type="number"
-                              class="form-control"
-                              id="clienteDiasCredito"
-                              value="0"
-                              step="1"
-                              min="0"
-                              required
-                            />
-                            <div class="invalid-feedback">
-                              Ingrese días válidos (>= 0).
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="mb-3">
-                        <label for="clienteEstado" class="form-label"
-                          >Estado</label
-                        >
-                        <select class="form-select" id="clienteEstado" required>
-                          <option value="Activo" selected>Activo</option>
-                          <option value="Inactivo">Inactivo</option>
-                        </select>
-                        <div class="invalid-feedback">
-                          Seleccione el estado del cliente.
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="mb-3">
-                    <label for="clienteObservaciones" class="form-label"
-                      >Observaciones (Opcional)</label
-                    >
-                    <textarea
-                      class="form-control"
-                      id="clienteObservaciones"
-                      rows="2"
-                    ></textarea>
-                  </div>
-                </div>
-                <div class="modal-footer">
-                  <button
-                    type="button"
-                    class="btn btn-secondary"
-                    data-bs-dismiss="modal"
-                  >
-                    Cancelar
-                  </button>
-                  <button type="submit" class="btn btn-primary">
-                    Guardar Cliente
-                  </button>
-                </div>
-              </form>
-            </div>
-          </div>
 
           <div class="card-body pt-3">
             <div class="table-responsive">
@@ -350,187 +40,15 @@
                     <th>Teléfono</th>
                     <th>Correo</th>
                     <th>Dirección</th>
-                    <th>Tipo</th>
-                    <th>Estado</th>
+                    <th>Rol</th>
+                    <th>Estado (Acción)</th>
                     <th>Registro</th>
-                    <th>Acción</th>
+                   
                   </tr>
                 </thead>
-                <tbody>
-                  <!-- Cliente 1 (Interno) -->
-                  <tr data-tipo="Interno" data-estado="Activo">
-                    <td>
-                      <div class="d-flex align-items-center">
-                        <div class="flex-shrink-0">
-                          <img
-                            src="/assets/images/user/avatar-1.jpg"
-                            alt="cliente"
-                            class="img-radius wid-40"
-                          />
-                        </div>
-                        <div class="flex-grow-1 ms-3">
-                          <h6 class="mb-0">Juan Pérez</h6>
-                          <small class="text-muted d-block">Empresa: —</small>
-                        </div>
-                      </div>
-                    </td>
-                    <td>DNI 47651234</td>
-                    <td>(01) 567-8901</td>
-                    <td>juan.perez@example.com</td>
-                    <td>Av. Los Olivos 123, Lima</td>
-                    <td>
-                      <span class="badge text-bg-secondary">Interno</span>
-                    </td>
-                    <td class="text-success">
-                      <i class="fas fa-circle f-10 m-r-10"></i> Activo
-                    </td>
-                    <td>
-                      2025/08/21
-                      <span class="text-muted text-sm d-block">11:15 AM</span>
-                    </td>
-                    <td>
-                      <a href="#!" class="avtar avtar-xs btn-link-secondary"
-                        ><i class="ti ti-eye f-20"></i
-                      ></a>
-                      <a href="#!" class="avtar avtar-xs btn-link-secondary"
-                        ><i class="ti ti-edit f-20"></i
-                      ></a>
-                      <a href="#!" class="avtar avtar-xs btn-link-secondary"
-                        ><i class="ti ti-trash f-20"></i
-                      ></a>
-                    </td>
-                  </tr>
-
-                  <!-- Cliente 2 (Externo) -->
-                  <tr data-tipo="Externo" data-estado="Activo">
-                    <td>
-                      <div class="d-flex align-items-center">
-                        <div class="flex-shrink-0">
-                          <img
-                            src="/assets/images/user/avatar-2.jpg"
-                            alt="cliente"
-                            class="img-radius wid-40"
-                          />
-                        </div>
-                        <div class="flex-grow-1 ms-3">
-                          <h6 class="mb-0">Servicios ABC SAC</h6>
-                          <small class="text-muted d-block"
-                            >Contacto: María Gómez</small
-                          >
-                        </div>
-                      </div>
-                    </td>
-                    <td>RUC 20601234567</td>
-                    <td>(01) 444-2211</td>
-                    <td>compras@serviciosabc.pe</td>
-                    <td>Jr. Industrial 456, Ate</td>
-                    <td><span class="badge text-bg-info">Externo</span></td>
-                    <td class="text-success">
-                      <i class="fas fa-circle f-10 m-r-10"></i> Activo
-                    </td>
-                    <td>
-                      2025/07/30
-                      <span class="text-muted text-sm d-block">05:42 PM</span>
-                    </td>
-                    <td>
-                      <a href="#!" class="avtar avtar-xs btn-link-secondary"
-                        ><i class="ti ti-eye f-20"></i
-                      ></a>
-                      <a href="#!" class="avtar avtar-xs btn-link-secondary"
-                        ><i class="ti ti-edit f-20"></i
-                      ></a>
-                      <a href="#!" class="avtar avtar-xs btn-link-secondary"
-                        ><i class="ti ti-trash f-20"></i
-                      ></a>
-                    </td>
-                  </tr>
-
-                  <!-- Cliente 3 (Externo) -->
-                  <tr data-tipo="Externo" data-estado="Inactivo">
-                    <td>
-                      <div class="d-flex align-items-center">
-                        <div class="flex-shrink-0">
-                          <img
-                            src="/assets/images/user/avatar-3.jpg"
-                            alt="cliente"
-                            class="img-radius wid-40"
-                          />
-                        </div>
-                        <div class="flex-grow-1 ms-3">
-                          <h6 class="mb-0">Karina Ruiz</h6>
-                          <small class="text-muted d-block">—</small>
-                        </div>
-                      </div>
-                    </td>
-                    <td>DNI 73214566</td>
-                    <td>999 777 666</td>
-                    <td>karuiz@example.com</td>
-                    <td>San Miguel, Lima</td>
-                    <td><span class="badge text-bg-info">Externo</span></td>
-                    <td class="text-secondary">
-                      <i class="fas fa-circle f-10 m-r-10"></i> Inactivo
-                    </td>
-                    <td>
-                      2025/05/18
-                      <span class="text-muted text-sm d-block">09:03 AM</span>
-                    </td>
-                    <td>
-                      <a href="#!" class="avtar avtar-xs btn-link-secondary"
-                        ><i class="ti ti-eye f-20"></i
-                      ></a>
-                      <a href="#!" class="avtar avtar-xs btn-link-secondary"
-                        ><i class="ti ti-edit f-20"></i
-                      ></a>
-                      <a href="#!" class="avtar avtar-xs btn-link-secondary"
-                        ><i class="ti ti-trash f-20"></i
-                      ></a>
-                    </td>
-                  </tr>
-
-                  <!-- Cliente 4 (Interno) -->
-                  <tr data-tipo="Interno" data-estado="Activo">
-                    <td>
-                      <div class="d-flex align-items-center">
-                        <div class="flex-shrink-0">
-                          <img
-                            src="/assets/images/user/avatar-4.jpg"
-                            alt="cliente"
-                            class="img-radius wid-40"
-                          />
-                        </div>
-                        <div class="flex-grow-1 ms-3">
-                          <h6 class="mb-0">Transportes El Norte SAC</h6>
-                          <small class="text-muted d-block"
-                            >Contacto: Luis Vega</small
-                          >
-                        </div>
-                      </div>
-                    </td>
-                    <td>RUC 20123456789</td>
-                    <td>(01) 321-9090</td>
-                    <td>logistica@elnorte.com</td>
-                    <td>Av. México 890, La Victoria</td>
-                    <td>
-                      <span class="badge text-bg-secondary">Interno</span>
-                    </td>
-                    <td class="text-success">
-                      <i class="fas fa-circle f-10 m-r-10"></i> Activo
-                    </td>
-                    <td>
-                      2025/06/12
-                      <span class="text-muted text-sm d-block">03:25 PM</span>
-                    </td>
-                    <td>
-                      <a href="#!" class="avtar avtar-xs btn-link-secondary"
-                        ><i class="ti ti-eye f-20"></i
-                      ></a>
-                      <a href="#!" class="avtar avtar-xs btn-link-secondary"
-                        ><i class="ti ti-edit f-20"></i
-                      ></a>
-                      <a href="#!" class="avtar avtar-xs btn-link-secondary"
-                        ><i class="ti ti-trash f-20"></i
-                      ></a>
-                    </td>
+                <tbody id="tabla-clientes-body">
+                  <tr>
+                    <td colspan="9" class="text-center p-3">Cargando clientes...</td>
                   </tr>
                 </tbody>
               </table>
@@ -542,6 +60,115 @@
     <!-- [ Main Content ] end -->
   </div>
 </div>
+
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    cargarClientes();
+  });
+  async function cargarClientes() {
+    const tbody = document.getElementById("tabla-clientes-body");
+    
+    try {
+      const response = await fetch('/api/usuarios/clientes');
+      
+      if (!response.ok) throw new Error("Error al obtener datos");
+      
+      const clientes = await response.json();
+      
+      tbody.innerHTML = ""; 
+
+      if (clientes.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="9" class="text-center">No hay clientes registrados.</td></tr>';
+        return;
+      }
+
+      clientes.forEach(usuario => {
+        const p = usuario.persona || {};
+        const nombreCompleto = `${p.nombres || ''} ${p.apellidos || ''}`.trim() || usuario.nombreUsuario;
+        const doc = p.numeroDocumento || 'S/N';
+        const tel = p.telefono || '-';
+        const email = p.email || usuario.nombreUsuario || '-'; 
+        const dir = p.direccion || '-';
+        const rol = usuario.roles && usuario.roles.length > 0 ? usuario.roles[0].nombre : 'Sin Rol';
+        
+        const fechaRegistro = usuario.fechaCreacion ? new Date(usuario.fechaCreacion).toLocaleDateString() : '-';
+
+        const isActivo = usuario.estado === 'ACTIVO';
+        
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+            <td>
+                <div class="d-flex align-items-center">
+                    <div class="flex-shrink-0">
+                        <img src="/assets/images/user/avatar-2.jpg" alt="cliente" class="img-radius wid-40"/>
+                    </div>
+                    <div class="flex-grow-1 ms-3">
+                        <h6 class="mb-0">${nombreCompleto}</h6>
+                        <small class="text-muted d-block">${p.razonSocial || 'Persona Natural'}</small>
+                    </div>
+                </div>
+            </td>
+            <td>${doc}</td>
+            <td>${tel}</td>
+            <td>${email}</td>
+            <td>${dir}</td>
+            <td><span class="badge text-bg-info">${rol}</span></td>
+            <td>
+                <div class="form-check form-switch">
+                    <input class="form-check-input" type="checkbox" role="switch" 
+                           id="switch-estado-${usuario.id}"
+                           ${isActivo ? 'checked' : ''} 
+                           onchange="cambiarEstadoUsuario(${usuario.id}, this)">
+                    <label class="form-check-label" for="switch-estado-${usuario.id}">
+                        ${isActivo ? 'Activo' : 'Inactivo'}
+                    </label>
+                </div>
+            </td>
+            <td>${fechaRegistro}</td>
+    
+        `;
+        tbody.appendChild(tr);
+      });
+
+    } catch (error) {
+      console.error(error);
+      tbody.innerHTML = '<tr><td colspan="9" class="text-center text-danger">Error cargando la lista de clientes.</td></tr>';
+    }
+  }
+
+  async function cambiarEstadoUsuario(id, checkbox) {
+    const estadoOriginal = !checkbox.checked;
+    const label = checkbox.nextElementSibling; 
+    checkbox.disabled = true;
+
+    try {
+        const response = await fetch(`/api/usuarios/${id}/CambiarEstado`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error("Error al cambiar estado en el servidor");
+        }
+
+        if (checkbox.checked) {
+            label.textContent = "Activo";      
+        } else {
+            label.textContent = "Inactivo";
+        }
+
+    } catch (error) {
+        console.error(error);
+        alert("No se pudo cambiar el estado del usuario.");        
+        checkbox.checked = estadoOriginal;
+    } finally {
+        checkbox.disabled = false;
+    }
+  }
+</script>
 
 <script>
   (function () {
@@ -561,183 +188,4 @@
     tipo?.addEventListener("change", filtrar);
     estado?.addEventListener("change", filtrar);
   })();
-</script>
-
-<script>
-  document.addEventListener("DOMContentLoaded", function () {
-    const formCliente = document.querySelector(
-      "#exampleModalLive .needs-validation"
-    );
-    const tipoDocSelect = formCliente.querySelector("#clienteTipoDoc");
-    const numDocInput = formCliente.querySelector("#clienteNumDoc");
-    const numDocFeedback = formCliente.querySelector("#clienteNumDocFeedback");
-    const apellidosFieldDiv = formCliente.querySelector("#campoApellidos");
-
-    const setNumDocValidation = () => {
-      const tipoDoc = tipoDocSelect.value;
-      if (tipoDoc === "DNI") {
-        numDocInput.pattern = "[0-9]{8}";
-        numDocInput.maxLength = 8;
-        numDocFeedback.textContent = "Ingrese un DNI válido de 8 dígitos.";
-        apellidosFieldDiv.style.display = "block";
-      } else if (tipoDoc === "RUC") {
-        numDocInput.pattern = "[0-9]{11}";
-        numDocInput.maxLength = 11;
-        numDocFeedback.textContent = "Ingrese un RUC válido de 11 dígitos.";
-        apellidosFieldDiv.style.display = "none";
-        formCliente.querySelector("#clienteApellidos").value = "";
-        numDocInput.pattern = ".*";
-        numDocInput.maxLength = 20;
-        numDocFeedback.textContent = "Seleccione un tipo e ingrese el número.";
-        apellidosFieldDiv.style.display = "none";
-        formCliente.querySelector("#clienteApellidos").value = "";
-      }
-
-      validateClienteField(numDocInput);
-    };
-
-    tipoDocSelect.addEventListener("change", setNumDocValidation);
-
-    const validateClienteField = (field) => {
-      const feedbackDiv = field.nextElementSibling;
-      if (feedbackDiv && feedbackDiv.classList.contains("invalid-feedback")) {
-      }
-
-      if (!field.checkValidity()) {
-        field.classList.add("is-invalid");
-        field.classList.remove("is-valid");
-      } else {
-        field.classList.add("is-valid");
-        field.classList.remove("is-invalid");
-      }
-    };
-
-    formCliente
-      .querySelectorAll('input:not([type="date"]), select, textarea')
-      .forEach((field) => {
-        field.addEventListener("input", () => {
-          validateClienteField(field);
-        });
-      });
-
-    formCliente.querySelectorAll("input, select, textarea").forEach((field) => {
-      field.addEventListener("blur", () => {
-        validateClienteField(field);
-      });
-    });
-
-    formCliente.addEventListener(
-      "submit",
-      (event) => {
-        setNumDocValidation();
-        validateClienteField(numDocInput);
-
-        if (!formCliente.checkValidity()) {
-          event.preventDefault();
-          event.stopPropagation();
-          formCliente.querySelectorAll(":invalid").forEach((invalidField) => {
-            validateClienteField(invalidField);
-          });
-        } else {
-          console.log("Formulario de cliente válido, guardando...");
-          event.preventDefault();
-        }
-
-        formCliente.classList.add("was-validated");
-      },
-      false
-    );
-
-    const modalElementCliente = document.getElementById("exampleModalLive");
-    modalElementCliente.addEventListener("hidden.bs.modal", function () {
-      formCliente.classList.remove("was-validated");
-      formCliente
-        .querySelectorAll(".is-valid, .is-invalid")
-        .forEach((field) => {
-          field.classList.remove("is-valid", "is-invalid");
-        });
-      formCliente.reset();
-      setNumDocValidation();
-    });
-
-    setNumDocValidation();
-  });
-</script>
-
-<script>
-  async function fetchJSON(url) {
-    const response = await fetch(url, { headers: { Accept: "application/json" } });
-
-    if (!response.ok) {
-       throw new Error("HTTP " + response.status);
-    }
-
-    return response.json();
-  }
-
-  function clearClienteFields() {
-    document.getElementById("clienteNombreRazon").value = "";
-    document.getElementById("clienteApellidos").value = "";
-    document.getElementById("clienteDireccion").value = "";
-    document.getElementById("clienteTelefono").value = "";
-    document.getElementById("clienteEmail").value = "";
-  }
-
-  function loadClienteData() {
-    const selTipo = document.getElementById("clienteTipoDoc");
-    const numDoc = document.getElementById("clienteNumDoc");
-    const nombreRazon = document.getElementById("clienteNombreRazon");
-    const apellidosDiv = document.getElementById("campoApellidos");
-    const apellidosIn = document.getElementById("clienteApellidos");
-    const direccion = document.getElementById("clienteDireccion");
-    const telefono = document.getElementById("clienteTelefono");
-    const email = document.getElementById("clienteEmail");
-
-    const btnBuscarDoc = document.getElementById("btnBuscarDoc");
-
-    btnBuscarDoc.addEventListener("click", async () => {
-      const tipo = selTipo.value.toLowerCase();
-      const ndoc = numDoc.value ? numDoc.value.trim() : "";
-
-      clearClienteFields()
-
-      if(tipo === "dni") {
-        if(!/^\d{8}$/.test(ndoc)) {
-          alert("DNI inválido");
-          return;
-        }
-      } else if(tipo === "ruc") {
-        if(!/^\d{11}$/.test(ndoc)) {
-          alert("RUC inválido");
-          return;
-        }
-      } else {
-        alert("Seleccione DNI o RUC");
-        return;
-      }
-
-      try {
-        const response = await fetchJSON(`/api/consulta/${tipo}?num=` + ndoc);
-        if (!response.success || !response.data) {
-          alert(response.message ?? "No encontrado");
-          return;
-        }
-
-        const data = response.data;
-
-        nombreRazon.value = tipo === "dni" ? (data?.nombres ? data.nombres.trim() : "") : (data?.razon_social ? data.razon_social.trim() : "");
-
-        apellidosIn.value = (data?.apellido_materno + " " + data?.apellido_paterno) ?? "";
-
-        direccion.value = (data?.direccion_completa ?? data?.direccion ?? "").trim();
-
-        apellidosDiv.style.display = tipo === "dni" ? "block" : "none";
-
-      } catch (error) {
-        alert("Error consultando documento");
-      }
-    })
-  }
-
-  document.addEventListener("DOMContentLoaded", loadClienteData());
 </script>

@@ -184,7 +184,7 @@ public class UsuarioService {
   }
 
   // para el cliente
-  public Optional<Usuario> loginClientePorIdentificador(String identificador, String passwordPlano) {
+  public Optional<Usuario> loginClientePorIdentificador(String identificador, String passwordPlano) throws Exception {
     String trimmed = identificador == null ? "" : identificador.trim();
     boolean esSoloNumeros = trimmed.matches("\\d+");
     String dni = null;
@@ -200,20 +200,18 @@ public class UsuarioService {
             email != null ? email : null);
 
     if (optUsuario.isEmpty()) {
-      return Optional.empty();
+      throw new Exception("No se encontró ningún usuario con el identificador proporcionado.");
     }
     Usuario usuario = optUsuario.get();
-    if (usuario.getEstado() == EstadoEntidad.INACTIVO ||
-        usuario.getEstado() == EstadoEntidad.ELIMINADO) {
-      return Optional.empty();
+    if (usuario.getEstado() == EstadoEntidad.INACTIVO || usuario.getEstado() == EstadoEntidad.ELIMINADO) {
+      throw new Exception("El usuario está inactivo o eliminado. Contacte soporte.");
     }
-    boolean esCliente = usuario.getRoles().stream()
-        .anyMatch(r -> "CLIENTE".equalsIgnoreCase(r.getNombre()));
+    boolean esCliente = usuario.getRoles().stream().anyMatch(r -> "CLIENTE".equalsIgnoreCase(r.getNombre()));
     if (!esCliente) {
-      return Optional.empty();
+      throw new Exception("Este usuario no tiene permisos de cliente.");
     }
     if (!passwordEncoder.matches(passwordPlano, usuario.getPassword())) {
-      return Optional.empty();
+      throw new Exception("La contraseña es incorrecta.");
     }
     return Optional.of(usuario);
   }
@@ -232,11 +230,33 @@ public class UsuarioService {
         .nombreUsuario(request.getNumeroDocumento())
         .password(passwordEncoder.encode(request.getPassword()))
         .persona(persona)
-        .sucursal(sucursalRepository.findById(1L).orElseThrow(() -> new IllegalArgumentException("Sucursal por defecto no encontrada.")))
+        .sucursal(sucursalRepository.findById(1L)
+            .orElseThrow(() -> new IllegalArgumentException("Sucursal por defecto no encontrada.")))
         .estado(EstadoEntidad.ACTIVO)
         .roles(Arrays.asList(rol))
         .build();
     servicioCorreo.enviarVerificacionCorreo(persona.getEmail(), persona.getTokenVerificacionEmail());
     return usuarioMapper.toDto(usuarioRepository.save(usuario));
+  }
+
+  public void cambiarEstado(Long id) {
+    Usuario usuario = usuarioRepository
+        .findById(id)
+        .orElseThrow(
+            () -> {
+              log.error("Usuario con ID {} no encontrado.", id);
+              return new IllegalArgumentException("Usuario no encontrado.");
+            });
+    if (usuario.getEstado() == EstadoEntidad.ACTIVO) {
+      usuario.setEstado(EstadoEntidad.INACTIVO);
+      log.info("Usuario con ID {} cambiado a INACTIVO.", id);
+    } else if (usuario.getEstado() == EstadoEntidad.INACTIVO) {
+      usuario.setEstado(EstadoEntidad.ACTIVO);
+      log.info("Usuario con ID {} cambiado a ACTIVO.", id);
+    } else {
+      log.error("No se puede cambiar el estado del usuario con ID {}. Estado inválido: {}", id, usuario.getEstado());
+      throw new IllegalArgumentException("No se puede cambiar el estado del usuario. Estado inválido.");
+    }
+    usuarioRepository.save(usuario);
   }
 }

@@ -76,52 +76,57 @@ public class PerfilController {
             return redirect(origen);
         }
 
-        var optUsuario = usuarioService.loginClientePorIdentificador(trimmed, password);
+        try {
+            var optUsuario = usuarioService.loginClientePorIdentificador(trimmed, password);
 
-        if (optUsuario.isEmpty()) {
-            ra.addFlashAttribute("loginError", "Credenciales inválidas o usuario no permitido.");
-            return redirect(origen);
-        }
-
-        Usuario usuario = optUsuario.get();
-
-        if (origen.equals("perfil")) {
-
-            LoginUsuarioRequest request = new LoginUsuarioRequest();
-            request.setNombreUsuario(usuario.getUsername());
-            request.setPassword(password);
-
-            try {
-                JwtDto jwt = authService.login(request);
-
-                if (jwt == null) {
-                    ra.addFlashAttribute("loginError", "El login ha fallado. Intente de nuevo.");
-                    return redirect(origen);
-                }
-
-                Cookie jwtCookie = new Cookie("JWT_TOKEN", jwt.getJwt());
-                jwtCookie.setHttpOnly(true);
-                jwtCookie.setPath("/");
-                jwtCookie.setMaxAge(24 * 60 * 60);
-                response.addCookie(jwtCookie);
-
-            } catch (Exception e) {
-                ra.addFlashAttribute("loginError", "Error al iniciar sesión: " + e.getMessage());
+            if (optUsuario.isEmpty()) {
+                ra.addFlashAttribute("loginError", "Credenciales inválidas o usuario no permitido.");
                 return redirect(origen);
             }
-        }
-        var persona = usuario.getPersona();
-        ClienteSesion clienteSesion = new ClienteSesion();
-        clienteSesion.setIdCliente(persona.getId());
-        clienteSesion.setNombreCompleto(
-                (persona.getNombres() != null ? persona.getNombres() : "") + " " +
-                        (persona.getApellidos() != null ? persona.getApellidos() : ""));
-        clienteSesion.setEmail(persona.getEmail());
-        clienteSesion.setDni(persona.getNumeroDocumento());
-        session.setAttribute("clienteSesion", clienteSesion);
 
-        ra.addFlashAttribute("loginSuccess", "Sesión iniciada correctamente.");
-        return redirect(origen);
+            Usuario usuario = optUsuario.get();
+
+            if (origen.equals("perfil")) {
+
+                LoginUsuarioRequest request = new LoginUsuarioRequest();
+                request.setNombreUsuario(usuario.getUsername());
+                request.setPassword(password);
+
+                try {
+                    JwtDto jwt = authService.login(request);
+
+                    if (jwt == null) {
+                        ra.addFlashAttribute("loginError", "El login ha fallado. Intente de nuevo.");
+                        return redirect(origen);
+                    }
+
+                    Cookie jwtCookie = new Cookie("JWT_TOKEN", jwt.getJwt());
+                    jwtCookie.setHttpOnly(true);
+                    jwtCookie.setPath("/");
+                    jwtCookie.setMaxAge(24 * 60 * 60);
+                    response.addCookie(jwtCookie);
+
+                } catch (Exception e) {
+                    ra.addFlashAttribute("loginError", "Error al iniciar sesión: " + e.getMessage());
+                    return redirect(origen);
+                }
+            }
+            var persona = usuario.getPersona();
+            ClienteSesion clienteSesion = new ClienteSesion();
+            clienteSesion.setIdCliente(persona.getId());
+            clienteSesion.setNombreCompleto(
+                    (persona.getNombres() != null ? persona.getNombres() : "") + " " +
+                            (persona.getApellidos() != null ? persona.getApellidos() : ""));
+            clienteSesion.setEmail(persona.getEmail());
+            clienteSesion.setDni(persona.getNumeroDocumento());
+            session.setAttribute("clienteSesion", clienteSesion);
+
+            ra.addFlashAttribute("loginSuccess", "Sesión iniciada correctamente.");
+            return redirect(origen);
+        } catch (Exception e) {         
+            ra.addFlashAttribute("loginError", e.getMessage());
+            return redirect(origen);
+        }
     }
 
     private String redirect(String origen) {

@@ -4,6 +4,9 @@ import com.example.simplemvc.dto.UsuarioDto;
 import com.example.simplemvc.request.CrearUsuarioRequest;
 import com.example.simplemvc.service.UsuarioService;
 import lombok.RequiredArgsConstructor;
+
+import java.util.stream.Collectors;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -47,4 +50,29 @@ public class ApiUsuarioController {
       return ResponseEntity.badRequest().body(e.getMessage());
     }
   }
+  @GetMapping("/clientes")
+  @PreAuthorize("hasRole('ADMIN')")
+  public ResponseEntity<?> listarClientes() {
+    try {
+      return ResponseEntity.ok(usuarioService.listaTodos().stream()
+        .filter(p -> "CLIENTE".equals(p.getRoles().get(0).getNombre()))
+        .collect(Collectors.toList()));
+    } catch (Exception e) {
+      return ResponseEntity.status(500).body("Error al obtener los clientes: " + e.getMessage());
+    }
+  }
+
+  @PutMapping("/{id}/CambiarEstado")
+  @PreAuthorize("hasRole('ADMIN')")
+  public ResponseEntity<?> cambiarEstado(@PathVariable Long id) {
+    try {
+      usuarioService.cambiarEstado(id);
+      return ResponseEntity.ok("Estado del usuario actualizado correctamente.");
+    } catch (Exception e) {
+      return ResponseEntity.badRequest().body(e.getMessage());
+    }
+  }
+
+
+  
 }
