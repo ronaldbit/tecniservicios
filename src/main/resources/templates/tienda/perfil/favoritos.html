@@ -1,16 +1,19 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head th:replace="tienda/framer/head :: head(${pageTitle})"></head>
+
 <body>
-<div class="site">
-    <div th:replace="tienda/framer/header :: siteHeaderMobile"></div>
-    <div th:replace="tienda/framer/header :: siteHeader"></div>
-    <div class="site__body container my-4">
-        <h1>Mis favoritos</h1>
-        <p>Aquí listarás los productos marcados como favoritos por el usuario.</p>
+    <div class="site">
+        <div th:replace="tienda/framer/header :: siteHeaderMobile"></div>
+        <div th:replace="tienda/framer/header :: siteHeader"></div>
+        <div class="site__body container my-4">
+            <h1>Mis favoritos</h1>
+            <p>Aquí listarás los productos marcados como favoritos por el usuario.</p>
+        </div>
+        <div th:replace="tienda/framer/footer :: siteFooter"></div>
     </div>
-    <div th:replace="tienda/framer/footer :: siteFooter"></div>
-</div>
-<div th:replace="tienda/framer/scripts :: scripts"></div>
+    <div th:replace="tienda/framer/scripts :: scripts"></div>
 </body>
+
 </html>

@@ -1,77 +1,80 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head th:replace="tienda/framer/head :: head(${pageTitle})"></head>
+
 <body>
-<div class="site">
+  <div class="site">
     <div th:replace="tienda/framer/header :: siteHeaderMobile"></div>
     <div th:replace="tienda/framer/header :: siteHeader"></div>
 
     <div class="site__body container my-4">
-        <h1>Carrito de compras</h1>
+      <h1>Carrito de compras</h1>
 
-<div class="block">
-  <div class="container">
-    <div class="cart">
-      <div class="cart__table cart-table">
-        <table class="cart-table__table">
-          <thead class="cart-table__head">
-            <tr class="cart-table__row">
-              <th class="cart-table__column cart-table__column--image">Imagen</th>
-              <th class="cart-table__column cart-table__column--product">Producto</th>
-              <th class="cart-table__column cart-table__column--price">Precio</th>
-              <th class="cart-table__column cart-table__column--quantity">Cantidad</th>
-              <th class="cart-table__column cart-table__column--total">Total</th>
-              <th class="cart-table__column cart-table__column--remove"></th>
-            </tr>
-          </thead>
+      <div class="block">
+        <div class="container">
+          <div class="cart">
+            <div class="cart__table cart-table">
+              <table class="cart-table__table">
+                <thead class="cart-table__head">
+                  <tr class="cart-table__row">
+                    <th class="cart-table__column cart-table__column--image">Imagen</th>
+                    <th class="cart-table__column cart-table__column--product">Producto</th>
+                    <th class="cart-table__column cart-table__column--price">Precio</th>
+                    <th class="cart-table__column cart-table__column--quantity">Cantidad</th>
+                    <th class="cart-table__column cart-table__column--total">Total</th>
+                    <th class="cart-table__column cart-table__column--remove"></th>
+                  </tr>
+                </thead>
 
-          <!-- AQUI RELLENA JS -->
-          <tbody class="cart-table__body" id="cart-table-body">
-          </tbody>
+                <!-- AQUI RELLENA JS -->
+                <tbody class="cart-table__body" id="cart-table-body">
+                </tbody>
 
-        </table>
-      </div>
+              </table>
+            </div>
 
-      <div class="cart__totals">
-        <div class="card">
-          <div class="card-body card-body--padding--2">
-            <h3 class="card-title">Total del carrito</h3>
-            <table class="cart__totals-table">
-              <thead>
-                <tr>
-                  <th>Subtotal</th>
-                  <td id="cart-page-subtotal">S/. 0.00</td>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <th>Envío (5%)</th>
-                  <td>
-                    S/. <span id="cart-page-shipping">0.00</span>
-                   </td>
-                </tr>
-              </tbody>
-              <tfoot>
-                <tr>
-                  <th>Total</th>
-                  <td id="cart-page-total">S/. 0.00</td>
-                </tr>
-              </tfoot>
-            </table>
-            <a class="btn btn-primary btn-xl btn-block" href="#">Proceder al pago</a>
+            <div class="cart__totals">
+              <div class="card">
+                <div class="card-body card-body--padding--2">
+                  <h3 class="card-title">Total del carrito</h3>
+                  <table class="cart__totals-table">
+                    <thead>
+                      <tr>
+                        <th>Subtotal</th>
+                        <td id="cart-page-subtotal">S/. 0.00</td>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <th>Envío (5%)</th>
+                        <td>
+                          S/. <span id="cart-page-shipping">0.00</span>
+                        </td>
+                      </tr>
+                    </tbody>
+                    <tfoot>
+                      <tr>
+                        <th>Total</th>
+                        <td id="cart-page-total">S/. 0.00</td>
+                      </tr>
+                    </tfoot>
+                  </table>
+                  <a class="btn btn-primary btn-xl btn-block" href="#">Proceder al pago</a>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-  </div>
-</div>
 
     </div>
 
     <div th:replace="tienda/framer/footer :: siteFooter"></div>
-</div>
+  </div>
 
-<div th:replace="tienda/framer/scripts :: scripts"></div>
+  <div th:replace="tienda/framer/scripts :: scripts"></div>
 
 </body>
+
 </html>

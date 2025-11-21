@@ -227,10 +227,12 @@
 					</div>
 					<div class="block-products-carousel__carousel">
 						<div class="block-products-carousel__carousel-loader"></div>
+
 						<div class="owl-carousel">
-							<div class="block-products-carousel__column">
-								<div class="block-products-carousel__cell" th:each="p : ${listaHome}">
-									<div th:replace="tienda/framer/product-card :: productCard(${p})"></div>
+
+							<div class="block-products-carousel__column" th:each="p : ${listaHome}">
+								<div class="block-products-carousel__cell">
+									<div th:replace="~{tienda/framer/product-card :: productCard(${p})}"></div>
 								</div>
 							</div>
 

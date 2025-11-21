@@ -1,35 +1,38 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head th:replace="tienda/framer/head :: head(${pageTitle})"></head>
+
 <body>
-<div class="site">
-    <div th:replace="tienda/framer/header :: siteHeaderMobile"></div>
-    <div th:replace="tienda/framer/header :: siteHeader"></div>
+    <div class="site">
+        <div th:replace="tienda/framer/header :: siteHeaderMobile"></div>
+        <div th:replace="tienda/framer/header :: siteHeader"></div>
 
-    <div class="site__body container my-4">
-        <h1>Pago</h1>
-        <p>Resumen del carrito, datos de envío, etc. (luego lo completas).</p>
+        <div class="site__body container my-4">
+            <h1>Pago</h1>
+            <p>Resumen del carrito, datos de envío, etc. (luego lo completas).</p>
 
-        <form>
-            <div class="mb-3">
-                <label class="form-label">Nombre completo</label>
-                <input class="form-control" type="text">
-            </div>
-            <div class="mb-3">
-                <label class="form-label">Correo</label>
-                <input class="form-control" type="email">
-            </div>
-            <div class="mb-3">
-                <label class="form-label">Dirección</label>
-                <input class="form-control" type="text">
-            </div>
+            <form>
+                <div class="mb-3">
+                    <label class="form-label">Nombre completo</label>
+                    <input class="form-control" type="text">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Correo</label>
+                    <input class="form-control" type="email">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Dirección</label>
+                    <input class="form-control" type="text">
+                </div>
 
-            <button class="btn btn-primary" type="submit">Confirmar compra</button>
-        </form>
+                <button class="btn btn-primary" type="submit">Confirmar compra</button>
+            </form>
+        </div>
+
+        <div th:replace="tienda/framer/footer :: siteFooter"></div>
     </div>
-
-    <div th:replace="tienda/framer/footer :: siteFooter"></div>
-</div>
-<div th:replace="tienda/framer/scripts :: scripts"></div>
+    <div th:replace="tienda/framer/scripts :: scripts"></div>
 </body>
+
 </html>

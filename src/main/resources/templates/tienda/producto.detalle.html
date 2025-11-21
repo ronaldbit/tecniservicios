@@ -1,12 +1,14 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="tienda/framer/head :: head(${pageTitle})"></head>
-<body>
-<div class="site">
-    <div th:replace="tienda/framer/header :: siteHeaderMobile"></div>
-    <div th:replace="tienda/framer/header :: siteHeader"></div>
 
-		<div class="site__body" th:if="${producto != null}" >
+<head th:replace="tienda/framer/head :: head(${pageTitle})"></head>
+
+<body>
+	<div class="site">
+		<div th:replace="tienda/framer/header :: siteHeaderMobile"></div>
+		<div th:replace="tienda/framer/header :: siteHeader"></div>
+
+		<div class="site__body" th:if="${producto != null}">
 			<div class="block-header block-header--has-breadcrumb">
 				<div class="container">
 					<div class="block-header__body">
@@ -32,38 +34,43 @@
 								<div class="product__body">
 									<div class="product__card product__card--one"></div>
 									<div class="product__card product__card--two"></div>
-                  <div class="product-gallery product-gallery--layout--product-full product__gallery" data-layout="product-full">
-                      <!-- Imagen principal -->
-                      <div class="product-gallery__featured">
-                          <button type="button" class="product-gallery__zoom">
-                              <svg width="24" height="24">
-                                  <path d="M15,18c-2,0-3.8-0.6-5.2-1.7c-1,1.3-2.1,2.8-3.5,4.6c-2.2,2.8-3.4,1.9-3.4,1.9s-0.6-0.3-1.1-0.7
+									<div class="product-gallery product-gallery--layout--product-full product__gallery"
+										data-layout="product-full">
+										<!-- Imagen principal -->
+										<div class="product-gallery__featured">
+											<button type="button" class="product-gallery__zoom">
+												<svg width="24" height="24">
+													<path
+														d="M15,18c-2,0-3.8-0.6-5.2-1.7c-1,1.3-2.1,2.8-3.5,4.6c-2.2,2.8-3.4,1.9-3.4,1.9s-0.6-0.3-1.1-0.7
                                           c-0.4-0.4-0.7-1-0.7-1s-0.9-1.2,1.9-3.3c1.8-1.4,3.3-2.5,4.6-3.5C6.6,12.8,6,11,6,9c0-5,4-9,9-9s9,4,9,9S20,18,15,18z
                                           M15,2 c-3.9,0-7,3.1-7,7s3.1,7,7,7s7-3.1,7-7S18.9,2,15,2z M16,13h-2v-3h-3V8h3V5h2v3h3v2h-3V13z" />
-                              </svg>
-                          </button>
-                          <div class="owl-carousel">
-                            <a th:each="img : ${producto.imagenesList}" th:href="@{'/uploads/productos/' + ${img}}" class="image image--type--product" target="_blank" data-width="700" data-height="700">
-                                <div class="image__body">
-                                    <img th:src="@{'/uploads/productos/' + ${img}}" class="image__tag" th:alt="${producto.nombre}">
-                                </div>
-                            </a>
-                          </div>
-                      </div>
-                      <!-- Miniaturas -->
-                      <div class="product-gallery__thumbnails">
-                          <div class="owl-carousel">
-                            <div th:each="img : ${producto.imagenesList}"
-                                class="product-gallery__thumbnails-item image image--type--product">
-                                <div class="image__body">
-                                    <img th:src="@{'/uploads/productos/' + ${img}}"
-                                        class="image__tag"
-                                        th:alt="${producto.nombre}">
-                                </div>
-                            </div>
-                          </div>
-                      </div>
-                  </div>
+												</svg>
+											</button>
+											<div class="owl-carousel">
+												<a th:each="img : ${producto.imagenesList}"
+													th:href="@{'/uploads/productos/' + ${img}}"
+													class="image image--type--product" target="_blank" data-width="700"
+													data-height="700">
+													<div class="image__body">
+														<img th:src="@{'/uploads/productos/' + ${img}}"
+															class="image__tag" th:alt="${producto.nombre}">
+													</div>
+												</a>
+											</div>
+										</div>
+										<!-- Miniaturas -->
+										<div class="product-gallery__thumbnails">
+											<div class="owl-carousel">
+												<div th:each="img : ${producto.imagenesList}"
+													class="product-gallery__thumbnails-item image image--type--product">
+													<div class="image__body">
+														<img th:src="@{'/uploads/productos/' + ${img}}"
+															class="image__tag" th:alt="${producto.nombre}">
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
 									<div class="product__header">
 										<h1 class="product__title" th:text="${producto.nombre}">Nombre producto</h1>
 										<div class="product__subtitle">
@@ -121,7 +128,9 @@
 											<div class="product__info-body">
 												<div class="product__badge tag-badge tag-badge--sale">Sale</div>
 												<div class="product__prices-stock">
-													<div class="product__price product__price--current d-flex">S/. <div th:text="${producto.precioOnline != null ? producto.precioOnline : producto.precio}">S/. 00.00</div>
+													<div class="product__price product__price--current d-flex">S/. <div
+															th:text="${producto.precioOnline != null ? producto.precioOnline : producto.precio}">
+															S/. 00.00</div>
 													</div>
 													<div
 														class="status-badge status-badge--style--success product__stock status-badge--has-text">
@@ -215,16 +224,15 @@
 												</div>
 												<div class="product__actions-item product__actions-item--addtocart">
 
-                       <button type="button"
-                              class="btn btn-primary btn-lg btn-block"
-                              th:attr="data-id=${producto.idProducto},
+													<button type="button" class="btn btn-primary btn-lg btn-block"
+														th:attr="data-id=${producto.idProducto},
                                       data-nombre=${producto.nombre},
                                       data-precio=${producto.precioOnline != null ? producto.precioOnline : producto.precio},
                                       data-imagen=${#lists.isEmpty(producto.imagenesList) ? '/assets_shop/images/default-product.png' : '/uploads/productos/' + producto.imagenesList[0]}">
-                          Comprar
-                      </button>
+														Comprar
+													</button>
 
-                        </div>
+												</div>
 												<div class="product__actions-divider"></div><button
 													class="product__actions-item product__actions-item--wishlist"
 													type="button"><svg width="16" height="16">
@@ -257,7 +265,8 @@
 														<li class="share-links__item share-links__item--type--pin"><a
 																href="#">Pin It</a></li>
 														<li class="share-links__item share-links__item--type--counter">
-															<a href="#">4K</a></li>
+															<a href="#">4K</a>
+														</li>
 													</ul>
 												</div>
 											</div>
@@ -450,7 +459,7 @@
 										<div class="product-tabs__content">
 											<div class="product-tabs__pane product-tabs__pane--active"
 												id="product-tab-description">
-												<div class="typography" th:text="${producto.descripcion}"  >
+												<div class="typography" th:text="${producto.descripcion}">
 													<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas
 														fermentum, diam non iaculis finibus, ipsum arcu sollicitudin
 														dolor, ut cursus sapien sem sed purus. Donec vitae fringilla
@@ -716,7 +725,8 @@
 																			<option>3 Stars Rating</option>
 																			<option>2 Stars Rating</option>
 																			<option>1 Stars Rating</option>
-																		</select></div>
+																		</select>
+																	</div>
 																	<div class="form-group col-md-4"><label
 																			for="review-author">Your Name</label> <input
 																			type="text" class="form-control"
@@ -726,7 +736,8 @@
 																			for="review-email">Email Address</label>
 																		<input type="text" class="form-control"
 																			id="review-email"
-																			placeholder="Email Address"></div>
+																			placeholder="Email Address">
+																	</div>
 																</div>
 																<div class="form-group"><label for="review-text">Your
 																		Review</label> <textarea class="form-control"
@@ -905,14 +916,16 @@
 															height="11">
 															<path
 																d="M6.7,0.3L6.7,0.3c-0.4-0.4-0.9-0.4-1.3,0L0,5.5l5.4,5.2c0.4,0.4,0.9,0.3,1.3,0l0,0c0.4-0.4,0.4-1,0-1.3l-4-3.9l4-3.9C7.1,1.2,7.1,0.6,6.7,0.3z" />
-														</svg></button></div>
+														</svg></button>
+												</div>
 												<div
 													class="arrow section-header__arrow section-header__arrow--next arrow--next">
 													<button class="arrow__button" type="button"><svg width="7"
 															height="11">
 															<path d="M0.3,10.7L0.3,10.7c0.4,0.4,0.9,0.4,1.3,0L7,5.5L1.6,0.3C1.2-0.1,0.7,0,0.3,0.3l0,0c-0.4,0.4-0.4,1,0,1.3l4,3.9l-4,3.9
 	C-0.1,9.8-0.1,10.4,0.3,10.7z" />
-														</svg></button></div>
+														</svg></button>
+												</div>
 											</div>
 											<div class="section-header__divider"></div>
 										</div>
@@ -1876,8 +1889,9 @@
 			<div class="block-space block-space--layout--before-footer"></div>
 		</div><!-- site__body / end --><!-- site__footer -->
 
-    <div th:replace="tienda/framer/footer :: siteFooter"></div>
-</div>
-<div th:replace="tienda/framer/scripts :: scripts"></div>
+		<div th:replace="tienda/framer/footer :: siteFooter"></div>
+	</div>
+	<div th:replace="tienda/framer/scripts :: scripts"></div>
 </body>
+
 </html>

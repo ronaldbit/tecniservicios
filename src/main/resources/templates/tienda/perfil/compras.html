@@ -1,31 +1,39 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head th:replace="tienda/framer/head :: head(${pageTitle})"></head>
+
 <body>
-<div class="site">
-    <div th:replace="tienda/framer/header :: siteHeaderMobile"></div>
-    <div th:replace="tienda/framer/header :: siteHeader"></div>
-    <div class="site__body container my-4">
-        <h1>Mis compras</h1>
-        <p>Aquí listarás las compras del usuario.</p>
-        <!-- Tabla básica -->
-        <table class="table">
-            <thead>
-            <tr>
-                <th>#</th><th>Fecha</th><th>Total</th><th></th>
-            </tr>
-            </thead>
-            <tbody>
-            <!-- Luego iteras desde el modelo -->
-            <tr>
-                <td>1</td><td>2025-01-01</td><td>S/ 100.00</td>
-                <td><a th:href="@{'/perfil/compras/' + 1}">Ver detalle</a></td>
-            </tr>
-            </tbody>
-        </table>
+    <div class="site">
+        <div th:replace="tienda/framer/header :: siteHeaderMobile"></div>
+        <div th:replace="tienda/framer/header :: siteHeader"></div>
+        <div class="site__body container my-4">
+            <h1>Mis compras</h1>
+            <p>Aquí listarás las compras del usuario.</p>
+            <!-- Tabla básica -->
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Fecha</th>
+                        <th>Total</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Luego iteras desde el modelo -->
+                    <tr>
+                        <td>1</td>
+                        <td>2025-01-01</td>
+                        <td>S/ 100.00</td>
+                        <td><a th:href="@{'/perfil/compras/' + 1}">Ver detalle</a></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div th:replace="tienda/framer/footer :: siteFooter"></div>
     </div>
-    <div th:replace="tienda/framer/footer :: siteFooter"></div>
-</div>
-<div th:replace="tienda/framer/scripts :: scripts"></div>
+    <div th:replace="tienda/framer/scripts :: scripts"></div>
 </body>
+
 </html>
