@@ -53,7 +53,10 @@ spring:
         dialect: org.hibernate.dialect.MySQL8Dialect
 
   image:
-    path: ./uploads/productos
+    path: ./uploads/productos  
+
+  doc:
+    path: ./uploads/documentos
 
   servlet:
     multipart:

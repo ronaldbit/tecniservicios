@@ -7,18 +7,29 @@ import com.example.simplemvc.request.DetalleReciboRequest;
 import com.example.simplemvc.service.PedidoProveedorService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
+
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/pedidos-proveedor")
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class ApiPedidoProveedorController {
 
     private final PedidoProveedorService pedidoProveedorService;
+    
+    @Value("${spring.doc.path}") 
+    private String docUploadPath;
 
     @PostMapping
     public ResponseEntity<?> crear(@RequestBody CrearPedidoProveedorRequest request) {
@@ -54,19 +65,6 @@ public class ApiPedidoProveedorController {
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body("Error al obtener el pedido: " + e.getMessage());
-        }
-    }
-
-    @PutMapping("/{id}/confirmar")
-    public ResponseEntity<?> confirmarPedido(@PathVariable Long id) {
-        try {
-            pedidoProveedorService.confirmarPedidoPorId(id);
-            return ResponseEntity.ok().build();
-        } catch (EntityNotFoundException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("Error al confirmar el pedido: " + e.getMessage());
         }
     }
 
@@ -126,4 +124,28 @@ public class ApiPedidoProveedorController {
         pedidoProveedorService.reciboParcialPedidoPorId(id, detallesRequests);
     }
 
+    @PostMapping("/confirmar/{id}") 
+    public ResponseEntity<?> confirmarPedidoConFactura(
+            @PathVariable Long id,
+            @RequestParam("factura") MultipartFile file) {         
+        try {
+            String nombreGuardado = null;
+            if (file != null && !file.isEmpty()) {
+                String nombreOriginal = file.getOriginalFilename();
+                String nombreLimpio = nombreOriginal.replaceAll("\\s+", "_");
+                nombreGuardado = UUID.randomUUID() + "_" + nombreLimpio;
+                Path path = Paths.get(docUploadPath).resolve(nombreGuardado);
+                Files.createDirectories(path.getParent());
+                Files.write(path, file.getBytes());                
+                System.out.println("Documento guardado en: " + path.toAbsolutePath());
+            }
+            pedidoProveedorService.confirmarPedidoPorId(id, nombreGuardado);
+            return ResponseEntity.ok().body("Pedido confirmado y factura guardada");
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Error al confirmar el pedido: " + e.getMessage());
+        }
+    }
 }

@@ -23,6 +23,7 @@ public class PedidoProveedorDto {
     private LocalDate fechaEntregaEsperada;    
     private String notas;    
     private EstadoPedido estado;    
+    private String nombreArchivoFactura;
     private BigDecimal costoCotizacion;    
     private Timestamp createdAt;
     private List<PedidoProveedorDetalleDto> detalles;

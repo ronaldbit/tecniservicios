@@ -154,6 +154,23 @@
                         <p id="detalle-notas" class="text-muted fst-italic">Cargando...</p>
                      </div>
                   </div>
+                  <div class="row mb-3">
+                     <div class="col-12">
+                        <strong>Notas:</strong>
+                        <p id="detalle-notas" class="text-muted fst-italic">Cargando...</p>
+                     </div>
+                  </div>
+                  <div class="row mb-3" id="contenedor-archivo-factura" style="display: none;">
+                     <div class="col-12">
+                        <strong>Comprobante de Pago:</strong>
+                        <div class="mt-1">
+                           <i class="ti ti-file-text fs-4 align-middle me-1 text-primary"></i>
+                           <a id="link-archivo-factura" href="#" target="_blank" class="text-decoration-none fw-bold">
+                              Ver Comprobante
+                           </a>
+                        </div>
+                     </div>
+                  </div>
 
                   <hr>
                   <h6 class="mb-3">Productos Incluidos</h6>
@@ -174,11 +191,11 @@
                </div>
                <div class="modal-footer">
                   <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                  <button type="button" class="btn btn-primary"><i class="ti ti-printer me-1"></i> Imprimir</button>
                </div>
             </div>
          </div>
       </div>
+      
 
       <div class="modal fade" id="modalRegistrarCotizacion" tabindex="-1" aria-labelledby="modalCotizacionLabel"
          aria-hidden="true">
@@ -212,6 +229,41 @@
             </div>
          </div>
       </div>
+
+
+      <div class="modal fade" id="modalConfirmarPedido" tabindex="-1" aria-labelledby="modalConmarPedidoLabel"
+         aria-hidden="true">
+         <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+               <div class="modal-header">
+                  <h5 class="modal-title" id="modalCotizacionLabel">Confirmar Llegada de pedido</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+               </div>
+               <form id="formConfirmarPedido">
+                  <div class="modal-body">
+                     <div class="mb-3">
+                        <input type="hidden" id="confirmar-pedido-id">
+                        <label for="fileFactura" class="form-label">Adjuntar Voucher (Factura/Boleta)</label>
+                        <input class="form-control" type="file" id="fileFactura"
+                           accept=".pdf, application/pdf, .doc, .docx, application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document">
+
+                        <div id="emailHelp" class="form-text text-muted">
+                           Formatos permitidos: PDF y Word (.doc, .docx).
+                        </div>
+                     </div>
+                  </div>
+                  <div class="modal-footer">
+                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                     <button type="button" class="btn btn-primary" id="btn-guardar-ConfirmarCotizacion"
+                        onclick="confirmacionPedido()">
+                        Confirmar
+                     </button>
+                  </div>
+               </form>
+            </div>
+         </div>
+      </div>
+
 
       <div class="modal fade" id="modalReciboParcial" tabindex="-1" aria-labelledby="modalReciboParcialLabel"
          aria-hidden="true">
@@ -518,20 +570,7 @@
          const btnCotizar = e.target.closest('.btn-cotizar');
          if (btnConfirmar) {
             const id = btnConfirmar.dataset.id;
-            Swal.fire({
-               title: '¿Confirmar Recepción?',
-               text: `¿Estás seguro de que deseas marcar el pedido ${id} como RECIBIDO? Esta acción no se puede deshacer.`,
-               icon: 'warning',
-               showCancelButton: true,
-               confirmButtonColor: '#28a745',
-               cancelButtonColor: '#6c757d',
-               confirmButtonText: 'Sí, confirmar',
-               cancelButtonText: 'Cancelar'
-            }).then(async (result) => {
-               if (result.isConfirmed) {
-                  await ejecutarAccionPedido(id, 'confirmar');
-               }
-            });
+            abrilModalConfirmar(id);
          }
 
          if (btnCancelar) {
@@ -602,6 +641,16 @@
          modalCotizacion.show();
       }
 
+      async function abrilModalConfirmar(id) {
+         const modalConfirmarEl = document.getElementById('modalConfirmarPedido');
+         const modalConfirmar = new bootstrap.Modal(modalConfirmarEl);
+         const inputPedidoId = document.getElementById('confirmar-pedido-id');
+         const inputFile = document.getElementById('fileFactura');
+         inputFile.value = "";
+         inputPedidoId.value = id;
+         modalConfirmar.show();
+      }
+
 
       function getMensajeExito(accion) {
          switch (accion) {
@@ -618,6 +667,56 @@
             default:
                return 'El estado del pedido ha sido actualizado.';
          }
+      }
+
+
+      window.confirmacionPedido = async function () {
+         if (!confirm("¿Estás seguro de que deseas confirmar este pedido y subir el comprobante de pago?")) {
+            return;
+         }
+         const fileInput = document.getElementById('fileFactura');
+         const id = document.getElementById("confirmar-pedido-id").value;
+         const archivo = fileInput.files[0];
+         if (!archivo) {
+            alert("Por favor, adjunta el voucher o factura.");
+            return;
+         }
+         const nombre = archivo.name.toLowerCase();
+         if (!nombre.endsWith('.pdf') && !nombre.endsWith('.doc') && !nombre.endsWith('.docx')) {
+            alert("Formato no válido. Solo se permiten archivos PDF o Word.");
+            fileInput.value = '';
+            return;
+         }
+         let formData = new FormData();
+         formData.append("factura", archivo);
+         const boton = document.getElementById('btn-guardar-ConfirmarCotizacion');
+         boton.disabled = true;
+         boton.innerText = "Enviando...";
+         fetch(`/api/pedidos-proveedor/confirmar/${id}`, {
+            method: 'POST',
+            body: formData
+         })
+            .then(response => {
+               if (response.ok) {
+                  boton.disabled = true;
+                  boton.innerText = "Confirmar";
+                  const modalElement = document.getElementById('modalConfirmarPedido');
+                  bootstrap.Modal.getInstance(modalElement).hide();
+                  Swal.fire('¡Éxito!', 'Se actualizo el pedido y se guardo el comprobante de pago', 'success');
+                  cargarPedidos();
+
+               } else {
+                  alert("Hubo un error al subir el archivo.");
+                  boton.disabled = false;
+                  boton.innerText = "Confirmar";
+               }
+            })
+            .catch(error => {
+               console.error('Error:', error);
+               alert("Error de conexión.");
+               boton.disabled = false;
+               boton.innerText = "Confirmar";
+            });
       }
 
       window.guardarCotizacion = async function () {
@@ -744,6 +843,8 @@
 
 
       async function abrirModalDetalle(id) {
+         const contenedorFactura = document.getElementById('contenedor-archivo-factura');
+         const linkFactura = document.getElementById('link-archivo-factura');
          const modalVistaPreviaEl = document.getElementById('modalVistaPrevia');
          const modalVistaPrevia = new bootstrap.Modal(modalVistaPreviaEl);
          const detalleId = document.getElementById('detalle-id');
@@ -765,9 +866,8 @@
          detalleFechaCreacion.textContent = 'Cargando...';
          detalleNotas.textContent = 'Cargando...';
          detalleTablaProductos.innerHTML = '<tr><td colspan="4" class="text-center">Cargando...</td></tr>';
-
+         if (contenedorFactura) contenedorFactura.style.display = 'none';
          modalVistaPrevia.show();
-
          try {
             const response = await fetch(`${API_PEDIDOS}/${id}`);
             if (!response.ok) {
@@ -783,6 +883,12 @@
             detalleFechaCreacion.textContent = formatTimestamp(pedido.createdAt);
             detalleNotas.textContent = pedido.notas || '(Sin notas)';
             detalleTablaProductos.innerHTML = '';
+            if (pedido.nombreArchivoFactura) {
+               contenedorFactura.style.display = 'block';
+               linkFactura.href = `/uploads/documentos/${pedido.nombreArchivoFactura}`;
+            } else {
+               contenedorFactura.style.display = 'none';
+            }
             if (pedido.detalles && pedido.detalles.length > 0) {
                pedido.detalles.forEach(item => {
                   const tr = document.createElement('tr');
@@ -799,7 +905,6 @@
             } else {
                detalleTablaProductos.innerHTML = '<tr><td colspan="4" class="text-center">Este pedido no tiene productos.</td></tr>';
             }
-
          } catch (error) {
             console.error(error);
             detalleProveedor.textContent = 'Error al cargar los datos';

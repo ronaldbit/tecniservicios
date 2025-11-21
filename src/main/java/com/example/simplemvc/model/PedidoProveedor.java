@@ -40,6 +40,9 @@ public class PedidoProveedor {
     @Column(columnDefinition = "TEXT")
     private String notas;
 
+    @Column(name = "nombre_archivo_factura")
+    private String nombreArchivoFactura;
+        
     @Builder.Default
     @Column(nullable = false)
     @Enumerated(EnumType.ORDINAL) 
@@ -50,6 +53,7 @@ public class PedidoProveedor {
 
     @OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<PedidoProveedorDetalle> detalles;
+    
 
     @CreationTimestamp
     @Column(name = "created_at", nullable = false, updatable = false)

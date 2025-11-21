@@ -95,7 +95,7 @@ public class PedidoProveedorService {
     }
 
     @Transactional
-    public void confirmarPedidoPorId(Long id) {
+    public void confirmarPedidoPorId(Long id, String nombreArchivoFactura) {
         if (!pedidoProveedorRepository.existsById(id)) {
             throw new EntityNotFoundException("Pedido no encontrado con ID: " + id);
         }
@@ -108,6 +108,7 @@ public class PedidoProveedorService {
                             "Producto no encontrado con ID: " + detalle.getProducto().getIdProducto()));
             BigDecimal nuevoStock = producto.getStockActual().add(detalle.getCantidad());
             detalle.setRecibido(true);
+            pedidoToUpdate.setNombreArchivoFactura(nombreArchivoFactura);
             producto.setStockActual(nuevoStock);
             detalle.setPedido(pedidoToUpdate);
             productoRepository.save(producto);
