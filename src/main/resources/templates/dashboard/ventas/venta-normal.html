@@ -452,7 +452,6 @@
       `;
       return tr;
     }
-
     async function abrirModalVistaPrevia(id) {
       document.getElementById('vp-cliente-nombre').textContent = 'Cargando...';
       document.getElementById('vp-cliente-doc').textContent = 'Cargando...';
@@ -462,14 +461,11 @@
       document.getElementById('vp-fecha').textContent = 'Cargando...';
       document.getElementById('vp-vendedor').textContent = 'Cargando...';
       document.getElementById('vp-detalle-tbody').innerHTML = '<tr><td colspan="5" class="text-center">Cargando...</td></tr>';
-
       modalVistaPrevia.show();
-
       try {
         const response = await fetch(`${API_VENTAS}/${id}`);
         if (!response.ok) throw new Error('Venta no encontrada');
         const venta = await response.json();
-
         document.getElementById('vp-cliente-nombre').textContent = venta.clienteNombreCompleto;
         document.getElementById('vp-cliente-doc').textContent = `${venta.clienteTipoDocumento}: ${venta.clienteNumeroDocumento}`;
         document.getElementById('vp-estado').innerHTML = formatEstadoVenta(venta.estado);
@@ -477,7 +473,6 @@
         document.getElementById('vp-comprobante').textContent = `${venta.tipoComprobante} | ${venta.serieComprobante}-${venta.numeroComprobante}`;
         document.getElementById('vp-fecha').textContent = formatTimestamp(venta.fechaVenta);
         document.getElementById('vp-vendedor').textContent = venta.nombreVendedor;
-
         const detalleBody = document.getElementById('vp-detalle-tbody');
         detalleBody.innerHTML = '';
         venta.detalles.forEach(item => {
@@ -491,14 +486,11 @@
             </tr>
           `;
         });
-
       } catch (error) {
         console.error(error);
         document.getElementById('vp-cliente-nombre').textContent = 'Error al cargar la venta.';
       }
     }
-
-
     function solicitarAnulacion(id) {
       Swal.fire({
         title: '¿Estás seguro?',
@@ -513,7 +505,6 @@
         if (result.isConfirmed) {
           try {
             const response = await fetch(`${API_VENTAS}/${id}/anular`, { method: 'PUT' });
-
             if (response.ok) {
               await response.json();
               Swal.fire('¡Anulada!', 'La venta ha sido anulada correctamente.', 'success');
@@ -578,7 +569,6 @@
         const response = await fetch(`${API_PRODUCTOS}/buscar?query=${query}`);
         if (!response.ok) throw new Error('Error al buscar');
         const productos = await response.json();
-
         productoSearchResults.innerHTML = '';
         productos.forEach(producto => {
           const item = document.createElement('a');
@@ -598,19 +588,15 @@
     function seleccionarProducto(producto) {
       productoSearchInput.value = '';
       productoSearchResults.innerHTML = '';
-
       if (productosEnCarrito.find(p => p.idProducto === producto.idProducto)) {
         alert('El producto ya está en el carrito.');
         return;
       }
-
       productosEnCarrito.push(producto);
       const subtotalInicial = producto.precio * 1;
       const maxDesc = (subtotalInicial * 0.05).toFixed(2);
-
       const tr = document.createElement('tr');
       tr.dataset.idProducto = producto.idProducto;
-
       tr.innerHTML = `
         <td>
             <div class="fw-bold">${producto.nombre}</div>

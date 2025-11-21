@@ -1,87 +1,85 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <body>
-<footer th:fragment="siteFooter" class="bg-light mt-5">
-  <div class="site-footer">
-				<div class="decor site-footer__decor decor--type--bottom">
-					<div class="decor__body">
-						<div class="decor__start"></div>
-						<div class="decor__end"></div>
-						<div class="decor__center"></div>
-					</div>
-				</div>
-				<div class="site-footer__widgets">
-					<div class="container">
-						<div class="row">
-							<div class="col-12 col-xl-4">
-								<div class="site-footer__widget footer-contacts">
-									<h5 class="footer-contacts__title">Contacto</h5>
- 									<address class="footer-contacts__contacts">
-										<dl>
-											<dt>Numero telefonico</dt>
-											<dd>+51 167-456-157</dd>
-										</dl>
-										<dl>
-											<dt>Correo electornico</dt>
-											<dd>info@tecniservicios.com</dd>
-										</dl>
-										<dl>
-											<dt>Ubicanos</dt>
-											<dd>715 Aeropuerto, Chiclayork 10021 PE</dd>
-										</dl>
-										<dl>
-											<dt>Horarios de atención</dt>
-											<dd>Lunes-Sabado 10:00pm - 7:00pm</dd>
-										</dl>
-									</address>
-								</div>
-							</div>
-							<div class="col-6 col-md-3 col-xl-2">
-								<div class="site-footer__widget footer-links">
-									<h5 class="footer-links__title">Información</h5>
-									<ul class="footer-links__list">
-										<li class="footer-links__item"><a href="#" class="footer-links__link">Sobre nosotros</a></li>
-										<li class="footer-links__item"><a href="#" class="footer-links__link">Politicas de privacidad</a></li>
-										<li class="footer-links__item"><a href="#" class="footer-links__link">Marcas</a></li>
-										<li class="footer-links__item"><a href="#" class="footer-links__link">Contacto</a></li>
-									</ul>
-								</div>
-							</div>
-							<div class="col-6 col-md-3 col-xl-2">
-								<div class="site-footer__widget footer-links">
-									<h5 class="footer-links__title">Mi Cuenta</h5>
-									<ul class="footer-links__list">
-										<li class="footer-links__item"><a href="#" class="footer-links__link">Perfil</a></li>
-										<li class="footer-links__item"><a href="#" class="footer-links__link">Compras</a></li>
-										<li class="footer-links__item"><a href="#" class="footer-links__link">Favoritos</a></li>
- 										<li class="footer-links__item"><a href="#" class="footer-links__link">Ofertas</a></li>
-									</ul>
-								</div>
-							</div>
-							<div class="col-12 col-md-6 col-xl-4">
-								<div class="site-footer__widget footer-newsletter">
-									<h5 class="footer-newsletter__title">Noticias</h5>
-									<div class="footer-newsletter__text">Ingrese su correo para suscribirte a nuestro boletín y estar al día de descuentos y ofertas especiales.</div>
-									<form action="#" class="footer-newsletter__form">
-                    <label class="sr-only" for="footer-newsletter-address">Direción de correo electornico...</label>
-                    <input type="text" class="footer-newsletter__form-input" id="footer-newsletter-address" placeholder="Direción de correo electornico...">
-                    <button class="footer-newsletter__form-button">Subscribir</button>
-                  </form>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="site-footer__bottom">
-					<div class="container">
-						<div class="site-footer__bottom-row">
-							<div class="site-footer__copyright">@ <span th:text="${#temporals.format(#temporals.createNow(), 'yyyy')}">2025</span> Programado y diseñado por UTPinos</div>
-							<div class="site-footer__payments"><img src="/assets_shop/images/payments.png" alt=""></div>
-						</div>
-					</div>
-				</div>
-			</div>
 
+<footer th:fragment="siteFooter" class="site-footer bg-white border-top mt-auto">
+    
+    <div class="site-footer__widgets py-5">
+        <div class="container">
+            <div class="row g-4"> <div class="col-12 col-md-6 col-xl-4">
+                    <h6 class="fw-bold mb-3 text-dark">TECNISERVICIOS</h6>
+                    <ul class="list-unstyled text-muted small">
+                        <li class="mb-2">
+                            <i class="ti ti-map-pin me-2"></i> 715 Aeropuerto, Chiclayo 10021 PE
+                        </li>
+                        <li class="mb-2">
+                            <i class="ti ti-mail me-2"></i> info@tecniservicios.com
+                        </li>
+                        <li class="mb-2">
+                            <i class="ti ti-phone me-2"></i> +51 167-456-157
+                        </li>
+                        <li class="mb-2">
+                            <i class="ti ti-clock me-2"></i> Lun-Sab 10:00pm - 7:00pm
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="col-6 col-md-3 col-xl-2">
+                    <h6 class="fw-bold mb-3 text-dark">Información</h6>
+                    <ul class="list-unstyled text-muted small">
+                        <li class="mb-1"><a href="#" class="text-decoration-none text-muted hover-link">Sobre nosotros</a></li>
+                        <li class="mb-1"><a href="#" class="text-decoration-none text-muted hover-link">Políticas</a></li>
+                        <li class="mb-1"><a href="#" class="text-decoration-none text-muted hover-link">Marcas</a></li>
+                        <li class="mb-1"><a href="#" class="text-decoration-none text-muted hover-link">Contacto</a></li>
+                    </ul>
+                </div>
+
+                <div class="col-6 col-md-3 col-xl-2">
+                    <h6 class="fw-bold mb-3 text-dark">Mi Cuenta</h6>
+                    <ul class="list-unstyled text-muted small">
+                        <li class="mb-1"><a href="#" class="text-decoration-none text-muted hover-link">Perfil</a></li>
+                        <li class="mb-1"><a href="#" class="text-decoration-none text-muted hover-link">Mis Compras</a></li>
+                        <li class="mb-1"><a href="#" class="text-decoration-none text-muted hover-link">Favoritos</a></li>
+                    </ul>
+                </div>
+
+                <div class="col-12 col-md-12 col-xl-4">
+                    <h6 class="fw-bold mb-3 text-dark">Boletín</h6>
+                    <p class="text-muted small mb-3">Suscríbete para recibir ofertas especiales.</p>
+                    
+                    <form action="#" class="d-flex gap-2">
+                        <input type="email" class="form-control form-control-sm" placeholder="Tu correo electrónico..." required>
+                        <button class="btn btn-primary btn-sm" type="submit">Suscribir</button>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="site-footer__bottom bg-light py-3 border-top">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-6 text-center text-md-start">
+                    <span class="text-muted small">
+                        &copy; <span th:text="${#temporals.format(#temporals.createNow(), 'yyyy')}">2025</span> 
+                        <strong>Tecniservicios</strong>. Diseñado por UTPinos.
+                    </span>
+                </div>
+                <div class="col-md-6 text-center text-md-end mt-2 mt-md-0">
+                    <img src="/assets_shop/images/payments.png" alt="Pagos" style="height: 20px; opacity: 0.8;">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        .hover-link:hover {
+            color: #0d6efd !important; 
+            text-decoration: underline !important;
+        }
+    </style>
 </footer>
+
 </body>
 </html>

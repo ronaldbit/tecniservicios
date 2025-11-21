@@ -122,7 +122,7 @@
                         <input id="direccion" type="text" class="form-control" th:field="*{direccion}"
                           placeholder="Av. Siempre Viva 123">
                       </div>
-                     
+
 
                       <div class="form-group mb-0">
                         <button type="submit" class="btn btn-primary mt-3">Register</button>
@@ -142,58 +142,87 @@
         <div class="block">
           <div class="container container--max--xl">
             <div class="row">
+
               <div class="col-12 col-lg-3 d-flex">
                 <div class="account-nav flex-grow-1">
-                  <h4 class="account-nav__title">Navigation</h4>
+                  <h4 class="account-nav__title">Mi Cuenta</h4>
                   <ul class="account-nav__list">
-                    <li class="account-nav__item account-nav__item--active"><a
-                        href="account-dashboard.html">Dashboard</a></li>
-                    <li class="account-nav__item"><a href="account-garage.html">Garage</a></li>
-                    <li class="account-nav__item"><a href="account-profile.html">Edit Profile</a></li>
-                    <li class="account-nav__item"><a href="account-orders.html">Order History</a></li>
-                    <li class="account-nav__item"><a href="account-order-details.html">Order Details</a>
+                    <li class="account-nav__item account-nav__item--active">
+                      <a href="#">Resumen</a>
                     </li>
-                    <li class="account-nav__item"><a href="account-addresses.html">Addresses</a></li>
-                    <li class="account-nav__item"><a href="account-edit-address.html">Edit Address</a>
+                    <li class="account-nav__item">
+                      <a href="#">Mis Compras</a>
                     </li>
-                    <li class="account-nav__item"><a href="account-password.html">Password</a></li>
+                    <li class="account-nav__item">
+                      <a href="#">Direcciones</a>
+                    </li>
+                    <li class="account-nav__item">
+                      <a href="#">Favoritos</a>
+                    </li>
                     <li class="account-nav__divider" role="presentation"></li>
-                    <li class="account-nav__item"><a href="account-login.html">Logout</a></li>
+                    <li class="account-nav__item">
+                      <a th:href="@{/perfil/logout}">Cerrar Sesión</a>
+                    </li>
                   </ul>
                 </div>
               </div>
+
               <div class="col-12 col-lg-9 mt-4 mt-lg-0">
                 <div class="dashboard">
+
                   <div class="dashboard__profile card profile-card">
                     <div class="card-body profile-card__body">
-                      <div class="profile-card__avatar"><img src="images/avatars/avatar-4.jpg" alt="">
+                      <div class="profile-card__avatar">
+                        <img th:src="@{/assets/images/user/avatar-2.jpg}" alt="Avatar">
                       </div>
-                      <div class="profile-card__name">Helena Garcia</div>
-                      <div class="profile-card__email">red-parts@example.com</div>
-                      <div class="profile-card__edit"><a href="account-profile.html"
-                          class="btn btn-secondary btn-sm">Edit Profile</a></div>
+
+                      <div class="profile-card__name" th:text="${clienteSesion.nombreCompleto}">
+                        Nombre del Cliente
+                      </div>
+
+                      <div class="profile-card__email" th:text="${clienteSesion.email}">
+                        email@ejemplo.com
+                      </div>
+
+                      <div class="profile-card__edit">
+                        <button class="btn btn-secondary btn-sm">Editar Perfil</button>
+                      </div>
                     </div>
                   </div>
-                  <div class="dashboard__address card address-card address-card--featured">
-                    <div class="address-card__badge tag-badge tag-badge--theme">Default</div>
+
+                  <div class="dashboard__address card address-card address-card--featured mt-4">
+                    <div class="address-card__badge tag-badge tag-badge--theme">Principal</div>
                     <div class="address-card__body">
-                      <div class="address-card__name">Helena Garcia</div>
-                      <div class="address-card__row">Random Federation<br>115302, Moscow<br>ul.
-                        Varshavskaya, 15-2-178</div>
+                      <div class="address-card__name">Información Personal</div>
+
                       <div class="address-card__row">
-                        <div class="address-card__row-title">Phone Number</div>
-                        <div class="address-card__row-content">38 972 588-42-36</div>
+                        <div class="address-card__row-title">Documento (DNI/RUC)</div>
+                        <div class="address-card__row-content" th:text="${clienteSesion.dni}">
+                          00000000
+                        </div>
                       </div>
+
                       <div class="address-card__row">
-                        <div class="address-card__row-title">Email Address</div>
-                        <div class="address-card__row-content">helena@example.com</div>
+                        <div class="address-card__row-title">ID de Cliente</div>
+                        <div class="address-card__row-content" th:text="'#' + ${clienteSesion.idCliente}">
+                          #1
+                        </div>
                       </div>
-                      <div class="address-card__footer"><a href="#">Edit Address</a></div>
+
+                      <div class="address-card__row">
+                        <div class="address-card__row-title">Correo Electrónico</div>
+                        <div class="address-card__row-content" th:text="${clienteSesion.email}">
+                          correo@test.com
+                        </div>
+                      </div>
+
+
                     </div>
                   </div>
-                  <div class="dashboard__orders card">
+
+                  <div class="dashboard__orders card mt-4">
                     <div class="card-header">
-                      <h5>Recent Orders</h5>
+                      <h5>Compras Recientes</h5>
                     </div>
                     <div class="card-divider"></div>
                     <div class="card-table">
@@ -201,36 +230,24 @@
                         <table>
                           <thead>
                             <tr>
-                              <th>Order</th>
-                              <th>Date</th>
-                              <th>Status</th>
+                              <th>Pedido</th>
+                              <th>Fecha</th>
+                              <th>Estado</th>
                               <th>Total</th>
                             </tr>
                           </thead>
                           <tbody>
                             <tr>
-                              <td><a href="account-order-details.html">#8132</a></td>
-                              <td>02 April, 2019</td>
-                              <td>Pending</td>
-                              <td>$2,719.00 for 5 item(s)</td>
-                            </tr>
-                            <tr>
-                              <td><a href="account-order-details.html">#7592</a></td>
-                              <td>28 March, 2019</td>
-                              <td>Pending</td>
-                              <td>$374.00 for 3 item(s)</td>
-                            </tr>
-                            <tr>
-                              <td><a href="account-order-details.html">#7192</a></td>
-                              <td>15 March, 2019</td>
-                              <td>Shipped</td>
-                              <td>$791.00 for 4 item(s)</td>
+                              <td colspan="4" class="text-center p-4 text-muted">
+                                No tienes compras recientes.
+                              </td>
                             </tr>
                           </tbody>
                         </table>
                       </div>
                     </div>
                   </div>
+
                 </div>
               </div>
             </div>
@@ -327,7 +344,7 @@
       mostrarError("email", "Ingrese un correo electrónico válido.");
       esValido = false;
     }
- 
+
     return esValido;
   }
 

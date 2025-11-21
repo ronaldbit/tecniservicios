@@ -141,7 +141,7 @@ public class PerfilController {
     public String logoutCliente(HttpSession session, RedirectAttributes ra) {
         session.removeAttribute("CLIENTE_SESION");
         ra.addFlashAttribute("info", "Has cerrado sesión.");
-        return "redirect:/";
+        return "redirect:/auth/logout";
     }
 
     // /perfil/compras

@@ -1,15 +1,17 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head th:replace="tienda/framer/head :: head(${pageTitle})"></head>
+
 <body>
-<div class="site">
+	<div class="site">
 
-    <div th:replace="tienda/framer/header :: siteHeaderMobile"></div>
-    <div th:replace="tienda/framer/header :: siteHeader"></div>
+		<div th:replace="tienda/framer/header :: siteHeaderMobile"></div>
+		<div th:replace="tienda/framer/header :: siteHeader"></div>
 
-    <div class="site__body">
+		<div class="site__body">
 
-      <div class="block-finder block">
+			<div class="block-finder block">
 				<div class="decor block-finder__decor decor--type--bottom">
 					<div class="decor__body">
 						<div class="decor__start"></div>
@@ -17,10 +19,12 @@
 						<div class="decor__center"></div>
 					</div>
 				</div>
-				<div class="block-finder__image" style="background-image: url('/assets_shop/images/finder-1903x500.jpg');"></div>
+				<div class="block-finder__image"
+					style="background-image: url('/assets_shop/images/finder-1903x500.jpg');"></div>
 				<div class="block-finder__body container container--max--xl">
 					<div class="block-finder__title">Aceites de motor</div>
-					<div class="block-finder__subtitle">Aquí encontrará aceites de alta calidad con numerosas homologaciones.</div>
+					<div class="block-finder__subtitle">Aquí encontrará aceites de alta calidad con numerosas
+						homologaciones.</div>
 
 				</div>
 			</div>
@@ -224,11 +228,11 @@
 					<div class="block-products-carousel__carousel">
 						<div class="block-products-carousel__carousel-loader"></div>
 						<div class="owl-carousel">
-							 <div class="block-products-carousel__column">
-                  <div class="block-products-carousel__cell" th:each="p : ${listaHome}">
-                      <div th:replace="tienda/framer/product-card :: productCard(${p})"></div>
-                  </div>
-              </div>
+							<div class="block-products-carousel__column">
+								<div class="block-products-carousel__cell" th:each="p : ${listaHome}">
+									<div th:replace="tienda/framer/product-card :: productCard(${p})"></div>
+								</div>
+							</div>
 
 						</div>
 					</div>
@@ -238,116 +242,117 @@
 
 
 
-    </div>
+		</div>
 
-    <div th:replace="tienda/framer/footer :: siteFooter"></div>
-</div>
+		<div th:replace="tienda/framer/footer :: siteFooter"></div>
+	</div>
 
-<div th:replace="tienda/framer/scripts :: scripts"></div>
+	<div th:replace="tienda/framer/scripts :: scripts"></div>
 
-<script>
-function slugify(str) {
-    return str
-        .normalize("NFD").replace(/[\u0300-\u036f]/g, "") // quitar tildes
-        .toLowerCase()
-        .trim()
-        .replace(/[^a-z0-9\s-]/g, "")   // quitar raros
-        .replace(/\s+/g, "-")           // espacios → guiones
-        .replace(/-+/g, "-");           // guiones dobles → uno
-}
+	<script>
+		function slugify(str) {
+			return str
+				.normalize("NFD").replace(/[\u0300-\u036f]/g, "") // quitar tildes
+				.toLowerCase()
+				.trim()
+				.replace(/[^a-z0-9\s-]/g, "")   // quitar raros
+				.replace(/\s+/g, "-")           // espacios → guiones
+				.replace(/-+/g, "-");           // guiones dobles → uno
+		}
 
-// Ir a /resultado/palabra-a-buscar
-function goToResultados(event) {
-    event.preventDefault();
-    const input = document.getElementById("search-input");
-    const q = (input.value || "").trim();
-    if (!q) return false;
-    const slug = slugify(q);
-    window.location.href = "/resultado/" + encodeURIComponent(slug);
-    return false;
-}
+		// Ir a /resultado/palabra-a-buscar
+		function goToResultados(event) {
+			event.preventDefault();
+			const input = document.getElementById("search-input");
+			const q = (input.value || "").trim();
+			if (!q) return false;
+			const slug = slugify(q);
+			window.location.href = "/resultado/" + encodeURIComponent(slug);
+			return false;
+		}
 
-document.addEventListener("DOMContentLoaded", function () {
-    const input = document.getElementById("search-input");
-    const preview = document.getElementById("search-preview");
-    if (!input || !preview) return;
+		document.addEventListener("DOMContentLoaded", function () {
+			const input = document.getElementById("search-input");
+			const preview = document.getElementById("search-preview");
+			if (!input || !preview) return;
 
-    let lastQuery = "";
+			let lastQuery = "";
 
-    input.addEventListener("input", function () {
-        const q = input.value.trim();
-        if (q.length < 2) {
-            preview.style.display = "none";
-            preview.innerHTML = "";
-            return;
-        }
-        if (q === lastQuery) return;
-        lastQuery = q;
+			input.addEventListener("input", function () {
+				const q = input.value.trim();
+				if (q.length < 2) {
+					preview.style.display = "none";
+					preview.innerHTML = "";
+					return;
+				}
+				if (q === lastQuery) return;
+				lastQuery = q;
 
-        fetch("/tienda/api/buscar?q=" + encodeURIComponent(q))
-            .then(r => r.ok ? r.json() : [])
-            .then(data => {
-                if (!Array.isArray(data) || data.length === 0) {
-                    preview.style.display = "none";
-                    preview.innerHTML = "";
-                    return;
-                }
+				fetch("/tienda/api/buscar?q=" + encodeURIComponent(q))
+					.then(r => r.ok ? r.json() : [])
+					.then(data => {
+						if (!Array.isArray(data) || data.length === 0) {
+							preview.style.display = "none";
+							preview.innerHTML = "";
+							return;
+						}
 
-                // Construimos el HTML con tu diseño
-                const html = data.slice(0, 5).map(p => {
-                    const id   = p.idProducto ?? "";
-                    const name = p.nombre ?? "Producto";
-                    const price = p.precioOnline ?? p.precio ?? 0;
+						// Construimos el HTML con tu diseño
+						const html = data.slice(0, 5).map(p => {
+							const id = p.idProducto ?? "";
+							const name = p.nombre ?? "Producto";
+							const price = p.precioOnline ?? p.precio ?? 0;
 
-                    // De momento una imagen por defecto.
-                    // Luego puedes cambiarlo a p.imagenMini, p.imagenPrincipal, etc.
-                    const imgUrl = "images/products/product-4-40x40.jpg";
+							// De momento una imagen por defecto.
+							// Luego puedes cambiarlo a p.imagenMini, p.imagenPrincipal, etc.
+							const imgUrl = "images/products/product-4-40x40.jpg";
 
-                    return `
-<a class="suggestions__item suggestions__product" href="/producto/${id}">
-  <div class="suggestions__product-image image image--type--product">
-    <div class="image__body">
-      <img class="image__tag" src="${imgUrl}" alt="${name}">
-    </div>
-  </div>
-  <div class="suggestions__product-info">
-    <div class="suggestions__product-name">${name}</div>
+							return `
+						<a class="suggestions__item suggestions__product" href="/producto/${id}">
+						<div class="suggestions__product-image image image--type--product">
+							<div class="image__body">
+							<img class="image__tag" src="${imgUrl}" alt="${name}">
+							</div>
+						</div>
+						<div class="suggestions__product-info">
+							<div class="suggestions__product-name">${name}</div>
 
-    <!-- RATING (dejado listo para más adelante) -->
-    <!--
-    <div class="suggestions__product-rating">
-      <div class="suggestions__product-rating-stars">
-        <div class="rating">
-          <div class="rating__body">
-            <div class="rating__star rating__star--active"></div>
-            <div class="rating__star rating__star--active"></div>
-            <div class="rating__star rating__star--active"></div>
-            <div class="rating__star rating__star--active"></div>
-            <div class="rating__star"></div>
-          </div>
-        </div>
-      </div>
-      <div class="suggestions__product-rating-label">4.0 en 26 reseñas</div>
-    </div>
-    -->
-  </div>
-  <div class="suggestions__product-price">
-    S/. ${price}
-  </div>
-</a>`;
-                }).join("");
+							<!-- RATING (dejado listo para más adelante) -->
+							<!--
+							<div class="suggestions__product-rating">
+							<div class="suggestions__product-rating-stars">
+								<div class="rating">
+								<div class="rating__body">
+									<div class="rating__star rating__star--active"></div>
+									<div class="rating__star rating__star--active"></div>
+									<div class="rating__star rating__star--active"></div>
+									<div class="rating__star rating__star--active"></div>
+									<div class="rating__star"></div>
+								</div>
+								</div>
+							</div>
+							<div class="suggestions__product-rating-label">4.0 en 26 reseñas</div>
+							</div>
+							-->
+						</div>
+						<div class="suggestions__product-price">
+							S/. ${price}
+						</div>
+						</a>`;
+						}).join("");
 
-                preview.innerHTML = html;
-                preview.style.display = "block";
-            })
-            .catch(() => {
-                preview.style.display = "none";
-                preview.innerHTML = "";
-            });
-    });
-});
-</script>
+						preview.innerHTML = html;
+						preview.style.display = "block";
+					})
+					.catch(() => {
+						preview.style.display = "none";
+						preview.innerHTML = "";
+					});
+			});
+		});
+	</script>
 
 
 </body>
+
 </html>

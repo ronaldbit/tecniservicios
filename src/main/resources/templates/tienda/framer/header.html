@@ -124,7 +124,10 @@
               <span class="topbar__button-label">Idioma:</span>
               <span class="topbar__button-title">EN</span>
               <span class="topbar__button-arrow">
-                <svg width="7px" height="5px"> <path d="M0.280,0.282 C0.645,-0.084 1.238,-0.077 1.596,0.297 L3.504,2.310 L5.413,0.297 C5.770,-0.077 6.363,-0.084 6.728,0.282 C7.080,0.634 7.088,1.203 6.746,1.565 L3.504,5.007 L0.262,1.565 C-0.080,1.203 -0.072,0.634 0.280,0.282 Z" /></svg>
+                <svg width="7px" height="5px">
+                  <path
+                    d="M0.280,0.282 C0.645,-0.084 1.238,-0.077 1.596,0.297 L3.504,2.310 L5.413,0.297 C5.770,-0.077 6.363,-0.084 6.728,0.282 C7.080,0.634 7.088,1.203 6.746,1.565 L3.504,5.007 L0.262,1.565 C-0.080,1.203 -0.072,0.634 0.280,0.282 Z" />
+                </svg>
               </span>
             </button>
             <div class="topbar__menu-body">
@@ -149,7 +152,9 @@
               </span>
               <span class="departments__button-title">Menu</span>
               <span class="departments__button-arrow"><svg width="9px" height="6px">
-                  <path d="M0.2,0.4c0.4-0.4,1-0.5,1.4-0.1l2.9,3l2.9-3c0.4-0.4,1.1-0.4,1.4,0.1c0.3,0.4,0.3,0.9-0.1,1.3L4.5,6L0.3,1.6C-0.1,1.3-0.1,0.7,0.2,0.4z" /></svg>
+                  <path
+                    d="M0.2,0.4c0.4-0.4,1-0.5,1.4-0.1l2.9,3l2.9-3c0.4-0.4,1.1-0.4,1.4,0.1c0.3,0.4,0.3,0.9-0.1,1.3L4.5,6L0.3,1.6C-0.1,1.3-0.1,0.7,0.2,0.4z" />
+                </svg>
               </span>
             </button>
             <div class="departments__menu">
@@ -174,7 +179,8 @@
             <ul class="main-menu__list">
               <li class="main-menu__item"><a class="main-menu__link" th:href="@{/}">Inicio</a></li>
               <li class="main-menu__item"><a class="main-menu__link" th:href="@{/marcas}">Marcas</a></li>
-              <li class="main-menu__item"><a class="main-menu__link" th:href="@{/sobre-nosotros}">Sobre nosotros</a></li>
+              <li class="main-menu__item"><a class="main-menu__link" th:href="@{/sobre-nosotros}">Sobre nosotros</a>
+              </li>
               <li class="main-menu__item"><a class="main-menu__link" th:href="@{/contacto}">Contacto</a></li>
             </ul>
           </div>
@@ -182,8 +188,9 @@
       </div>
       <div class="header__logo">
         <a th:href="@{/}" class="logo">
-          <div class="logo__slogan" style="text-align: center;">Aceites para motos, carros y mas...</div>
-          <div class="logo__image"><h1 style="color: #1a79ff;font-weight: 600;">TECNI<span style="color: #404040;">SERVICIOS</span></h1></div>
+          <div class="logo__image">
+            <h1 style="color: #1a79ff;font-weight: 600;">TECNISERVICIOS</h1>
+          </div>
         </a>
       </div>
       <div class="header__search">
@@ -191,7 +198,8 @@
 
           <form onsubmit="return goToResultados(event)" class="search__body">
             <div class="search__shadow"></div>
-            <input class="search__input" type="text" placeholder="Buscar productos..." name="q" id="search-input" autocomplete="off">
+            <input class="search__input" type="text" placeholder="Buscar productos..." name="q" id="search-input"
+              autocomplete="off">
             <button class="search__button search__button--start" type="button">
               <span class="search__button-icon"><svg width="20" height="20">
                   <path d="M6.6,2c2,0,4.8,0,6.8,0c1,0,2.9,0.8,3.6,2.2C17.7,5.7,17.9,7,18.4,7C20,7,20,8,20,8v1h-1v7.5c0,0.8-0.7,1.5-1.5,1.5h-1
@@ -273,7 +281,7 @@
                     </div>
                     <div class="suggestions__product-price">$349.00</div>
                   </a>
-                  
+
                 </div>
               </div>
             </div>
@@ -298,18 +306,18 @@
           <a href="#" class="indicator__button">
             <span class="indicator__icon">
               <svg width="32" height="32">
-                <path d="M16,18C9.4,18,4,23.4,4,30H2c0-6.2,4-11.5,9.6-13.3C9.4,15.3,8,12.8,8,10c0-4.4,3.6-8,8-8s8,3.6,8,8c0,2.8-1.5,5.3-3.6,6.7
+                <path
+                  d="M16,18C9.4,18,4,23.4,4,30H2c0-6.2,4-11.5,9.6-13.3C9.4,15.3,8,12.8,8,10c0-4.4,3.6-8,8-8s8,3.6,8,8c0,2.8-1.5,5.3-3.6,6.7
                   C26,18.5,30,23.8,30,30h-2C28,23.4,22.6,18,16,18z M22,10c0-3.3-2.7-6-6-6s-6,2.7-6,6s2.7,6,6,6S22,13.3,22,10z" />
               </svg>
             </span>
 
             <!-- Texto según sesión -->
             <span class="indicator__title"
-                  th:text="${clienteSesion == null} ? 'Hola, inicia sesión' : ${'Hola, ' + clienteSesion.nombreCompleto}">
+              th:text="${clienteSesion == null} ? 'Hola, inicia sesión' : ${'Hola, ' + clienteSesion.nombreCompleto}">
               Hola, Inicia sesion
             </span>
-            <span class="indicator__value"
-                  th:text="${clienteSesion == null} ? 'Mi cuenta' : 'Mi cuenta'">
+            <span class="indicator__value" th:text="${clienteSesion == null} ? 'Mi cuenta' : 'Mi cuenta'">
               Mi cuenta
             </span>
           </a>
@@ -318,32 +326,23 @@
             <div class="account-menu">
 
               <!-- BLOQUE LOGIN: solo si NO hay sesión -->
-              <form class="account-menu__form"
-                    th:if="${clienteSesion == null}"
-                    th:action="@{/perfil/login}"
-                    method="post">
+              <form class="account-menu__form" th:if="${clienteSesion == null}" th:action="@{/perfil/login}"
+                method="post">
                 <div class="account-menu__form-title">Inicia sesión en tu cuenta</div>
 
                 <!-- mensaje de error (flash) -->
-                <div th:if="${loginError != null}" class="text-danger small mb-2"
-                    th:text="${loginError}"></div>
+                <div th:if="${loginError != null}" class="text-danger small mb-2" th:text="${loginError}"></div>
 
                 <div class="form-group">
                   <label for="header-signin-identificador" class="sr-only">DNI o correo</label>
-                  <input id="header-signin-identificador"
-                        name="identificador"
-                        type="text"
-                        class="form-control form-control-sm"
-                        placeholder="DNI (8 dígitos) o correo">
+                  <input id="header-signin-identificador" name="identificador" type="text"
+                    class="form-control form-control-sm" placeholder="DNI (8 dígitos) o correo">
                 </div>
                 <div class="form-group">
                   <label for="header-signin-password" class="sr-only">Contraseña</label>
                   <div class="account-menu__form-forgot">
-                    <input id="header-signin-password"
-                          name="password"
-                          type="password"
-                          class="form-control form-control-sm"
-                          placeholder="Contraseña">
+                    <input id="header-signin-password" name="password" type="password"
+                      class="form-control form-control-sm" placeholder="Contraseña">
                     <a href="#" class="account-menu__form-forgot-link">¿Recuperar?</a>
                   </div>
                 </div>
@@ -360,15 +359,14 @@
                 <div class="account-menu__divider"></div>
                 <a href="#" class="account-menu__user">
                   <div class="account-menu__user-avatar">
-                    <img src="/assets_shop/images/avatars/avatar-default.jpg" alt="">
+                    <img src="/assets/images/user/avatar-2.jpg" alt="">
                   </div>
                   <div class="account-menu__user-info">
-                    <div class="account-menu__user-name"
-                        th:text="${clienteSesion.nombreCompleto}">
+                    <div class="account-menu__user-name" th:text="${clienteSesion.nombreCompleto}">
                       Nombre Cliente
                     </div>
                     <div class="account-menu__user-email"
-                        th:text="${clienteSesion.email != null ? clienteSesion.email : clienteSesion.dni}">
+                      th:text="${clienteSesion.email != null ? clienteSesion.email : clienteSesion.dni}">
                       email@ejemplo.com
                     </div>
                   </div>
@@ -397,7 +395,8 @@
               <svg width="32" height="32">
                 <circle cx="10.5" cy="27.5" r="2.5" />
                 <circle cx="23.5" cy="27.5" r="2.5" />
-                <path d="M26.4,21H11.2C10,21,9,20.2,8.8,19.1L5.4,4.8C5.3,4.3,4.9,4,4.4,4H1C0.4,4,0,3.6,0,3s0.4-1,1-1h3.4C5.8,2,7,3,7.3,4.3
+                <path
+                  d="M26.4,21H11.2C10,21,9,20.2,8.8,19.1L5.4,4.8C5.3,4.3,4.9,4,4.4,4H1C0.4,4,0,3.6,0,3s0.4-1,1-1h3.4C5.8,2,7,3,7.3,4.3
                   l3.4,14.3c0.1,0.2,0.3,0.4,0.5,0.4h15.2c0.2,0,0.4-0.1,0.5-0.4l3.1-10c0.1-0.2,0-0.4-0.1-0.4C29.8,8.1,29.7,8,29.5,8H14
                   c-0.6,0-1-0.4-1-1s0.4-1,1-1h15.5c0.8,0,1.5,0.4,2,1c0.5,0.6,0.6,1.5,0.4,2.2l-3.1,10C28.5,20.3,27.5,21,26.4,21z" />
               </svg>
