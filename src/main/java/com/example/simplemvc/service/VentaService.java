@@ -72,7 +72,7 @@ public class VentaService {
             productoRepository.save(producto);
             VentaDetalle detalle = new VentaDetalle();
             detalle.setProducto(producto);
-            detalle.setCantidad(cantidadVendida);
+            detalle.setCantidad(cantidadVendida);            
             BigDecimal precioUnit = detRequest.getPrecioUnitario();
             BigDecimal descuentoUnit = (detRequest.getDescuentoUnitario() != null) ? detRequest.getDescuentoUnitario()
                     : BigDecimal.ZERO;

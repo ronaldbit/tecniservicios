@@ -481,7 +481,7 @@
               <td>${item.nombreProducto}</td>
               <td>${item.cantidad}</td>
               <td>${formatCurrency(item.precioUnitario)}</td>
-              <td>${formatCurrency(item.descuentoUnitario)}</td>
+              <td>${formatCurrency(item.descuentoUnitario * item.cantidad)}</td>
               <td class="text-end">${formatCurrency(item.subtotal)}</td>
             </tr>
           `;
@@ -887,12 +887,14 @@
         detalles: []
       };
 
+      console.log(request);
+
       detalleTbody.querySelectorAll('tr').forEach(tr => {
         request.detalles.push({
           idProducto: tr.dataset.idProducto,
           cantidad: parseFloat(tr.querySelector('[data-field="cantidad"]').value),
           precioUnitario: parseFloat(tr.querySelector('[data-field="precio"]').value),
-          descuentoUnitario: parseFloat(tr.querySelector('[data-field="descuento"]').value)
+          descuentoUnitario: parseFloat(tr.querySelector('[data-field="cantidad"]').value) > 0 ? parseFloat(tr.querySelector('[data-field="descuento"]').value) / parseFloat(tr.querySelector('[data-field="cantidad"]').value) : 0
         });
       });
 
