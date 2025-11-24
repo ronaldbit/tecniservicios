@@ -1,6 +1,14 @@
 package com.example.simplemvc.service;
 
-import com.example.simplemvc.dto.PersonaDto;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+
 import com.example.simplemvc.dto.UsuarioDto;
 import com.example.simplemvc.model.Persona;
 import com.example.simplemvc.model.Rol;
@@ -13,17 +21,10 @@ import com.example.simplemvc.repository.SucursalRepository;
 import com.example.simplemvc.repository.UsuarioRepository;
 import com.example.simplemvc.request.CrearUsuarioClienteRequest;
 import com.example.simplemvc.request.CrearUsuarioRequest;
+
 import jakarta.transaction.Transactional;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Service;
 
 @Slf4j
 @Service
@@ -200,16 +201,23 @@ public class UsuarioService {
             email != null ? email : null);
 
     if (optUsuario.isEmpty()) {
+      optUsuario = usuarioRepository.findByNombreUsuario(trimmed);
+    }
+    if (optUsuario.isEmpty()) {
       throw new Exception("No se encontró ningún usuario con el identificador proporcionado.");
     }
     Usuario usuario = optUsuario.get();
     if (usuario.getEstado() == EstadoEntidad.INACTIVO || usuario.getEstado() == EstadoEntidad.ELIMINADO) {
       throw new Exception("El usuario está inactivo o eliminado. Contacte soporte.");
     }
-    boolean esCliente = usuario.getRoles().stream().anyMatch(r -> "CLIENTE".equalsIgnoreCase(r.getNombre()));
-    if (!esCliente) {
-      throw new Exception("Este usuario no tiene permisos de cliente.");
-    }
+    /*
+     * para que cualquier administrador pueda iniciar sesión como cliente
+     * boolean esCliente = usuario.getRoles().stream().anyMatch(r ->
+     * "CLIENTE".equalsIgnoreCase(r.getNombre()));
+     * if (!esCliente) {
+     * throw new Exception("Este usuario no tiene permisos de cliente.");
+     * }
+     */
     if (!passwordEncoder.matches(passwordPlano, usuario.getPassword())) {
       throw new Exception("La contraseña es incorrecta.");
     }

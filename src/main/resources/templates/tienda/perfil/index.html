@@ -1,267 +1,402 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+  <head th:replace="tienda/framer/head :: head(${pageTitle})"></head>
 
-<head th:replace="tienda/framer/head :: head(${pageTitle})"></head>
+  <body>
+    <div class="site">
+      <div th:replace="tienda/framer/header :: siteHeaderMobile"></div>
+      <div th:replace="tienda/framer/header :: siteHeader"></div>
 
-<body>
-  <div class="site">
-    <div th:replace="tienda/framer/header :: siteHeaderMobile"></div>
-    <div th:replace="tienda/framer/header :: siteHeader"></div>
+      <div class="site__body container my-4">
+        <div th:if="${clienteSesion == null}">
+          <div class="block-space block-space--layout--after-header"></div>
+          <div class="block">
+            <div class="container container--max--lg">
+              <div class="row">
+                <div class="col-md-6 d-flex">
+                  <div
+                    class="card flex-grow-1 mb-md-0 mr-0 mr-lg-3 ml-0 ml-lg-4"
+                  >
+                    <div class="card-body card-body--padding--2">
+                      <h3 class="card-title">Login</h3>
 
-    <div class="site__body container my-4">
+                      <div
+                        th:if="${loginError}"
+                        class="alert alert-danger"
+                        role="alert"
+                        th:text="${loginError}"
+                      ></div>
 
-      <div th:if="${clienteSesion == null}">
-        <div class="block-space block-space--layout--after-header"></div>
-        <div class="block">
-          <div class="container container--max--lg">
-            <div class="row">
-              <div class="col-md-6 d-flex">
-                <div class="card flex-grow-1 mb-md-0 mr-0 mr-lg-3 ml-0 ml-lg-4">
-                  <div class="card-body card-body--padding--2">
-                    <h3 class="card-title">Login</h3>
+                      <div
+                        th:if="${param.registro == 'exitoso'}"
+                        class="alert alert-success"
+                      >
+                        ¡Registro exitoso! Por favor, inicia sesión.
+                      </div>
 
-                    <div th:if="${loginError}" class="alert alert-danger" role="alert" th:text="${loginError}">
+                      <form th:action="@{perfil/login}" method="post">
+                        <div class="form-group">
+                          <label for="signin-identificador"
+                            >NUMERO DE DOCUMENTO</label
+                          >
+                          <input
+                            id="signin-identificador"
+                            type="text"
+                            class="form-control"
+                            placeholder="DNI"
+                            name="identificador"
+                            required
+                          />
+                        </div>
+
+                        <div class="form-group">
+                          <label for="signin-password">Password</label>
+                          <input
+                            id="signin-password"
+                            type="password"
+                            class="form-control"
+                            placeholder="Secret word"
+                            name="password"
+                            required
+                          />
+                          <small class="form-text text-muted"
+                            ><a href="/auth/forgot"
+                              >¿Olvidaste la contraseña?</a
+                            ></small
+                          >
+                        </div>
+
+                        <div class="form-group mb-0">
+                          <button type="submit" class="btn btn-primary mt-3">
+                            Login
+                          </button>
+                        </div>
+                      </form>
                     </div>
-
-                    <div th:if="${param.registro == 'exitoso'}" class="alert alert-success">
-                      ¡Registro exitoso! Por favor, inicia sesión.
-                    </div>
-
-
-                    <form th:action="@{perfil/login}" method="post">
-
-                      <div class="form-group">
-                        <label for="signin-identificador">NUMERO DE DOCUMENTO (o Email)</label>
-                        <input id="signin-identificador" type="text" class="form-control"
-                          placeholder="DNI o correo@ejemplo.com" name="identificador" required>
-                      </div>
-
-                      <div class="form-group">
-                        <label for="signin-password">Password</label>
-                        <input id="signin-password" type="password" class="form-control" placeholder="Secret word"
-                          name="password" required>
-                        <small class="form-text text-muted"><a href="/auth/forgot">¿Olvidaste la contraseña?</a></small>
-                      </div>
-
-                      <div class="form-group mb-0">
-                        <button type="submit" class="btn btn-primary mt-3">Login</button>
-                      </div>
-
-                    </form>
                   </div>
                 </div>
-              </div>
-              <div class="col-md-6 d-flex mt-4 mt-md-0">
-                <div class="card flex-grow-1 mb-0 ml-0 ml-lg-3 mr-0 mr-lg-4">
-                  <div class="card-body card-body--padding--2">
-                    <h3 class="card-title">Register</h3>
-                    <form id="registroForm" th:action="@{/api/auth/registro-cliente}" th:object="${usuarioRequest}"
-                      method="post" novalidate>
-
-                      <div th:if="${errorGlobal}" class="alert alert-danger" role="alert">
-                        <span th:text="${errorGlobal}"></span>
-                      </div>
-
-                      <div th:if="${param.registro == 'exitoso'}" class="alert alert-success">
-                        ¡Registro exitoso! Por favor, Verifique su email en su bandeja de entrada.
-                      </div>
-
-                      <div class="row">
-                        <div class="col-md-6 mb-3">
-                          <label for="tipoDocumento" class="form-label">Tipo de documento</label>
-                          <select id="tipoDocumento" class="form-select" th:field="*{tipoDocumentoId}" required>
-                            <option value="" disabled selected>Seleccione...</option>
-                            <option value="1">DNI</option>
-                            <option value="2">RUC</option>
-                          </select>
-                          <div class="invalid-feedback" id="tipoDocumentoError"></div>
+                <div class="col-md-6 d-flex mt-4 mt-md-0">
+                  <div class="card flex-grow-1 mb-0 ml-0 ml-lg-3 mr-0 mr-lg-4">
+                    <div class="card-body card-body--padding--2">
+                      <h3 class="card-title">Register</h3>
+                      <form
+                        id="registroForm"
+                        th:action="@{/api/auth/registro-cliente}"
+                        th:object="${usuarioRequest}"
+                        method="post"
+                        novalidate
+                      >
+                        <div
+                          th:if="${errorGlobal}"
+                          class="alert alert-danger"
+                          role="alert"
+                        >
+                          <span th:text="${errorGlobal}"></span>
                         </div>
-                        <div class="col-md-6 mb-3">
-                          <label for="numeroDocumento" class="form-label">N. de documento</label>
-                          <input type="text" class="form-control" id="numeroDocumento" th:field="*{numeroDocumento}"
-                            required>
-                          <div class="invalid-feedback" id="numeroDocumentoError"></div>
-                        </div>
-                      </div>
 
-                      <div id="camposPersonaNatural">
+                        <div
+                          th:if="${param.registro == 'exitoso'}"
+                          class="alert alert-success"
+                        >
+                          ¡Registro exitoso! Por favor, Verifique su email en su
+                          bandeja de entrada.
+                        </div>
+
                         <div class="row">
                           <div class="col-md-6 mb-3">
-                            <label for="nombres" class="form-label">Nombres</label>
-                            <input type="text" class="form-control" id="nombres" th:field="*{nombres}">
-                            <div class="invalid-feedback" id="nombresError"></div>
+                            <label for="tipoDocumento" class="form-label"
+                              >Tipo de documento</label
+                            >
+                            <select
+                              id="tipoDocumento"
+                              class="form-select"
+                              th:field="*{tipoDocumentoId}"
+                              required
+                            >
+                              <option value="" disabled selected>
+                                Seleccione...
+                              </option>
+                              <option value="1">DNI</option>
+                              <option value="2">RUC</option>
+                            </select>
+                            <div
+                              class="invalid-feedback"
+                              id="tipoDocumentoError"
+                            ></div>
                           </div>
                           <div class="col-md-6 mb-3">
-                            <label for="apellidos" class="form-label">Apellidos</label>
-                            <input type="text" class="form-control" id="apellidos" th:field="*{apellidos}">
-                            <div class="invalid-feedback" id="apellidosError"></div>
+                            <label for="numeroDocumento" class="form-label"
+                              >N. de documento</label
+                            >
+                            <input
+                              type="text"
+                              class="form-control"
+                              id="numeroDocumento"
+                              th:field="*{numeroDocumento}"
+                              required
+                            />
+                            <div
+                              class="invalid-feedback"
+                              id="numeroDocumentoError"
+                            ></div>
+                          </div>
+                        </div>
+
+                        <div id="camposPersonaNatural">
+                          <div class="row">
+                            <div class="col-md-6 mb-3">
+                              <label for="nombres" class="form-label"
+                                >Nombres</label
+                              >
+                              <input
+                                type="text"
+                                class="form-control"
+                                id="nombres"
+                                th:field="*{nombres}"
+                              />
+                              <div
+                                class="invalid-feedback"
+                                id="nombresError"
+                              ></div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                              <label for="apellidos" class="form-label"
+                                >Apellidos</label
+                              >
+                              <input
+                                type="text"
+                                class="form-control"
+                                id="apellidos"
+                                th:field="*{apellidos}"
+                              />
+                              <div
+                                class="invalid-feedback"
+                                id="apellidosError"
+                              ></div>
+                            </div>
+                          </div>
+                        </div>
+                        <div id="camposPersonaJuridica" style="display: none">
+                          <div class="mb-3">
+                            <label for="razonSocial" class="form-label"
+                              >Razón Social</label
+                            >
+                            <input
+                              type="text"
+                              class="form-control"
+                              id="razonSocial"
+                              th:field="*{razonSocial}"
+                            />
+                            <div
+                              class="invalid-feedback"
+                              id="razonSocialError"
+                            ></div>
+                          </div>
+                        </div>
+
+                        <div class="form-group mb-3">
+                          <label for="email">Email</label>
+                          <input
+                            id="email"
+                            type="email"
+                            class="form-control"
+                            th:field="*{email}"
+                            placeholder="customer@example.com"
+                            required
+                          />
+                          <div class="invalid-feedback" id="emailError"></div>
+                        </div>
+                        <div class="form-group mb-3">
+                          <label for="telefono">Teléfono</label>
+                          <input
+                            id="telefono"
+                            type="tel"
+                            class="form-control"
+                            th:field="*{telefono}"
+                            placeholder="987654321"
+                          />
+                        </div>
+                        <div class="form-group mb-3">
+                          <label for="direccion">Dirección</label>
+                          <input
+                            id="direccion"
+                            type="text"
+                            class="form-control"
+                            th:field="*{direccion}"
+                            placeholder="Av. Siempre Viva 123"
+                          />
+                        </div>
+
+                        <div class="form-group mb-0">
+                          <button type="submit" class="btn btn-primary mt-3">
+                            Register
+                          </button>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="block-space block-space--layout--before-footer"></div>
+        </div>
+
+        <div th:if="${clienteSesion != null}">
+          <div class="block-space block-space--layout--after-header"></div>
+          <div class="block">
+            <div class="container container--max--xl">
+              <div class="row">
+                <div class="col-12 col-lg-3 d-flex">
+                  <div class="account-nav flex-grow-1">
+                    <h4 class="account-nav__title">Mi Cuenta</h4>
+                    <ul class="account-nav__list">
+                      <li class="account-nav__item account-nav__item--active">
+                        <a href="#">Resumen</a>
+                      </li>
+                      <li class="account-nav__item">
+                        <a href="#">Mis Compras</a>
+                      </li>
+                      <li class="account-nav__item">
+                        <a href="#">Direcciones</a>
+                      </li>
+                      <li class="account-nav__item">
+                        <a href="#">Favoritos</a>
+                      </li>
+                      <li class="account-nav__divider" role="presentation"></li>
+                      <li class="account-nav__item">
+                        <a th:href="@{/perfil/logout}">Cerrar Sesión</a>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+
+                <div class="col-12 col-lg-9 mt-4 mt-lg-0">
+                  <div class="dashboard">
+                    <div class="dashboard__profile card profile-card">
+                      <div class="card-body profile-card__body">
+                        <div class="profile-card__avatar">
+                          <img
+                            th:src="@{/assets/images/user/avatar-2.jpg}"
+                            alt="Avatar"
+                          />
+                        </div>
+
+                        <div
+                          class="profile-card__name"
+                          th:text="${clienteSesion.nombreCompleto}"
+                        >
+                          Nombre del Cliente
+                        </div>
+
+                        <div
+                          class="profile-card__email"
+                          th:text="${clienteSesion.email}"
+                        >
+                          email@ejemplo.com
+                        </div>
+
+                        <div class="profile-card__edit">
+                          <button class="btn btn-secondary btn-sm">
+                            Editar Perfil
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div
+                      class="dashboard__address card address-card address-card--featured mt-4"
+                    >
+                      <div
+                        class="address-card__badge tag-badge tag-badge--theme"
+                      >
+                        Principal
+                      </div>
+                      <div class="address-card__body">
+                        <div class="address-card__name">
+                          Información Personal
+                        </div>
+
+                        <div class="address-card__row">
+                          <div class="address-card__row-title">
+                            Documento (DNI/RUC)
+                          </div>
+                          <div
+                            class="address-card__row-content"
+                            th:text="${clienteSesion.dni}"
+                          >
+                            00000000
+                          </div>
+                        </div>
+
+                        <div class="address-card__row">
+                          <div class="address-card__row-title">
+                            ID de Cliente
+                          </div>
+                          <div
+                            class="address-card__row-content"
+                            th:text="'#' + ${clienteSesion.idCliente}"
+                          >
+                            #1
+                          </div>
+                        </div>
+
+                        <div class="address-card__row">
+                          <div class="address-card__row-title">
+                            Correo Electrónico
+                          </div>
+                          <div
+                            class="address-card__row-content"
+                            th:text="${clienteSesion.email}"
+                          >
+                            correo@test.com
                           </div>
                         </div>
                       </div>
-                      <div id="camposPersonaJuridica" style="display: none;">
-                        <div class="mb-3">
-                          <label for="razonSocial" class="form-label">Razón Social</label>
-                          <input type="text" class="form-control" id="razonSocial" th:field="*{razonSocial}">
-                          <div class="invalid-feedback" id="razonSocialError"></div>
+                    </div>
+
+                    <div class="dashboard__orders card mt-4">
+                      <div class="card-header">
+                        <h5>Compras Recientes</h5>
+                      </div>
+                      <div class="card-divider"></div>
+                      <div class="card-table">
+                        <div class="table-responsive-sm">
+                          <table>
+                            <thead>
+                              <tr>
+                                <th>Pedido</th>
+                                <th>Fecha</th>
+                                <th>Estado</th>
+                                <th>Total</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr>
+                                <td
+                                  colspan="4"
+                                  class="text-center p-4 text-muted"
+                                >
+                                  No tienes compras recientes.
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
                         </div>
                       </div>
-
-                      <div class="form-group mb-3">
-                        <label for="email">Email</label>
-                        <input id="email" type="email" class="form-control" th:field="*{email}"
-                          placeholder="customer@example.com" required>
-                        <div class="invalid-feedback" id="emailError"></div>
-                      </div>
-                      <div class="form-group mb-3">
-                        <label for="telefono">Teléfono</label>
-                        <input id="telefono" type="tel" class="form-control" th:field="*{telefono}"
-                          placeholder="987654321">
-                      </div>
-                      <div class="form-group mb-3">
-                        <label for="direccion">Dirección</label>
-                        <input id="direccion" type="text" class="form-control" th:field="*{direccion}"
-                          placeholder="Av. Siempre Viva 123">
-                      </div>
-
-
-                      <div class="form-group mb-0">
-                        <button type="submit" class="btn btn-primary mt-3">Register</button>
-                      </div>
-                    </form>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
+          <div class="block-space block-space--layout--before-footer"></div>
         </div>
-        <div class="block-space block-space--layout--before-footer"></div>
       </div>
-
-      <div th:if="${clienteSesion != null}">
-        <div class="block-space block-space--layout--after-header"></div>
-        <div class="block">
-          <div class="container container--max--xl">
-            <div class="row">
-
-              <div class="col-12 col-lg-3 d-flex">
-                <div class="account-nav flex-grow-1">
-                  <h4 class="account-nav__title">Mi Cuenta</h4>
-                  <ul class="account-nav__list">
-                    <li class="account-nav__item account-nav__item--active">
-                      <a href="#">Resumen</a>
-                    </li>
-                    <li class="account-nav__item">
-                      <a href="#">Mis Compras</a>
-                    </li>
-                    <li class="account-nav__item">
-                      <a href="#">Direcciones</a>
-                    </li>
-                    <li class="account-nav__item">
-                      <a href="#">Favoritos</a>
-                    </li>
-                    <li class="account-nav__divider" role="presentation"></li>
-                    <li class="account-nav__item">
-                      <a th:href="@{/perfil/logout}">Cerrar Sesión</a>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-
-              <div class="col-12 col-lg-9 mt-4 mt-lg-0">
-                <div class="dashboard">
-
-                  <div class="dashboard__profile card profile-card">
-                    <div class="card-body profile-card__body">
-                      <div class="profile-card__avatar">
-                        <img th:src="@{/assets/images/user/avatar-2.jpg}" alt="Avatar">
-                      </div>
-
-                      <div class="profile-card__name" th:text="${clienteSesion.nombreCompleto}">
-                        Nombre del Cliente
-                      </div>
-
-                      <div class="profile-card__email" th:text="${clienteSesion.email}">
-                        email@ejemplo.com
-                      </div>
-
-                      <div class="profile-card__edit">
-                        <button class="btn btn-secondary btn-sm">Editar Perfil</button>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="dashboard__address card address-card address-card--featured mt-4">
-                    <div class="address-card__badge tag-badge tag-badge--theme">Principal</div>
-                    <div class="address-card__body">
-                      <div class="address-card__name">Información Personal</div>
-
-                      <div class="address-card__row">
-                        <div class="address-card__row-title">Documento (DNI/RUC)</div>
-                        <div class="address-card__row-content" th:text="${clienteSesion.dni}">
-                          00000000
-                        </div>
-                      </div>
-
-                      <div class="address-card__row">
-                        <div class="address-card__row-title">ID de Cliente</div>
-                        <div class="address-card__row-content" th:text="'#' + ${clienteSesion.idCliente}">
-                          #1
-                        </div>
-                      </div>
-
-                      <div class="address-card__row">
-                        <div class="address-card__row-title">Correo Electrónico</div>
-                        <div class="address-card__row-content" th:text="${clienteSesion.email}">
-                          correo@test.com
-                        </div>
-                      </div>
-
-
-                    </div>
-                  </div>
-
-                  <div class="dashboard__orders card mt-4">
-                    <div class="card-header">
-                      <h5>Compras Recientes</h5>
-                    </div>
-                    <div class="card-divider"></div>
-                    <div class="card-table">
-                      <div class="table-responsive-sm">
-                        <table>
-                          <thead>
-                            <tr>
-                              <th>Pedido</th>
-                              <th>Fecha</th>
-                              <th>Estado</th>
-                              <th>Total</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            <tr>
-                              <td colspan="4" class="text-center p-4 text-muted">
-                                No tienes compras recientes.
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                    </div>
-                  </div>
-
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="block-space block-space--layout--before-footer"></div>
-      </div>
-
+      <div th:replace="tienda/framer/footer :: siteFooter"></div>
     </div>
-    <div th:replace="tienda/framer/footer :: siteFooter"></div>
-  </div>
-  <div th:replace="tienda/framer/scripts :: scripts"></div>
-</body>
-
+    <div th:replace="tienda/framer/scripts :: scripts"></div>
+  </body>
 </html>
 
 <script>
@@ -315,7 +450,10 @@
 
     if (tipoDocId === "1") {
       if (numeroDoc.length !== 8 || !/^\d+$/.test(numeroDoc)) {
-        mostrarError("numeroDocumento", "El DNI debe tener 8 dígitos numéricos.");
+        mostrarError(
+          "numeroDocumento",
+          "El DNI debe tener 8 dígitos numéricos."
+        );
         esValido = false;
       }
       if (!document.getElementById("nombres").value.trim()) {
@@ -328,7 +466,10 @@
       }
     } else if (tipoDocId === "2") {
       if (numeroDoc.length !== 11 || !/^\d+$/.test(numeroDoc)) {
-        mostrarError("numeroDocumento", "El RUC debe tener 11 dígitos numéricos.");
+        mostrarError(
+          "numeroDocumento",
+          "El RUC debe tener 11 dígitos numéricos."
+        );
         esValido = false;
       }
       if (!document.getElementById("razonSocial").value.trim()) {
@@ -361,9 +502,8 @@
 
   function limpiarErrores() {
     const camposInvalidos = document.querySelectorAll(".is-invalid");
-    camposInvalidos.forEach(campo => {
+    camposInvalidos.forEach((campo) => {
       campo.classList.remove("is-invalid");
     });
   }
-
 </script>

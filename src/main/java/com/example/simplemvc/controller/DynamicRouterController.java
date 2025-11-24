@@ -1,9 +1,19 @@
 package com.example.simplemvc.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.ResourceLoader;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+
 import com.example.simplemvc.model.Usuario;
 import com.example.simplemvc.model.UsuarioMapper;
 import com.example.simplemvc.service.GetActualUsuarioService;
 import com.example.simplemvc.service.JwtAuthenticationService;
+
 //import com.ronaldbit.Mopla;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
@@ -11,31 +21,32 @@ import jakarta.servlet.http.HttpServletRequest;
 //import java.util.List;
 //import java.util.Map;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.Resource;
-import org.springframework.core.io.ResourceLoader;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @AllArgsConstructor
 public class DynamicRouterController {
-  @Autowired private final JwtAuthenticationService jwtAuthenticationService;
+  @Autowired
+  private final JwtAuthenticationService jwtAuthenticationService;
 
-  @Autowired private final ResourceLoader loader;
+  @Autowired
+  private final ResourceLoader loader;
 
-  @Autowired private final UsuarioMapper usuarioMapper;
+  @Autowired
+  private final UsuarioMapper usuarioMapper;
 
-  @Autowired private final GetActualUsuarioService getActualUsuarioService;
+  @Autowired
+  private final GetActualUsuarioService getActualUsuarioService;
 
-  //@GetMapping("/")
-  //@ResponseBody
-  //public String homeView(Model model) throws Exception { }
+  // @GetMapping("/")
+  // @ResponseBody
+  // public String homeView(Model model) throws Exception { }
 
-  @RequestMapping(
-      value = "/{path:^(?!assets|assets_shop|api|captcha|favicon\\.ico$|webjars|uploads$).*}/**")
+  @GetMapping("/")
+  public String root() {
+    return "redirect:/home";
+  }
+
+  @RequestMapping(value = "/{path:^(?!assets|assets_shop|api|captcha|favicon\\.ico$|webjars|uploads$).*}/**")
   public String dynamic(@PathVariable String path, HttpServletRequest request, Model model) {
     String requestURI = request.getRequestURI();
 
@@ -94,7 +105,7 @@ public class DynamicRouterController {
     actualUsuario.getRoles().stream()
         .flatMap(rol -> rol.getPermisos().stream())
         .forEach(permiso -> model.addAttribute("hide" + permiso.getNombre(), false));
-        
+
     return null;
 
   }
