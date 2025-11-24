@@ -99,6 +99,11 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         clienteSesion.setEmail(persona.getEmail());
         clienteSesion.setDni(persona.getNumeroDocumento());
         session.setAttribute("clienteSesion", clienteSesion);
+        boolean esCliente = usuario.getRoles().stream()
+            .anyMatch(rol -> "CLIENTE".equalsIgnoreCase(rol.getNombre()));
+        boolean esPersonal = !esCliente;    
+        session.setAttribute("ES_PERSONAL", esPersonal);
+
         log.debug("Sesión re-hidratada para usuario: {}", usuario.getUsername());
       }
     }
@@ -107,7 +112,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
     UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(usuario, null,
         usuario.getAuthorities());
 
-        System.out.println(usuario.getAuthorities());
+    System.out.println(usuario.getAuthorities());
 
     SecurityContextHolder.getContext().setAuthentication(authenticationToken);
 

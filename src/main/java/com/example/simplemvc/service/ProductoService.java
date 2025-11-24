@@ -67,7 +67,7 @@ public class ProductoService {
                 .map(productoMapper::toDto)
                 .orElseThrow(() -> new IllegalArgumentException("Producto no encontrado con ID: " + id));
     }
-
+      
     @Transactional
     public ProductoDto create(CrearProductoRequest request, List<String> nombresImagenes)
             throws JsonProcessingException {

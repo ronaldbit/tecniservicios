@@ -52,14 +52,14 @@ public class AuthInterceptor implements HandlerInterceptor {
           .ifPresentOrElse(
               role -> {
                 try {
-                  response.sendRedirect("/");
+                  response.sendRedirect("/home");
                 } catch (Exception e) {
                   e.printStackTrace();
                 }
               },
               () -> {
                 try {
-                  response.sendRedirect("/dashboard");
+                  response.sendRedirect("/dashboard/portal");
                 } catch (Exception e) {
                   e.printStackTrace();
                 }

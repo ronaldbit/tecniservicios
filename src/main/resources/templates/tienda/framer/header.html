@@ -374,6 +374,7 @@
 
                 <div class="account-menu__divider"></div>
                 <ul class="account-menu__links">
+                  <li th:if="${session.ES_PERSONAL}"><a th:href="@{/dashboard/portal/}">Cambiar Rol</a></li>
                   <li><a th:href="@{/home/perfil}">Perfil</a></li>
                   <li><a th:href="@{/home/perfil/compras}">Pedidos</a></li>
                   <li><a th:href="@{/home/perfil/favoritos}">Favoritos</a></li>
