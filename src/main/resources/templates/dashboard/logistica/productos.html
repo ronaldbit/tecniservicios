@@ -37,6 +37,28 @@
             </button>
           </div>
           <div class="card-body pt-3">
+            <div class="row mb-3 align-items-end">
+              <div class="col-md-4">
+                <label for="filtroCategoria" class="form-label">Filtrar por Categoría</label>
+                <select id="filtroCategoria" class="form-select">
+                  <option value="">Todas las categorías</option>
+                </select>
+              </div>
+              <div class="col-md-4">
+                <label for="filtroMarca" class="form-label">Filtrar por Marca</label>
+                <select id="filtroMarca" class="form-select">
+                  <option value="">Todas las marcas</option>
+                </select>
+              </div>
+              <div class="col-md-4">
+                <label class="form-label">Filtrar por Estado</label>
+                <div class="btn-group w-100" role="group" id="filtroEstado">
+                  <button type="button" class="btn btn-outline-primary active" data-estado="">Todos</button>
+                  <button type="button" class="btn btn-outline-primary" data-estado="ACTIVO">Activo</button>
+                  <button type="button" class="btn btn-outline-primary" data-estado="INACTIVO">Inactivo</button>
+                </div>
+              </div>
+            </div>
             <div class="table-responsive">
               <table class="table table-hover" id="tablaProductos">
                 <thead>
@@ -55,7 +77,7 @@
                 </thead>
                 <tbody id="tabla-productos-body">
                   <tr>
-                    <td colspan="9" class="text-center">Cargando productos...</td>
+                    <td colspan="10" class="text-center">Cargando productos...</td>
                   </tr>
                 </tbody>
               </table>
@@ -458,14 +480,26 @@
 
 
   async function listarProductos() {
-    tablaCuerpo.innerHTML = `<tr><td colspan="9" class="text-center">Cargando...</td></tr>`;
+    tablaCuerpo.innerHTML = `<tr><td colspan="10" class="text-center">Cargando...</td></tr>`;
+
+    const categoriaId = document.getElementById('filtroCategoria')?.value ?? '';
+    const marcaId = document.getElementById('filtroMarca')?.value ?? '';
+    const estadoBtn = document.querySelector('#filtroEstado .btn.active');
+    const estado = estadoBtn ? estadoBtn.dataset.estado : '';
+
+    const params = new URLSearchParams();
+    if (categoriaId) params.append('categoriaId', categoriaId);
+    if (marcaId) params.append('marcaId', marcaId);
+    if (estado) params.append('estado', estado);
+
+    const url = `${urlBase}?${params.toString()}`;
 
     try {
-      const resp = await fetch(urlBase);
+      const resp = await fetch(url);
       const productos = await resp.json();
 
       if (!productos || productos.length === 0) {
-        tablaCuerpo.innerHTML = `<tr><td colspan="9" class="text-center">No hay productos registrados.</td></tr>`;
+        tablaCuerpo.innerHTML = `<tr><td colspan="10" class="text-center">No hay productos que coincidan con los filtros.</td></tr>`;
         return;
       }
 
@@ -511,7 +545,7 @@
       }).join('');
     } catch (err) {
       console.error(err);
-      tablaCuerpo.innerHTML = `<tr><td colspan="9" class="text-center text-danger">Error al cargar productos</td></tr>`;
+      tablaCuerpo.innerHTML = `<tr><td colspan="10" class="text-center text-danger">Error al cargar productos</td></tr>`;
     }
   }
 
@@ -519,6 +553,9 @@
   async function cargarMarcasYCategorias() {
     selMarca.innerHTML = `<option disabled selected>Cargando...</option>`;
     selCategoria.innerHTML = `<option disabled selected>Cargando...</option>`;
+    const filtroCategoria = document.getElementById("filtroCategoria");
+    const filtroMarca = document.getElementById("filtroMarca");
+
     try {
       const [marcasResp, categoriasResp] = await Promise.all([
         fetch('/api/marcas'),
@@ -528,13 +565,25 @@
       const marcas = await marcasResp.json();
       const categorias = await categoriasResp.json();
 
-      selMarca.innerHTML = `<option value="" disabled selected>Seleccionar...</option>` + marcas.map(m => `<option value="${m.id}">${m.nombre}</option>`).join('');
-      selCategoria.innerHTML = `<option value="" disabled selected>Seleccionar...</option>` + categorias.map(c => `<option value="${c.idCategoria}">${c.nombre}</option>`).join('');
+      const marcasOptionsModal = `<option value="" disabled selected>Seleccionar...</option>` + marcas.map(m => `<option value="${m.id}">${m.nombre}</option>`).join('');
+      const categoriasOptionsModal = `<option value="" disabled selected>Seleccionar...</option>` + categorias.map(c => `<option value="${c.idCategoria}">${c.nombre}</option>`).join('');
+
+      selMarca.innerHTML = marcasOptionsModal;
+      selCategoria.innerHTML = categoriasOptionsModal;
+
+      if (filtroMarca) {
+        filtroMarca.innerHTML = `<option value="">Todas las marcas</option>` + marcas.map(m => `<option value="${m.id}">${m.nombre}</option>`).join('');
+      }
+      if (filtroCategoria) {
+        filtroCategoria.innerHTML = `<option value="">Todas las categorías</option>` + categorias.map(c => `<option value="${c.idCategoria}">${c.nombre}</option>`).join('');
+      }
 
     } catch (error) {
       console.error("Error cargando selects:", error);
       selMarca.innerHTML = `<option value="" disabled>Error al cargar</option>`;
       selCategoria.innerHTML = `<option value="" disabled>Error al cargar</option>`;
+      if(filtroMarca) filtroMarca.innerHTML = `<option value="">Error</option>`;
+      if(filtroCategoria) filtroCategoria.innerHTML = `<option value="">Error</option>`;
     }
   }
 
@@ -626,13 +675,13 @@
     formData.append("precioOnline", document.getElementById("precioOnline").value);
     formData.append("descripcion", document.getElementById("descripcion").value);
     formData.append("destacado", document.getElementById("destacado").checked);
-    
+
 
     const inputNuevas = document.getElementById("imagenes");
     for (let f of inputNuevas.files) {
       formData.append("imagenes", f);
-    }   
-     
+    }
+
     const inputExistentes = document.getElementById("imagenesExistentes");
     if (inputExistentes) {
       formData.append("imagenesExistentes", inputExistentes.value);
@@ -663,6 +712,16 @@
 
     btnNuevoProducto.addEventListener("click", abrirModalNuevo);
     btnGuardar.addEventListener("click", guardarProducto);
+
+    document.getElementById('filtroCategoria')?.addEventListener('change', listarProductos);
+    document.getElementById('filtroMarca')?.addEventListener('change', listarProductos);
+    document.getElementById('filtroEstado')?.addEventListener('click', (e) => {
+      if (e.target.matches('button')) {
+        document.querySelectorAll('#filtroEstado button').forEach(btn => btn.classList.remove('active'));
+        e.target.classList.add('active');
+        listarProductos();
+      }
+    });
 
     await cargarMarcasYCategorias();
     await listarProductos();

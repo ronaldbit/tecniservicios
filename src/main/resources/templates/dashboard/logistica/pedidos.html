@@ -21,6 +21,25 @@
                   </div>
                </div>
                <div class="card-body pt-3">
+                  <div class="row mb-3 align-items-end">
+                     <div class="col-md-4">
+                        <label for="filtroProveedor" class="form-label">Filtrar por Proveedor</label>
+                        <select id="filtroProveedor" class="form-select">
+                           <option value="">Todos los proveedores</option>
+                        </select>
+                     </div>
+                     <div class="col-md-8">
+                        <label class="form-label">Filtrar por Estado</label>
+                        <div class="btn-group w-100" role="group" id="filtroEstado">
+                           <button type="button" class="btn btn-outline-primary active" data-estado="">Todos</button>
+                           <button type="button" class="btn btn-outline-primary" data-estado="PENDIENTE">Pendiente</button>
+                           <button type="button" class="btn btn-outline-primary" data-estado="COTIZADO">Cotizado</button>
+                           <button type="button" class="btn btn-outline-primary" data-estado="RECIBIDO">Recibido</button>
+                           <button type="button" class="btn btn-outline-primary" data-estado="PARTIALMENTE_RECIBIDO">Parcial</button>
+                           <button type="button" class="btn btn-outline-primary" data-estado="CANCELADO">Cancelado</button>
+                        </div>
+                     </div>
+                  </div>
                   <div class="table-responsive">
                      <table class="table table-hover" id="pc-dt-simple">
                         <thead>
@@ -195,7 +214,7 @@
             </div>
          </div>
       </div>
-      
+
 
       <div class="modal fade" id="modalRegistrarCotizacion" tabindex="-1" aria-labelledby="modalCotizacionLabel"
          aria-hidden="true">
@@ -347,19 +366,36 @@
       const productoSearchInput = document.getElementById('productoSearchInput');
       const productoSearchResults = document.getElementById('productoSearchResults');
       const tablaProductosPedido = document.getElementById('tablaProductosPedido');
+      const filtroProveedorSelect = document.getElementById('filtroProveedor');
+      const filtroEstadoGroup = document.getElementById('filtroEstado');
 
       async function cargarPedidos() {
+         pedidosTbody.innerHTML = '<tr><td colspan="7" class="text-center">Cargando...</td></tr>';
+         const proveedorId = filtroProveedorSelect.value;
+         const estadoBtn = filtroEstadoGroup.querySelector('.btn.active');
+         const estado = estadoBtn ? estadoBtn.dataset.estado : '';
+
+         const params = new URLSearchParams();
+         if (proveedorId) params.append('proveedorId', proveedorId);
+         if (estado) params.append('estado', estado);
+
+         const url = `${API_PEDIDOS}?${params.toString()}`;
+
          try {
-            const response = await fetch(API_PEDIDOS);
+            const response = await fetch(url);
             if (!response.ok) throw new Error('Error al cargar pedidos');
             const pedidos = await response.json();
 
             pedidosTbody.innerHTML = '';
+            if (pedidos.length === 0) {
+               pedidosTbody.innerHTML = '<tr><td colspan="7" class="text-center">No se encontraron pedidos con los filtros seleccionados.</td></tr>';
+               return;
+            }
+
             pedidos.reverse();
             pedidos.forEach(pedido => {
                const tr = document.createElement('tr');
-               if (pedido.estado === 'PENDIENTE' || pedido.estado === 'RECIBIDO' || pedido.estado === 'CANCELADO' || pedido.estado === 'PARTIALMENTE_RECIBIDO') {
-                  tr.innerHTML = `
+               tr.innerHTML = `
                     <td><h6 class="mb-0">${pedido.id || 'N/A'}</h6></td>
                     <td>${pedido.razonSocialProveedor || '(Sin Proveedor)'}</td>
                     <td>${formatFecha(pedido.fechaEmision)}</td>
@@ -368,12 +404,11 @@
                     <td>${formatEstado(pedido.estado)}</td>
                     <td>${generarBotonesAccion(pedido.id, pedido.estado)}</td>
                 `;
-                  pedidosTbody.appendChild(tr);
-               }
+               pedidosTbody.appendChild(tr);
             });
          } catch (error) {
             console.error(error);
-            Swal.fire('Error', 'No se pudieron cargar los pedidos.', 'error');
+            pedidosTbody.innerHTML = '<tr><td colspan="7" class="text-center text-danger">No se pudieron cargar los pedidos.</td></tr>';
          }
       }
       async function cargarProveedores() {
@@ -383,17 +418,21 @@
             const proveedores = await response.json();
 
             selectProveedor.innerHTML = '<option value="" selected disabled>Seleccionar un proveedor...</option>';
+            filtroProveedorSelect.innerHTML = '<option value="">Todos los proveedores</option>';
+
             proveedores.forEach(p => {
                if (p.estado === 'ACTIVO') {
                   const option = document.createElement('option');
                   option.value = p.id;
                   option.textContent = p.razonSocial;
-                  selectProveedor.appendChild(option);
+                  selectProveedor.appendChild(option.cloneNode(true));
+                  filtroProveedorSelect.appendChild(option);
                }
             });
          } catch (error) {
             console.error(error);
             selectProveedor.innerHTML = '<option value="" selected disabled>Error al cargar</option>';
+            filtroProveedorSelect.innerHTML = '<option value="">Error al cargar</option>';
          }
       }
 
@@ -790,10 +829,10 @@
                   </td>
                   <td>${item.cantidad}</td>
                   <td class="text-center">
-                     <input 
-                        type="checkbox" 
+                     <input
+                        type="checkbox"
                         class="form-check-input recibo-checkbox"
-                        data-id-detalle="${item.id}" 
+                        data-id-detalle="${item.id}"
                         ${item.recibido ? "checked" : ""}
                      >
                   </td>
@@ -895,7 +934,7 @@
                   tr.innerHTML = `
                             <td>
                                 ${item.nombreProducto || 'Producto desconocido'}
-                                <small class="d-block text-muted">${item.codigoProducto || ''}</small> 
+                                <small class="d-block text-muted">${item.codigoProducto || ''}</small>
                             </td>
                             <td>${item.cantidad}</td>
                             <td>${item.recibido == true ? 'Sí' : 'No'}</td>
@@ -985,7 +1024,7 @@
             <a href="#!" class="avtar avtar-xs btn-link-info btn-cotizar" data-id="${id}" data-bs-toggle="tooltip" title="Registrar Cotización">
                 <i class="ti ti-pencil f-20"></i>
             </a>
-            
+
             <a href="#!" class="avtar avtar-xs btn-link-danger btn-cancelar" data-id="${id}" data-bs-toggle="tooltip" title="Cancelar Pedido">
                 <i class="ti ti-x f-20"></i>
             </a>
@@ -1036,7 +1075,14 @@
          });
       }
 
-
+      filtroProveedorSelect.addEventListener('change', cargarPedidos);
+      filtroEstadoGroup.addEventListener('click', (e) => {
+         if (e.target.matches('button')) {
+            filtroEstadoGroup.querySelectorAll('button').forEach(btn => btn.classList.remove('active'));
+            e.target.classList.add('active');
+            cargarPedidos();
+         }
+      });
 
 
       function debounce(func, delay) {
@@ -1047,6 +1093,7 @@
          };
       }
 
+      cargarProveedores();
       cargarPedidos();
    });
 </script>
