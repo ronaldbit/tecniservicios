@@ -177,17 +177,17 @@
         <div class="header__navbar-menu">
           <div class="main-menu">
             <ul class="main-menu__list">
-              <li class="main-menu__item"><a class="main-menu__link" th:href="@{/}">Inicio</a></li>
-              <li class="main-menu__item"><a class="main-menu__link" th:href="@{/marcas}">Marcas</a></li>
-              <li class="main-menu__item"><a class="main-menu__link" th:href="@{/sobre-nosotros}">Sobre nosotros</a>
+              <li class="main-menu__item"><a class="main-menu__link" th:href="@{/home}">Inicio</a></li>
+              <li class="main-menu__item"><a class="main-menu__link" th:href="@{/home/marcas}">Marcas</a></li>
+              <li class="main-menu__item"><a class="main-menu__link" th:href="@{/home/sobre-nosotros}">Sobre nosotros</a>
               </li>
-              <li class="main-menu__item"><a class="main-menu__link" th:href="@{/contacto}">Contacto</a></li>
+              <li class="main-menu__item"><a class="main-menu__link" th:href="@{/home/contacto}">Contacto</a></li>
             </ul>
           </div>
         </div>
       </div>
       <div class="header__logo">
-        <a th:href="@{/}" class="logo">
+        <a th:href="@{/home}" class="logo">
           <div class="logo__image">
             <h1 style="color: #1a79ff;font-weight: 600;">TECNISERVICIOS</h1>
           </div>
@@ -291,7 +291,7 @@
       </div>
       <div class="header__indicators">
         <div class="indicator">
-          <a th:href="@{/perfil/favoritos}" class="indicator__button">
+          <a th:href="@{/home/perfil/favoritos}" class="indicator__button">
             <span class="indicator__icon">
               <svg width="32" height="32">
                 <path d="M23,4c3.9,0,7,3.1,7,7c0,6.3-11.4,15.9-14,16.9C13.4,26.9,2,17.3,2,11c0-3.9,3.1-7,7-7c2.1,0,4.1,1,5.4,2.6l1.6,2l1.6-2
@@ -326,7 +326,7 @@
             <div class="account-menu">
 
               <!-- BLOQUE LOGIN: solo si NO hay sesión -->
-              <form class="account-menu__form" th:if="${clienteSesion == null}" th:action="@{/perfil/login}"
+              <form class="account-menu__form" th:if="${clienteSesion == null}" th:action="@{/home/perfil/login}"
                 method="post">
                 <div class="account-menu__form-title">Inicia sesión en tu cuenta</div>
 
@@ -350,7 +350,7 @@
                   <button type="submit" class="btn btn-primary btn-sm">Iniciar sesión</button>
                 </div>
                 <div class="account-menu__form-link">
-                  <a th:href="@{/perfil}">Crear una cuenta</a> <!-- luego usas /perfil para signup -->
+                  <a th:href="@{/home/perfil}">Crear una cuenta</a> <!-- luego usas /perfil para signup -->
                 </div>
               </form>
 
@@ -374,14 +374,14 @@
 
                 <div class="account-menu__divider"></div>
                 <ul class="account-menu__links">
-                  <li><a th:href="@{/perfil}">Perfil</a></li>
-                  <li><a th:href="@{/perfil/compras}">Pedidos</a></li>
-                  <li><a th:href="@{/perfil/favoritos}">Favoritos</a></li>
+                  <li><a th:href="@{/home/perfil}">Perfil</a></li>
+                  <li><a th:href="@{/home/perfil/compras}">Pedidos</a></li>
+                  <li><a th:href="@{/home/perfil/favoritos}">Favoritos</a></li>
                 </ul>
 
                 <div class="account-menu__divider"></div>
                 <ul class="account-menu__links">
-                  <li><a th:href="@{/perfil/logout}">Logout</a></li>
+                  <li><a th:href="@{/home/perfil/logout}">Logout</a></li>
                 </ul>
               </div>
 
@@ -433,8 +433,8 @@
               </div>
 
               <div class="dropcart__actions">
-                <a class="btn btn-secondary" th:href="@{/carrito}">Ver carrito</a>
-                <a class="btn btn-primary" th:href="@{/pagar}">Pagar</a>
+                <a class="btn btn-secondary" th:href="@{/home/carrito}">Ver carrito</a>
+                <a class="btn btn-primary" th:href="@{/home/pagar}">Pagar</a>
               </div>
             </div>
           </div>

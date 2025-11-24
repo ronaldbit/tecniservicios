@@ -56,7 +56,7 @@ public class RolService {
       Rol rolExistente = existente.get();
       if (rolExistente.isEstado()) {
         throw new IllegalArgumentException("El rol ya existe con el nombre: " + request.getNombre());
-      } else {    
+      } else {
         log.info("Reactivando rol inactivo con nombre: {}", request.getNombre());
         rolExistente.setEstado(true);
         rolExistente.setDescripcion(request.getDescripcion());

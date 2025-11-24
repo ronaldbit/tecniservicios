@@ -38,7 +38,7 @@
         <!-- Imagen -->
         <div class="product-card__image">
             <div class="image image--type--product">
-                <a th:href="@{/producto/{id}(id=${product.idProducto})}" class="image__body">
+                <a th:href="@{/home/producto/{id}(id=${product.idProducto})}" class="image__body">
                     <img class="image__tag" th:src="@{'/uploads/productos/' + ${product.primeraImagen}}"
                         th:alt="${product.nombre}">
                 </a>
@@ -56,7 +56,7 @@
 
             <!-- Nombre -->
             <div class="product-card__name">
-                <a th:href="@{/producto/{id}(id=${product.idProducto})}" th:text="${product.nombre}">Nombre del
+                <a th:href="@{/home/producto/{id}(id=${product.idProducto})}" th:text="${product.nombre}">Nombre del
                     producto</a>
             </div>
 

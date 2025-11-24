@@ -12,12 +12,13 @@ import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
+@RequestMapping("/home")
 public class TiendaController {
 
     private final ProductoService productoService;
 
     // HOME: "/" → templates/tienda/index.html
-    @GetMapping("/")
+    @GetMapping
     public String index(
             @RequestParam(required = false) String q,
             @RequestParam(required = false) Long categoriaId,
@@ -56,11 +57,11 @@ public class TiendaController {
         } catch (IllegalArgumentException e) {
             // Producto no existe → volvemos al home sin reventar
             ra.addFlashAttribute("error", e.getMessage());
-            return "redirect:/";
+            return "redirect:/home";
         } catch (Exception e) {
             // Cualquier otra cosa rara
             ra.addFlashAttribute("error", "Ocurrió un error al cargar el producto.");
-            return "redirect:/";
+            return "redirect:/home";
         }
     }
 

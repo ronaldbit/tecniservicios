@@ -91,12 +91,12 @@ public class DynamicRouterController {
     }
 
     model.addAttribute("usuario", usuarioMapper.toDto(actualUsuario));
-
     actualUsuario.getRoles().stream()
         .flatMap(rol -> rol.getPermisos().stream())
         .forEach(permiso -> model.addAttribute("hide" + permiso.getNombre(), false));
-
+        
     return null;
+
   }
 
   private boolean exists(String loc) {

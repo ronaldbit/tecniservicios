@@ -2,11 +2,15 @@ package com.example.simplemvc.shared.filter;
 
 import com.example.simplemvc.model.Usuario;
 import com.example.simplemvc.service.JwtAuthenticationService;
+import com.example.simplemvc.shared.ClienteSesion;
+
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+
 import java.io.IOException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -80,9 +84,30 @@ public class JwtRequestFilter extends OncePerRequestFilter {
       return;
     }
 
+    HttpSession session = request.getSession(true);
+    if (session.getAttribute("CLIENTE_SESION") == null) {
+
+      var persona = usuario.getPersona();
+      if (persona != null) {
+        ClienteSesion clienteSesion = new ClienteSesion();
+        clienteSesion.setIdCliente(persona.getId());
+
+        String nombreCompleto = (persona.getNombres() != null ? persona.getNombres() : "") + " " +
+            (persona.getApellidos() != null ? persona.getApellidos() : "");
+        clienteSesion.setNombreCompleto(nombreCompleto.trim());
+
+        clienteSesion.setEmail(persona.getEmail());
+        clienteSesion.setDni(persona.getNumeroDocumento());
+        session.setAttribute("clienteSesion", clienteSesion);
+        log.debug("Sesión re-hidratada para usuario: {}", usuario.getUsername());
+      }
+    }
+
     log.debug("Jwt válido recibido en la solicitud a {}.", request.getRequestURI());
     UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(usuario, null,
         usuario.getAuthorities());
+
+        System.out.println(usuario.getAuthorities());
 
     SecurityContextHolder.getContext().setAuthentication(authenticationToken);
 

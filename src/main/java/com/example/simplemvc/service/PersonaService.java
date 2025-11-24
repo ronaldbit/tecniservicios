@@ -8,6 +8,8 @@ import com.example.simplemvc.repository.PersonaRepository;
 import com.example.simplemvc.request.CrearPersonaRequest;
 import com.example.simplemvc.request.CrearUsuarioClienteRequest;
 
+import jakarta.transaction.Transactional;
+
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -42,59 +44,69 @@ public class PersonaService {
     return personaMapper.toDto(persona);
   }
 
+  @Transactional 
   public PersonaDto crear(CrearPersonaRequest request) {
-    log.info("Creando nueva persona");
-
+    log.info("Procesando creación/reactivación de persona: {}", request.getNumeroDocumento());
     TipoDocumento tipoDocumento = tipoDocumentoService
         .obtenerEntidadPorId(request.getTipoDocumentoId())
         .orElseThrow(() -> new IllegalArgumentException(
             "Tipo de documento no encontrado con ID: " + request.getTipoDocumentoId()));
 
-    Optional<Persona> personaOpt = personaRepository.findByNumeroDocumento(request.getNumeroDocumento());
-    Optional<Persona> personaEmailOpt = personaRepository.findByEmail(request.getEmail());
+    Optional<Persona> personaPorDniOpt = personaRepository.findByNumeroDocumento(request.getNumeroDocumento());
+    validarEmailUnico(request.getEmail(), personaPorDniOpt);
+    Persona persona;
 
-    if (personaEmailOpt.isPresent()) {
-      Persona personaEmail = personaEmailOpt.get();
-      if (Boolean.TRUE.equals(personaEmail.getEstado())
-          && (!personaOpt.isPresent() || !personaEmail.getId().equals(personaOpt.get().getId()))) {
-        throw new IllegalArgumentException("Ya existe una persona activa con el email: " + request.getEmail());
-      }
-    }
-    if (personaOpt.isPresent()) {
-      Persona existente = personaOpt.get();
-
-      if (Boolean.TRUE.equals(existente.getEstado())) {
+    if (personaPorDniOpt.isPresent()) {
+      persona = personaPorDniOpt.get();
+      if (Boolean.TRUE.equals(persona.getEstado())) {
         throw new IllegalArgumentException(
             "Ya existe una persona activa con el número de documento: " + request.getNumeroDocumento());
       }
-      log.info("Reactivando persona existente con ID: {}", existente.getId());
-      existente.setTipoDocumento(tipoDocumento);
-      existente.setTipoPersona(request.getTipoPersona());
-      existente.setNombres(request.getNombres());
-      existente.setApellidos(request.getApellidos());
-      existente.setRazonSocial(request.getRazonSocial());
-      existente.setEmail(request.getEmail());
-      existente.setTelefono(request.getTelefono());
-      existente.setDireccion(request.getDireccion());
-      existente.setEstado(true);
-      existente.setEmailVerificado(false);
-      existente.setTokenVerificacionEmail(JwtTokenEmail.generateToken(request.getEmail()));
-      Persona reactivada = personaRepository.save(existente);
-      servicioCorreo.enviarVerificacionCorreo(existente.getEmail(), existente.getTokenVerificacionEmail());
-      log.info("Persona reactivada con ID: {}", reactivada.getId());
-      return personaMapper.toDto(reactivada);
-    }
-    Persona persona = personaMapper.fromRequest(request)
-        .tipoDocumento(tipoDocumento)
-        .estado(true)
-        .emailVerificado(false)
-        .tokenVerificacionEmail(JwtTokenEmail.generateToken(request.getEmail()))
-        .build();
 
+      log.info("Reactivando persona existente con ID: {}", persona.getId());
+    } else {
+      log.info("Creando nueva entidad Persona");
+      persona = new Persona();
+    }
+    actualizarDatosPersona(persona, request, tipoDocumento);
+    persona.setEstado(true);
+    persona.setEmailVerificado(false);
+    String token = JwtTokenEmail.generateToken(request.getEmail());
+    persona.setTokenVerificacionEmail(token);
     Persona saved = personaRepository.save(persona);
-    servicioCorreo.enviarVerificacionCorreo(persona.getEmail(), persona.getTokenVerificacionEmail());
-    log.info("Persona creada con ID: {}", saved.getId());
+
+    try {
+      servicioCorreo.enviarVerificacionCorreo(saved.getEmail(), token);
+    } catch (Exception e) {
+      log.error("Error al enviar correo de verificación: {}", e.getMessage());
+    }
+
+    log.info("Operación exitosa para persona ID: {}", saved.getId());
     return personaMapper.toDto(saved);
+  }
+
+
+  private void validarEmailUnico(String email, Optional<Persona> personaActualOpt) {
+    Optional<Persona> personaPorEmailOpt = personaRepository.findByEmail(email);
+    if (personaPorEmailOpt.isPresent()) {
+      Persona personaConEseEmail = personaPorEmailOpt.get();
+      if (Boolean.TRUE.equals(personaConEseEmail.getEstado())) {
+        if (personaActualOpt.isEmpty() || !personaConEseEmail.getId().equals(personaActualOpt.get().getId())) {
+          throw new IllegalArgumentException("Ya existe una persona activa con el email: " + email);
+        }
+      }
+    }
+  }
+
+  private void actualizarDatosPersona(Persona persona, CrearPersonaRequest request, TipoDocumento tipoDocumento) {
+    persona.setTipoDocumento(tipoDocumento);
+    persona.setNumeroDocumento(request.getNumeroDocumento()); 
+    persona.setNombres(request.getNombres());
+    persona.setApellidos(request.getApellidos());
+    persona.setRazonSocial(request.getRazonSocial());
+    persona.setEmail(request.getEmail());
+    persona.setTelefono(request.getTelefono());
+    persona.setDireccion(request.getDireccion());
   }
 
   public void eliminarPorId(Long id) {
@@ -140,8 +152,10 @@ public class PersonaService {
 
   public Persona crearDesdeClienteRequest(CrearUsuarioClienteRequest request) {
     personaRepository.findByEmail(request.getEmail()).ifPresent(existingPersona -> {
+
       throw new IllegalArgumentException("Ya existe una persona con el email: " + request.getEmail());
     });
+
     personaRepository.findByNumeroDocumento(request.getNumeroDocumento()).ifPresent(existingPersona -> {
       throw new IllegalArgumentException(
           "Ya existe una persona con el número de documento: " + request.getNumeroDocumento());
@@ -149,13 +163,14 @@ public class PersonaService {
     Persona per = Persona.builder()
         .tipoDocumento(
             tipoDocumentoService
+
                 .obtenerEntidadPorId(request.getTipoDocumentoId())
                 .orElseThrow(
                     () -> new IllegalArgumentException(
                         "Tipo de documento no encontrado con ID: " + request.getTipoDocumentoId())))
         .tipoPersona(request.getTipoPersona())
-        .numeroDocumento(request.getNumeroDocumento()) 
-        .razonSocial(null)         
+        .numeroDocumento(request.getNumeroDocumento())
+        .razonSocial(null)
         .nombres(request.getNombres())
         .apellidos(request.getApellidos())
         .razonSocial(request.getRazonSocial())

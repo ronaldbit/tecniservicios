@@ -4,7 +4,6 @@ import com.example.simplemvc.dto.JwtDto;
 import com.example.simplemvc.model.Usuario;
 import com.example.simplemvc.request.CrearUsuarioClienteRequest;
 import com.example.simplemvc.request.LoginUsuarioRequest;
-import com.example.simplemvc.shared.ClienteSesion;
 import com.example.simplemvc.service.AuthService;
 import com.example.simplemvc.service.UsuarioService;
 
@@ -22,7 +21,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
-@RequestMapping("/perfil")
+@RequestMapping("/home/perfil")
 @RequiredArgsConstructor
 @Order(Ordered.HIGHEST_PRECEDENCE) // dejalo pa que dynamic no interfira dskfjha
 public class PerfilController {
@@ -36,12 +35,10 @@ public class PerfilController {
     public String perfilInicio(Model model, HttpSession session) { // Eliminé HttpSession, no se usaba
 
         model.addAttribute("pageTitle", "Mi perfil");
-
         // Añade el DTO para el formulario de REGISTRO (th:object="${usuarioRequest}")
         if (!model.containsAttribute("usuarioRequest")) {
             model.addAttribute("usuarioRequest", new CrearUsuarioClienteRequest());
         }
-
         // Añade el DTO para el formulario de LOGIN (th:object="${login}")
         if (!model.containsAttribute("login")) {
             model.addAttribute("login", new LoginUsuarioRequest());
@@ -111,19 +108,10 @@ public class PerfilController {
                     return redirect(origen);
                 }
             }
-            var persona = usuario.getPersona();
-            ClienteSesion clienteSesion = new ClienteSesion();
-            clienteSesion.setIdCliente(persona.getId());
-            clienteSesion.setNombreCompleto(
-                    (persona.getNombres() != null ? persona.getNombres() : "") + " " +
-                            (persona.getApellidos() != null ? persona.getApellidos() : ""));
-            clienteSesion.setEmail(persona.getEmail());
-            clienteSesion.setDni(persona.getNumeroDocumento());
-            session.setAttribute("clienteSesion", clienteSesion);
 
             ra.addFlashAttribute("loginSuccess", "Sesión iniciada correctamente.");
             return redirect(origen);
-        } catch (Exception e) {         
+        } catch (Exception e) {
             ra.addFlashAttribute("loginError", e.getMessage());
             return redirect(origen);
         }
@@ -131,15 +119,15 @@ public class PerfilController {
 
     private String redirect(String origen) {
         if (origen.equals("menu")) {
-            return "redirect:/";
+            return "redirect:/home";
         }
-        return "redirect:/perfil";
+        return "redirect:/home/perfil";
     }
 
     // LOGOUT CLIENTE
     @GetMapping("/logout")
     public String logoutCliente(HttpSession session, RedirectAttributes ra) {
-        session.removeAttribute("CLIENTE_SESION");
+        session.removeAttribute("ClienteSesion");
         ra.addFlashAttribute("info", "Has cerrado sesión.");
         return "redirect:/auth/logout";
     }

@@ -33,11 +33,10 @@ public class AuthInterceptor implements HandlerInterceptor {
     if (requestURI.equals("/auth/verify") || requestURI.equals("/auth/reset-password")) {
       return true;
     }
-    AntPathMatcher matcher = new AntPathMatcher();
 
+    AntPathMatcher matcher = new AntPathMatcher();
     boolean isProtected = securityProperties.getProtectedRoutes().stream()
         .anyMatch(route -> matcher.match(route, requestURI));
-
     boolean isAuthEntry = securityProperties.getAuthEntryRoutes().stream()
         .anyMatch(route -> matcher.match(route, requestURI));
 

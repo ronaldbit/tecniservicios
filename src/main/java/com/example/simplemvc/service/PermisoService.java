@@ -30,11 +30,10 @@ public class PermisoService {
   public void actualizarPermiso(Long permisoId, CrearPermisoRequest request) {
     log.info("Actualizando permiso con ID: {}", permisoId);
 
-    Permiso permisoExistente =
-        permisoRepository
-            .findById(permisoId)
-            .orElseThrow(
-                () -> new IllegalArgumentException("Permiso no encontrado con ID: " + permisoId));
+    Permiso permisoExistente = permisoRepository
+        .findById(permisoId)
+        .orElseThrow(
+            () -> new IllegalArgumentException("Permiso no encontrado con ID: " + permisoId));
 
     permisoExistente.setPath(request.getPath());
     permisoRepository.save(permisoExistente);
@@ -50,6 +49,7 @@ public class PermisoService {
           permisoRepository.deleteById(permiso.getId());
         });
     log.info("Creando nuevos permisos para el rol con ID: {}", IDrol);
+
     request.forEach(
         permisoRequest -> {
           permisoRequest.setRolId(IDrol);
@@ -60,13 +60,11 @@ public class PermisoService {
 
   public void crearPermiso(CrearPermisoRequest request) {
     log.info("Creando permiso con path: {} para rol ID: {}", request.getPath(), request.getRolId());
-    Rol rolAsociado =
-        rolRepository
-            .findById(request.getRolId())
-            .orElseThrow(
-                () ->
-                    new IllegalArgumentException(
-                        "Rol no encontrado con ID: " + request.getRolId()));
+    Rol rolAsociado = rolRepository
+        .findById(request.getRolId())
+        .orElseThrow(
+            () -> new IllegalArgumentException(
+                "Rol no encontrado con ID: " + request.getRolId()));
     Permiso permiso = permisoMapper.fromRequest(request).build();
     permiso.setRol(rolAsociado);
     permisoRepository.save(permiso);
