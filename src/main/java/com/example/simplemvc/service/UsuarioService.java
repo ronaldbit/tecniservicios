@@ -1,5 +1,6 @@
 package com.example.simplemvc.service;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -16,11 +17,13 @@ import com.example.simplemvc.model.Sucursal;
 import com.example.simplemvc.model.Usuario;
 import com.example.simplemvc.model.UsuarioMapper;
 import com.example.simplemvc.model.enums.EstadoEntidad;
+import com.example.simplemvc.repository.PersonaRepository;
 import com.example.simplemvc.repository.RolRepository;
 import com.example.simplemvc.repository.SucursalRepository;
 import com.example.simplemvc.repository.UsuarioRepository;
 import com.example.simplemvc.request.CrearUsuarioClienteRequest;
 import com.example.simplemvc.request.CrearUsuarioRequest;
+import com.example.simplemvc.request.PromoverUsuarioRequest;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -42,6 +45,9 @@ public class UsuarioService {
 
   @Autowired
   private ServicioCorreo servicioCorreo;
+
+  @Autowired
+  private PersonaRepository personaRepository;
 
   public List<UsuarioDto> listaTodos() {
     log.info("Obteniendo lista de todos los usuarios");
@@ -266,5 +272,33 @@ public class UsuarioService {
       throw new IllegalArgumentException("No se puede cambiar el estado del usuario. Estado inválido.");
     }
     usuarioRepository.save(usuario);
+  }
+
+  @Transactional
+  public UsuarioDto promoverUsuario(PromoverUsuarioRequest request) {
+    log.info("Promoviendo usuario (Cliente -> Personal) con DNI: {}", request.getDni());
+    Persona persona = personaRepository.findByNumeroDocumento(request.getDni())
+        .orElseThrow(() -> new IllegalArgumentException("No existe ninguna persona con el DNI: " + request.getDni()));
+    Usuario usuario = usuarioRepository.findByPersona_Id(persona.getId())
+        .orElseThrow(
+            () -> new IllegalArgumentException("Error: Esta persona no tiene un usuario asociado (no es cliente)."));
+    Rol nuevoRol = rolRepository.findById(request.getNuevoRolId())
+        .orElseThrow(() -> new IllegalArgumentException("El rol seleccionado no existe."));
+
+    if (request.getNuevoUsername() != null && !request.getNuevoUsername().isBlank()) {
+      if (!request.getNuevoUsername().equals(usuario.getUsername())) {
+        Optional<Usuario> ocupado = usuarioRepository.findByNombreUsuario(request.getNuevoUsername());
+        if (ocupado.isPresent()) {
+          throw new IllegalArgumentException(
+              "El username '" + request.getNuevoUsername() + "' ya está siendo usado por otra persona.");
+        }
+        usuario.setNombreUsuario(request.getNuevoUsername());
+      }
+    }
+    usuario.setRoles(new ArrayList<>(Arrays.asList(nuevoRol)));
+    usuario.setEstado(EstadoEntidad.ACTIVO);
+    Usuario usuarioGuardado = usuarioRepository.save(usuario);
+    log.info("Usuario promovido exitosamente. ID: {}, Nuevo Rol: {}", usuarioGuardado.getId(), nuevoRol.getNombre());
+    return usuarioMapper.toDto(usuarioGuardado);
   }
 }

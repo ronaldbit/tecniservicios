@@ -1,5 +1,12 @@
 package com.example.simplemvc.service;
 
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.example.simplemvc.dto.PersonaDto;
 import com.example.simplemvc.model.Persona;
 import com.example.simplemvc.model.PersonaMapper;
@@ -9,15 +16,8 @@ import com.example.simplemvc.request.CrearPersonaRequest;
 import com.example.simplemvc.request.CrearUsuarioClienteRequest;
 
 import jakarta.transaction.Transactional;
-
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 @Slf4j
 @Service
@@ -44,7 +44,7 @@ public class PersonaService {
     return personaMapper.toDto(persona);
   }
 
-  @Transactional 
+  @Transactional
   public PersonaDto crear(CrearPersonaRequest request) {
     log.info("Procesando creación/reactivación de persona: {}", request.getNumeroDocumento());
     TipoDocumento tipoDocumento = tipoDocumentoService
@@ -85,6 +85,10 @@ public class PersonaService {
     return personaMapper.toDto(saved);
   }
 
+  public Optional<PersonaDto> buscarPorDni(String dni) {
+    return personaRepository.findByNumeroDocumento(dni)
+        .map(personaMapper::toDto);
+  }
 
   private void validarEmailUnico(String email, Optional<Persona> personaActualOpt) {
     Optional<Persona> personaPorEmailOpt = personaRepository.findByEmail(email);
@@ -100,7 +104,7 @@ public class PersonaService {
 
   private void actualizarDatosPersona(Persona persona, CrearPersonaRequest request, TipoDocumento tipoDocumento) {
     persona.setTipoDocumento(tipoDocumento);
-    persona.setNumeroDocumento(request.getNumeroDocumento()); 
+    persona.setNumeroDocumento(request.getNumeroDocumento());
     persona.setNombres(request.getNombres());
     persona.setApellidos(request.getApellidos());
     persona.setRazonSocial(request.getRazonSocial());

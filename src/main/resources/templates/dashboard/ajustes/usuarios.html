@@ -1,5 +1,7 @@
-<div class="pc-container"
-  th:replace="~{dashboard/layout :: layout(~{::content}, ${usuario}, 'Usuarios', '/dashboard/ajustes/usuarios')}">
+<div
+  class="pc-container"
+  th:replace="~{dashboard/layout :: layout(~{::content}, ${usuario}, 'Usuarios', '/dashboard/ajustes/usuarios')}"
+>
   <div class="pc-content" th:fragment="content">
     <!-- [ Main Content ] start -->
     <!-- Breadcrumb -->
@@ -28,9 +30,22 @@
     <div class="row">
       <div class="col-12">
         <div class="card table-card">
-          <div class="card-header d-flex justify-content-between align-items-center">
+          <div
+            class="card-header d-flex justify-content-between align-items-center"
+          >
             <h5>Lista de usuarios</h5>
-            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalAgregarUsuario">
+            <button
+              class="btn btn-secondary ms-2"
+              data-bs-toggle="modal"
+              data-bs-target="#modalPromoverUsuario"
+            >
+              <i class="ti ti-user-up"></i> Promover Cliente
+            </button>
+            <button
+              class="btn btn-primary"
+              data-bs-toggle="modal"
+              data-bs-target="#modalAgregarUsuario"
+            >
               <i class="ti ti-user-plus"></i> Agregar usuario
             </button>
           </div>
@@ -51,27 +66,47 @@
                 <tbody>
                   <tr th:each="u : ${usuarios}">
                     <td th:text="${u.id}"></td>
-                    <td th:text="${u.persona.nombres + ' ' + u.persona.apellidos}"></td>
+                    <td
+                      th:text="${u.persona.nombres + ' ' + u.persona.apellidos}"
+                    ></td>
                     <td th:text="${u.persona.email}"></td>
-                    <td th:classappend="${u.persona.emailVerificado} ? 'text-success' : 'text-danger'"
-                      th:text="${u.persona.emailVerificado} ? 'Sí' : 'No'"></td>
+                    <td
+                      th:classappend="${u.persona.emailVerificado} ? 'text-success' : 'text-danger'"
+                      th:text="${u.persona.emailVerificado} ? 'Sí' : 'No'"
+                    ></td>
                     <td>
-                      <span th:text="${u.estado}"
-                        th:classappend="${u.estado == 'ACTIVO'} ? 'text-success fw-semibold' : 'text-secondary fw-semibold'"></span>
+                      <span
+                        th:text="${u.estado}"
+                        th:classappend="${u.estado == 'ACTIVO'} ? 'text-success fw-semibold' : 'text-secondary fw-semibold'"
+                      ></span>
                     </td>
-                    <td th:text="${!u.roles.isEmpty() ? u.roles[0].nombre : 'Sin rol'}"></td>
+                    <td
+                      th:text="${!u.roles.isEmpty() ? u.roles[0].nombre : 'Sin rol'}"
+                    ></td>
                     <td>
-                      <button data-bs-toggle="modal" data-bs-target="#modalDetalleUsuario" th:attr="data-id=${u.id}"
-                        href="#!" class="avtar avtar-xs btn-link-secondary">
+                      <button
+                        data-bs-toggle="modal"
+                        data-bs-target="#modalDetalleUsuario"
+                        th:attr="data-id=${u.id}"
+                        href="#!"
+                        class="avtar avtar-xs btn-link-secondary"
+                      >
                         <i class="ti ti-eye f-20"></i>
                       </button>
-                      <button href="#!" class="avtar avtar-xs btn-link-secondary btnEditarUsuario"
-                        th:attr="data-id=${u.id}">
+                      <button
+                        href="#!"
+                        class="avtar avtar-xs btn-link-secondary btnEditarUsuario"
+                        th:attr="data-id=${u.id}"
+                      >
                         <i class="ti ti-edit f-20"></i>
                       </button>
-                      <button type="button" class="avtar avtar-xs btn-link-secondary btn-eliminar-usuario"
-                        data-bs-toggle="modal" data-bs-target="#modalConfirmarEliminar"
-                        th:attr="data-id=${u.id}, data-nombre=${u.persona.nombres + ' ' + u.persona.apellidos}">
+                      <button
+                        type="button"
+                        class="avtar avtar-xs btn-link-secondary btn-eliminar-usuario"
+                        data-bs-toggle="modal"
+                        data-bs-target="#modalConfirmarEliminar"
+                        th:attr="data-id=${u.id}, data-nombre=${u.persona.nombres + ' ' + u.persona.apellidos}"
+                      >
                         <i class="ti ti-trash f-20"></i>
                       </button>
                     </td>
@@ -85,105 +120,196 @@
     </div>
 
     <!-- Modal Agregar Usuario -->
-    <div class="modal fade" id="modalAgregarUsuario" tabindex="-1" aria-labelledby="modalAgregarUsuarioLabel"
-      aria-hidden="true">
+    <div
+      class="modal fade"
+      id="modalAgregarUsuario"
+      tabindex="-1"
+      aria-labelledby="modalAgregarUsuarioLabel"
+      aria-hidden="true"
+    >
       <div class="modal-dialog modal-lg modal-dialog-centered">
-        <form class="modal-content needs-validation" id="form-Validaciones-Off" novalidate>
+        <form
+          class="modal-content needs-validation"
+          id="form-Validaciones-Off"
+          novalidate
+        >
           <input type="hidden" id="usuarioId" />
           <input type="hidden" id="personaId" />
           <div class="modal-header">
             <h5 class="modal-title" id="modalAgregarUsuarioLabel">
               Agregar Nuevo Usuario
             </h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Cerrar"
+            ></button>
           </div>
           <div class="modal-body">
-            <div id="serverError" class="alert alert-danger d-none" role="alert"></div>
+            <div
+              id="serverError"
+              class="alert alert-danger d-none"
+              role="alert"
+            ></div>
             <div class="row">
               <div class="col-md-6">
                 <div class="mb-3 d-flex" style="gap: 8px; align-items: end">
                   <div style="flex: 1">
                     <label for="usuarioDNI" class="form-label">DNI</label>
-                    <input type="number" class="form-control" id="usuarioDNI" required pattern="[0-9]{8}"
-                      maxlength="8" />
+                    <input
+                      type="number"
+                      class="form-control"
+                      id="usuarioDNI"
+                      required
+                      pattern="[0-9]{8}"
+                      maxlength="8"
+                    />
                     <div class="invalid-feedback">
                       Por favor, ingrese un DNI válido de 8 dígitos.
                     </div>
                   </div>
-                  <button type="button" class="btn btn-outline-primary" id="btnBuscarDNI">
+                  <button
+                    type="button"
+                    class="btn btn-outline-primary"
+                    id="btnBuscarDNI"
+                  >
                     Buscar
                   </button>
                 </div>
                 <div class="mb-3">
                   <label for="usuarioNombres" class="form-label">Nombres</label>
-                  <input type="text" class="form-control" id="usuarioNombres" required />
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="usuarioNombres"
+                    required
+                  />
                   <div class="invalid-feedback">El nombre es obligatorio.</div>
                 </div>
 
                 <div class="mb-3">
-                  <label for="usuarioApellidos" class="form-label">Apellidos</label>
-                  <input type="text" class="form-control" id="usuarioApellidos" required />
+                  <label for="usuarioApellidos" class="form-label"
+                    >Apellidos</label
+                  >
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="usuarioApellidos"
+                    required
+                  />
                   <div class="invalid-feedback">
                     Los apellidos son obligatorios.
                   </div>
                 </div>
 
                 <div class="mb-3">
-                  <label for="usuarioTelefono" class="form-label">Número de Teléfono</label>
-                  <input type="number" class="form-control" id="usuarioTelefono" required pattern="[0-9]{9}"
-                    maxlength="9" />
+                  <label for="usuarioTelefono" class="form-label"
+                    >Número de Teléfono</label
+                  >
+                  <input
+                    type="number"
+                    class="form-control"
+                    id="usuarioTelefono"
+                    required
+                    pattern="[0-9]{9}"
+                    maxlength="9"
+                  />
                   <div class="invalid-feedback">
                     Ingrese un número de celular válido de 9 dígitos.
                   </div>
                 </div>
 
                 <div class="mb-3">
-                  <label for="usuarioDireccion" class="form-label">Dirección (Opcional)</label>
-                  <input type="text" class="form-control" id="usuarioDireccion" />
+                  <label for="usuarioDireccion" class="form-label"
+                    >Dirección (Opcional)</label
+                  >
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="usuarioDireccion"
+                  />
                 </div>
-
-
               </div>
 
               <div class="col-md-6">
                 <div class="mb-3">
                   <label for="usuarioEmail" class="form-label">Email</label>
-                  <input type="email" class="form-control" id="usuarioEmail" required />
+                  <input
+                    type="email"
+                    class="form-control"
+                    id="usuarioEmail"
+                    required
+                  />
                   <div class="invalid-feedback">
                     Ingrese un correo electrónico válido.
                   </div>
                 </div>
 
                 <div class="mb-3">
-                  <label for="usuarioUsername" class="form-label">Username (Para iniciar sesión)</label>
-                  <input type="text" class="form-control" id="usuarioUsername" required minlength="4" />
+                  <label for="usuarioUsername" class="form-label"
+                    >Username (Para iniciar sesión)</label
+                  >
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="usuarioUsername"
+                    required
+                    minlength="4"
+                  />
                   <div class="invalid-feedback">
                     El username debe tener al menos 4 caracteres.
                   </div>
                 </div>
 
                 <div class="mb-3" id="grupoPassword" hidden>
-                  <label for="usuarioPassword" class="form-label">Contraseña</label>
-                  <input type="password" class="form-control" id="usuarioPassword" minlength="6" />
+                  <label for="usuarioPassword" class="form-label"
+                    >Contraseña</label
+                  >
+                  <input
+                    type="password"
+                    class="form-control"
+                    id="usuarioPassword"
+                    minlength="6"
+                  />
                   <div class="invalid-feedback">
                     La contraseña debe tener al menos 6 caracteres.
                   </div>
                 </div>
 
                 <div class="mb-3" id="grupoPasswordConfirm" hidden>
-                  <label for="usuarioPasswordConfirm" class="form-label">Confirmar Contraseña</label>
-                  <input type="password" class="form-control" id="usuarioPasswordConfirm" minlength="6" />
+                  <label for="usuarioPasswordConfirm" class="form-label"
+                    >Confirmar Contraseña</label
+                  >
+                  <input
+                    type="password"
+                    class="form-control"
+                    id="usuarioPasswordConfirm"
+                    minlength="6"
+                  />
                   <div class="invalid-feedback" id="confirmPasswordFeedback">
                     Las contraseñas no coinciden o son muy cortas.
                   </div>
                 </div>
 
-
                 <div class="mb-3">
-                  <label for="usuarioRol" class="form-label">Rol (Permisos del Sistema)</label>
-                  <select class="form-select" id="usuarioRol" name="rolId" required>
-                    <option value="" selected disabled>Seleccione un rol...</option>
-                    <option th:each="r : ${roles}" th:value="${r.id}" th:text="${r.nombre}"></option>
+                  <label for="usuarioRol" class="form-label"
+                    >Rol (Permisos del Sistema)</label
+                  >
+                  <select
+                    class="form-select"
+                    id="usuarioRol"
+                    name="rolId"
+                    required
+                  >
+                    <option value="" selected disabled>
+                      Seleccione un rol...
+                    </option>
+                    <option
+                      th:each="r : ${roles}"
+                      th:value="${r.id}"
+                      th:text="${r.nombre}"
+                    ></option>
                   </select>
                   <div class="invalid-feedback">Debe seleccionar un rol.</div>
                 </div>
@@ -194,40 +320,146 @@
                     <option value="2">Activo</option>
                     <option value="1">Inactivo</option>
                   </select>
-                  <div class="invalid-feedback">Seleccione el estado del usuario.</div>
+                  <div class="invalid-feedback">
+                    Seleccione el estado del usuario.
+                  </div>
                 </div>
-
               </div>
             </div>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
               Cancelar
             </button>
-            <button id="btnGuardarUsuario" type="button" class="btn btn-primary">Guardar</button>
+            <button
+              id="btnGuardarUsuario"
+              type="button"
+              class="btn btn-primary"
+            >
+              Guardar
+            </button>
           </div>
         </form>
       </div>
     </div>
 
+    <div
+      class="modal fade"
+      id="modalPromoverUsuario"
+      tabindex="-1"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Promover a Personal</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <form id="formPromover">
+              <div class="mb-3">
+                <label class="form-label">Buscar por DNI</label>
+                <div class="input-group">
+                  <input
+                    type="text"
+                    id="promoverDni"
+                    class="form-control"
+                    placeholder="Ingrese DNI del cliente"
+                    required
+                  />
+                  <button
+                    class="btn btn-outline-secondary"
+                    type="button"
+                    id="btnBuscarClientePromover"
+                  >
+                    <i class="ti ti-search"></i>
+                  </button>
+                </div>
+                <small
+                  id="nombreClienteEncontrado"
+                  class="text-success fw-bold"
+                ></small>
+              </div>
 
+              <div class="mb-3">
+                <label class="form-label">Nuevo Username</label>
+                <input
+                  type="text"
+                  id="promoverUsername"
+                  class="form-control"
+                  required
+                />
+              </div>
+
+              <div class="mb-3">
+                <label class="form-label">Asignar Rol</label>
+                <select id="promoverRol" class="form-select" required>
+                  <option value="" selected disabled>Seleccione...</option>
+                  <option
+                    th:each="r : ${roles}"
+                    th:if="${r.nombre != 'CLIENTE'}"
+                    th:value="${r.id}"
+                    th:text="${r.nombre}"
+                  ></option>
+                </select>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-primary"
+              onclick="guardarPromocion()"
+            >
+              Guardar Cambios
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <!-- Modal Detalle Usuario -->
-    <div class="modal fade" id="modalDetalleUsuario" tabindex="-1" aria-labelledby="modalDetalleUsuarioLabel"
-      aria-hidden="true">
+    <div
+      class="modal fade"
+      id="modalDetalleUsuario"
+      tabindex="-1"
+      aria-labelledby="modalDetalleUsuarioLabel"
+      aria-hidden="true"
+    >
       <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="modalDetalleUsuarioLabel">Detalles de usuario</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+            <h5 class="modal-title" id="modalDetalleUsuarioLabel">
+              Detalles de usuario
+            </h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Cerrar"
+            ></button>
           </div>
           <div class="modal-body">
             <div class="d-flex align-items-center mb-4">
-              <img id="detalleUsuarioImg" src="/assets/images/user/avatar-1.jpg" alt="Imagen usuario"
-                class="img-radius wid-80 me-3 shadow-sm" />
+              <img
+                id="detalleUsuarioImg"
+                src="/assets/images/user/avatar-1.jpg"
+                alt="Imagen usuario"
+                class="img-radius wid-80 me-3 shadow-sm"
+              />
               <div>
                 <h4 class="mb-1" id="detalleUsuarioNombre">—</h4>
-                <span class="badge text-bg-primary" id="detalleUsuarioRol">—</span>
+                <span class="badge text-bg-primary" id="detalleUsuarioRol"
+                  >—</span
+                >
                 <p class="text-muted mb-0" id="detalleUsuarioEstado">—</p>
               </div>
             </div>
@@ -235,69 +467,113 @@
             <div class="row g-3">
               <div class="col-md-6">
                 <ul class="list-group list-group-flush">
-                  <li class="list-group-item"><strong>ID:</strong> <span id="detalleUsuarioId">—</span></li>
-                  <li class="list-group-item"><strong>Tipo documento:</strong> <span id="detalleUsuarioTipoDoc">—</span>
+                  <li class="list-group-item">
+                    <strong>ID:</strong> <span id="detalleUsuarioId">—</span>
                   </li>
-                  <li class="list-group-item"><strong>N° Documento:</strong> <span id="detalleUsuarioNumDoc">—</span>
+                  <li class="list-group-item">
+                    <strong>Tipo documento:</strong>
+                    <span id="detalleUsuarioTipoDoc">—</span>
                   </li>
-                  <li class="list-group-item"><strong>Correo:</strong> <span id="detalleUsuarioEmail">—</span></li>
-                  <li class="list-group-item"><strong>Teléfono:</strong> <span id="detalleUsuarioTelefono">—</span></li>
-                  <li class="list-group-item"><strong>Dirección:</strong> <span id="detalleUsuarioDireccion">—</span>
+                  <li class="list-group-item">
+                    <strong>N° Documento:</strong>
+                    <span id="detalleUsuarioNumDoc">—</span>
+                  </li>
+                  <li class="list-group-item">
+                    <strong>Correo:</strong>
+                    <span id="detalleUsuarioEmail">—</span>
+                  </li>
+                  <li class="list-group-item">
+                    <strong>Teléfono:</strong>
+                    <span id="detalleUsuarioTelefono">—</span>
+                  </li>
+                  <li class="list-group-item">
+                    <strong>Dirección:</strong>
+                    <span id="detalleUsuarioDireccion">—</span>
                   </li>
                 </ul>
               </div>
               <div class="col-md-6">
                 <ul class="list-group list-group-flush">
-                  <li class="list-group-item"><strong>Usuario:</strong> <span id="detalleUsuarioUsername">—</span></li>
-                  <li class="list-group-item"><strong>Sucursal:</strong> <span id="detalleUsuarioSucursal">—</span></li>
-                  <li class="list-group-item"><strong>Fecha creación:</strong> <span id="detalleUsuarioFecha">—</span>
+                  <li class="list-group-item">
+                    <strong>Usuario:</strong>
+                    <span id="detalleUsuarioUsername">—</span>
                   </li>
-                  <li class="list-group-item"><strong>Última actualización:</strong> <span
-                      id="detalleUsuarioActualizacion">—</span></li>
+                  <li class="list-group-item">
+                    <strong>Sucursal:</strong>
+                    <span id="detalleUsuarioSucursal">—</span>
+                  </li>
+                  <li class="list-group-item">
+                    <strong>Fecha creación:</strong>
+                    <span id="detalleUsuarioFecha">—</span>
+                  </li>
+                  <li class="list-group-item">
+                    <strong>Última actualización:</strong>
+                    <span id="detalleUsuarioActualizacion">—</span>
+                  </li>
                 </ul>
               </div>
             </div>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Cerrar
+            </button>
           </div>
         </div>
       </div>
-
-
     </div>
     <!-- Modal Confirmar Eliminar Usuario -->
-    <div class="modal fade" id="modalConfirmarEliminar" tabindex="-1" aria-hidden="true">
+    <div
+      class="modal fade"
+      id="modalConfirmarEliminar"
+      tabindex="-1"
+      aria-hidden="true"
+    >
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title">Confirmar eliminación</h5>
           </div>
           <div class="modal-body">
-            <p>¿Seguro que deseas eliminar al usuario <strong id="nombreUsuarioSpan"></strong>?</p>
+            <p>
+              ¿Seguro que deseas eliminar al usuario
+              <strong id="nombreUsuarioSpan"></strong>?
+            </p>
             <div id="errorEliminar" class="alert alert-danger d-none"></div>
           </div>
           <div class="modal-footer">
             <input type="hidden" id="usuarioIdEliminar" />
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-            <button type="button" class="btn btn-danger" id="btnConfirmarEliminar">Eliminar</button>
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Cancelar
+            </button>
+            <button
+              type="button"
+              class="btn btn-danger"
+              id="btnConfirmarEliminar"
+            >
+              Eliminar
+            </button>
           </div>
         </div>
       </div>
     </div>
-
-
   </div>
-
-
 </div>
-
-
 
 <!-- Scripts de ver detalles-->
 <script th:inline="javascript">
   document.addEventListener("DOMContentLoaded", function () {
-    const botonesDetalle = document.querySelectorAll("button[data-bs-target='#modalDetalleUsuario']");
+    const botonesDetalle = document.querySelectorAll(
+      "button[data-bs-target='#modalDetalleUsuario']"
+    );
 
     const id = document.getElementById("detalleUsuarioId");
     const nombre = document.getElementById("detalleUsuarioNombre");
@@ -311,23 +587,31 @@
     const username = document.getElementById("detalleUsuarioUsername");
     const sucursal = document.getElementById("detalleUsuarioSucursal");
     const fecha = document.getElementById("detalleUsuarioFecha");
-    const actualizacion = document.getElementById("detalleUsuarioActualizacion");
+    const actualizacion = document.getElementById(
+      "detalleUsuarioActualizacion"
+    );
 
-    const usuarios = /*[[${usuarios}]]*/[];
+    const usuarios = /*[[${usuarios}]]*/ [];
 
-    botonesDetalle.forEach(boton => {
+    botonesDetalle.forEach((boton) => {
       boton.addEventListener("click", () => {
         const userId = parseInt(boton.getAttribute("data-id"));
-        const user = usuarios.find(u => u.id === userId);
+        const user = usuarios.find((u) => u.id === userId);
 
         if (user) {
           id.textContent = user.id ?? "—";
-          nombre.textContent = `${user.persona?.nombres ?? ''} ${user.persona?.apellidos ?? ''}`.trim() || "—";
-          rol.textContent = user.roles?.length ? user.roles[0].nombre : "Sin rol";
+          nombre.textContent =
+            `${user.persona?.nombres ?? ""} ${
+              user.persona?.apellidos ?? ""
+            }`.trim() || "—";
+          rol.textContent = user.roles?.length
+            ? user.roles[0].nombre
+            : "Sin rol";
           estado.textContent = user.estado || "—";
-          estado.className = user.estado === "ACTIVO"
-            ? "text-success fw-semibold"
-            : "text-secondary fw-semibold";
+          estado.className =
+            user.estado === "ACTIVO"
+              ? "text-success fw-semibold"
+              : "text-secondary fw-semibold";
 
           tipoDoc.textContent = user.persona?.tipoDocumento?.codigo ?? "—";
           numDoc.textContent = user.persona?.numeroDocumento ?? "—";
@@ -339,17 +623,34 @@
           sucursal.textContent = user.sucursal?.nombre ?? "—";
 
           fecha.textContent = user.fechaCreacion
-            ? new Date(user.fechaCreacion).toLocaleString("es-PE", { dateStyle: "long", timeStyle: "short" })
+            ? new Date(user.fechaCreacion).toLocaleString("es-PE", {
+                dateStyle: "long",
+                timeStyle: "short",
+              })
             : "—";
 
           actualizacion.textContent = user.fechaActualizacion
-            ? new Date(user.fechaActualizacion).toLocaleString("es-PE", { dateStyle: "long", timeStyle: "short" })
+            ? new Date(user.fechaActualizacion).toLocaleString("es-PE", {
+                dateStyle: "long",
+                timeStyle: "short",
+              })
             : "—";
         } else {
           [
-            id, nombre, rol, estado, tipoDoc, numDoc, email, telefono,
-            direccion, username, sucursal, fecha, actualizacion
-          ].forEach(el => el.textContent = "—");
+            id,
+            nombre,
+            rol,
+            estado,
+            tipoDoc,
+            numDoc,
+            email,
+            telefono,
+            direccion,
+            username,
+            sucursal,
+            fecha,
+            actualizacion,
+          ].forEach((el) => (el.textContent = "—"));
         }
       });
     });
@@ -362,7 +663,9 @@
     const btnGuardar = document.getElementById("btnGuardarUsuario");
     const serverErrorElement = document.getElementById("serverError");
     const passwordInput = document.getElementById("usuarioPassword");
-    const passwordConfirmInput = document.getElementById("usuarioPasswordConfirm");
+    const passwordConfirmInput = document.getElementById(
+      "usuarioPasswordConfirm"
+    );
 
     function displayError(message) {
       serverErrorElement.textContent = message;
@@ -411,7 +714,7 @@
         razonSocial: "",
         email: document.getElementById("usuarioEmail").value,
         telefono: document.getElementById("usuarioTelefono").value,
-        direccion: document.getElementById("usuarioDireccion").value
+        direccion: document.getElementById("usuarioDireccion").value,
       };
 
       const usuarioRequest = {
@@ -421,7 +724,7 @@
         nombreUsuario: document.getElementById("usuarioUsername").value,
         password: document.getElementById("usuarioDNI").value,
         estado: document.getElementById("usuarioEstado").value,
-        estadoEntidad: parseInt(document.getElementById("usuarioEstado").value)
+        estadoEntidad: parseInt(document.getElementById("usuarioEstado").value),
       };
 
       if (modo === "editar" && usuarioRequest.password === "") {
@@ -430,11 +733,10 @@
 
       try {
         if (modo === "crear") {
-
           const respPersona = await fetch("/api/personas/crear-desde-admin", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(personaRequest)
+            body: JSON.stringify(personaRequest),
           });
           if (!respPersona.ok) {
             const error = await respPersona.text();
@@ -446,30 +748,28 @@
           const respUsuario = await fetch("/api/usuarios", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(usuarioRequest)
+            body: JSON.stringify(usuarioRequest),
           });
           if (!respUsuario.ok) {
             const error = await respUsuario.text();
             throw new Error(`Error al crear el usuario: ${error}`);
           }
-
         } else {
           usuarioRequest.password = null;
           const respUsuario = await fetch(`/api/usuarios/${usuarioId}`, {
             method: "PUT",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(usuarioRequest)
+            body: JSON.stringify(usuarioRequest),
           });
           if (!respUsuario.ok) {
             const error = await respUsuario.text();
             throw new Error(`Error al actualizar el usuario: ${error}`);
           }
 
-
           const respPersona = await fetch(`/api/personas/${personaId}`, {
             method: "PUT",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(personaRequest)
+            body: JSON.stringify(personaRequest),
           });
           if (!respPersona.ok) {
             const error = await respPersona.text();
@@ -477,22 +777,22 @@
           }
         }
 
-
-        const modal = bootstrap.Modal.getInstance(document.getElementById("modalAgregarUsuario"));
+        const modal = bootstrap.Modal.getInstance(
+          document.getElementById("modalAgregarUsuario")
+        );
         modal.hide();
         window.location.reload();
-
       } catch (error) {
         console.error("Error en operación:", error.message);
 
-
         const fullMessage = error.message;
-        const serverMessageMatch = fullMessage.match(/(Error al crear el usuario|Error al crear la persona|Error al actualizar el usuario|Error al actualizar la persona):\s*(.*)/i);
+        const serverMessageMatch = fullMessage.match(
+          /(Error al crear el usuario|Error al crear la persona|Error al actualizar el usuario|Error al actualizar la persona):\s*(.*)/i
+        );
 
         let displayMsg = "Hubo un error al guardar los cambios.";
 
         if (serverMessageMatch && serverMessageMatch[2]) {
-
           displayMsg = serverMessageMatch[2].trim();
         } else {
           displayMsg = fullMessage;
@@ -508,33 +808,38 @@
 <!-- Scripts de ver detalles-->
 <script th:inline="javascript">
   document.addEventListener("DOMContentLoaded", function () {
-    const botonesDetalle = document.querySelectorAll("button[data-bs-target='#modalDetalleUsuario']");
+    const botonesDetalle = document.querySelectorAll(
+      "button[data-bs-target='#modalDetalleUsuario']"
+    );
     const nombre = document.getElementById("detalleUsuarioNombre");
     const rol = document.getElementById("detalleUsuarioRol");
     const telefono = document.getElementById("detalleUsuarioTelefono");
     const fecha = document.getElementById("detalleUsuarioFecha");
     const estado = document.getElementById("detalleUsuarioEstado");
-    const usuarios = /*[[${usuarios}]]*/[];
+    const usuarios = /*[[${usuarios}]]*/ [];
     botonesDetalle.forEach((boton) => {
       boton.addEventListener("click", function () {
         const userId = parseInt(boton.getAttribute("data-id"));
-        const user = usuarios.find(u => u.id === userId);
+        const user = usuarios.find((u) => u.id === userId);
 
         if (user) {
           nombre.textContent = `${user.persona.nombres} ${user.persona.apellidos}`;
-          rol.textContent = user.roles && user.roles.length > 0 ? user.roles[0].nombre : "Sin rol";
-
+          rol.textContent =
+            user.roles && user.roles.length > 0
+              ? user.roles[0].nombre
+              : "Sin rol";
 
           telefono.textContent = user.persona.telefono || "—";
 
-
-          fecha.textContent = user.fechaCreacion ? new Date(user.fechaCreacion).toLocaleDateString() : "—";
-
+          fecha.textContent = user.fechaCreacion
+            ? new Date(user.fechaCreacion).toLocaleDateString()
+            : "—";
 
           estado.textContent = user.estado || "—";
-          estado.className = user.estado === "ACTIVO"
-            ? "badge bg-success"
-            : "badge bg-secondary";
+          estado.className =
+            user.estado === "ACTIVO"
+              ? "badge bg-success"
+              : "badge bg-secondary";
         } else {
           nombre.textContent = "No encontrado";
           rol.textContent = "—";
@@ -594,8 +899,7 @@
     const form = document.querySelector(".needs-validation");
 
     const formValidationsOff = document.getElementById("form-Validaciones-Off");
-    form.setAttribute('autocomplete', 'off');
-
+    form.setAttribute("autocomplete", "off");
 
     const inputs = {
       dni: document.getElementById("usuarioDNI"),
@@ -608,13 +912,13 @@
       password: document.getElementById("usuarioPassword"),
       passwordConfirm: document.getElementById("usuarioPasswordConfirm"),
       rol: document.getElementById("usuarioRol"),
-      estado: document.getElementById("usuarioEstado")
+      estado: document.getElementById("usuarioEstado"),
     };
 
     const regex = {
       dni: /^[0-9]{8}$/,
       telefono: /^[0-9]{9}$/,
-      email: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
+      email: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
     };
     const validarCampo = (input, condicion, mensaje) => {
       const feedback = input.nextElementSibling;
@@ -628,88 +932,126 @@
     };
 
     inputs.dni.addEventListener("input", () => {
-      validarCampo(inputs.dni, regex.dni.test(inputs.dni.value), "Ingrese un DNI válido de 8 dígitos.");
+      validarCampo(
+        inputs.dni,
+        regex.dni.test(inputs.dni.value),
+        "Ingrese un DNI válido de 8 dígitos."
+      );
     });
 
     inputs.nombres.addEventListener("input", () => {
-      validarCampo(inputs.nombres, inputs.nombres.value.trim() !== "", "El nombre es obligatorio.");
+      validarCampo(
+        inputs.nombres,
+        inputs.nombres.value.trim() !== "",
+        "El nombre es obligatorio."
+      );
     });
 
     inputs.apellidos.addEventListener("input", () => {
-      validarCampo(inputs.apellidos, inputs.apellidos.value.trim() !== "", "Los apellidos son obligatorios.");
+      validarCampo(
+        inputs.apellidos,
+        inputs.apellidos.value.trim() !== "",
+        "Los apellidos son obligatorios."
+      );
     });
 
     inputs.telefono.addEventListener("input", () => {
-      validarCampo(inputs.telefono, regex.telefono.test(inputs.telefono.value), "Ingrese un número de 9 dígitos.");
+      validarCampo(
+        inputs.telefono,
+        regex.telefono.test(inputs.telefono.value),
+        "Ingrese un número de 9 dígitos."
+      );
     });
 
     inputs.email.addEventListener("input", () => {
-      validarCampo(inputs.email, regex.email.test(inputs.email.value), "Ingrese un correo electrónico válido.");
+      validarCampo(
+        inputs.email,
+        regex.email.test(inputs.email.value),
+        "Ingrese un correo electrónico válido."
+      );
     });
 
     inputs.username.addEventListener("input", () => {
-      validarCampo(inputs.username, inputs.username.value.length >= 4, "El username debe tener al menos 4 caracteres.");
+      validarCampo(
+        inputs.username,
+        inputs.username.value.length >= 4,
+        "El username debe tener al menos 4 caracteres."
+      );
     });
 
     inputs.rol.addEventListener("change", () => {
-      validarCampo(inputs.rol, inputs.rol.value !== "", "Debe seleccionar un rol.");
+      validarCampo(
+        inputs.rol,
+        inputs.rol.value !== "",
+        "Debe seleccionar un rol."
+      );
     });
 
     inputs.estado.addEventListener("change", () => {
-      validarCampo(inputs.estado, inputs.estado.value !== "", "Debe seleccionar el estado.");
+      validarCampo(
+        inputs.estado,
+        inputs.estado.value !== "",
+        "Debe seleccionar el estado."
+      );
     });
     const isEditMode = () => {
-      const title = document.getElementById("modalAgregarUsuarioLabel").textContent.trim();
+      const title = document
+        .getElementById("modalAgregarUsuarioLabel")
+        .textContent.trim();
       return title === "Editar Usuario";
     };
 
-    document.getElementById("btnGuardarUsuario").addEventListener("click", (e) => {
-      let formValido = true;
-      const modoEditar = isEditMode();
-      for (const [key, input] of Object.entries(inputs)) {
-        let valido = true;
-        switch (key) {
-          case "dni":
-            valido = regex.dni.test(input.value);
-            break;
-          case "telefono":
-            valido = regex.telefono.test(input.value);
-            break;
-          case "email":
-            valido = regex.email.test(input.value);
-            break;
-          case "username":
-            valido = input.value.length >= 4;
-            break;
+    document
+      .getElementById("btnGuardarUsuario")
+      .addEventListener("click", (e) => {
+        let formValido = true;
+        const modoEditar = isEditMode();
+        for (const [key, input] of Object.entries(inputs)) {
+          let valido = true;
+          switch (key) {
+            case "dni":
+              valido = regex.dni.test(input.value);
+              break;
+            case "telefono":
+              valido = regex.telefono.test(input.value);
+              break;
+            case "email":
+              valido = regex.email.test(input.value);
+              break;
+            case "username":
+              valido = input.value.length >= 4;
+              break;
 
-          case "rol":
-            valido = input.value !== "";
-            break;
-          case "estado":
-            valido = input.value !== "";
-            break;
-          default:
-            valido = input.value.trim() !== "" || key === "direccion";
+            case "rol":
+              valido = input.value !== "";
+              break;
+            case "estado":
+              valido = input.value !== "";
+              break;
+            default:
+              valido = input.value.trim() !== "" || key === "direccion";
+          }
+
+          validarCampo(
+            input,
+            valido,
+            input.nextElementSibling?.textContent || "Campo inválido"
+          );
+          if (!valido) formValido = false;
         }
 
-        validarCampo(input, valido, input.nextElementSibling?.textContent || "Campo inválido");
-        if (!valido) formValido = false;
-      }
-
-      if (!formValido) {
-        e.preventDefault();
-        e.stopPropagation();
-      }
-    });
+        if (!formValido) {
+          e.preventDefault();
+          e.stopPropagation();
+        }
+      });
   });
 </script>
-
 
 <!-- Script para eliminar usuario-->
 <script th:inline="javascript">
   document.addEventListener("DOMContentLoaded", () => {
-
-    const usuarios = /*[[${usuarios}]]*/[];
+    const usuarios = /*[[${usuarios}]]*/ [];
     const API_URL = "/api/usuarios";
 
     const modalEliminar = document.getElementById("modalConfirmarEliminar");
@@ -718,21 +1060,22 @@
     const btnConfirmar = document.getElementById("btnConfirmarEliminar");
     const errorDiv = document.getElementById("errorEliminar");
 
-    document.querySelectorAll(".btn-eliminar-usuario").forEach(
-      button => {
-        button.addEventListener("click", (event) => {
-          const id = event.currentTarget.getAttribute("data-id");
-          const nombre = event.currentTarget.getAttribute("data-nombre");
-          idUsuarioInput.value = id; nombreUsuarioSpan.textContent = nombre;
+    document.querySelectorAll(".btn-eliminar-usuario").forEach((button) => {
+      button.addEventListener("click", (event) => {
+        const id = event.currentTarget.getAttribute("data-id");
+        const nombre = event.currentTarget.getAttribute("data-nombre");
+        idUsuarioInput.value = id;
+        nombreUsuarioSpan.textContent = nombre;
 
-          errorDiv.classList.add("d-none"); errorDiv.textContent = "";
-        });
+        errorDiv.classList.add("d-none");
+        errorDiv.textContent = "";
       });
+    });
 
     btnConfirmar.addEventListener("click", async () => {
       const idParaEliminar = idUsuarioInput.value;
 
-      const user = usuarios.find(u => u.id === parseInt(idParaEliminar));
+      const user = usuarios.find((u) => u.id === parseInt(idParaEliminar));
 
       if (!user) {
         errorDiv.textContent = "Error: No se pudo encontrar el usuario.";
@@ -746,50 +1089,53 @@
         rolId: user.roles?.[0]?.id || 1,
         nombreUsuario: user.nombreUsuario,
         password: user.password || "",
-        estadoEntidad: 0
+        estadoEntidad: 0,
       };
-
 
       try {
         const response = await fetch(`${API_URL}/${idParaEliminar}`, {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(usuarioRequest)
+          body: JSON.stringify(usuarioRequest),
         });
 
         if (!response.ok) {
           const errorMsg = await response.text();
-          throw new Error(errorMsg || "Error al actualizar el estado del usuario.");
+          throw new Error(
+            errorMsg || "Error al actualizar el estado del usuario."
+          );
         }
-
 
         const modal = bootstrap.Modal.getInstance(modalEliminar);
         modal.hide();
         window.location.reload();
-
       } catch (error) {
         console.error("Error en el borrado lógico:", error);
-        errorDiv.textContent = "Error al procesar la solicitud: " + error.message;
+        errorDiv.textContent =
+          "Error al procesar la solicitud: " + error.message;
         errorDiv.classList.remove("d-none");
       }
     });
   });
 </script>
 
-
 <!-- Script para configurar modal para editar usuario -->
 <script th:inline="javascript">
   document.addEventListener("DOMContentLoaded", () => {
-    const usuarios = /*[[${usuarios}]]*/[];
-    const roles = /*[[${roles}]]*/[];
+    const usuarios = /*[[${usuarios}]]*/ [];
+    const roles = /*[[${roles}]]*/ [];
 
-    const modalUsuario = new bootstrap.Modal(document.getElementById("modalAgregarUsuario"));
+    const modalUsuario = new bootstrap.Modal(
+      document.getElementById("modalAgregarUsuario")
+    );
     const tituloModal = document.getElementById("modalAgregarUsuarioLabel");
     const btnGuardar = document.getElementById("btnGuardarUsuario");
     const grupoEstado = document.getElementById("grupoEstado");
 
     const grupoPassword = document.getElementById("grupoPassword");
-    const grupoPasswordConfirm = document.getElementById("grupoPasswordConfirm");
+    const grupoPasswordConfirm = document.getElementById(
+      "grupoPasswordConfirm"
+    );
 
     const inputs = {
       id: document.getElementById("usuarioId"),
@@ -807,22 +1153,24 @@
       estado: document.getElementById("usuarioEstado"),
     };
 
-    document.querySelector("[data-bs-target='#modalAgregarUsuario']").addEventListener("click", () => {
-      tituloModal.textContent = "Agregar Nuevo Usuario";
-      btnGuardar.textContent = "Guardar";
-      btnGuardar.dataset.modo = "crear";
-      grupoEstado.style.display = "none";
-      limpiarFormulario();
+    document
+      .querySelector("[data-bs-target='#modalAgregarUsuario']")
+      .addEventListener("click", () => {
+        tituloModal.textContent = "Agregar Nuevo Usuario";
+        btnGuardar.textContent = "Guardar";
+        btnGuardar.dataset.modo = "crear";
+        grupoEstado.style.display = "none";
+        limpiarFormulario();
 
-      inputs.dni.removeAttribute("readonly");
-      grupoPassword.style.display = "block";
-      grupoPasswordConfirm.style.display = "block";
-    });
+        inputs.dni.removeAttribute("readonly");
+        grupoPassword.style.display = "block";
+        grupoPasswordConfirm.style.display = "block";
+      });
 
-    document.querySelectorAll(".btnEditarUsuario").forEach(boton => {
+    document.querySelectorAll(".btnEditarUsuario").forEach((boton) => {
       boton.addEventListener("click", () => {
         const id = parseInt(boton.getAttribute("data-id"));
-        const user = usuarios.find(u => u.id === id);
+        const user = usuarios.find((u) => u.id === id);
         if (!user) return;
 
         tituloModal.textContent = "Editar Usuario";
@@ -853,10 +1201,115 @@
     });
 
     function limpiarFormulario() {
-      Object.values(inputs).forEach(i => {
+      Object.values(inputs).forEach((i) => {
         if (i.tagName === "SELECT") i.selectedIndex = 0;
         else i.value = "";
       });
     }
   });
+</script>
+
+<script>
+  document
+    .getElementById("btnBuscarClientePromover")
+    .addEventListener("click", async () => {
+      const dni = document.getElementById("promoverDni").value;
+      if (dni.length !== 8) {
+        alert("DNI inválido");
+        return;
+      }
+      try {
+        const resp = await fetch(`/api/personas/buscar?dni=${dni}`);
+        if (resp.ok) {
+          const persona = await resp.json();
+          document.getElementById(
+            "nombreClienteEncontrado"
+          ).textContent = `Encontrado: ${persona.nombres} ${persona.apellidos}`;
+        } else {
+          document.getElementById("nombreClienteEncontrado").textContent =
+            "Persona no encontrada en el sistema.";
+          document.getElementById("nombreClienteEncontrado").className =
+            "text-danger fw-bold";
+        }
+      } catch (e) {
+        console.error(e);
+      }
+    });
+
+  async function guardarPromocion() {
+    const dniInput = document.getElementById("promoverDni");
+    const usernameInput = document.getElementById("promoverUsername");
+    const rolInput = document.getElementById("promoverRol");
+
+    const dni = dniInput.value.trim();
+    const nuevoUsername = usernameInput.value.trim();
+    const nuevoRolId = rolInput.value;
+
+    if (!dni) {
+      alert("El DNI es obligatorio.");
+      dniInput.focus();
+      return;
+    }
+    if (!/^\d{8}$/.test(dni)) {
+      alert("El DNI debe contener exactamente 8 dígitos numéricos.");
+      dniInput.focus();
+      return;
+    }
+    if (!nuevoUsername) {
+      alert("El nombre de usuario es obligatorio.");
+      usernameInput.focus();
+      return;
+    }
+    if (nuevoUsername.length < 4) {
+      alert("El nombre de usuario debe tener al menos 4 caracteres.");
+      usernameInput.focus();
+      return;
+    }
+    if (/\s/.test(nuevoUsername)) {
+      alert("El nombre de usuario no puede contener espacios.");
+      usernameInput.focus();
+      return;
+    }
+    if (!nuevoRolId || nuevoRolId === "") {
+      alert("Debes seleccionar un rol para el usuario.");
+      rolInput.focus();
+      return;
+    }
+
+    const data = {
+      dni: dni,
+      nuevoUsername: nuevoUsername,
+      nuevoRolId: parseInt(nuevoRolId),
+    };
+
+    try {
+      const resp = await fetch("/api/usuarios/promover", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      });
+
+      if (resp.ok) {
+        const modalEl = document.getElementById("modalPromoverUsuario");
+        const modal = bootstrap.Modal.getInstance(modalEl);
+        modal.hide();
+        if (typeof Swal !== "undefined") {
+          Swal.fire(
+            "¡Éxito!",
+            "Usuario promovido correctamente",
+            "success"
+          ).then(() => window.location.reload());
+        } else {
+          alert("Usuario promovido con éxito");
+          window.location.reload();
+        }
+      } else {
+        const msg = await resp.text();
+        alert("Error del servidor: " + msg);
+      }
+    } catch (e) {
+      console.error(e);
+      alert("Error de conexión al intentar promover el usuario.");
+    }
+  }
 </script>

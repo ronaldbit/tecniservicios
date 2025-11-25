@@ -1,12 +1,8 @@
 package com.example.simplemvc.controller;
 
-import com.example.simplemvc.dto.UsuarioDto;
-import com.example.simplemvc.request.CrearUsuarioRequest;
-import com.example.simplemvc.service.UsuarioService;
-import lombok.RequiredArgsConstructor;
-
 import java.util.stream.Collectors;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -16,6 +12,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import com.example.simplemvc.dto.UsuarioDto;
+import com.example.simplemvc.request.CrearUsuarioRequest;
+import com.example.simplemvc.request.PromoverUsuarioRequest;
+import com.example.simplemvc.service.UsuarioService;
+
+import lombok.RequiredArgsConstructor;
 
 @Controller
 @RequestMapping("/api/usuarios")
@@ -50,13 +53,14 @@ public class ApiUsuarioController {
       return ResponseEntity.badRequest().body(e.getMessage());
     }
   }
+
   @GetMapping("/clientes")
   @PreAuthorize("hasRole('ADMIN')")
   public ResponseEntity<?> listarClientes() {
     try {
       return ResponseEntity.ok(usuarioService.listaTodos().stream()
-        .filter(p -> "CLIENTE".equals(p.getRoles().get(0).getNombre()))
-        .collect(Collectors.toList()));
+          .filter(p -> "CLIENTE".equals(p.getRoles().get(0).getNombre()))
+          .collect(Collectors.toList()));
     } catch (Exception e) {
       return ResponseEntity.status(500).body("Error al obtener los clientes: " + e.getMessage());
     }
@@ -73,6 +77,16 @@ public class ApiUsuarioController {
     }
   }
 
-
-  
+  @PostMapping("/promover")
+  public ResponseEntity<?> promoverUsuario(@RequestBody PromoverUsuarioRequest request) {
+    try {
+      UsuarioDto usuarioDto = usuarioService.promoverUsuario(request);
+      return ResponseEntity.ok(usuarioDto);
+    } catch (IllegalArgumentException e) {
+      return ResponseEntity.badRequest().body(e.getMessage());
+    } catch (Exception e) {
+      return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+          .body("Error interno al promover usuario: " + e.getMessage());
+    }
+  }
 }
