@@ -162,25 +162,46 @@ public class PedidoProveedorService {
   @Transactional
   public void reciboParcialPedidoPorId(Long id, List<DetalleReciboRequest> request) {
     PedidoProveedor pedido = pedidoProveedorRepository.findById(id)
-        .orElseThrow(() -> new EntityNotFoundException(
-            "Pedido no encontrado con ID: " + id));
-    for (DetalleReciboRequest dto : request) {
-      pedido.getDetalles().forEach(det -> {
-        if (det.getId().equals(dto.getIdDetalle())) {
-          det.setRecibido(dto.getRecibido());
-        }
-      });
-    }
-    boolean todos = pedido.getDetalles().stream().allMatch(d -> d.isRecibido());
-    boolean ninguno = pedido.getDetalles().stream().noneMatch(d -> d.isRecibido());
-    if (todos) {
-      pedido.setEstado(EstadoPedido.RECIBIDO);
+        .orElseThrow(() -> new EntityNotFoundException("Pedido no encontrado con ID: " + id));
 
-    } else if (ninguno) {
-      pedido.setEstado(EstadoPedido.PENDIENTE);
-    } else {
-      pedido.setEstado(EstadoPedido.PARTIALMENTE_RECIBIDO);
+    for (DetalleReciboRequest dto : request) {
+      pedido.getDetalles().stream()
+          .filter(det -> det.getId().equals(dto.getIdDetalle()))
+          .findFirst()
+          .ifPresent(detalle -> {
+            BigDecimal cantidadLlegadaAhora = dto.getRecibidoCantidad();
+            if (cantidadLlegadaAhora != null && cantidadLlegadaAhora.compareTo(BigDecimal.ZERO) > 0) {
+              BigDecimal recibidoAntes = detalle.getRecibidoCantidad() != null ? detalle.getRecibidoCantidad()
+                  : BigDecimal.ZERO;
+              BigDecimal nuevoTotal = recibidoAntes.add(cantidadLlegadaAhora);
+              if (nuevoTotal.compareTo(detalle.getCantidad()) > 0) {
+                throw new IllegalStateException(
+                    "Error: La cantidad total recibida supera lo solicitado para el producto "
+                        + detalle.getProducto().getNombre());
+              }
+              detalle.setRecibidoCantidad(nuevoTotal);
+              if (nuevoTotal.compareTo(detalle.getCantidad()) >= 0) {
+                detalle.setRecibido(true);
+              }
+              Producto producto = detalle.getProducto();
+              producto.setStockActual(producto.getStockActual().add(cantidadLlegadaAhora));
+              productoRepository.save(producto);
+            }
+          });
     }
+    boolean todosCompletos = pedido.getDetalles().stream()
+        .allMatch(d -> d.isRecibido());
+    boolean algunRecibido = pedido.getDetalles().stream()
+        .anyMatch(d -> d.getRecibidoCantidad() != null && d.getRecibidoCantidad().compareTo(BigDecimal.ZERO) > 0);
+
+    if (todosCompletos) {
+      pedido.setEstado(EstadoPedido.PENDIENTE_SUBIR_VOUCHER);
+    } else if (algunRecibido) {
+      pedido.setEstado(EstadoPedido.PARTIALMENTE_RECIBIDO);
+    } else {
+      pedido.setEstado(EstadoPedido.PENDIENTE);
+    }
+
     pedidoProveedorRepository.save(pedido);
   }
 

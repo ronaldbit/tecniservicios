@@ -125,11 +125,16 @@ public class ApiPedidoProveedorController {
   }
 
   @PutMapping("/{id}/recibo-parcial")
-  public void actualizarReciboParcial(
+  public ResponseEntity<?> actualizarReciboParcial(
       @PathVariable Long id,
       @RequestBody List<DetalleReciboRequest> detallesRequests) {
-    System.out.println("Recibo parcial para pedido ID: " + id);
-    pedidoProveedorService.reciboParcialPedidoPorId(id, detallesRequests);
+    try {
+      pedidoProveedorService.reciboParcialPedidoPorId(id, detallesRequests);
+      return ResponseEntity.ok().build();
+    } catch (Exception e) {
+      return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+          .body(e.getMessage());
+    }
   }
 
   @PostMapping("/confirmar/{id}")

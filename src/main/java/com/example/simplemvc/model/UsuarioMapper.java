@@ -1,23 +1,21 @@
 package com.example.simplemvc.model;
 
-import com.example.simplemvc.dto.UsuarioDto;
-import com.example.simplemvc.model.Usuario.UsuarioBuilder;
-import com.example.simplemvc.request.CrearUsuarioRequest;
-import com.example.simplemvc.shared.mapper.CrudMapper;
-import com.example.simplemvc.shared.mapper.StringUtilsMapper;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.ObjectFactory;
 
-@Mapper(
-    componentModel = "spring",
-    uses = {
-      StringUtilsMapper.class,
-      PersonaMapper.class,
-      SucursalMapper.class,
-      RolMapper.class,
-      PermisoMapper.class
-    })
+import com.example.simplemvc.dto.UsuarioDto;
+import com.example.simplemvc.request.CrearUsuarioRequest;
+import com.example.simplemvc.shared.mapper.CrudMapper;
+import com.example.simplemvc.shared.mapper.StringUtilsMapper;
+
+@Mapper(componentModel = "spring", uses = {
+    StringUtilsMapper.class,
+    PersonaMapper.class,
+    SucursalMapper.class,
+    RolMapper.class,
+    PermisoMapper.class
+})
 public interface UsuarioMapper extends CrudMapper<Usuario, UsuarioDto, Usuario.UsuarioBuilder> {
 
   @ObjectFactory

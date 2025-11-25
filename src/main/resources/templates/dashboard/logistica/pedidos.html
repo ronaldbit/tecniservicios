@@ -542,7 +542,8 @@
                 <thead>
                   <tr>
                     <th>Producto</th>
-                    <th>Cantidad</th>
+                    <th>Cantidad a recibir:</th>
+                    <th>Recibido:</th>
                     <th>¿Recibido?</th>
                   </tr>
                 </thead>
@@ -665,6 +666,7 @@
             "PENDIENTE",
             "RECIBIDO",
             "CANCELADO",
+            "PENDIENTE_SUBIR_VOUCHER",
             "PARTIALMENTE_RECIBIDO",
           ].indexOf(pedido.estado) === -1 &&
           pedido.estado !== "BORRADOR" &&
@@ -690,10 +692,8 @@
             <td>${formatFecha(pedido.fechaEmision)}</td>
             <td>${formatFecha(pedido.fechaEntregaEsperada)}</td>
             <td class="fw-bold">${formatCurrency(pedido.costoCotizacion)}</td>
-            <td>${formatEstado(estadoVisual)}</td> <td>${generarBotonesAccion(
-          pedido.id,
-          pedido.estado
-        )}</td>
+            <td>${formatEstado(estadoVisual)}</td>
+             <td>${generarBotonesAccion(pedido.id, pedido.estado)}</td>
         `;
         pedidosTbody.appendChild(tr);
       });
@@ -1178,27 +1178,42 @@
           pedido.razonSocialProveedor || "(Sin Proveedor)";
         rpEstado.innerHTML = formatEstado(pedido.estado);
         rpTotal.textContent = formatCurrency(pedido.costoCotizacion);
+
         rpTablaProductos.innerHTML = "";
         if (pedido.detalles && pedido.detalles.length > 0) {
           pedido.detalles.forEach((item) => {
             const tr = document.createElement("tr");
+            const yaRecibido = item.recibidoCantidad || 0;
+            const pendiente = item.cantidad - yaRecibido;
+            const completo = pendiente <= 0;
             tr.innerHTML = `
-                  <td>
-                     ${item.nombreProducto}
-                     <small class="d-block text-muted">${
-                       item.idProducto
-                     }</small>
-                  </td>
-                  <td>${item.cantidad}</td>
-                  <td class="text-center">
-                     <input
-                        type="checkbox"
-                        class="form-check-input recibo-checkbox"
-                        data-id-detalle="${item.id}"
-                        ${item.recibido ? "checked" : ""}
-                     >
-                  </td>
-               `;
+                <td>
+                    <div class="fw-bold">${item.nombreProducto}</div>
+                    <small class="text-muted">${
+                      item.codigoProducto || ""
+                    }</small>
+                </td>
+                <td class="text-center">${item.cantidad}</td>
+                <td class="text-center fw-bold text-primary">${yaRecibido}</td>
+                <td class="text-center">
+                  <input 
+                      type="number" 
+                      class="form-control form-control-sm input-recibo text-center" 
+                      data-id-detalle="${item.id}" 
+                      min="0"
+                      max="${pendiente}"
+                      step="1"
+                      placeholder="0"
+                      ${completo ? 'disabled value=""' : ""}
+                  >
+                  ${
+                    completo
+                      ? '<small class="text-success d-block">Completo</small>'
+                      : ""
+                  }
+                </td>
+              `;
+
             rpTablaProductos.appendChild(tr);
           });
         } else {
@@ -1212,17 +1227,28 @@
     }
 
     window.guardarReciboParcial = async function () {
-      const checkboxes = document.querySelectorAll(".recibo-checkbox");
+      const inputs = document.querySelectorAll(".input-recibo");
       const detallesActualizados = [];
-      checkboxes.forEach((cb) => {
-        detallesActualizados.push({
-          idDetalle: cb.dataset.idDetalle,
-          recibido: cb.checked,
-        });
+      let hayDatos = false;
+      inputs.forEach((input) => {
+        if (!input.disabled) {
+          const cantidad = parseFloat(input.value);
+          if (!isNaN(cantidad) && cantidad > 0) {
+            detallesActualizados.push({
+              idDetalle: parseInt(input.dataset.idDetalle),
+              recibidoCantidad: cantidad,
+            });
+            hayDatos = true;
+          }
+        }
       });
-      const pedidoId = document.getElementById("rp-id").textContent;
 
-      console.log(JSON.stringify(detallesActualizados));
+      if (!hayDatos) {
+        alert("No se han ingresado cantidades a recibir.");
+        return;
+      }
+
+      const pedidoId = document.getElementById("rp-id").textContent;
       try {
         const response = await fetch(
           `${API_PEDIDOS}/${pedidoId}/recibo-parcial`,
@@ -1232,16 +1258,22 @@
             body: JSON.stringify(detallesActualizados),
           }
         );
+
         if (!response.ok) {
-          throw new Error("No se pudo guardar los cambios");
+          const errorMsg = await response.text();
+          throw new Error(errorMsg || "Error al guardar los cambios");
         }
+
+        Swal.fire("¡Éxito!", getMensajeExito("recibo-parcial"), "success");
+
+        const modalElement = document.getElementById("modalReciboParcial");
+        bootstrap.Modal.getInstance(modalElement).hide();
+
+        cargarPedidos();
       } catch (error) {
         console.error(error);
-        alert("Error al guardar los cambios");
+        alert(error.message || "Error de conexión");
       }
-      const modalElement = document.getElementById("modalReciboParcial");
-      bootstrap.Modal.getInstance(modalElement).hide();
-      cargarPedidos();
     };
 
     async function abrirModalDetalle(id) {
@@ -1323,7 +1355,7 @@
                                 }</small>
                             </td>
                             <td>${item.cantidad}</td>
-                            <td>${item.precioUnitario || 0}</td>
+                            <td>${item.precioUnitario}</td>
                             <td>${item.recibido == true ? "Sí" : "No"}</td>
                         `;
               detalleTablaProductos.appendChild(tr);
@@ -1443,6 +1475,12 @@
                 <i class="ti ti-x f-20"></i>
             </a>
         `;
+      } else if (estado === "PENDIENTE_SUBIR_VOUCHER") {
+        botones += `
+         <a href="#!" class="avtar avtar-xs btn-link-success btn-confirmar" data-id="${id}" data-bs-toggle="tooltip" title="Confirmar Recepción Completa">
+                <i class="ti ti-checks f-20"></i>
+            </a>
+      `;
       }
       return botones;
     }
