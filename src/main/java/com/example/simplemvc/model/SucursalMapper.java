@@ -1,16 +1,14 @@
 package com.example.simplemvc.model;
 
-import com.example.simplemvc.dto.SucursalDto;
-import com.example.simplemvc.model.Sucursal.SucursalBuilder;
-import com.example.simplemvc.shared.mapper.BasicMapper;
-import com.example.simplemvc.shared.mapper.StringUtilsMapper;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.ObjectFactory;
 
-@Mapper(
-    componentModel = "spring",
-    uses = {StringUtilsMapper.class, EmpresaMapper.class})
+import com.example.simplemvc.dto.SucursalDto;
+import com.example.simplemvc.shared.mapper.BasicMapper;
+import com.example.simplemvc.shared.mapper.StringUtilsMapper;
+
+@Mapper(componentModel = "spring", uses = { StringUtilsMapper.class, EmpresaMapper.class })
 public interface SucursalMapper extends BasicMapper<Sucursal, SucursalDto> {
 
   @ObjectFactory

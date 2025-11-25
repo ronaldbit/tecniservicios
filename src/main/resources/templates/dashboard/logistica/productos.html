@@ -1,5 +1,7 @@
-<div class="pc-container"
-  th:replace="~{dashboard/layout :: layout(~{::content}, ${usuario}, 'Productos', '/dashboard/productos')}">
+<div
+  class="pc-container"
+  th:replace="~{dashboard/layout :: layout(~{::content}, ${usuario}, 'Productos', '/dashboard/productos')}"
+>
   <div class="pc-content" th:fragment="content">
     <!-- [ Main Content ] start -->
     <div class="page-header">
@@ -8,7 +10,9 @@
           <div class="col-md-12">
             <ul class="breadcrumb">
               <li class="breadcrumb-item"><a href="/dashboard">Inicio</a></li>
-              <li class="breadcrumb-item"><a href="javascript:void(0)">Productos</a></li>
+              <li class="breadcrumb-item">
+                <a href="javascript:void(0)">Productos</a>
+              </li>
               <li class="breadcrumb-item active" aria-current="page">Lista</li>
             </ul>
           </div>
@@ -21,47 +25,98 @@
       </div>
     </div>
 
-    <!-- Tabla de productos -->
     <div class="row">
       <div class="col-12">
         <div class="card table-card">
-          <div class="card-header d-flex align-items-center justify-content-between">
+          <div
+            class="card-header d-flex align-items-center justify-content-between py-3"
+          >
             <h5 class="mb-0">Inventario de lubricantes</h5>
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModalLive"
-              onclick="LimpiarModal()" hidden>
-              <i class="ti ti-plus me-1"></i> Actualizar Inventario
-            </button>
-            <button type="button" class="btn btn-primary" id="btnNuevoProducto" data-bs-toggle="modal"
-              data-bs-target="#modalProducto">
-              <i class="ti ti-plus me-1"></i> Nuevo Producto
-            </button>
+
+            <div class="d-flex gap-2">
+              <button
+                type="button"
+                class="btn btn-outline-primary d-none"
+                data-bs-toggle="modal"
+                data-bs-target="#exampleModalLive"
+                onclick="LimpiarModal()"
+              >
+                <i class="ti ti-refresh me-1"></i> Actualizar Stock
+              </button>
+
+              <button
+                type="button"
+                class="btn btn-primary"
+                id="btnNuevoProducto"
+                data-bs-toggle="modal"
+                data-bs-target="#modalProducto"
+              >
+                <i class="ti ti-plus me-1"></i> Nuevo Producto
+              </button>
+            </div>
           </div>
-          <div class="card-body pt-3">
-            <div class="row mb-3 align-items-end">
-              <div class="col-md-4">
-                <label for="filtroCategoria" class="form-label">Filtrar por Categoría</label>
-                <select id="filtroCategoria" class="form-select">
+
+          <div class="card-body pt-4">
+            <div class="row g-3 mb-4 p-3 bg-light align-items-end">
+              <div class="col-md-4 col-lg-3">
+                <label
+                  for="filtroCategoria"
+                  class="form-label fw-bold text-muted small text-uppercase"
+                  >Categoría</label
+                >
+                <select id="filtroCategoria" class="form-select form-select-sm">
                   <option value="">Todas las categorías</option>
                 </select>
               </div>
-              <div class="col-md-4">
-                <label for="filtroMarca" class="form-label">Filtrar por Marca</label>
-                <select id="filtroMarca" class="form-select">
+
+              <div class="col-md-4 col-lg-3">
+                <label
+                  for="filtroMarca"
+                  class="form-label fw-bold text-muted small text-uppercase"
+                  >Marca</label
+                >
+                <select id="filtroMarca" class="form-select form-select-sm">
                   <option value="">Todas las marcas</option>
                 </select>
               </div>
-              <div class="col-md-4">
-                <label class="form-label">Filtrar por Estado</label>
+
+              <div class="col-md-4 col-lg-4">
+                <label
+                  class="form-label fw-bold text-muted small text-uppercase"
+                  >Estado</label
+                >
                 <div class="btn-group w-100" role="group" id="filtroEstado">
-                  <button type="button" class="btn btn-outline-primary active" data-estado="">Todos</button>
-                  <button type="button" class="btn btn-outline-primary" data-estado="ACTIVO">Activo</button>
-                  <button type="button" class="btn btn-outline-primary" data-estado="INACTIVO">Inactivo</button>
+                  <button
+                    type="button"
+                    class="btn btn-sm btn-outline-secondary active"
+                    data-estado=""
+                  >
+                    Todos
+                  </button>
+                  <button
+                    type="button"
+                    class="btn btn-sm btn-outline-success"
+                    data-estado="ACTIVO"
+                  >
+                    Activo
+                  </button>
+                  <button
+                    type="button"
+                    class="btn btn-sm btn-outline-danger"
+                    data-estado="INACTIVO"
+                  >
+                    Inactivo
+                  </button>
                 </div>
               </div>
             </div>
+
             <div class="table-responsive">
-              <table class="table table-hover" id="tablaProductos">
-                <thead>
+              <table
+                class="table table-hover align-middle mb-0"
+                id="tablaProductos"
+              >
+                <thead class="table-light">
                   <tr>
                     <th>Nombre</th>
                     <th>Código</th>
@@ -69,15 +124,20 @@
                     <th>Categoría</th>
                     <th>Unidad</th>
                     <th>Precio (S/)</th>
-                    <th>Stock Mínimo</th>
+                    <th>Stock Mín.</th>
                     <th>Stock Actual</th>
                     <th>Estado</th>
-                    <th>Acción</th>
+                    <th class="text-center">Acción</th>
                   </tr>
                 </thead>
                 <tbody id="tabla-productos-body">
                   <tr>
-                    <td colspan="10" class="text-center">Cargando productos...</td>
+                    <td colspan="10" class="text-center py-5 text-muted">
+                      <i
+                        class="ti ti-loader animate-spin f-24 d-block mb-2"
+                      ></i>
+                      Cargando productos...
+                    </td>
                   </tr>
                 </tbody>
               </table>
@@ -88,29 +148,53 @@
     </div>
 
     <!-- Modal Producto -->
-    <div class="modal fade" id="modalProducto" tabindex="-1" aria-labelledby="modalProductoLabel" aria-hidden="true">
+    <div
+      class="modal fade"
+      id="modalProducto"
+      tabindex="-1"
+      aria-labelledby="modalProductoLabel"
+      aria-hidden="true"
+    >
       <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content shadow-lg border-0 rounded-4">
           <div class="modal-header bg-primary text-white">
-            <h5 class="modal-title fw-bold" id="modalProductoLabel">Nuevo Producto</h5>
-            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
-              aria-label="Cerrar"></button>
+            <h5 class="modal-title fw-bold" id="modalProductoLabel">
+              Nuevo Producto
+            </h5>
+            <button
+              type="button"
+              class="btn-close btn-close-white"
+              data-bs-dismiss="modal"
+              aria-label="Cerrar"
+            ></button>
           </div>
 
           <div class="modal-body">
             <div id="alerta" class="alert d-none" role="alert"></div>
             <form id="formProducto">
-              <input type="hidden" id="productoId">
+              <input type="hidden" id="productoId" />
 
               <div class="row">
                 <div class="col-md-6 mb-3">
-                  <label for="codigo" class="form-label">Código (Opcional)</label>
-                  <input type="text" class="form-control" id="codigo" required>
+                  <label for="codigo" class="form-label"
+                    >Código (Opcional)</label
+                  >
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="codigo"
+                    required
+                  />
                   <div class="invalid-feedback" id="codigoError"></div>
                 </div>
                 <div class="col-md-6 mb-3">
                   <label for="nombre" class="form-label">Nombre</label>
-                  <input type="text" class="form-control" id="nombre" required>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="nombre"
+                    required
+                  />
                   <div class="invalid-feedback" id="nombreError"></div>
                 </div>
               </div>
@@ -131,19 +215,34 @@
               <div class="row">
                 <div class="col-md-4 mb-3">
                   <label for="precio" class="form-label">Precio (S/)</label>
-                  <input type="number" class="form-control" id="precio" step="0.01">
+                  <input
+                    type="number"
+                    class="form-control"
+                    id="precio"
+                    step="0.01"
+                  />
                   <div class="invalid-feedback" id="precioError"></div>
                 </div>
                 <div class="col-md-4 mb-3">
-                  <label for="precioOnline" class="form-label">Precio Online (S/)</label>
-                  <input type="number" class="form-control" id="precioOnline" step="0.01" required>
+                  <label for="precioOnline" class="form-label"
+                    >Precio Online (S/)</label
+                  >
+                  <input
+                    type="number"
+                    class="form-control"
+                    id="precioOnline"
+                    step="0.01"
+                    required
+                  />
                   <div class="invalid-feedback" id="precioOnlineError"></div>
                 </div>
 
                 <div class="col-md-4 mb-3">
                   <label for="unidad" class="form-label">Unidad</label>
                   <select class="form-select" id="unidad">
-                    <option value="" selected disabled>Seleccione una unidad</option>
+                    <option value="" selected disabled>
+                      Seleccione una unidad
+                    </option>
                     <option value="Litro">Litro</option>
                     <option value="Galón">Galón</option>
                     <option value="Mililitro">Mililitro</option>
@@ -158,45 +257,94 @@
 
               <div class="row">
                 <div class="col-md-4 mb-3">
-                  <label for="stockMinimo" class="form-label">Stock Mínimo</label>
-                  <input type="number" class="form-control" id="stockMinimo" value="0">
+                  <label for="stockMinimo" class="form-label"
+                    >Stock Mínimo</label
+                  >
+                  <input
+                    type="number"
+                    class="form-control"
+                    id="stockMinimo"
+                    value="0"
+                  />
                   <div class="invalid-feedback" id="stockMinimoError"></div>
                 </div>
                 <div class="col-md-4 mb-3">
-                  <label for="stockActual" class="form-label" id="StockActualLabel">Stock inicial (Opcional)</label>
-                  <input type="number" class="form-control" id="stockActual" value="0">
+                  <label
+                    for="stockActual"
+                    class="form-label"
+                    id="StockActualLabel"
+                    >Stock inicial (Opcional)</label
+                  >
+                  <input
+                    type="number"
+                    class="form-control"
+                    id="stockActual"
+                    value="0"
+                  />
                   <div class="invalid-feedback" id="stockActualError"></div>
                 </div>
                 <div class="col-md-4 mb-3">
-                  <label class="form-label">Destacado</label><br>
+                  <label class="form-label">Destacado</label><br />
                   <div class="form-check form-switch">
-                    <input class="form-check-input" type="checkbox" id="destacado">
-                    <label class="form-check-label" for="destacado">Producto destacado</label>
+                    <input
+                      class="form-check-input"
+                      type="checkbox"
+                      id="destacado"
+                    />
+                    <label class="form-check-label" for="destacado"
+                      >Producto destacado</label
+                    >
                   </div>
                 </div>
               </div>
 
               <div class="row">
-
                 <div class="col-md-6 mb-3">
-                  <label for="imagenes" class="form-label">Imágenes (máx. 5)</label>
-                  <input type="file" class="form-control" id="imagenes" accept="image/*" multiple>
-                  <input type="hidden" id="imagenesExistentes" name="imagenesExistentes">
-                  <div id="previewImagenes" class="d-flex flex-wrap gap-2 mt-2"></div>
+                  <label for="imagenes" class="form-label"
+                    >Imágenes (máx. 5)</label
+                  >
+                  <input
+                    type="file"
+                    class="form-control"
+                    id="imagenes"
+                    accept="image/*"
+                    multiple
+                  />
+                  <input
+                    type="hidden"
+                    id="imagenesExistentes"
+                    name="imagenesExistentes"
+                  />
+                  <div
+                    id="previewImagenes"
+                    class="d-flex flex-wrap gap-2 mt-2"
+                  ></div>
                 </div>
               </div>
 
               <div class="mb-3">
                 <label for="descripcion" class="form-label">Descripción</label>
-                <textarea class="form-control" id="descripcion" rows="3"
-                  placeholder="Describe el producto..."></textarea>
+                <textarea
+                  class="form-control"
+                  id="descripcion"
+                  rows="3"
+                  placeholder="Describe el producto..."
+                ></textarea>
               </div>
             </form>
           </div>
 
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-            <button type="button" class="btn btn-primary" id="btnGuardar">Guardar</button>
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Cancelar
+            </button>
+            <button type="button" class="btn btn-primary" id="btnGuardar">
+              Guardar
+            </button>
           </div>
         </div>
       </div>
@@ -209,32 +357,39 @@
       if (!window.productModalListener) {
         window.productModalListener = true;
 
-        document.addEventListener('change', function (e) {
-          if (e.target.id === 'imagenes') {
+        document.addEventListener("change", function (e) {
+          if (e.target.id === "imagenes") {
             const nuevosArchivos = Array.from(e.target.files);
 
-            const archivosUnicos = nuevosArchivos.filter(nuevo => {
-              return !imagenesSeleccionadas.some(existente =>
-                existente.name === nuevo.name && existente.size === nuevo.size
+            const archivosUnicos = nuevosArchivos.filter((nuevo) => {
+              return !imagenesSeleccionadas.some(
+                (existente) =>
+                  existente.name === nuevo.name && existente.size === nuevo.size
               );
             });
 
             const totalEspacio = MAX_FILES - imagenesSeleccionadas.length;
             if (archivosUnicos.length > totalEspacio) {
-              alert(`Solo puedes seleccionar un máximo de ${MAX_FILES} imágenes. Puedes añadir ${totalEspacio} más.`);
+              alert(
+                `Solo puedes seleccionar un máximo de ${MAX_FILES} imágenes. Puedes añadir ${totalEspacio} más.`
+              );
             }
 
             const archivosParaAnadir = archivosUnicos.slice(0, totalEspacio);
-            imagenesSeleccionadas = imagenesSeleccionadas.concat(archivosParaAnadir);
+            imagenesSeleccionadas =
+              imagenesSeleccionadas.concat(archivosParaAnadir);
 
             e.target.value = null;
             mostrarPreview();
           }
         });
 
-        document.addEventListener('click', function (e) {
-          if (e.target.matches('[data-index-to-delete]')) {
-            const index = parseInt(e.target.getAttribute('data-index-to-delete'), 10);
+        document.addEventListener("click", function (e) {
+          if (e.target.matches("[data-index-to-delete]")) {
+            const index = parseInt(
+              e.target.getAttribute("data-index-to-delete"),
+              10
+            );
             imagenesSeleccionadas.splice(index, 1);
             mostrarPreview();
           }
@@ -269,10 +424,11 @@
           const btnEliminar = document.createElement("button");
           btnEliminar.type = "button";
           btnEliminar.innerHTML = "&times;";
-          btnEliminar.className = "btn btn-sm btn-danger position-absolute top-0 end-0 rounded-circle p-1";
+          btnEliminar.className =
+            "btn btn-sm btn-danger position-absolute top-0 end-0 rounded-circle p-1";
           btnEliminar.style.transform = "translate(25%, -25%)";
           btnEliminar.style.zIndex = "10";
-          btnEliminar.setAttribute('data-index-to-delete', index);
+          btnEliminar.setAttribute("data-index-to-delete", index);
 
           wrapper.appendChild(img);
           wrapper.appendChild(btnEliminar);
@@ -294,65 +450,103 @@
 
         const inputExistentes = document.getElementById("imagenesExistentes");
         if (inputExistentes) {
-          const nombresExistentes = imagenesSeleccionadas
-            .filter(item => typeof item === "string");
-          inputExistentes.value = nombresExistentes.join(',');
+          const nombresExistentes = imagenesSeleccionadas.filter(
+            (item) => typeof item === "string"
+          );
+          inputExistentes.value = nombresExistentes.join(",");
         }
       }
 
-      const miModal = document.getElementById('modalProducto');
+      const miModal = document.getElementById("modalProducto");
       if (miModal) {
-        miModal.addEventListener('hidden.bs.modal', function () {
+        miModal.addEventListener("hidden.bs.modal", function () {
           imagenesSeleccionadas = [];
           mostrarPreview();
         });
       }
     </script>
 
-
-
-    <div id="exampleModalLive" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalLiveLabel"
-      aria-hidden="true">
+    <div
+      id="exampleModalLive"
+      class="modal fade"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="exampleModalLiveLabel"
+      aria-hidden="true"
+    >
       <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLiveLabel">Actualizar Inventario de Producto
+            <h5 class="modal-title" id="exampleModalLiveLabel">
+              Actualizar Inventario de Producto
             </h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
           </div>
           <div class="modal-body">
             <div class="row">
-              <div class="col-md-5" style="border-right: 1px solid #ddd;">
+              <div class="col-md-5" style="border-right: 1px solid #ddd">
                 <div class="mb-3">
-                  <label for="buscarProducto" class="form-label">1. Buscar Producto</label>
-                  <input type="text" class="form-control" id="buscarProducto" placeholder="Buscar por SKU o Nombre...">
+                  <label for="buscarProducto" class="form-label"
+                    >1. Buscar Producto</label
+                  >
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="buscarProducto"
+                    placeholder="Buscar por SKU o Nombre..."
+                  />
                 </div>
 
-                <div class="list-group" style="max-height: 400px; overflow-y: auto;">
-                </div>
+                <div
+                  class="list-group"
+                  style="max-height: 400px; overflow-y: auto"
+                ></div>
               </div>
 
               <div class="col-md-7">
                 <h6 class="mb-3">Actualizar Inventario</h6>
-                <div id="mensajeInventario" class="alert d-none mt-2" role="alert"></div>
+                <div
+                  id="mensajeInventario"
+                  class="alert d-none mt-2"
+                  role="alert"
+                ></div>
                 <form id="formActualizarInventario">
                   <div class="mb-3">
-                    <label for="modoInventario" class="form-label">Modo de Actualización</label>
+                    <label for="modoInventario" class="form-label"
+                      >Modo de Actualización</label
+                    >
                     <select class="form-select" id="modoInventario" required>
-                      <option value="" selected disabled>Seleccione una opción</option>
+                      <option value="" selected disabled>
+                        Seleccione una opción
+                      </option>
                       <option value="AUMENTAR">Aumentar Stock</option>
                       <option value="QUITAR">Quitar Stock</option>
                     </select>
                     <small class="form-text text-muted">
-                      Selecciona si deseas aumentar o disminuir el stock disponible.
+                      Selecciona si deseas aumentar o disminuir el stock
+                      disponible.
                     </small>
                   </div>
                   <div class="mb-3">
-                    <label for="cantidadInventario" class="form-label">Cantidad</label>
-                    <input type="number" class="form-control" id="cantidadInventario" min="1" placeholder="Ej. 10"
-                      required>
+                    <label for="cantidadInventario" class="form-label"
+                      >Cantidad</label
+                    >
+                    <input
+                      type="number"
+                      class="form-control"
+                      id="cantidadInventario"
+                      min="1"
+                      placeholder="Ej. 10"
+                      required
+                    />
                     <small class="form-text text-muted">
-                      Ingresa la cantidad que deseas añadir o retirar del inventario.
+                      Ingresa la cantidad que deseas añadir o retirar del
+                      inventario.
                     </small>
                   </div>
                 </form>
@@ -361,13 +555,22 @@
           </div>
 
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
-              onclick="LimpiarModal()">Cancelar</button>
-            <button type="button" class="btn btn-primary" onclick="ActualizarInventario()">Actualizar
-              Inventario</button>
-
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+              onclick="LimpiarModal()"
+            >
+              Cancelar
+            </button>
+            <button
+              type="button"
+              class="btn btn-primary"
+              onclick="ActualizarInventario()"
+            >
+              Actualizar Inventario
+            </button>
           </div>
-
         </div>
       </div>
     </div>
@@ -376,15 +579,13 @@
 </div>
 
 <script>
-
   const formValidationsOff = document.getElementById("formProducto");
-  formValidationsOff.setAttribute('autocomplete', 'off');
+  formValidationsOff.setAttribute("autocomplete", "off");
 
-  const urlBase = '/api/productos';
+  const urlBase = "/api/productos";
   let modalInstancia;
 
-
-  const modalEl = document.getElementById('modalProducto');
+  const modalEl = document.getElementById("modalProducto");
   const modalForm = document.getElementById("formProducto");
   const modalLabel = document.getElementById("modalProductoLabel");
   const modalAlerta = document.getElementById("alerta");
@@ -393,8 +594,6 @@
   const tablaCuerpo = document.getElementById("tabla-productos-body");
   const selMarca = document.getElementById("marca");
   const selCategoria = document.getElementById("categoria");
-
-
 
   function mostrarError(idCampo, mensaje) {
     const campo = document.getElementById(idCampo);
@@ -407,8 +606,12 @@
   }
 
   function limpiarErrores() {
-    document.querySelectorAll(".is-invalid").forEach(el => el.classList.remove("is-invalid"));
-    document.querySelectorAll(".invalid-feedback").forEach(el => el.style.display = "none");
+    document
+      .querySelectorAll(".is-invalid")
+      .forEach((el) => el.classList.remove("is-invalid"));
+    document
+      .querySelectorAll(".invalid-feedback")
+      .forEach((el) => (el.style.display = "none"));
     modalAlerta.classList.add("d-none");
   }
 
@@ -422,9 +625,12 @@
     const categoria = document.getElementById("categoria").value;
     const precio = parseFloat(document.getElementById("precio").value);
     const unidad = document.getElementById("unidad").value.trim();
-    const stockMinimo = parseFloat(document.getElementById("stockMinimo").value);
-    const precioOnline = parseFloat(document.getElementById("precioOnline").value);
-
+    const stockMinimo = parseFloat(
+      document.getElementById("stockMinimo").value
+    );
+    const precioOnline = parseFloat(
+      document.getElementById("precioOnline").value
+    );
 
     if (isNaN(precioOnline) || precioOnline <= 0) {
       mostrarError("precioOnline", "El precio online debe ser mayor que 0.");
@@ -434,10 +640,12 @@
     const regexCodigo = /^[0-9]{8,20}$/;
 
     if (codigo.length > 0 && !regexCodigo.test(codigo)) {
-      mostrarError("codigo", "El código debe tener entre 8 y 13 dígitos numéricos.");
+      mostrarError(
+        "codigo",
+        "El código debe tener entre 8 y 13 dígitos numéricos."
+      );
       valido = false;
     }
-
 
     if (nombre.length < 4) {
       mostrarError("nombre", "El nombre debe tener al menos 4 caracteres.");
@@ -478,19 +686,18 @@
     modalAlerta.classList.remove("d-none");
   }
 
-
   async function listarProductos() {
     tablaCuerpo.innerHTML = `<tr><td colspan="10" class="text-center">Cargando...</td></tr>`;
 
-    const categoriaId = document.getElementById('filtroCategoria')?.value ?? '';
-    const marcaId = document.getElementById('filtroMarca')?.value ?? '';
-    const estadoBtn = document.querySelector('#filtroEstado .btn.active');
-    const estado = estadoBtn ? estadoBtn.dataset.estado : '';
+    const categoriaId = document.getElementById("filtroCategoria")?.value ?? "";
+    const marcaId = document.getElementById("filtroMarca")?.value ?? "";
+    const estadoBtn = document.querySelector("#filtroEstado .btn.active");
+    const estado = estadoBtn ? estadoBtn.dataset.estado : "";
 
     const params = new URLSearchParams();
-    if (categoriaId) params.append('categoriaId', categoriaId);
-    if (marcaId) params.append('marcaId', marcaId);
-    if (estado) params.append('estado', estado);
+    if (categoriaId) params.append("categoriaId", categoriaId);
+    if (marcaId) params.append("marcaId", marcaId);
+    if (estado) params.append("estado", estado);
 
     const url = `${urlBase}?${params.toString()}`;
 
@@ -503,24 +710,28 @@
         return;
       }
 
-      tablaCuerpo.innerHTML = productos.map(p => {
-        const toggleBtn = p.estado === 'ACTIVO'
-          ? `<a href="#" class="avtar avtar-xs btn-link-success btn-toggle-estado" title="Desactivar" onclick="ActualizarEstado(${p.idProducto})"><i class="ti ti-toggle-left f-20"></i></a>`
-          : `<a href="#" class="avtar avtar-xs btn-link-warning btn-toggle-estado" title="Activar" onclick="ActualizarEstado(${p.idProducto})"><i class="ti ti-toggle-right f-20"></i></a>`;
+      tablaCuerpo.innerHTML = productos
+        .map((p) => {
+          const toggleBtn =
+            p.estado === "ACTIVO"
+              ? `<a href="#" class="avtar avtar-xs btn-link-success btn-toggle-estado" title="Desactivar" onclick="ActualizarEstado(${p.idProducto})"><i class="ti ti-toggle-left f-20"></i></a>`
+              : `<a href="#" class="avtar avtar-xs btn-link-warning btn-toggle-estado" title="Activar" onclick="ActualizarEstado(${p.idProducto})"><i class="ti ti-toggle-right f-20"></i></a>`;
 
-        return `
+          return `
               <tr>
-                <td>${p.nombre ?? '-'}</td>
-                <td>${p.codigo ?? '-'}</td>
-                <td>${p.marca?.nombre ?? '-'}</td>
-                <td>${p.categoria?.nombre ?? '-'}</td>
-                <td>${p.unidad ?? '-'}</td>
-                <td>${p.precio?.toFixed(2) ?? '0.00'}</td>
+                <td>${p.nombre ?? "-"}</td>
+                <td>${p.codigo ?? "-"}</td>
+                <td>${p.marca?.nombre ?? "-"}</td>
+                <td>${p.categoria?.nombre ?? "-"}</td>
+                <td>${p.unidad ?? "-"}</td>
+                <td>${p.precio?.toFixed(2) ?? "0.00"}</td>
                 <td>${p.stockMinimo ?? 0}</td>
                 <td>${p.stockActual ?? 0}</td>
                 <td>
-                  <span class="badge ${p.estado === 'ACTIVO' ? 'bg-success' : 'bg-secondary'}">
-                    ${p.estado ?? 'ACTIVO'}
+                  <span class="badge ${
+                    p.estado === "ACTIVO" ? "bg-success" : "bg-secondary"
+                  }">
+                    ${p.estado ?? "ACTIVO"}
                   </span>
                 </td>
                 <td class="text-center">
@@ -529,26 +740,37 @@
                             onclick='editarProducto(${JSON.stringify(p)})'>
                       <i class="ti ti-edit"></i>
                     </button>
-                    <button class="btn ${p.estado === 'ACTIVO' ? 'btn-outline-success' : 'btn-outline-warning'} btn-sm"
-                            title="${p.estado === 'ACTIVO' ? 'Desactivar' : 'Activar'}"
+                    <button class="btn ${
+                      p.estado === "ACTIVO"
+                        ? "btn-outline-success"
+                        : "btn-outline-warning"
+                    } btn-sm"
+                            title="${
+                              p.estado === "ACTIVO" ? "Desactivar" : "Activar"
+                            }"
                             onclick="ActualizarEstado(${p.idProducto})">
-                      <i class="ti ${p.estado === 'ACTIVO' ? 'ti-toggle-left' : 'ti-toggle-right'}"></i>
+                      <i class="ti ${
+                        p.estado === "ACTIVO"
+                          ? "ti-toggle-left"
+                          : "ti-toggle-right"
+                      }"></i>
                     </button>
-                    <button class="btn btn-outline-danger btn-sm" title="Eliminar" onclick="eliminarProducto(${p.idProducto})">
+                    <button class="btn btn-outline-danger btn-sm" title="Eliminar" onclick="eliminarProducto(${
+                      p.idProducto
+                    })">
                       <i class="ti ti-trash"></i>
                     </button>
                   </div>
                 </td>
               </tr>
             `;
-
-      }).join('');
+        })
+        .join("");
     } catch (err) {
       console.error(err);
       tablaCuerpo.innerHTML = `<tr><td colspan="10" class="text-center text-danger">Error al cargar productos</td></tr>`;
     }
   }
-
 
   async function cargarMarcasYCategorias() {
     selMarca.innerHTML = `<option disabled selected>Cargando...</option>`;
@@ -558,32 +780,49 @@
 
     try {
       const [marcasResp, categoriasResp] = await Promise.all([
-        fetch('/api/marcas'),
-        fetch('/api/categorias')
+        fetch("/api/marcas"),
+        fetch("/api/categorias"),
       ]);
 
       const marcas = await marcasResp.json();
       const categorias = await categoriasResp.json();
 
-      const marcasOptionsModal = `<option value="" disabled selected>Seleccionar...</option>` + marcas.map(m => `<option value="${m.id}">${m.nombre}</option>`).join('');
-      const categoriasOptionsModal = `<option value="" disabled selected>Seleccionar...</option>` + categorias.map(c => `<option value="${c.idCategoria}">${c.nombre}</option>`).join('');
+      const marcasOptionsModal =
+        `<option value="" disabled selected>Seleccionar...</option>` +
+        marcas
+          .map((m) => `<option value="${m.id}">${m.nombre}</option>`)
+          .join("");
+      const categoriasOptionsModal =
+        `<option value="" disabled selected>Seleccionar...</option>` +
+        categorias
+          .map((c) => `<option value="${c.idCategoria}">${c.nombre}</option>`)
+          .join("");
 
       selMarca.innerHTML = marcasOptionsModal;
       selCategoria.innerHTML = categoriasOptionsModal;
 
       if (filtroMarca) {
-        filtroMarca.innerHTML = `<option value="">Todas las marcas</option>` + marcas.map(m => `<option value="${m.id}">${m.nombre}</option>`).join('');
+        filtroMarca.innerHTML =
+          `<option value="">Todas las marcas</option>` +
+          marcas
+            .map((m) => `<option value="${m.id}">${m.nombre}</option>`)
+            .join("");
       }
       if (filtroCategoria) {
-        filtroCategoria.innerHTML = `<option value="">Todas las categorías</option>` + categorias.map(c => `<option value="${c.idCategoria}">${c.nombre}</option>`).join('');
+        filtroCategoria.innerHTML =
+          `<option value="">Todas las categorías</option>` +
+          categorias
+            .map((c) => `<option value="${c.idCategoria}">${c.nombre}</option>`)
+            .join("");
       }
-
     } catch (error) {
       console.error("Error cargando selects:", error);
       selMarca.innerHTML = `<option value="" disabled>Error al cargar</option>`;
       selCategoria.innerHTML = `<option value="" disabled>Error al cargar</option>`;
-      if(filtroMarca) filtroMarca.innerHTML = `<option value="">Error</option>`;
-      if(filtroCategoria) filtroCategoria.innerHTML = `<option value="">Error</option>`;
+      if (filtroMarca)
+        filtroMarca.innerHTML = `<option value="">Error</option>`;
+      if (filtroCategoria)
+        filtroCategoria.innerHTML = `<option value="">Error</option>`;
     }
   }
 
@@ -597,8 +836,6 @@
     btnGuardar.innerText = "Guardar";
     limpiarErrores();
   }
-
-
 
   window.editarProducto = (p) => {
     abrirModalNuevo();
@@ -641,13 +878,15 @@
     } catch (err) {
       alert(`Error al eliminar: ${err.message}`);
     }
-  }
+  };
 
   async function guardarProducto() {
-
     if (!validarFormulario()) {
       console.warn("Validación fallida.");
-      mostrarAlerta("Por favor, corrija los errores marcados en rojo.", "warning");
+      mostrarAlerta(
+        "Por favor, corrija los errores marcados en rojo.",
+        "warning"
+      );
       return;
     }
 
@@ -670,12 +909,23 @@
     formData.append("precio", document.getElementById("precio").value);
     formData.append("unidad", document.getElementById("unidad").value);
     formData.append("idImpuesto", 1);
-    formData.append("stockMinimo", document.getElementById("stockMinimo").value);
-    formData.append("stockActual", document.getElementById("stockActual").value);
-    formData.append("precioOnline", document.getElementById("precioOnline").value);
-    formData.append("descripcion", document.getElementById("descripcion").value);
+    formData.append(
+      "stockMinimo",
+      document.getElementById("stockMinimo").value
+    );
+    formData.append(
+      "stockActual",
+      document.getElementById("stockActual").value
+    );
+    formData.append(
+      "precioOnline",
+      document.getElementById("precioOnline").value
+    );
+    formData.append(
+      "descripcion",
+      document.getElementById("descripcion").value
+    );
     formData.append("destacado", document.getElementById("destacado").checked);
-
 
     const inputNuevas = document.getElementById("imagenes");
     for (let f of inputNuevas.files) {
@@ -687,25 +937,20 @@
       formData.append("imagenesExistentes", inputExistentes.value);
     }
 
-
     try {
       const resp = await fetch(url, {
         method: metodo,
-        body: formData
+        body: formData,
       });
 
       if (!resp.ok) throw new Error(await resp.text());
 
       await listarProductos();
       modalInstancia.hide();
-
     } catch (err) {
       mostrarAlerta(`Error al guardar: ${err.message}`, "danger");
     }
-
-
   }
-
 
   document.addEventListener("DOMContentLoaded", async () => {
     modalInstancia = new bootstrap.Modal(modalEl);
@@ -713,12 +958,18 @@
     btnNuevoProducto.addEventListener("click", abrirModalNuevo);
     btnGuardar.addEventListener("click", guardarProducto);
 
-    document.getElementById('filtroCategoria')?.addEventListener('change', listarProductos);
-    document.getElementById('filtroMarca')?.addEventListener('change', listarProductos);
-    document.getElementById('filtroEstado')?.addEventListener('click', (e) => {
-      if (e.target.matches('button')) {
-        document.querySelectorAll('#filtroEstado button').forEach(btn => btn.classList.remove('active'));
-        e.target.classList.add('active');
+    document
+      .getElementById("filtroCategoria")
+      ?.addEventListener("change", listarProductos);
+    document
+      .getElementById("filtroMarca")
+      ?.addEventListener("change", listarProductos);
+    document.getElementById("filtroEstado")?.addEventListener("click", (e) => {
+      if (e.target.matches("button")) {
+        document
+          .querySelectorAll("#filtroEstado button")
+          .forEach((btn) => btn.classList.remove("active"));
+        e.target.classList.add("active");
         listarProductos();
       }
     });
@@ -726,7 +977,6 @@
     await cargarMarcasYCategorias();
     await listarProductos();
   });
-
 
   let productoSeleccionado = null;
   const buscarInput = document.getElementById("buscarProducto");
@@ -743,29 +993,33 @@
   }
 
   async function ActualizarEstado(id) {
-    if (!confirm('¿Desea cambiar el estado (Activo/Inactivo) de este producto?')) return;
+    if (
+      !confirm("¿Desea cambiar el estado (Activo/Inactivo) de este producto?")
+    )
+      return;
 
     try {
-      const resp = await fetch(`/api/productos/${id}/estado`, { method: 'PUT' });
+      const resp = await fetch(`/api/productos/${id}/estado`, {
+        method: "PUT",
+      });
 
       if (!resp.ok) {
         const msg = await resp.text();
-        throw new Error(msg || 'Error al cambiar estado');
+        throw new Error(msg || "Error al cambiar estado");
       }
 
-      const toast = document.createElement('div');
-      toast.className = 'alert alert-success position-fixed top-0 end-0 m-3';
-      toast.innerHTML = 'Estado del producto actualizado correctamente';
+      const toast = document.createElement("div");
+      toast.className = "alert alert-success position-fixed top-0 end-0 m-3";
+      toast.innerHTML = "Estado del producto actualizado correctamente";
       document.body.appendChild(toast);
       setTimeout(() => toast.remove(), 2500);
 
       listarProductos();
     } catch (err) {
-      console.error('Error al cambiar estado:', err);
-      alert('No se pudo cambiar el estado: ' + err.message);
+      console.error("Error al cambiar estado:", err);
+      alert("No se pudo cambiar el estado: " + err.message);
     }
   }
-
 
   function seleccionarProducto(id, nombre, codigo) {
     productoSeleccionado = { id, nombre, codigo };
@@ -789,32 +1043,44 @@
     }
 
     function escapeHtml(text) {
-      return String(text).replace(/[&<>"']/g, m => ({
-        "&": "&amp;",
-        "<": "&lt;",
-        ">": "&gt;",
-        '"': "&quot;",
-        "'": "&#039;"
-      }[m]));
+      return String(text).replace(
+        /[&<>"']/g,
+        (m) =>
+          ({
+            "&": "&amp;",
+            "<": "&lt;",
+            ">": "&gt;",
+            '"': "&quot;",
+            "'": "&#039;",
+          }[m])
+      );
     }
 
     listaProductos.innerHTML = `<p class="text-primary px-3">Buscando...</p>`;
     try {
-      const response = await fetch(`/api/productos/buscar?query=${encodeURIComponent(query)}`);
+      const response = await fetch(
+        `/api/productos/buscar?query=${encodeURIComponent(query)}`
+      );
       if (!response.ok) throw new Error("Error al obtener productos");
       const productos = await response.json();
 
       listaProductos.innerHTML = productos.length
-        ? productos.map(p => `
+        ? productos
+            .map(
+              (p) => `
         <a href="#" class="list-group-item list-group-item-action d-flex align-items-center"
-          onclick="seleccionarProducto(${p.idProducto}, '${escapeHtml(p.nombre)}', '${escapeHtml(p.codigo)}')">
+          onclick="seleccionarProducto(${p.idProducto}, '${escapeHtml(
+                p.nombre
+              )}', '${escapeHtml(p.codigo)}')">
           <img src="/assets/images/user/avatar-1.jpg" alt="Producto" class="img-fluid rounded me-3" style="width: 40px; height: 40px;">
           <div>
             <h6 class="mb-0">${p.nombre}</h6>
             <small class="text-muted d-block">SKU: ${p.codigo}</small>
           </div>
         </a>
-      `).join("")
+      `
+            )
+            .join("")
         : `<p class="text-muted px-3">No se encontraron productos.</p>`;
     } catch (err) {
       console.error(err);
@@ -833,7 +1099,10 @@
     }
 
     if (!modo) {
-      mostrarMensaje("Selecciona un modo de operación (Entrada o Salida).", "warning");
+      mostrarMensaje(
+        "Selecciona un modo de operación (Entrada o Salida).",
+        "warning"
+      );
       return;
     }
 
@@ -881,5 +1150,4 @@
     document.getElementById("imagenes").value = "";
     limpiarErrores();
   }
-
 </script>
