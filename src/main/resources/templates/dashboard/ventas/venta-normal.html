@@ -3,7 +3,10 @@
     z-index: 10000 !important;
   }
 </style>
-<div class="pc-container" th:replace="~{dashboard/layout :: layout(~{::content}, ${usuario}, 'Ventas', '/dashboard')}">
+<div
+  class="pc-container"
+  th:replace="~{dashboard/layout :: layout(~{::content}, ${usuario}, 'Ventas', '/dashboard')}"
+>
   <div class="pc-content" th:fragment="content">
     <div class="page-header">
       <div class="page-block">
@@ -11,8 +14,12 @@
           <div class="col-md-12">
             <ul class="breadcrumb">
               <li class="breadcrumb-item"><a href="/dashboard">Inicio</a></li>
-              <li class="breadcrumb-item"><a href="javascript:void(0)">Ventas</a></li>
-              <li class="breadcrumb-item" aria-current="page">Listado de Ventas</li>
+              <li class="breadcrumb-item">
+                <a href="javascript:void(0)">Ventas</a>
+              </li>
+              <li class="breadcrumb-item" aria-current="page">
+                Listado de Ventas
+              </li>
             </ul>
           </div>
           <div class="col-md-12">
@@ -26,15 +33,96 @@
 
     <div class="col-12">
       <div class="card table-card">
-        <div class="card-header d-flex align-items-center justify-content-between">
+        <div
+          class="card-header d-flex align-items-center justify-content-between"
+        >
           <h5 class="mb-0">Últimas Ventas</h5>
           <div class="btn-page">
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal-nueva-venta">
+            <button
+              type="button"
+              class="btn btn-primary"
+              data-bs-toggle="modal"
+              data-bs-target="#modal-nueva-venta"
+            >
               <i class="ti ti-plus me-1"></i> Nueva Venta
             </button>
           </div>
         </div>
         <div class="card-body pt-3">
+          <div class="row g-3 mb-4 p-3">
+            <div class="col-md-12 col-lg-4">
+              <label
+                for="filtroBusquedaVentas"
+                class="form-label fw-bold text-muted small text-uppercase"
+                >Buscar</label
+              >
+              <div class="input-group input-group-sm">
+                <span class="input-group-text bg-white border-end-0"
+                  ><i class="ti ti-search"></i
+                ></span>
+                <input
+                  type="text"
+                  id="filtroBusquedaVentas"
+                  class="form-control border-start-0"
+                  placeholder="Cliente, DNI/RUC o N° Comprobante..."
+                />
+              </div>
+            </div>
+
+            <div class="col-md-6 col-lg-3">
+              <label
+                for="filtroTipoComprobante"
+                class="form-label fw-bold text-muted small text-uppercase"
+                >Tipo</label
+              >
+              <select
+                id="filtroTipoComprobante"
+                class="form-select form-select-sm"
+              >
+                <option value="">Todos</option>
+                <option value="Boleta">Boleta</option>
+                <option value="Factura">Factura</option>
+              </select>
+            </div>
+
+            <div class="col-md-6 col-lg-3">
+              <label class="form-label fw-bold text-muted small text-uppercase"
+                >Estado</label
+              >
+              <div class="btn-group w-100" role="group" id="filtroEstadoVentas">
+                <button
+                  type="button"
+                  class="btn btn-sm btn-outline-secondary active"
+                  data-estado=""
+                >
+                  Todos
+                </button>
+                <button
+                  type="button"
+                  class="btn btn-sm btn-outline-success"
+                  data-estado="COMPLETADA"
+                >
+                  Ok
+                </button>
+                <button
+                  type="button"
+                  class="btn btn-sm btn-outline-danger"
+                  data-estado="ANULADA"
+                >
+                  Anulada
+                </button>
+              </div>
+            </div>
+
+            <div class="col-md-12 col-lg-2 d-grid">
+              <button
+                class="btn btn-sm btn-light border text-muted"
+                onclick="resetFiltrosVentas()"
+              >
+                <i class="ti ti-filter-off me-1"></i> Limpiar
+              </button>
+            </div>
+          </div>
           <div class="table-responsive">
             <table class="table table-hover" id="tabla-ventas">
               <thead>
@@ -48,19 +136,30 @@
                   <th>Acciones</th>
                 </tr>
               </thead>
-              <tbody id="ventas-tbody">
-              </tbody>
+              <tbody id="ventas-tbody"></tbody>
             </table>
           </div>
         </div>
       </div>
     </div>
-    <div class="modal fade" id="modal-nueva-venta" aria-labelledby="modal-nueva-venta-label" aria-hidden="true">
+    <div
+      class="modal fade"
+      id="modal-nueva-venta"
+      aria-labelledby="modal-nueva-venta-label"
+      aria-hidden="true"
+    >
       <div class="modal-dialog modal-fullscreen">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title h4" id="modal-nueva-venta-label">Nueva Venta</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <h5 class="modal-title h4" id="modal-nueva-venta-label">
+              Nueva Venta
+            </h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
           </div>
           <div class="modal-body">
             <form id="form-nueva-venta">
@@ -71,9 +170,15 @@
                       <div class="row g-3 mb-3">
                         <div class="col-sm-6 col-xl-3">
                           <label class="form-label">Tipo de comprobante</label>
-                          <select class="form-select" id="venta-tipo-comprobante" required
-                            onchange="toggleClienteLogic()">
-                            <option value="" selected disabled>Seleccione...</option>
+                          <select
+                            class="form-select"
+                            id="venta-tipo-comprobante"
+                            required
+                            onchange="toggleClienteLogic()"
+                          >
+                            <option value="" selected disabled>
+                              Seleccione...
+                            </option>
 
                             <option value="Boleta">Boleta</option>
                             <option value="Factura">Factura</option>
@@ -81,41 +186,73 @@
                         </div>
                         <div class="col-sm-6 col-xl-2">
                           <label class="form-label">Serie</label>
-                          <input type="text" class="form-control" id="venta-serie" value="B001" readonly />
+                          <input
+                            type="text"
+                            class="form-control"
+                            id="venta-serie"
+                            value="B001"
+                            readonly
+                          />
                         </div>
                         <div class="col-sm-6 col-xl-2">
                           <label class="form-label">Número</label>
-                          <input type="text" class="form-control" id="venta-numero" placeholder="" readonly />
+                          <input
+                            type="text"
+                            class="form-control"
+                            id="venta-numero"
+                            placeholder=""
+                            readonly
+                          />
                         </div>
                         <div class="col-sm-6 col-xl-3">
                           <label class="form-label">Fecha de emisión</label>
-                          <input type="date" class="form-control" id="venta-fecha-emision" required />
+                          <input
+                            type="date"
+                            class="form-control"
+                            id="venta-fecha-emision"
+                            required
+                          />
                         </div>
 
                         <script>
                           const hoy = new Date().toISOString().split("T")[0];
-                          const inputFecha = document.getElementById("venta-fecha-emision");
+                          const inputFecha = document.getElementById(
+                            "venta-fecha-emision"
+                          );
                           inputFecha.value = hoy;
                           inputFecha.min = hoy;
-                          inputFecha.max = hoy;        
+                          inputFecha.max = hoy;
                         </script>
                       </div>
 
                       <div class="mb-3">
-                        <label class="form-label">Buscar Producto (por nombre o código)</label>
+                        <label class="form-label"
+                          >Buscar Producto (por nombre o código)</label
+                        >
                         <div class="position-relative">
-                          <input type="search" class="form-control ps-5" id="producto-search-input"
-                            placeholder="Escribe para buscar...">
-                          <i class="search-icon position-absolute top-50 start-0 translate-middle-y ms-3">
+                          <input
+                            type="search"
+                            class="form-control ps-5"
+                            id="producto-search-input"
+                            placeholder="Escribe para buscar..."
+                          />
+                          <i
+                            class="search-icon position-absolute top-50 start-0 translate-middle-y ms-3"
+                          >
                             <svg class="pc-icon">
                               <use xlink:href="#custom-search-normal-1"></use>
                             </svg>
                           </i>
                         </div>
-                        <div id="producto-search-results"
+                        <div
+                          id="producto-search-results"
                           class="list-group position-absolute w-100 bg-white border rounded shadow-sm"
-                          style="z-index: 1050; max-height: 200px; overflow-y: auto;">
-                        </div>
+                          style="
+                            z-index: 1050;
+                            max-height: 200px;
+                            overflow-y: auto;
+                          "
+                        ></div>
                       </div>
 
                       <div class="table-responsive">
@@ -123,15 +260,14 @@
                           <thead>
                             <tr>
                               <th>Producto</th>
-                              <th style="width: 15%;">Cant.</th>
-                              <th style="width: 15%;">Precio Unit.</th>
-                              <th style="width: 15%;">Desc. (S/)</th>
-                              <th style="width: 15%;">Importe</th>
+                              <th style="width: 15%">Cant.</th>
+                              <th style="width: 15%">Precio Unit.</th>
+                              <th style="width: 15%">Desc. (S/)</th>
+                              <th style="width: 15%">Importe</th>
                               <th class="text-center">Acción</th>
                             </tr>
                           </thead>
-                          <tbody id="detalle-tbody">
-                          </tbody>
+                          <tbody id="detalle-tbody"></tbody>
                         </table>
                       </div>
                     </div>
@@ -143,18 +279,39 @@
                     <div class="card-body">
                       <h6 class="mb-2">Vendedor:</h6>
                       <div class="border rounded p-3 mb-3">
-                        <h5 th:text="${usuario.persona.nombres} + ' ' + ${usuario.persona.apellidos}">Ronald Ramos</h5>
-                        <p class="mb-0" th:text="${usuario.roles[0].nombre}">Cajero</p>
-                        <p class="mb-0" th:text="'Cod. ' + ${usuario.persona.numeroDocumento}">cod. 4626264965</p>
+                        <h5
+                          th:text="${usuario.persona.nombres} + ' ' + ${usuario.persona.apellidos}"
+                        >
+                          Ronald Ramos
+                        </h5>
+                        <p class="mb-0" th:text="${usuario.roles[0].nombre}">
+                          Cajero
+                        </p>
+                        <p
+                          class="mb-0"
+                          th:text="'Cod. ' + ${usuario.persona.numeroDocumento}"
+                        >
+                          cod. 4626264965
+                        </p>
                       </div>
 
-                      <div class="d-flex align-items-center justify-content-between mb-2">
+                      <div
+                        class="d-flex align-items-center justify-content-between mb-2"
+                      >
                         <h6 class="mb-0">Cliente:</h6>
                         <div class="d-flex gap-2">
-                          <button class="btn btn-sm btn-outline-primary" type="button" id="btn-buscar-cliente">
+                          <button
+                            class="btn btn-sm btn-outline-primary"
+                            type="button"
+                            id="btn-buscar-cliente"
+                          >
                             <i class="ti ti-search"></i> Buscar
                           </button>
-                          <button class="btn btn-sm btn-outline-secondary" type="button" id="btn-nuevo-cliente">
+                          <button
+                            class="btn btn-sm btn-outline-secondary"
+                            type="button"
+                            id="btn-nuevo-cliente"
+                          >
                             <i class="ti ti-plus"></i> Nuevo
                           </button>
                         </div>
@@ -162,35 +319,57 @@
                       <div class="border rounded p-3 mb-3">
                         <div id="cliente-view">
                           <h5 id="cliente-view-nombre">Cliente</h5>
-                          <p class="mb-0" id="cliente-view-doc">DNI: 00000000</p>
-                          <p class="mb-0" id="cliente-view-dir">Sin dirección</p>
+                          <p class="mb-0" id="cliente-view-doc">
+                            DNI: 00000000
+                          </p>
+                          <p class="mb-0" id="cliente-view-dir">
+                            Sin dirección
+                          </p>
                         </div>
                       </div>
 
                       <div class="mb-3">
                         <label class="form-label">Método de Pago</label>
-                        <select class="form-select" id="venta-metodo-pago" required>
-                          <option th:each="metodo : ${T(com.example.simplemvc.model.enums.MetodoPago).values()}"
-                            th:value="${metodo}" th:text="${metodo.name()}"></option>
+                        <select
+                          class="form-select"
+                          id="venta-metodo-pago"
+                          required
+                        >
+                          <option
+                            th:each="metodo : ${T(com.example.simplemvc.model.enums.MetodoPago).values()}"
+                            th:value="${metodo}"
+                            th:text="${metodo.name()}"
+                          ></option>
                         </select>
                       </div>
 
-                      <hr class="my-3">
+                      <hr class="my-3" />
                       <div class="invoice-total ms-auto">
                         <div class="row g-2 mb-1">
                           <div class="col-6">
-                            <p class="text-muted mb-0 text-start">Sub total :</p>
+                            <p class="text-muted mb-0 text-start">
+                              Sub total :
+                            </p>
                           </div>
                           <div class="col-6">
-                            <p class="f-w-600 mb-0 text-end" id="total-subtotal">S/ 0.00</p>
+                            <p
+                              class="f-w-600 mb-0 text-end"
+                              id="total-subtotal"
+                            >
+                              S/ 0.00
+                            </p>
                           </div>
                         </div>
                         <div class="row g-2 mb-1">
                           <div class="col-6">
-                            <p class="text-muted mb-0 text-start">IGV (18%) :</p>
+                            <p class="text-muted mb-0 text-start">
+                              IGV (18%) :
+                            </p>
                           </div>
                           <div class="col-6">
-                            <p class="f-w-600 mb-0 text-end" id="total-igv">S/ 0.00</p>
+                            <p class="f-w-600 mb-0 text-end" id="total-igv">
+                              S/ 0.00
+                            </p>
                           </div>
                         </div>
                         <div class="row g-2">
@@ -198,18 +377,24 @@
                             <h5 class="mb-0 text-start">Total :</h5>
                           </div>
                           <div class="col-6">
-                            <h5 class="mb-0 text-end" id="total-total">S/ 0.00</h5>
+                            <h5 class="mb-0 text-end" id="total-total">
+                              S/ 0.00
+                            </h5>
                           </div>
                         </div>
                       </div>
-                      <hr class="my-3">
+                      <hr class="my-3" />
 
                       <div class="d-grid gap-2">
-                        <button class="btn btn-primary" type="button" id="btn-crear-venta" disabled>
+                        <button
+                          class="btn btn-primary"
+                          type="button"
+                          id="btn-crear-venta"
+                          disabled
+                        >
                           <i class="ti ti-device-floppy me-1"></i> Emitir Venta
                         </button>
                       </div>
-
                     </div>
                   </div>
                 </div>
@@ -225,14 +410,23 @@
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title" id="cliente-modal-title">Buscar Cliente</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Cerrar"
+            ></button>
           </div>
           <div class="modal-body">
             <form id="cliente-form">
               <div class="row g-2">
                 <div class="col-6">
                   <label class="form-label">Tipo doc.</label>
-                  <select class="form-select" id="cliente-form-tipo-doc" required>
+                  <select
+                    class="form-select"
+                    id="cliente-form-tipo-doc"
+                    required
+                  >
                     <option value="DNI">DNI</option>
                     <option value="RUC">RUC</option>
                     <option value="CE">CE</option>
@@ -241,46 +435,95 @@
                 <div class="col-6">
                   <label class="form-label">N° documento</label>
                   <div class="input-group">
-                    <input class="form-control" type="text" id="cliente-form-numero" required>
-                    <button class="btn btn-outline-primary" type="button" id="btn-buscar-doc-api">
-                      <span id="btn-buscar-doc-spinner" class="spinner-border spinner-border-sm d-none me-1"
-                        role="status" aria-hidden="true"></span>
+                    <input
+                      class="form-control"
+                      type="text"
+                      id="cliente-form-numero"
+                      required
+                    />
+                    <button
+                      class="btn btn-outline-primary"
+                      type="button"
+                      id="btn-buscar-doc-api"
+                    >
+                      <span
+                        id="btn-buscar-doc-spinner"
+                        class="spinner-border spinner-border-sm d-none me-1"
+                        role="status"
+                        aria-hidden="true"
+                      ></span>
                       <i class="ti ti-search" id="btn-buscar-doc-icon"></i>
                     </button>
                   </div>
                 </div>
                 <div class="col-12">
                   <label class="form-label">Razón social / Nombres</label>
-                  <input class="form-control" type="text" id="cliente-form-nombre" required>
+                  <input
+                    class="form-control"
+                    type="text"
+                    id="cliente-form-nombre"
+                    required
+                  />
                 </div>
                 <div class="col-12">
                   <label class="form-label">Dirección</label>
-                  <input class="form-control" type="text" id="cliente-form-direccion">
+                  <input
+                    class="form-control"
+                    type="text"
+                    id="cliente-form-direccion"
+                  />
                 </div>
               </div>
-              <div id="cliente-form-error" class="text-danger mt-2 d-none"></div>
+              <div
+                id="cliente-form-error"
+                class="text-danger mt-2 d-none"
+              ></div>
             </form>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-            <button type="button" class="btn btn-primary" id="btn-guardar-cliente">Guardar Cliente</button>
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Cancelar
+            </button>
+            <button
+              type="button"
+              class="btn btn-primary"
+              id="btn-guardar-cliente"
+            >
+              Guardar Cliente
+            </button>
           </div>
         </div>
       </div>
     </div>
 
-    <div class="modal fade" id="modal-vista-previa" tabindex="-1" aria-hidden="true">
+    <div
+      class="modal fade"
+      id="modal-vista-previa"
+      tabindex="-1"
+      aria-hidden="true"
+    >
       <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title">Detalle de Venta</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Cerrar"
+            ></button>
           </div>
           <div class="modal-body">
             <div class="row mb-3">
               <div class="col-md-8">
                 <strong>Cliente:</strong>
-                <p id="vp-cliente-nombre" class="mb-1 text-muted">Cargando...</p>
+                <p id="vp-cliente-nombre" class="mb-1 text-muted">
+                  Cargando...
+                </p>
                 <strong>Documento:</strong>
                 <p id="vp-cliente-doc" class="mb-0 text-muted">Cargando...</p>
               </div>
@@ -305,7 +548,7 @@
                 <p id="vp-vendedor" class="mb-0 text-muted">Cargando...</p>
               </div>
             </div>
-            <hr>
+            <hr />
             <h6 class="mb-3">Productos</h6>
             <div class="table-responsive">
               <table class="table table-sm">
@@ -318,132 +561,201 @@
                     <th class="text-end">Subtotal</th>
                   </tr>
                 </thead>
-                <tbody id="vp-detalle-tbody">
-                </tbody>
+                <tbody id="vp-detalle-tbody"></tbody>
               </table>
             </div>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-            <button type="button" class="btn btn-primary"><i class="ti ti-printer me-1"></i> Imprimir</button>
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Cerrar
+            </button>
+            <button type="button" class="btn btn-primary">
+              <i class="ti ti-printer me-1"></i> Imprimir
+            </button>
           </div>
         </div>
       </div>
     </div>
-
   </div>
 </div>
 
-
-
 <script th:inline="javascript">
-  document.addEventListener('DOMContentLoaded', () => {
+  document.addEventListener("DOMContentLoaded", () => {
+    const API_VENTAS = "/api/ventas";
+    const API_PRODUCTOS = "/api/productos";
+    const API_CONSULTA = "/api/consulta";
 
-    const API_VENTAS = '/api/ventas';
-    const API_PRODUCTOS = '/api/productos';
-    const API_CONSULTA = '/api/consulta';
+    let listaVentasOriginal = [];
 
     const IGV_RATE = 1.18;
     const DEFAULT_CLIENTE = {
       tipoDocumento: "DNI",
       numeroDocumento: "00000000",
       nombreCompleto: "Cliente",
-      direccion: "Sin dirección"
+      direccion: "Sin dirección",
     };
 
     let clienteSeleccionado = {
-      ...DEFAULT_CLIENTE
+      ...DEFAULT_CLIENTE,
     };
     let productosEnCarrito = [];
 
-    const ventasTbody = document.getElementById('ventas-tbody');
-    const modalVistaPrevia = new bootstrap.Modal(document.getElementById('modal-vista-previa'));
+    const ventasTbody = document.getElementById("ventas-tbody");
+    const modalVistaPrevia = new bootstrap.Modal(
+      document.getElementById("modal-vista-previa")
+    );
 
-    const modalNuevaVentaEl = document.getElementById('modal-nueva-venta');
-    const formNuevaVenta = document.getElementById('form-nueva-venta');
-    const ventaTipoComprobante = document.getElementById('venta-tipo-comprobante');
-    const ventaSerie = document.getElementById('venta-serie');
-    const ventaNumero = document.getElementById('venta-numero');
-    const ventaFechaEmision = document.getElementById('venta-fecha-emision');
-    const ventaMetodoPago = document.getElementById('venta-metodo-pago');
-    const clienteViewNombre = document.getElementById('cliente-view-nombre');
-    const clienteViewDoc = document.getElementById('cliente-view-doc');
-    const clienteViewDir = document.getElementById('cliente-view-dir');
-    const detalleTbody = document.getElementById('detalle-tbody');
-    const totalSubtotalEl = document.getElementById('total-subtotal');
-    const totalIgvEl = document.getElementById('total-igv');
-    const totalTotalEl = document.getElementById('total-total');
-    const btnCrearVenta = document.getElementById('btn-crear-venta');
+    const modalNuevaVentaEl = document.getElementById("modal-nueva-venta");
+    const formNuevaVenta = document.getElementById("form-nueva-venta");
+    const ventaTipoComprobante = document.getElementById(
+      "venta-tipo-comprobante"
+    );
+    const ventaSerie = document.getElementById("venta-serie");
+    const ventaNumero = document.getElementById("venta-numero");
+    const ventaFechaEmision = document.getElementById("venta-fecha-emision");
+    const ventaMetodoPago = document.getElementById("venta-metodo-pago");
+    const clienteViewNombre = document.getElementById("cliente-view-nombre");
+    const clienteViewDoc = document.getElementById("cliente-view-doc");
+    const clienteViewDir = document.getElementById("cliente-view-dir");
+    const detalleTbody = document.getElementById("detalle-tbody");
+    const totalSubtotalEl = document.getElementById("total-subtotal");
+    const totalIgvEl = document.getElementById("total-igv");
+    const totalTotalEl = document.getElementById("total-total");
+    const btnCrearVenta = document.getElementById("btn-crear-venta");
 
-    const modalCliente = new bootstrap.Modal(document.getElementById('modal-cliente'));
-    const clienteModalTitle = document.getElementById('cliente-modal-title');
-    const clienteForm = document.getElementById('cliente-form');
-    const clienteFormTipoDoc = document.getElementById('cliente-form-tipo-doc');
-    const clienteFormNumero = document.getElementById('cliente-form-numero');
-    const clienteFormNombre = document.getElementById('cliente-form-nombre');
-    const clienteFormDireccion = document.getElementById('cliente-form-direccion');
-    const btnBuscarDocApi = document.getElementById('btn-buscar-doc-api');
-    const btnBuscarDocSpinner = document.getElementById('btn-buscar-doc-spinner');
-    const btnBuscarDocIcon = document.getElementById('btn-buscar-doc-icon');
-    const clienteFormError = document.getElementById('cliente-form-error');
-    const btnGuardarCliente = document.getElementById('btn-guardar-cliente');
+    const modalCliente = new bootstrap.Modal(
+      document.getElementById("modal-cliente")
+    );
+    const clienteModalTitle = document.getElementById("cliente-modal-title");
+    const clienteForm = document.getElementById("cliente-form");
+    const clienteFormTipoDoc = document.getElementById("cliente-form-tipo-doc");
+    const clienteFormNumero = document.getElementById("cliente-form-numero");
+    const clienteFormNombre = document.getElementById("cliente-form-nombre");
+    const clienteFormDireccion = document.getElementById(
+      "cliente-form-direccion"
+    );
+    const btnBuscarDocApi = document.getElementById("btn-buscar-doc-api");
+    const btnBuscarDocSpinner = document.getElementById(
+      "btn-buscar-doc-spinner"
+    );
+    const btnBuscarDocIcon = document.getElementById("btn-buscar-doc-icon");
+    const clienteFormError = document.getElementById("cliente-form-error");
+    const btnGuardarCliente = document.getElementById("btn-guardar-cliente");
 
-    const productoSearchInput = document.getElementById('producto-search-input');
-    const productoSearchResults = document.getElementById('producto-search-results');
-
-
+    const productoSearchInput = document.getElementById(
+      "producto-search-input"
+    );
+    const productoSearchResults = document.getElementById(
+      "producto-search-results"
+    );
     async function cargarVentas() {
+      ventasTbody.innerHTML =
+        '<tr><td colspan="7" class="text-center py-3">Cargando...</td></tr>';
       try {
         const response = await fetch(API_VENTAS);
-        if (!response.ok) throw new Error('Error al cargar ventas');
+        if (!response.ok) throw new Error("Error al cargar ventas");
         const ventas = await response.json();
-
-        ventasTbody.innerHTML = '';
-        ventas.forEach(venta => {
-          ventasTbody.appendChild(crearFilaVenta(venta));
-        });
+        listaVentasOriginal = ventas.reverse();
+        aplicarFiltrosVentas();
       } catch (error) {
         console.error(error);
         ventasTbody.innerHTML = `<tr><td colspan="7" class="text-center text-danger">Error al cargar las ventas.</td></tr>`;
       }
     }
 
+    function aplicarFiltrosVentas() {
+      const textoBusqueda = document
+        .getElementById("filtroBusquedaVentas")
+        .value.toLowerCase()
+        .trim();
+      const tipoComprobante = document.getElementById(
+        "filtroTipoComprobante"
+      ).value;
+      const estadoBtn = document.querySelector(
+        "#filtroEstadoVentas .btn.active"
+      );
+      const estado = estadoBtn ? estadoBtn.dataset.estado : "";
+
+      const ventasFiltradas = listaVentasOriginal.filter((venta) => {
+        const serieNumero =
+          `${venta.serieComprobante}-${venta.numeroComprobante}`.toLowerCase();
+        const clienteNombre = (venta.clienteNombreCompleto || "").toLowerCase();
+        const clienteDoc = (venta.clienteNumeroDocumento || "").toLowerCase();
+
+        const coincideTexto =
+          serieNumero.includes(textoBusqueda) ||
+          clienteNombre.includes(textoBusqueda) ||
+          clienteDoc.includes(textoBusqueda);
+        const coincideTipo =
+          !tipoComprobante || venta.tipoComprobante === tipoComprobante;
+        const coincideEstado = !estado || venta.estado === estado;
+        return coincideTexto && coincideTipo && coincideEstado;
+      });
+      renderizarTablaVentas(ventasFiltradas);
+    }
+
+    function renderizarTablaVentas(ventas) {
+      ventasTbody.innerHTML = "";
+      if (ventas.length === 0) {
+        ventasTbody.innerHTML =
+          '<tr><td colspan="7" class="text-center text-muted py-3">No se encontraron ventas.</td></tr>';
+        return;
+      }
+      ventas.forEach((venta) => {
+        ventasTbody.appendChild(crearFilaVenta(venta));
+      });
+    }
+
     function crearFilaVenta(venta) {
-      const tr = document.createElement('tr');
+      const tr = document.createElement("tr");
       const fechaVenta = new Date(venta.fechaVenta);
       const hoy = new Date();
       const diffTime = Math.abs(hoy - fechaVenta);
       const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-          const diasLimite = (venta.tipoComprobante === 'Factura') ? 4 : 3;
-      const esAnulada = venta.estado === 'ANULADA';
+      const diasLimite = venta.tipoComprobante === "Factura" ? 4 : 3;
+      const esAnulada = venta.estado === "ANULADA";
       const plazoVencido = diffDays > diasLimite;
       const anularDisabled = esAnulada || plazoVencido;
-      let tooltipText = 'Anular Venta';
+      let tooltipText = "Anular Venta";
       if (esAnulada) {
-        tooltipText = 'Esta venta ya está anulada';
+        tooltipText = "Esta venta ya está anulada";
       } else if (plazoVencido) {
         tooltipText = `No se puede anular (límite ${diasLimite} días para ${venta.tipoComprobante})`;
       }
       tr.innerHTML = `
         <td>
-          <h6 class="mb-0">${venta.serieComprobante}-${venta.numeroComprobante}</h6>
+          <h6 class="mb-0">${venta.serieComprobante}-${
+        venta.numeroComprobante
+      }</h6>
           <small class="text-muted d-block">${venta.tipoComprobante}</small>
         </td>
         <td>
           <h6 class="mb-0">${venta.clienteNombreCompleto}</h6>
-          <small class="text-muted d-block">${venta.clienteTipoDocumento}: ${venta.clienteNumeroDocumento}</small>
+          <small class="text-muted d-block">${venta.clienteTipoDocumento}: ${
+        venta.clienteNumeroDocumento
+      }</small>
         </td>
         <td>${formatTimestamp(venta.fechaVenta)}</td>
         <td>${venta.nombreVendedor}</td>
         <td>${formatCurrency(venta.total)}</td>
         <td>${formatEstadoVenta(venta.estado)}</td>
         <td>
-          <a href="#" class="avtar avtar-xs btn-link-secondary btn-ver-venta" data-id="${venta.idVenta}" data-bs-toggle="tooltip" title="Ver Detalle">
+          <a href="#" class="avtar avtar-xs btn-link-secondary btn-ver-venta" data-id="${
+            venta.idVenta
+          }" data-bs-toggle="tooltip" title="Ver Detalle">
             <i class="ti ti-eye f-20"></i>
           </a>
           <a href="#" class="avtar avtar-xs btn-link-danger btn-anular-venta" 
              data-id="${venta.idVenta}" 
-             ${anularDisabled ? 'disabled style="pointer-events: none; opacity: 0.6;"' : ''} 
+             ${
+               anularDisabled
+                 ? 'disabled style="pointer-events: none; opacity: 0.6;"'
+                 : ""
+             } 
              data-bs-toggle="tooltip" 
              title="${tooltipText}">
             <i class="ti ti-ban f-20"></i>
@@ -452,30 +764,73 @@
       `;
       return tr;
     }
+
+    document
+      .getElementById("filtroBusquedaVentas")
+      .addEventListener("input", aplicarFiltrosVentas);
+    document
+      .getElementById("filtroTipoComprobante")
+      .addEventListener("change", aplicarFiltrosVentas);
+
+    document
+      .getElementById("filtroEstadoVentas")
+      .addEventListener("click", (e) => {
+        if (e.target.matches("button")) {
+          document
+            .querySelectorAll("#filtroEstadoVentas button")
+            .forEach((btn) => btn.classList.remove("active"));
+          e.target.classList.add("active");
+          aplicarFiltrosVentas();
+        }
+      });
+    window.resetFiltrosVentas = function () {
+      document.getElementById("filtroBusquedaVentas").value = "";
+      document.getElementById("filtroTipoComprobante").value = "";
+
+      const btns = document.querySelectorAll("#filtroEstadoVentas button");
+      btns.forEach((b) => b.classList.remove("active"));
+      btns[0].classList.add("active");
+      aplicarFiltrosVentas();
+    };
+
     async function abrirModalVistaPrevia(id) {
-      document.getElementById('vp-cliente-nombre').textContent = 'Cargando...';
-      document.getElementById('vp-cliente-doc').textContent = 'Cargando...';
-      document.getElementById('vp-estado').innerHTML = '<span class="badge text-bg-secondary">Cargando...</span>';
-      document.getElementById('vp-total').textContent = 'Cargando...';
-      document.getElementById('vp-comprobante').textContent = 'Cargando...';
-      document.getElementById('vp-fecha').textContent = 'Cargando...';
-      document.getElementById('vp-vendedor').textContent = 'Cargando...';
-      document.getElementById('vp-detalle-tbody').innerHTML = '<tr><td colspan="5" class="text-center">Cargando...</td></tr>';
+      document.getElementById("vp-cliente-nombre").textContent = "Cargando...";
+      document.getElementById("vp-cliente-doc").textContent = "Cargando...";
+      document.getElementById("vp-estado").innerHTML =
+        '<span class="badge text-bg-secondary">Cargando...</span>';
+      document.getElementById("vp-total").textContent = "Cargando...";
+      document.getElementById("vp-comprobante").textContent = "Cargando...";
+      document.getElementById("vp-fecha").textContent = "Cargando...";
+      document.getElementById("vp-vendedor").textContent = "Cargando...";
+      document.getElementById("vp-detalle-tbody").innerHTML =
+        '<tr><td colspan="5" class="text-center">Cargando...</td></tr>';
       modalVistaPrevia.show();
       try {
         const response = await fetch(`${API_VENTAS}/${id}`);
-        if (!response.ok) throw new Error('Venta no encontrada');
+        if (!response.ok) throw new Error("Venta no encontrada");
         const venta = await response.json();
-        document.getElementById('vp-cliente-nombre').textContent = venta.clienteNombreCompleto;
-        document.getElementById('vp-cliente-doc').textContent = `${venta.clienteTipoDocumento}: ${venta.clienteNumeroDocumento}`;
-        document.getElementById('vp-estado').innerHTML = formatEstadoVenta(venta.estado);
-        document.getElementById('vp-total').textContent = formatCurrency(venta.total);
-        document.getElementById('vp-comprobante').textContent = `${venta.tipoComprobante} | ${venta.serieComprobante}-${venta.numeroComprobante}`;
-        document.getElementById('vp-fecha').textContent = formatTimestamp(venta.fechaVenta);
-        document.getElementById('vp-vendedor').textContent = venta.nombreVendedor;
-        const detalleBody = document.getElementById('vp-detalle-tbody');
-        detalleBody.innerHTML = '';
-        venta.detalles.forEach(item => {
+        document.getElementById("vp-cliente-nombre").textContent =
+          venta.clienteNombreCompleto;
+        document.getElementById(
+          "vp-cliente-doc"
+        ).textContent = `${venta.clienteTipoDocumento}: ${venta.clienteNumeroDocumento}`;
+        document.getElementById("vp-estado").innerHTML = formatEstadoVenta(
+          venta.estado
+        );
+        document.getElementById("vp-total").textContent = formatCurrency(
+          venta.total
+        );
+        document.getElementById(
+          "vp-comprobante"
+        ).textContent = `${venta.tipoComprobante} | ${venta.serieComprobante}-${venta.numeroComprobante}`;
+        document.getElementById("vp-fecha").textContent = formatTimestamp(
+          venta.fechaVenta
+        );
+        document.getElementById("vp-vendedor").textContent =
+          venta.nombreVendedor;
+        const detalleBody = document.getElementById("vp-detalle-tbody");
+        detalleBody.innerHTML = "";
+        venta.detalles.forEach((item) => {
           detalleBody.innerHTML += `
             <tr>
               <td>${item.nombreProducto}</td>
@@ -488,33 +843,40 @@
         });
       } catch (error) {
         console.error(error);
-        document.getElementById('vp-cliente-nombre').textContent = 'Error al cargar la venta.';
+        document.getElementById("vp-cliente-nombre").textContent =
+          "Error al cargar la venta.";
       }
     }
     function solicitarAnulacion(id) {
       Swal.fire({
-        title: '¿Estás seguro?',
+        title: "¿Estás seguro?",
         text: "Esta acción anulará la venta y devolverá los productos al stock. No se puede revertir.",
-        icon: 'warning',
+        icon: "warning",
         showCancelButton: true,
-        confirmButtonColor: '#d33',
-        cancelButtonColor: '#6c757d',
-        confirmButtonText: 'Sí, anular venta',
-        cancelButtonText: 'Cancelar'
+        confirmButtonColor: "#d33",
+        cancelButtonColor: "#6c757d",
+        confirmButtonText: "Sí, anular venta",
+        cancelButtonText: "Cancelar",
       }).then(async (result) => {
         if (result.isConfirmed) {
           try {
-            const response = await fetch(`${API_VENTAS}/${id}/anular`, { method: 'PUT' });
+            const response = await fetch(`${API_VENTAS}/${id}/anular`, {
+              method: "PUT",
+            });
             if (response.ok) {
               await response.json();
-              Swal.fire('¡Anulada!', 'La venta ha sido anulada correctamente.', 'success');
+              Swal.fire(
+                "¡Anulada!",
+                "La venta ha sido anulada correctamente.",
+                "success"
+              );
               cargarVentas();
             } else {
               const errorMsg = await response.text();
               throw new Error(errorMsg);
             }
           } catch (error) {
-            Swal.fire('Error', error.message, 'error');
+            Swal.fire("Error", error.message, "error");
           }
         }
       });
@@ -522,36 +884,38 @@
 
     function resetFormVenta() {
       formNuevaVenta.reset();
-      detalleTbody.innerHTML = '';
+      detalleTbody.innerHTML = "";
       productosEnCarrito = [];
       clienteSeleccionado = {
-        ...DEFAULT_CLIENTE
+        ...DEFAULT_CLIENTE,
       };
       actualizarVistaCliente();
       recalcularTotales();
-      ventaFechaEmision.value = new Date().toISOString().split('T')[0];
+      ventaFechaEmision.value = new Date().toISOString().split("T")[0];
       btnCrearVenta.disabled = true;
     }
 
     async function toggleClienteLogic() {
       const tipo = ventaTipoComprobante.value;
-      if (tipo === 'Factura') {
-        const numero = await ObtenerNumeroBoletaFactura('Factura');
-        ventaNumero.value = numero || '';
-        ventaSerie.value = 'F001';
-        clienteFormTipoDoc.value = 'RUC';
+      if (tipo === "Factura") {
+        const numero = await ObtenerNumeroBoletaFactura("Factura");
+        ventaNumero.value = numero || "";
+        ventaSerie.value = "F001";
+        clienteFormTipoDoc.value = "RUC";
       } else {
-        const numero = await ObtenerNumeroBoletaFactura('Boleta');
-        ventaNumero.value = numero || '';
-        ventaSerie.value = 'B001';
-        clienteFormTipoDoc.value = 'DNI';
+        const numero = await ObtenerNumeroBoletaFactura("Boleta");
+        ventaNumero.value = numero || "";
+        ventaSerie.value = "B001";
+        clienteFormTipoDoc.value = "DNI";
       }
     }
 
     async function ObtenerNumeroBoletaFactura(tipo) {
       try {
-        const response = await fetch(`${API_VENTAS}/siguiente-numero?tipo=${tipo}`);
-        if (!response.ok) throw new Error('Error al obtener número');
+        const response = await fetch(
+          `${API_VENTAS}/siguiente-numero?tipo=${tipo}`
+        );
+        if (!response.ok) throw new Error("Error al obtener número");
         const data = await response.json();
         return data.numero;
       } catch (error) {
@@ -561,19 +925,19 @@
     }
     async function buscarProductos(query) {
       if (query.length < 2) {
-        productoSearchResults.innerHTML = '';
+        productoSearchResults.innerHTML = "";
         return;
       }
 
       try {
         const response = await fetch(`${API_PRODUCTOS}/buscar?query=${query}`);
-        if (!response.ok) throw new Error('Error al buscar');
+        if (!response.ok) throw new Error("Error al buscar");
         const productos = await response.json();
-        productoSearchResults.innerHTML = '';
-        productos.forEach(producto => {
-          const item = document.createElement('a');
-          item.href = '#';
-          item.className = 'list-group-item list-group-item-action';
+        productoSearchResults.innerHTML = "";
+        productos.forEach((producto) => {
+          const item = document.createElement("a");
+          item.href = "#";
+          item.className = "list-group-item list-group-item-action";
           item.textContent = `${producto.nombre} (Stock: ${producto.stockActual})`;
           item.onclick = (e) => {
             e.preventDefault();
@@ -586,16 +950,18 @@
       }
     }
     function seleccionarProducto(producto) {
-      productoSearchInput.value = '';
-      productoSearchResults.innerHTML = '';
-      if (productosEnCarrito.find(p => p.idProducto === producto.idProducto)) {
-        alert('El producto ya está en el carrito.');
+      productoSearchInput.value = "";
+      productoSearchResults.innerHTML = "";
+      if (
+        productosEnCarrito.find((p) => p.idProducto === producto.idProducto)
+      ) {
+        alert("El producto ya está en el carrito.");
         return;
       }
       productosEnCarrito.push(producto);
       const subtotalInicial = producto.precio * 1;
       const maxDesc = (subtotalInicial * 0.05).toFixed(2);
-      const tr = document.createElement('tr');
+      const tr = document.createElement("tr");
       tr.dataset.idProducto = producto.idProducto;
       tr.innerHTML = `
         <td>
@@ -649,10 +1015,12 @@
     }
 
     function removerProductoDelCarrito(e) {
-      const tr = e.target.closest('tr');
+      const tr = e.target.closest("tr");
       if (tr) {
         const id = tr.dataset.idProducto;
-        productosEnCarrito = productosEnCarrito.filter(p => p.idProducto != id);
+        productosEnCarrito = productosEnCarrito.filter(
+          (p) => p.idProducto != id
+        );
         tr.remove();
         recalcularTotales();
       }
@@ -661,8 +1029,10 @@
     function recalcularTotales() {
       let totalAcumulado = 0;
 
-      detalleTbody.querySelectorAll('tr').forEach(tr => {
-        const importeTexto = tr.querySelector('[data-field="importe"]').textContent;
+      detalleTbody.querySelectorAll("tr").forEach((tr) => {
+        const importeTexto = tr.querySelector(
+          '[data-field="importe"]'
+        ).textContent;
         const importe = parseFloat(importeTexto.replace(/[^0-9.-]+/g, "")) || 0;
         totalAcumulado += importe;
       });
@@ -679,12 +1049,12 @@
     }
 
     window.recalcularFila = function (input) {
-      const tr = input.closest('tr');
+      const tr = input.closest("tr");
 
       const inputCantidad = tr.querySelector('[data-field="cantidad"]');
       const inputPrecio = tr.querySelector('[data-field="precio"]');
       const inputDescuento = tr.querySelector('[data-field="descuento"]');
-      const textoMaxDesc = tr.querySelector('.texto-max-desc');
+      const textoMaxDesc = tr.querySelector(".texto-max-desc");
       const celdaImporte = tr.querySelector('[data-field="importe"]');
 
       const cantidad = parseFloat(inputCantidad.value) || 0;
@@ -697,18 +1067,28 @@
       const maxDescPermitido = subtotalBruto * 0.05;
 
       if (descuentoTotalIngresado > maxDescPermitido + 0.009) {
-        inputDescuento.classList.add('is-invalid', 'border-danger', 'text-danger');
-        textoMaxDesc.classList.add('text-danger');
-        textoMaxDesc.classList.remove('text-muted');
-        textoMaxDesc.innerHTML = `<i class="ti ti-alert-circle"></i> Excede el 5% (Max: S/ ${maxDescPermitido.toFixed(2)})`;
+        inputDescuento.classList.add(
+          "is-invalid",
+          "border-danger",
+          "text-danger"
+        );
+        textoMaxDesc.classList.add("text-danger");
+        textoMaxDesc.classList.remove("text-muted");
+        textoMaxDesc.innerHTML = `<i class="ti ti-alert-circle"></i> Excede el 5% (Max: S/ ${maxDescPermitido.toFixed(
+          2
+        )})`;
         tr.dataset.invalid = "true";
       } else if (descuentoTotalIngresado < 0) {
         inputDescuento.value = 0;
         descuentoTotalIngresado = 0;
       } else {
-        inputDescuento.classList.remove('is-invalid', 'border-danger', 'text-danger');
-        textoMaxDesc.classList.remove('text-danger');
-        textoMaxDesc.classList.add('text-muted');
+        inputDescuento.classList.remove(
+          "is-invalid",
+          "border-danger",
+          "text-danger"
+        );
+        textoMaxDesc.classList.remove("text-danger");
+        textoMaxDesc.classList.add("text-muted");
         textoMaxDesc.textContent = `Max: S/ ${maxDescPermitido.toFixed(2)}`;
         tr.dataset.invalid = "false";
       }
@@ -718,65 +1098,68 @@
       recalcularTotales();
     };
 
-
     function validarFormularioVenta() {
       let esValido = true;
 
       if (detalleTbody.rows.length === 0) {
         esValido = false;
       }
-      if (clienteSeleccionado.tipoDocumento === 'RUC' && ventaTipoComprobante.value === 'Boleta') {
+      if (
+        clienteSeleccionado.tipoDocumento === "RUC" &&
+        ventaTipoComprobante.value === "Boleta"
+      ) {
         esValido = false;
       }
-      if (clienteViewNombre.textContent === 'Cliente') {
-        esValido = false;
-      }
-
-      if (clienteSeleccionado.numeroDocumento === '00000000' && ventaTipoComprobante.value === 'Factura') {
-        esValido = false;
-      }
-      if (totalTotalEl.textContent === 'S/ 0.00') {
+      if (clienteViewNombre.textContent === "Cliente") {
         esValido = false;
       }
 
-      if (clienteSeleccionado.nombreCompleto.trim() === '') {
+      if (
+        clienteSeleccionado.numeroDocumento === "00000000" &&
+        ventaTipoComprobante.value === "Factura"
+      ) {
+        esValido = false;
+      }
+      if (totalTotalEl.textContent === "S/ 0.00") {
         esValido = false;
       }
 
-      if (ventaFechaEmision.value.trim() === '') {
+      if (clienteSeleccionado.nombreCompleto.trim() === "") {
         esValido = false;
       }
 
-      detalleTbody.querySelectorAll('tr').forEach(tr => {
+      if (ventaFechaEmision.value.trim() === "") {
+        esValido = false;
+      }
+
+      detalleTbody.querySelectorAll("tr").forEach((tr) => {
         const id = tr.dataset.idProducto;
-        const producto = productosEnCarrito.find(p => p.idProducto == id);
+        const producto = productosEnCarrito.find((p) => p.idProducto == id);
         const cantidadInput = tr.querySelector('[data-field="cantidad"]');
         const cantidad = parseFloat(cantidadInput.value) || 0;
 
         if (cantidad > producto.stockActual) {
-          cantidadInput.classList.add('is-invalid');
+          cantidadInput.classList.add("is-invalid");
           esValido = false;
         } else {
-          cantidadInput.classList.remove('is-invalid');
+          cantidadInput.classList.remove("is-invalid");
         }
       });
 
       btnCrearVenta.disabled = !esValido;
     }
 
-
-
     function abrirModalBuscarCliente() {
       clienteModalTitle.textContent = "Buscar Cliente";
       clienteForm.reset();
-      clienteFormError.classList.add('d-none');
+      clienteFormError.classList.add("d-none");
 
       const tipo = ventaTipoComprobante.value;
-      clienteFormTipoDoc.value = (tipo === 'Factura') ? 'RUC' : 'DNI';
+      clienteFormTipoDoc.value = tipo === "Factura" ? "RUC" : "DNI";
       clienteFormNumero.disabled = false;
       clienteFormNombre.disabled = true;
       clienteFormDireccion.disabled = true;
-      btnBuscarDocApi.classList.remove('d-none');
+      btnBuscarDocApi.classList.remove("d-none");
 
       modalCliente.show();
     }
@@ -784,64 +1167,71 @@
     function abrirModalNuevoCliente() {
       clienteModalTitle.textContent = "Nuevo Cliente";
       clienteForm.reset();
-      clienteFormError.classList.add('d-none');
+      clienteFormError.classList.add("d-none");
 
-      clienteFormTipoDoc.value = (ventaTipoComprobante.value === 'Factura') ? 'RUC' : 'DNI';
+      clienteFormTipoDoc.value =
+        ventaTipoComprobante.value === "Factura" ? "RUC" : "DNI";
       clienteFormNumero.disabled = false;
       clienteFormNombre.disabled = false;
       clienteFormDireccion.disabled = false;
-      btnBuscarDocApi.classList.add('d-none');
+      btnBuscarDocApi.classList.add("d-none");
 
       modalCliente.show();
     }
-
 
     async function consultarDocumentoApi() {
       const tipo = clienteFormTipoDoc.value;
       const numero = clienteFormNumero.value.trim();
 
-      if (numero === '') {
-        clienteFormError.textContent = 'Ingrese un número de documento.';
-        clienteFormError.classList.remove('d-none');
+      if (numero === "") {
+        clienteFormError.textContent = "Ingrese un número de documento.";
+        clienteFormError.classList.remove("d-none");
         return;
       }
 
-      const endpoint = (tipo === 'RUC') ? 'ruc' : 'dni';
-      clienteFormError.classList.add('d-none');
+      const endpoint = tipo === "RUC" ? "ruc" : "dni";
+      clienteFormError.classList.add("d-none");
       setBuscandoDoc(true);
 
       try {
-        const response = await fetch(`${API_CONSULTA}/${endpoint}?num=${numero}`);
+        const response = await fetch(
+          `${API_CONSULTA}/${endpoint}?num=${numero}`
+        );
         const result = await response.json();
 
         if (result.success && result.data) {
-          if (tipo === 'RUC') {
-            clienteFormNombre.value = result.data.nombre_o_razon_social || '';
-            clienteFormDireccion.value = result.data.direccion_completa || result.data.direccion || '';
+          if (tipo === "RUC") {
+            clienteFormNombre.value = result.data.nombre_o_razon_social || "";
+            clienteFormDireccion.value =
+              result.data.direccion_completa || result.data.direccion || "";
           } else {
-            clienteFormNombre.value = result.data.nombre_completo || '';
-            clienteFormDireccion.value = '';
+            clienteFormNombre.value = result.data.nombre_completo || "";
+            clienteFormDireccion.value = "";
           }
           clienteFormNombre.disabled = false;
           clienteFormDireccion.disabled = false;
         } else {
-          clienteFormError.textContent = result.message || 'No se encontraron datos.';
-          clienteFormError.classList.remove('d-none');
+          clienteFormError.textContent =
+            result.message || "No se encontraron datos.";
+          clienteFormError.classList.remove("d-none");
         }
-
       } catch (error) {
-        clienteFormError.textContent = 'Error al conectar con el servicio de consulta.';
-        clienteFormError.classList.remove('d-none');
+        clienteFormError.textContent =
+          "Error al conectar con el servicio de consulta.";
+        clienteFormError.classList.remove("d-none");
       } finally {
         setBuscandoDoc(false);
       }
     }
 
-
     function guardarClienteSeleccionado() {
-      if (clienteFormNumero.value.trim() === '' || clienteFormNombre.value.trim() === '') {
-        clienteFormError.textContent = 'Debe completar el número y nombre/razón social.';
-        clienteFormError.classList.remove('d-none');
+      if (
+        clienteFormNumero.value.trim() === "" ||
+        clienteFormNombre.value.trim() === ""
+      ) {
+        clienteFormError.textContent =
+          "Debe completar el número y nombre/razón social.";
+        clienteFormError.classList.remove("d-none");
         return;
       }
 
@@ -849,7 +1239,7 @@
         tipoDocumento: clienteFormTipoDoc.value,
         numeroDocumento: clienteFormNumero.value,
         nombreCompleto: clienteFormNombre.value,
-        direccion: clienteFormDireccion.value
+        direccion: clienteFormDireccion.value,
       };
 
       actualizarVistaCliente();
@@ -860,18 +1250,21 @@
     function actualizarVistaCliente() {
       clienteViewNombre.textContent = clienteSeleccionado.nombreCompleto;
       clienteViewDoc.textContent = `${clienteSeleccionado.tipoDocumento}: ${clienteSeleccionado.numeroDocumento}`;
-      clienteViewDir.textContent = clienteSeleccionado.direccion || 'Sin dirección';
+      clienteViewDir.textContent =
+        clienteSeleccionado.direccion || "Sin dirección";
     }
 
     function setBuscandoDoc(buscando) {
       btnBuscarDocApi.disabled = buscando;
-      btnBuscarDocSpinner.classList.toggle('d-none', !buscando);
-      btnBuscarDocIcon.classList.toggle('d-none', buscando);
+      btnBuscarDocSpinner.classList.toggle("d-none", !buscando);
+      btnBuscarDocIcon.classList.toggle("d-none", buscando);
     }
     async function validarYCrearVenta() {
       validarFormularioVenta();
       if (btnCrearVenta.disabled) {
-        alert('El formulario contiene errores. Por favor, revíselo antes de continuar.');
+        alert(
+          "El formulario contiene errores. Por favor, revíselo antes de continuar."
+        );
         return;
       }
 
@@ -884,40 +1277,51 @@
         serieComprobante: ventaSerie.value,
         numeroComprobante: ventaNumero.value,
         metodoPago: ventaMetodoPago.value,
-        detalles: []
+        detalles: [],
       };
 
       console.log(request);
 
-      detalleTbody.querySelectorAll('tr').forEach(tr => {
+      detalleTbody.querySelectorAll("tr").forEach((tr) => {
         request.detalles.push({
           idProducto: tr.dataset.idProducto,
-          cantidad: parseFloat(tr.querySelector('[data-field="cantidad"]').value),
-          precioUnitario: parseFloat(tr.querySelector('[data-field="precio"]').value),
-          descuentoUnitario: parseFloat(tr.querySelector('[data-field="cantidad"]').value) > 0 ? parseFloat(tr.querySelector('[data-field="descuento"]').value) / parseFloat(tr.querySelector('[data-field="cantidad"]').value) : 0
+          cantidad: parseFloat(
+            tr.querySelector('[data-field="cantidad"]').value
+          ),
+          precioUnitario: parseFloat(
+            tr.querySelector('[data-field="precio"]').value
+          ),
+          descuentoUnitario:
+            parseFloat(tr.querySelector('[data-field="cantidad"]').value) > 0
+              ? parseFloat(tr.querySelector('[data-field="descuento"]').value) /
+                parseFloat(tr.querySelector('[data-field="cantidad"]').value)
+              : 0,
         });
       });
 
       setCreandoVenta(true);
       try {
         const response = await fetch(API_VENTAS, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(request)
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(request),
         });
 
         if (response.ok) {
           const nuevaVenta = await response.json();
-          Swal.fire('¡Éxito!', `Venta ${nuevaVenta.idVenta} creada correctamente.`, 'success');
+          Swal.fire(
+            "¡Éxito!",
+            `Venta ${nuevaVenta.idVenta} creada correctamente.`,
+            "success"
+          );
           bootstrap.Modal.getInstance(modalNuevaVentaEl).hide();
           cargarVentas();
         } else {
           const errorMsg = await response.text();
           throw new Error(errorMsg);
         }
-
       } catch (error) {
-        Swal.fire('Error al crear Venta', error.message, 'error');
+        Swal.fire("Error al crear Venta", error.message, "error");
       } finally {
         setCreandoVenta(false);
       }
@@ -931,20 +1335,30 @@
     }
 
     function formatCurrency(value) {
-      return new Intl.NumberFormat('es-PE', { style: 'currency', currency: 'PEN' }).format(value || 0);
+      return new Intl.NumberFormat("es-PE", {
+        style: "currency",
+        currency: "PEN",
+      }).format(value || 0);
     }
 
     function formatTimestamp(timestamp) {
-      if (!timestamp) return '--';
+      if (!timestamp) return "--";
       const date = new Date(timestamp);
-      return date.toLocaleDateString('es-PE') + ' ' + date.toLocaleTimeString('es-PE', { hour: '2-digit', minute: '2-digit' });
+      return (
+        date.toLocaleDateString("es-PE") +
+        " " +
+        date.toLocaleTimeString("es-PE", { hour: "2-digit", minute: "2-digit" })
+      );
     }
 
     function formatEstadoVenta(estado) {
       switch (estado) {
-        case 'COMPLETADA': return '<span class="badge text-bg-success">Completada</span>';
-        case 'ANULADA': return '<span class="badge text-bg-danger">Anulada</span>';
-        default: return `<span class="badge text-bg-secondary">${estado}</span>`;
+        case "COMPLETADA":
+          return '<span class="badge text-bg-success">Completada</span>';
+        case "ANULADA":
+          return '<span class="badge text-bg-danger">Anulada</span>';
+        default:
+          return `<span class="badge text-bg-secondary">${estado}</span>`;
       }
     }
 
@@ -959,9 +1373,9 @@
     function initVentasPage() {
       cargarVentas();
 
-      ventasTbody.addEventListener('click', e => {
-        const btnVer = e.target.closest('.btn-ver-venta');
-        const btnAnular = e.target.closest('.btn-anular-venta');
+      ventasTbody.addEventListener("click", (e) => {
+        const btnVer = e.target.closest(".btn-ver-venta");
+        const btnAnular = e.target.closest(".btn-anular-venta");
 
         if (btnVer) {
           e.preventDefault();
@@ -973,31 +1387,37 @@
         }
       });
 
-      modalNuevaVentaEl.addEventListener('show.bs.modal', resetFormVenta);
-      ventaTipoComprobante.addEventListener('change', toggleClienteLogic);
-      btnCrearVenta.addEventListener('click', validarYCrearVenta);
+      modalNuevaVentaEl.addEventListener("show.bs.modal", resetFormVenta);
+      ventaTipoComprobante.addEventListener("change", toggleClienteLogic);
+      btnCrearVenta.addEventListener("click", validarYCrearVenta);
 
-      productoSearchInput.addEventListener('input', debounce(e => buscarProductos(e.target.value), 300));
+      productoSearchInput.addEventListener(
+        "input",
+        debounce((e) => buscarProductos(e.target.value), 300)
+      );
 
-      detalleTbody.addEventListener('click', e => {
-        if (e.target.closest('.btn-remover-item')) {
+      detalleTbody.addEventListener("click", (e) => {
+        if (e.target.closest(".btn-remover-item")) {
           e.preventDefault();
           removerProductoDelCarrito(e);
         }
       });
-      detalleTbody.addEventListener('input', e => {
+      detalleTbody.addEventListener("input", (e) => {
         if (e.target.dataset.field) {
           recalcularTotales();
         }
       });
 
-      document.getElementById('btn-buscar-cliente').addEventListener('click', abrirModalBuscarCliente);
-      document.getElementById('btn-nuevo-cliente').addEventListener('click', abrirModalNuevoCliente);
-      btnBuscarDocApi.addEventListener('click', consultarDocumentoApi);
-      btnGuardarCliente.addEventListener('click', guardarClienteSeleccionado);
+      document
+        .getElementById("btn-buscar-cliente")
+        .addEventListener("click", abrirModalBuscarCliente);
+      document
+        .getElementById("btn-nuevo-cliente")
+        .addEventListener("click", abrirModalNuevoCliente);
+      btnBuscarDocApi.addEventListener("click", consultarDocumentoApi);
+      btnGuardarCliente.addEventListener("click", guardarClienteSeleccionado);
     }
 
     initVentasPage();
-
   });
 </script>
