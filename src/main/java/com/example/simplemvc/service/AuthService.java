@@ -1,12 +1,17 @@
 package com.example.simplemvc.service;
 
-import com.example.simplemvc.dto.JwtDto;
-import com.example.simplemvc.model.Usuario;
-import com.example.simplemvc.request.LoginUsuarioRequest;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import java.util.Optional;
+
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import com.example.simplemvc.dto.JwtDto;
+import com.example.simplemvc.model.Usuario;
+import com.example.simplemvc.repository.UsuarioRepository;
+import com.example.simplemvc.request.LoginUsuarioRequest;
+
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Service
@@ -16,7 +21,7 @@ public class AuthService {
   private final GetCurrentUsuarioService getCurrentUsuarioService;
   private final JwtAuthenticationService jwtAuthenticationService;
 
-  private final UsuarioService usuarioService;
+  private final UsuarioRepository usuarioRepository;
 
   public JwtDto login(LoginUsuarioRequest request) {
     log.info(
@@ -30,10 +35,18 @@ public class AuthService {
     } catch (Exception ignored) {
     }
 
-    Usuario usuario =
-        usuarioService
-            .obtenerEntidadPorNombreUsuario(request.getNombreUsuario())
-            .orElseThrow(() -> new IllegalArgumentException("Usuario no encontrado"));
+    Optional<Usuario> u = usuarioRepository.findByNombreUsuario(request.getNombreUsuario());
+    if (u.isEmpty()) {
+      u = usuarioRepository.findByPersonaNumeroDocumentoOrPersonaEmail(request.getNombreUsuario(), null);
+    }
+    if (u.isEmpty()) {
+      log.error(
+          "Error de autenticación: Usuario con nombre de usuario {} no encontrado.",
+          request.getNombreUsuario());
+
+      throw new IllegalArgumentException("Credenciales inválidas");
+    }
+    Usuario usuario = u.get();
 
     if (!usuario.getPersona().getEmailVerificado()) {
       log.error(

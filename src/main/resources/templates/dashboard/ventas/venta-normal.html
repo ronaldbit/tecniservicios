@@ -720,48 +720,61 @@
       const esAnulada = venta.estado === "ANULADA";
       const plazoVencido = diffDays > diasLimite;
       const anularDisabled = esAnulada || plazoVencido;
+
       let tooltipText = "Anular Venta";
       if (esAnulada) {
         tooltipText = "Esta venta ya está anulada";
       } else if (plazoVencido) {
-        tooltipText = `No se puede anular (límite ${diasLimite} días para ${venta.tipoComprobante})`;
+        tooltipText = `No se puede anular (límite ${diasLimite} días)`;
       }
+
       tr.innerHTML = `
-        <td>
-          <h6 class="mb-0">${venta.serieComprobante}-${
+      <td>
+        <h6 class="mb-0">${venta.serieComprobante}-${
         venta.numeroComprobante
       }</h6>
-          <small class="text-muted d-block">${venta.tipoComprobante}</small>
-        </td>
-        <td>
-          <h6 class="mb-0">${venta.clienteNombreCompleto}</h6>
-          <small class="text-muted d-block">${venta.clienteTipoDocumento}: ${
+        <small class="text-muted d-block">${venta.tipoComprobante}</small>
+      </td>
+      <td>
+        <h6 class="mb-0">${venta.clienteNombreCompleto}</h6>
+        <small class="text-muted d-block">${venta.clienteTipoDocumento}: ${
         venta.clienteNumeroDocumento
       }</small>
-        </td>
-        <td>${formatTimestamp(venta.fechaVenta)}</td>
-        <td>${venta.nombreVendedor}</td>
-        <td>${formatCurrency(venta.total)}</td>
-        <td>${formatEstadoVenta(venta.estado)}</td>
-        <td>
-          <a href="#" class="avtar avtar-xs btn-link-secondary btn-ver-venta" data-id="${
-            venta.idVenta
-          }" data-bs-toggle="tooltip" title="Ver Detalle">
-            <i class="ti ti-eye f-20"></i>
-          </a>
-          <a href="#" class="avtar avtar-xs btn-link-danger btn-anular-venta" 
-             data-id="${venta.idVenta}" 
-             ${
-               anularDisabled
-                 ? 'disabled style="pointer-events: none; opacity: 0.6;"'
-                 : ""
-             } 
-             data-bs-toggle="tooltip" 
-             title="${tooltipText}">
-            <i class="ti ti-ban f-20"></i>
-          </a>
-        </td>
-      `;
+      </td>
+      <td>${formatTimestamp(venta.fechaVenta)}</td>
+      <td>${venta.nombreVendedor}</td>
+      <td>${formatCurrency(venta.total)}</td>
+      <td>${formatEstadoVenta(venta.estado)}</td>
+      <td>
+        <div class="d-flex align-items-center justify-content-center">
+            <a href="#" class="avtar avtar-xs btn-link-secondary btn-ver-venta me-1" 
+               data-id="${venta.idVenta}" 
+               data-bs-toggle="tooltip" 
+               title="Ver Detalle">
+              <i class="ti ti-eye f-20"></i>
+            </a>
+
+            <a href="#" class="avtar avtar-xs btn-link-success btn-imprimir-venta me-1" 
+               data-id="${venta.idVenta}" 
+               data-bs-toggle="tooltip" 
+               title="Imprimir / Descargar PDF">
+              <i class="ti ti-printer f-20"></i>
+            </a>
+
+            <a href="#" class="avtar avtar-xs btn-link-danger btn-anular-venta" 
+               data-id="${venta.idVenta}" 
+               ${
+                 anularDisabled
+                   ? 'disabled style="pointer-events: none; opacity: 0.6;"'
+                   : ""
+               } 
+               data-bs-toggle="tooltip" 
+               title="${tooltipText}">
+              <i class="ti ti-ban f-20"></i>
+            </a>
+        </div>
+      </td>
+    `;
       return tr;
     }
 
@@ -1376,16 +1389,27 @@
       ventasTbody.addEventListener("click", (e) => {
         const btnVer = e.target.closest(".btn-ver-venta");
         const btnAnular = e.target.closest(".btn-anular-venta");
+        const btnImprimir = e.target.closest(".btn-imprimir-venta");
 
         if (btnVer) {
           e.preventDefault();
           abrirModalVistaPrevia(btnVer.dataset.id);
+        }
+        if (btnImprimir) {
+          e.preventDefault();
+          const id = btnImprimir.dataset.id;
+          imprimirVenta(id);
         }
         if (btnAnular && !btnAnular.disabled) {
           e.preventDefault();
           solicitarAnulacion(btnAnular.dataset.id);
         }
       });
+
+      function imprimirVenta(id) {
+        const url = `/api/reportes/ventas/pdf/${id}`;
+        window.open(url, "_blank");
+      }
 
       modalNuevaVentaEl.addEventListener("show.bs.modal", resetFormVenta);
       ventaTipoComprobante.addEventListener("change", toggleClienteLogic);

@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Comprobante de Venta</title>
+    <style>
+      @page {
+        size: A4;
+        margin: 1.5cm;
+      }
+      body {
+        font-family: Helvetica, Arial, sans-serif;
+        font-size: 12px;
+        color: #333;
+        line-height: 1.4;
+      }
+      .container {
+        width: 100%;
+        margin: 0 auto;
+      }
+      .text-end {
+        text-align: right;
+      }
+      .text-center {
+        text-align: center;
+      }
+      .fw-bold {
+        font-weight: bold;
+      }
+      .text-muted {
+        color: #6c757d;
+      }
+      .mb-1 {
+        margin-bottom: 5px;
+      }
+      .mb-2 {
+        margin-bottom: 10px;
+      }
+      .mb-3 {
+        margin-bottom: 15px;
+      }
+      .mt-3 {
+        margin-top: 15px;
+      }
+
+      .header-table {
+        width: 100%;
+        margin-bottom: 30px;
+        border-bottom: 2px solid #0056b3;
+        padding-bottom: 15px;
+      }
+      .company-logo h1 {
+        color: #0056b3;
+        margin: 0;
+        font-size: 24px;
+      }
+      .invoice-data-box {
+        border: 1px solid #aaa;
+        padding: 10px 15px;
+        text-align: center;
+        background-color: #f8f9fa;
+        min-width: 200px;
+      }
+      .invoice-data-box h3 {
+        margin: 5px 0;
+        font-size: 18px;
+      }
+      .section-title {
+        font-size: 14px;
+        font-weight: bold;
+        margin-bottom: 10px;
+        color: #555;
+        text-transform: uppercase;
+        border-bottom: 1px solid #eee;
+        padding-bottom: 5px;
+      }
+      .info-table {
+        width: 100%;
+        margin-bottom: 20px;
+      }
+      .info-table td {
+        padding: 3px 0;
+        vertical-align: top;
+      }
+      .label-cell {
+        font-weight: bold;
+        width: 120px;
+        color: #555;
+      }
+      .products-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+      }
+      .products-table th {
+        background-color: #0056b3;
+        color: white;
+        padding: 10px;
+        text-align: left;
+        font-weight: bold;
+        font-size: 11px;
+        text-transform: uppercase;
+      }
+      .products-table td {
+        padding: 10px;
+        border-bottom: 1px solid #dee2e6;
+      }
+      .products-table tr:nth-child(even) {
+        background-color: #f8f9fa;
+      }
+      .totals-table {
+        width: 250px;
+        float: right;
+        margin-top: 20px;
+        border-collapse: collapse;
+      }
+      .totals-table td {
+        padding: 8px;
+        text-align: right;
+      }
+      .totals-table .total-row td {
+        background-color: #0056b3;
+        color: white;
+        font-size: 16px;
+        font-weight: bold;
+        padding: 12px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <table class="header-table">
+        <tr>
+          <td style="vertical-align: top">
+            <div class="company-logo">
+              <h1>TECNISERVICIOS S.A.C.</h1>
+            </div>
+            <p class="mb-1">Av. Principal 123, Urb. Industrial</p>
+            <p class="mb-1">Lima - Perú</p>
+            <p class="mb-1">
+              Tel: (01) 456-7890 | Email: ventas@tecniservicios.com
+            </p>
+            <p class="mb-1">Web: www.tecniservicios.com</p>
+          </td>
+          <td style="vertical-align: top; text-align: right">
+            <div class="invoice-data-box" style="display: inline-block">
+              <h4 class="mb-2">R.U.C. 20123456789</h4>
+              <h3 th:text="${venta.tipoComprobante.toUpperCase()}">
+                BOLETA DE VENTA
+              </h3>
+              <h3
+                th:text="${venta.serieComprobante} + '-' + ${venta.numeroComprobante}"
+              >
+                B001-00000123
+              </h3>
+            </div>
+          </td>
+        </tr>
+      </table>
+
+      <table style="width: 100%">
+        <tr>
+          <td style="width: 60%; vertical-align: top; padding-right: 20px">
+            <div class="section-title">Datos del Cliente</div>
+            <table class="info-table">
+              <tr>
+                <td class="label-cell">Señor(es):</td>
+                <td>
+                  <span class="fw-bold" th:text="${venta.clienteNombreCompleto}"
+                    >Juan Pérez</span
+                  >
+                </td>
+              </tr>
+              <tr>
+                <td
+                  class="label-cell"
+                  th:text="${venta.clienteTipoDocumento} + ':'"
+                >
+                  DNI:
+                </td>
+                <td th:text="${venta.clienteNumeroDocumento}">45678912</td>
+              </tr>
+              <tr>
+                <td class="label-cell">Dirección:</td>
+                <td
+                  th:text="${venta.clienteDireccion != null && !venta.clienteDireccion.isEmpty() ? venta.clienteDireccion : '---'}"
+                >
+                  Av. Siempreviva 742
+                </td>
+              </tr>
+            </table>
+          </td>
+          <td style="width: 40%; vertical-align: top">
+            <div class="section-title">Datos de la Operación</div>
+            <table class="info-table">
+              <tr>
+                <td class="label-cell">Fecha Emisión:</td>
+                <td
+                  th:text="${#dates.format(venta.fechaVenta, 'dd/MM/yyyy HH:mm')}"
+                >
+                  26/11/2025 14:30
+                </td>
+              </tr>
+              <tr>
+                <td class="label-cell">Forma de Pago:</td>
+                <td th:text="${venta.metodoPago}">EFECTIVO</td>
+              </tr>
+              <tr>
+                <td class="label-cell">Vendedor:</td>
+                <td th:text="${venta.nombreVendedor}">Admin</td>
+              </tr>
+              <tr>
+                <td class="label-cell">Estado:</td>
+                <td th:text="${venta.estado}">COMPLETADA</td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+      </table>
+
+      <table class="products-table">
+        <thead>
+          <tr>
+            <th style="width: 8%">Cant.</th>
+            <th style="width: 12%">Código</th>
+            <th>Descripción</th>
+            <th class="text-end" style="width: 15%">P. Unit.</th>
+            <th class="text-end" style="width: 15%">Total</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr th:each="det : ${venta.detalles}">
+            <td
+              class="text-center"
+              th:text="${#numbers.formatDecimal(det.cantidad, 1, 2)}"
+            >
+              1.00
+            </td>
+            <td th:text="${det.codigoProducto}">PROD-01</td>
+            <td th:text="${det.nombreProducto}">Aceite de Motor 5W30</td>
+            <td
+              class="text-end"
+              th:text="'S/ ' + ${#numbers.formatDecimal(det.precioUnitario, 1, 2)}"
+            >
+              S/ 150.00
+            </td>
+            <td
+              class="text-end fw-bold"
+              th:text="'S/ ' + ${#numbers.formatDecimal(det.subtotal, 1, 2)}"
+            >
+              S/ 150.00
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <table class="totals-table">
+        <tr>
+          <td class="text-muted">Subtotal:</td>
+          <td th:text="'S/ ' + ${#numbers.formatDecimal(venta.subtotal, 1, 2)}">
+            S/ 127.12
+          </td>
+        </tr>
+        <tr>
+          <td class="text-muted">IGV (18%):</td>
+          <td th:text="'S/ ' + ${#numbers.formatDecimal(venta.igv, 1, 2)}">
+            S/ 22.88
+          </td>
+        </tr>
+        <tr class="total-row">
+          <td>TOTAL A PAGAR:</td>
+          <td th:text="'S/ ' + ${#numbers.formatDecimal(venta.total, 1, 2)}">
+            S/ 150.00
+          </td>
+        </tr>
+      </table>
+
+      <div style="clear: both"></div>
+
+      <div
+        class="text-center mt-3"
+        style="border-top: 1px solid #eee; padding-top: 15px"
+      >
+        <p class="text-muted mb-1">Gracias por su preferencia.</p>
+        <small>Representación impresa del comprobante electrónico.</small>
+      </div>
+    </div>
+  </body>
+</html>
