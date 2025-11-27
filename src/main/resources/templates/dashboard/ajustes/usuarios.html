@@ -388,17 +388,6 @@
                   class="text-success fw-bold"
                 ></small>
               </div>
-
-              <div class="mb-3">
-                <label class="form-label">Nuevo Username</label>
-                <input
-                  type="text"
-                  id="promoverUsername"
-                  class="form-control"
-                  required
-                />
-              </div>
-
               <div class="mb-3">
                 <label class="form-label">Asignar Rol</label>
                 <select id="promoverRol" class="form-select" required>
@@ -1238,11 +1227,9 @@
 
   async function guardarPromocion() {
     const dniInput = document.getElementById("promoverDni");
-    const usernameInput = document.getElementById("promoverUsername");
     const rolInput = document.getElementById("promoverRol");
 
     const dni = dniInput.value.trim();
-    const nuevoUsername = usernameInput.value.trim();
     const nuevoRolId = rolInput.value;
 
     if (!dni) {
@@ -1255,21 +1242,7 @@
       dniInput.focus();
       return;
     }
-    if (!nuevoUsername) {
-      alert("El nombre de usuario es obligatorio.");
-      usernameInput.focus();
-      return;
-    }
-    if (nuevoUsername.length < 4) {
-      alert("El nombre de usuario debe tener al menos 4 caracteres.");
-      usernameInput.focus();
-      return;
-    }
-    if (/\s/.test(nuevoUsername)) {
-      alert("El nombre de usuario no puede contener espacios.");
-      usernameInput.focus();
-      return;
-    }
+
     if (!nuevoRolId || nuevoRolId === "") {
       alert("Debes seleccionar un rol para el usuario.");
       rolInput.focus();
@@ -1278,7 +1251,6 @@
 
     const data = {
       dni: dni,
-      nuevoUsername: nuevoUsername,
       nuevoRolId: parseInt(nuevoRolId),
     };
 

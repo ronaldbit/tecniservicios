@@ -284,17 +284,6 @@ public class UsuarioService {
             () -> new IllegalArgumentException("Error: Esta persona no tiene un usuario asociado (no es cliente)."));
     Rol nuevoRol = rolRepository.findById(request.getNuevoRolId())
         .orElseThrow(() -> new IllegalArgumentException("El rol seleccionado no existe."));
-
-    if (request.getNuevoUsername() != null && !request.getNuevoUsername().isBlank()) {
-      if (!request.getNuevoUsername().equals(usuario.getUsername())) {
-        Optional<Usuario> ocupado = usuarioRepository.findByNombreUsuario(request.getNuevoUsername());
-        if (ocupado.isPresent()) {
-          throw new IllegalArgumentException(
-              "El username '" + request.getNuevoUsername() + "' ya está siendo usado por otra persona.");
-        }
-        usuario.setNombreUsuario(request.getNuevoUsername());
-      }
-    }
     usuario.setRoles(new ArrayList<>(Arrays.asList(nuevoRol)));
     usuario.setEstado(EstadoEntidad.ACTIVO);
     Usuario usuarioGuardado = usuarioRepository.save(usuario);

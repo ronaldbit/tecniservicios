@@ -5,6 +5,5 @@ import lombok.Data;
 @Data
 public class PromoverUsuarioRequest {
   private String dni;
-  private String nuevoUsername;
   private Long nuevoRolId;
 }

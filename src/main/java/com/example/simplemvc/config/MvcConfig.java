@@ -7,16 +7,16 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 public class MvcConfig implements WebMvcConfigurer {
-    @Value("${spring.image.path}")
-    private String uploadPath;
-    @Value("${spring.doc.path}") 
-    private String docPath;
-    
-    @Override
-    public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/uploads/productos/**")
-                .addResourceLocations("file:" + uploadPath + "/");
-        registry.addResourceHandler("/uploads/documentos/**")
-                .addResourceLocations("file:" + docPath + "/");
-    }
+  @Value("${spring.image.path}")
+  private String uploadPath;
+  @Value("${spring.doc.path}")
+  private String docPath;
+
+  @Override
+  public void addResourceHandlers(ResourceHandlerRegistry registry) {
+    registry.addResourceHandler("/uploads/productos/**")
+        .addResourceLocations("file:" + uploadPath + "/");
+    registry.addResourceHandler("/uploads/documentos/**")
+        .addResourceLocations("file:" + docPath + "/");
+  }
 }
