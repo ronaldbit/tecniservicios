@@ -1,241 +1,450 @@
-<div class="pc-container" th:replace="~{dashboard/layout :: layout(~{::content}, ${usuario}, 'Inicio', '/dashboard')}">
-   <div class="pc-content" th:fragment="content">
-      <!-- [ Main Content ] start -->
-      <div class="pc-content">
-         <div class="page-header">
-            <div class="page-block">
-               <div class="row align-items-center">
-                  <div class="col-md-12">
-                     <div class="page-header-title">
-                        <h5 class="m-b-10">Gestión de Caja Chica</h5>
-                     </div>
-                     <ul class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="../index.html">Ventas</a></li>
-                        <li class="breadcrumb-item" aria-current="page">Caja Chica</li>
-                     </ul>
-                  </div>
-               </div>
+<div
+  class="pc-container"
+  th:replace="~{dashboard/layout :: layout(~{::content}, ${usuario}, 'Caja Chica', '/dashboard/ventas/caja-chica')}"
+>
+  <div class="pc-content" th:fragment="content">
+    <div class="page-header">
+      <div class="page-block">
+        <div class="row align-items-center">
+          <div class="col-md-12">
+            <div class="page-header-title">
+              <h5 class="m-b-10">Gestión de Caja Chica</h5>
             </div>
-         </div>
-         <div class="row">
-
-            <div class="col-md-6 col-lg-4">
-               <div class="card">
-                  <div class="card-body">
-                     <div class="d-flex align-items-center justify-content-between mb-3">
-                        <h5 class="mb-0">Caja 1 - Tienda Principal</h5>
-                        <span class="badge text-bg-success">Abierta</span>
-                     </div>
-                     <p class="mb-1">
-                        <i class="ti ti-user-check me-1"></i> Abierta por: <strong>Ronald Ramos</strong>
-                     </p>
-                     <p class="mb-1">
-                        <i class="ti ti-calendar-time me-1"></i> Fecha: <strong>23/10/2025 09:00 AM</strong>
-                     </p>
-                     <p class="mb-3">
-                        <i class="ti ti-cash me-1"></i> Monto Inicial: <strong>S/ 200.00</strong>
-                     </p>
-                     <div class="d-grid gap-2">
-                        <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modalCerrarCaja">
-                           <i class="ti ti-lock me-1"></i> Realizar Cierre de Caja
-                        </button>
-                        <button class="btn btn-outline-secondary" data-bs-toggle="modal"
-                           data-bs-target="#modalMovimiento">
-                           <i class="ti ti-arrows-sort me-1"></i> Registrar Movimiento
-                        </button>
-                     </div>
-                  </div>
-               </div>
-            </div>
-
-            <div class="col-md-6 col-lg-4">
-               <div class="card">
-                  <div class="card-body">
-                     <div class="d-flex align-items-center justify-content-between mb-3">
-                        <h5 class="mb-0">Caja 2 - Almacén</h5>
-                        <span class="badge text-bg-secondary">Cerrada</span>
-                     </div>
-                     <p class="mb-1">
-                        <i class="ti ti-calendar-off me-1"></i> Último cierre: <strong>22/10/2025 07:15 PM</strong>
-                     </p>
-                     <p class="mb-3">
-                        <i class="ti ti-user-off me-1"></i> Cerrada por: <strong>Ana Gómez</strong>
-                     </p>
-                     <div class="d-grid gap-2">
-                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalAbrirCaja">
-                           <i class="ti ti-key me-1"></i> Abrir Caja
-                        </button>
-                     </div>
-                  </div>
-               </div>
-            </div>
-
-         </div>
-
-         <div class="row">
-            <div class="col-12">
-               <div class="card table-card">
-                  <div class="card-header">
-                     <h5 class="mb-0">Historial de Movimientos de Caja</h5>
-                  </div>
-                  <div class="card-body pt-3">
-                     <div class="table-responsive">
-                        <table class="table table-hover" id="pc-dt-simple">
-                           <thead>
-                              <tr>
-                                 <th>Fecha y Hora</th>
-                                 <th>Caja</th>
-                                 <th>Usuario</th>
-                                 <th>Tipo</th>
-                                 <th>Monto</th>
-                                 <th>Motivo / Nota</th>
-                              </tr>
-                           </thead>
-                           <tbody>
-
-                              <tr>
-                                 <td>23/10/2025 09:00 AM</td>
-                                 <td>Caja 1 - Tienda Principal</td>
-                                 <td>Ronald Ramos</td>
-                                 <td><span class="badge text-bg-primary">Apertura</span></td>
-                                 <td class="text-success">+ S/ 200.00</td>
-                                 <td>Fondo inicial</td>
-                              </tr>
-
-                              <tr>
-                                 <td>23/10/2025 11:15 AM</td>
-                                 <td>Caja 1 - Tienda Principal</td>
-                                 <td>Ronald Ramos</td>
-                                 <td><span class="badge text-bg-danger">Egreso</span></td>
-                                 <td class="text-danger">- S/ 35.00</td>
-                                 <td>Compra de útiles de limpieza</td>
-                              </tr>
-
-                              <tr>
-                                 <td>23/10/2025 02:30 PM</td>
-                                 <td>Caja 1 - Tienda Principal</td>
-                                 <td>Ronald Ramos</td>
-                                 <td><span class="badge text-bg-info">Ingreso</span></td>
-                                 <td class="text-success">+ S/ 100.00</td>
-                                 <td>Reposición de fondo</td>
-                              </tr>
-
-                              <tr>
-                                 <td>22/10/2025 07:15 PM</td>
-                                 <td>Caja 2 - Almacén</td>
-                                 <td>Ana Gómez</td>
-                                 <td><span class="badge text-bg-secondary">Cierre</span></td>
-                                 <td>S/ 1,845.50</td>
-                                 <td>Cierre de turno</td>
-                              </tr>
-
-                           </tbody>
-                        </table>
-                     </div>
-                  </div>
-               </div>
-            </div>
-         </div>
+            <ul class="breadcrumb">
+              <li class="breadcrumb-item"><a href="/dashboard">Inicio</a></li>
+              <li class="breadcrumb-item">Ventas</li>
+              <li class="breadcrumb-item active">Caja Chica</li>
+            </ul>
+          </div>
+        </div>
       </div>
-      <div class="modal fade" id="modalAbrirCaja" tabindex="-1" aria-labelledby="modalAbrirCajaLabel"
-         aria-hidden="true">
-         <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-               <div class="modal-header">
-                  <h5 class="modal-title" id="modalAbrirCajaLabel">Abrir Caja</h5>
-                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-               </div>
-               <div class="modal-body">
-                  <form>
-                     <div class="mb-3">
-                        <label for="cajaAbrir" class="form-label">Seleccionar Caja</label>
-                        <select class="form-select" id="cajaAbrir">
-                           <option value="1">Caja 1 - Tienda Principal</option>
-                           <option value="2" selected>Caja 2 - Almacén</option>
-                        </select>
-                     </div>
-                     <div class="mb-3">
-                        <label for="montoInicial" class="form-label">Monto Inicial (Base) (S/)</label>
-                        <input type="number" class="form-control" id="montoInicial" placeholder="Ej: 200.00" step="0.01"
-                           required>
-                     </div>
-                     <div class="mb-3">
-                        <label for="notasAbrir" class="form-label">Notas (Opcional)</label>
-                        <textarea class="form-control" id="notasAbrir" rows="2"
-                           placeholder="Fondo inicial para cambio..."></textarea>
-                     </div>
-                  </form>
-               </div>
-               <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                  <button type="button" class="btn btn-primary">Confirmar Apertura</button>
-               </div>
+    </div>
+
+    <div class="row" th:if="${cajaSesion == null}">
+      <div class="col-12">
+        <div class="card text-center py-5">
+          <div class="card-body">
+            <i class="ti ti-lock-open text-muted display-4 mb-3"></i>
+            <h3>La Caja está Cerrada</h3>
+            <p class="text-muted mb-4">
+              Debes abrir la caja para comenzar a registrar ventas y
+              movimientos.
+            </p>
+            <button
+              class="btn btn-lg btn-primary"
+              data-bs-toggle="modal"
+              data-bs-target="#modalAbrirCaja"
+            >
+              <i class="ti ti-key me-2"></i> Abrir Caja Ahora
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row" th:if="${cajaSesion != null}">
+      <div class="col-md-6 col-lg-4">
+        <div class="card bg-light-primary">
+          <div class="card-body">
+            <div class="d-flex align-items-center justify-content-between mb-3">
+              <h5 class="mb-0" th:text="${cajaSesion.caja.nombre}">Caja 1</h5>
+              <span class="badge bg-success">Abierta</span>
             </div>
-         </div>
+
+            <div class="mb-2">
+              <i class="ti ti-user me-1"></i> Responsable:
+              <strong th:text="${cajaSesion.usuario.nombreUsuario}"
+                >Usuario</strong
+              >
+            </div>
+            <div class="mb-2">
+              <i class="ti ti-clock me-1"></i> Apertura:
+              <strong
+                th:text="${#temporals.format(cajaSesion.fechaApertura, 'dd/MM/yyyy HH:mm')}"
+                >Fecha</strong
+              >
+            </div>
+            <div class="mb-3">
+              <i class="ti ti-cash me-1"></i> Fondo Inicial:
+              <strong
+                class="text-primary"
+                th:text="'S/ ' + ${#numbers.formatDecimal(cajaSesion.montoInicial, 1, 2)}"
+                >0.00</strong
+              >
+            </div>
+
+            <div class="d-grid gap-2">
+              <button
+                class="btn btn-danger"
+                data-bs-toggle="modal"
+                data-bs-target="#modalCerrarCaja"
+              >
+                <i class="ti ti-lock me-1"></i> Cerrar Caja
+              </button>
+              <button
+                class="btn btn-outline-primary bg-white"
+                data-bs-toggle="modal"
+                data-bs-target="#modalMovimiento"
+              >
+                <i class="ti ti-arrows-sort me-1"></i> Nuevo Movimiento
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="card mt-3">
+          <div class="card-body">
+            <h6 class="mb-3">Resumen del Turno</h6>
+            <div class="d-flex justify-content-between mb-2">
+              <span>Ingresos (Ventas):</span>
+              <span
+                class="text-success fw-bold"
+                th:text="'+ S/ ' + ${#numbers.formatDecimal(cajaSesion.totalIngresos, 1, 2)}"
+                >0.00</span
+              >
+            </div>
+            <div class="d-flex justify-content-between mb-2">
+              <span>Egresos (Gastos):</span>
+              <span
+                class="text-danger fw-bold"
+                th:text="'- S/ ' + ${#numbers.formatDecimal(cajaSesion.totalEgresos, 1, 2)}"
+                >0.00</span
+              >
+            </div>
+            <hr />
+            <div class="d-flex justify-content-between align-items-center">
+              <span class="fw-bold">Saldo Teórico:</span>
+              <span
+                class="h5 mb-0 text-primary"
+                th:with="saldo=${cajaSesion.montoInicial.add(cajaSesion.totalIngresos).subtract(cajaSesion.totalEgresos)}"
+                th:text="'S/ ' + ${#numbers.formatDecimal(saldo, 1, 2)}"
+                >0.00</span
+              >
+            </div>
+          </div>
+        </div>
       </div>
 
-      <div class="modal fade" id="modalMovimiento" tabindex="-1" aria-labelledby="modalMovimientoLabel"
-         aria-hidden="true">
-         <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-               <div class="modal-header">
-                  <h5 class="modal-title" id="modalMovimientoLabel">Registrar Movimiento en Caja</h5>
-                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-               </div>
-               <div class="modal-body">
-                  <form>
-                     <div class="mb-3">
-                        <label for="cajaMov" class="form-label">Caja</label>
-                        <input type="text" class="form-control" id="cajaMov" value="Caja 1 - Tienda Principal" readonly>
-                     </div>
-                     <div class="mb-3">
-                        <label for="tipoMov" class="form-label">Tipo de Movimiento</label>
-                        <select class="form-select" id="tipoMov">
-                           <option value="ingreso" class="text-success">Ingreso (Añadir dinero)</option>
-                           <option value="egreso" class="text-danger">Egreso (Retirar dinero)</option>
-                        </select>
-                     </div>
-                     <div class="mb-3">
-                        <label for="montoMov" class="form-label">Monto (S/)</label>
-                        <input type="number" class="form-control" id="montoMov" placeholder="0.00" step="0.01" required>
-                     </div>
-                     <div class="mb-3">
-                        <label for="motivoMov" class="form-label">Motivo</label>
-                        <textarea class="form-control" id="motivoMov" rows="2"
-                           placeholder="Ej: Pago de delivery, compra de suministros..."></textarea>
-                     </div>
-                  </form>
-               </div>
-               <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                  <button type="button" class="btn btn-primary">Guardar Movimiento</button>
-               </div>
-            </div>
-         </div>
-      </div>
+      <div class="col-md-6 col-lg-8">
+        <div class="card table-card h-100">
+          <div class="card-header">
+            <h5 class="mb-0">Movimientos del Turno</h5>
+          </div>
+          <div class="card-body pt-0">
+            <div class="table-responsive">
+              <table class="table table-hover mb-0" id="tabla-movimientos">
+                <thead class="table-light">
+                  <tr>
+                    <th>Hora</th>
+                    <th>Tipo</th>
+                    <th>Descripción</th>
+                    <th class="text-end">Monto</th>
+                    <th>Usuario</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr th:each="mov : ${movimientos}">
+                    <td th:text="${#temporals.format(mov.fecha, 'HH:mm')}">
+                      10:00
+                    </td>
+                    <td>
+                      <span
+                        th:if="${mov.tipo.name() == 'INGRESO'}"
+                        class="badge bg-light-success text-success"
+                        >Ingreso</span
+                      >
+                      <span
+                        th:if="${mov.tipo.name() == 'EGRESO'}"
+                        class="badge bg-light-danger text-danger"
+                        >Egreso</span
+                      >
+                    </td>
+                    <td th:text="${mov.descripcion}">Venta #123</td>
+                    <td
+                      class="text-end fw-bold"
+                      th:classappend="${mov.tipo.name() == 'INGRESO'} ? 'text-success' : 'text-danger'"
+                      th:text="${mov.tipo.name() == 'INGRESO' ? '+' : '-'} + ' S/ ' + ${#numbers.formatDecimal(mov.monto, 1, 2)}"
+                    >
+                      S/ 100.00
+                    </td>
+                    <td
+                      class="text-muted small"
+                      th:text="${mov.usuario.nombreUsuario}"
+                    >
+                      Admin
+                    </td>
+                  </tr>
 
-      <div class="modal fade" id="modalCerrarCaja" tabindex="-1" aria-labelledby="modalCerrarCajaLabel"
-         aria-hidden="true">
-         <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-               <div class="modal-header">
-                  <h5 class="modal-title" id="modalCerrarCajaLabel">Confirmar Cierre de Caja</h5>
-                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-               </div>
-               <div class="modal-body">
-                  <p>Estás a punto de realizar el cierre de la <strong>Caja 1 - Tienda Principal</strong>.</p>
-                  <p>Deberás contar el efectivo y registrar los montos totales (ventas, egresos, etc.) para completar el
-                     cuadre.</p>
-                  <p class="fw-bold">¿Deseas continuar?</p>
-               </div>
-               <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No, aún no</button>
-                  <button type="button" class="btn btn-danger">Sí, Iniciar Cierre</button>
-               </div>
+                  <tr th:if="${#lists.isEmpty(movimientos)}">
+                    <td colspan="5" class="text-center py-4 text-muted">
+                      No hay movimientos registrados aún.
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
-         </div>
+          </div>
+        </div>
       </div>
+    </div>
 
-      <!-- [ Main Content ] end -->
-   </div>
+    <div
+      class="modal fade"
+      id="modalAbrirCaja"
+      tabindex="-1"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Apertura de Caja</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <form id="formAbrirCaja">
+              <div class="mb-3">
+                <label class="form-label">Caja a abrir</label>
+                <select class="form-select" id="selectCajaId">
+                  <option value="1" selected>Caja 1 - Tienda Principal</option>
+                </select>
+              </div>
+              <div class="mb-3">
+                <label class="form-label fw-bold"
+                  >Monto Inicial (Efectivo en cajón)</label
+                >
+                <div class="input-group">
+                  <span class="input-group-text">S/</span>
+                  <input
+                    type="number"
+                    class="form-control"
+                    id="inputMontoInicial"
+                    placeholder="0.00"
+                    step="0.01"
+                    min="0"
+                    required
+                  />
+                </div>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Cancelar
+            </button>
+            <button type="button" class="btn btn-primary" onclick="abrirCaja()">
+              Confirmar Apertura
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div
+      class="modal fade"
+      id="modalMovimiento"
+      tabindex="-1"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Nuevo Movimiento Manual</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <form id="formMovimiento">
+              <div class="mb-3">
+                <label class="form-label">Tipo</label>
+                <select class="form-select" id="selectTipoMov">
+                  <option value="INGRESO">Ingreso (Entrada dinero)</option>
+                  <option value="EGRESO">Egreso (Salida dinero)</option>
+                </select>
+              </div>
+              <div class="mb-3">
+                <label class="form-label">Monto</label>
+                <div class="input-group">
+                  <span class="input-group-text">S/</span>
+                  <input
+                    type="number"
+                    class="form-control"
+                    id="inputMontoMov"
+                    step="0.01"
+                    required
+                  />
+                </div>
+              </div>
+              <div class="mb-3">
+                <label class="form-label">Motivo / Descripción</label>
+                <textarea
+                  class="form-control"
+                  id="inputMotivoMov"
+                  rows="2"
+                  required
+                  placeholder="Ej: Pago de taxi, compra útiles..."
+                ></textarea>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Cancelar
+            </button>
+            <button
+              type="button"
+              class="btn btn-primary"
+              onclick="registrarMovimiento()"
+            >
+              Guardar
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div
+      class="modal fade"
+      id="modalCerrarCaja"
+      tabindex="-1"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header bg-danger text-white">
+            <h5 class="modal-title">Cierre de Caja</h5>
+            <button
+              type="button"
+              class="btn-close btn-close-white"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <div class="alert alert-warning">
+              <i class="ti ti-alert-triangle me-1"></i>
+              Al cerrar la caja no podrás registrar más movimientos hasta abrir
+              un nuevo turno.
+            </div>
+            <div class="mb-3">
+              <label class="form-label fw-bold"
+                >Monto Real en Efectivo (Arqueo)</label
+              >
+              <input
+                type="number"
+                class="form-control form-control-lg"
+                id="inputMontoCierre"
+                placeholder="¿Cuánto dinero hay?"
+                required
+              />
+              <small class="text-muted"
+                >Cuenta los billetes y monedas e ingresa el total.</small
+              >
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Cancelar
+            </button>
+            <button type="button" class="btn btn-danger" onclick="cerrarCaja()">
+              Confirmar Cierre
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
+
+<script>
+  async function abrirCaja() {
+    const monto = document.getElementById("inputMontoInicial").value;
+    const cajaId = document.getElementById("selectCajaId").value;
+
+    if (!monto) return alert("Ingresa el monto inicial");
+
+    try {
+      const resp = await fetch("/api/caja/abrir", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ cajaId: cajaId, montoInicial: monto }),
+      });
+
+      if (resp.ok) {
+        window.location.reload(); // Recargamos para ver el dashboard abierto
+      } else {
+        alert("Error al abrir: " + (await resp.text()));
+      }
+    } catch (e) {
+      alert("Error de conexión");
+    }
+  }
+
+  async function registrarMovimiento() {
+    const cajaId = 1;
+
+    const tipo = document.getElementById("selectTipoMov").value;
+    const monto = document.getElementById("inputMontoMov").value;
+    const motivo = document.getElementById("inputMotivoMov").value;
+
+    if (!monto || !motivo) return alert("Completa todos los campos");
+
+    try {
+      const resp = await fetch("/api/caja/movimiento", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          cajaId: cajaId,
+          tipo: tipo,
+          monto: monto,
+          motivo: motivo,
+        }),
+      });
+
+      if (resp.ok) {
+        window.location.reload();
+      } else {
+        alert("Error: " + (await resp.text()));
+      }
+    } catch (e) {
+      alert("Error de conexión");
+    }
+  }
+
+  async function cerrarCaja() {
+    const montoReal = document.getElementById("inputMontoCierre").value;
+    // En el futuro, aquí enviaremos el monto real para calcular el descuadre
+    // Por ahora, usamos la lógica simple que implementamos
+
+    // Asumimos caja 1
+    const cajaId = 1;
+
+    try {
+      // Nota: Tu endpoint actual de cerrarCaja usa RequestBody o Params?
+      // Ajustemos esto según tu controlador final.
+      // Asumiré un POST simple por ahora.
+      // Probablemente necesites actualizar tu ApiCajaController para recibir este cierre.
+      alert("Funcionalidad de cierre en construcción...");
+    } catch (e) {}
+  }
+</script>

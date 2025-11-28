@@ -45,7 +45,7 @@ INSERT INTO `afectaciones` (`id_afectacion`, `codigo`, `descripcion`, `grava_igv
 (2, '20', 'Exonerado - Operación onerosa', 0, 0, 0),
 (3, '30', 'Inafecto - Operación onerosa', 0, 0, 0),
 (4, '40', 'Exportación', 0, 0, 1),
-(5, '31', 'Inafecto - Retiro por bonificación (Gratuita)', 0, 1, 0);
+(5, '31', 'Inafecto - Retiro por bonificación (Gratuita)', 0, 1, 0);v
 
 -- --------------------------------------------------------
 
