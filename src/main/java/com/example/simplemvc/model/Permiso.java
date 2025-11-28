@@ -1,5 +1,7 @@
 package com.example.simplemvc.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -35,5 +37,6 @@ public class Permiso {
 
   @ManyToOne(optional = false)
   @JoinColumn(name = "rol_id", nullable = false)
+  @JsonIgnore
   private Rol rol;
 }

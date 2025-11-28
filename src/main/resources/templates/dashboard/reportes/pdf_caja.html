@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Reporte Caja</title>
+    <style>
+      body {
+        font-family: sans-serif;
+        font-size: 12px;
+        color: #333;
+      }
+      .header {
+        text-align: center;
+        margin-bottom: 20px;
+        border-bottom: 2px solid #444;
+        padding-bottom: 10px;
+      }
+      .header h1 {
+        margin: 0;
+        font-size: 20px;
+      }
+      .resumen-table {
+        width: 100%;
+        margin-bottom: 20px;
+        border: 1px solid #ddd;
+      }
+      .resumen-table td {
+        padding: 8px;
+      }
+      .bg-light {
+        background-color: #f8f9fa;
+        font-weight: bold;
+      }
+
+      .mov-table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+      .mov-table th {
+        background-color: #eee;
+        padding: 8px;
+        text-align: left;
+        border-bottom: 1px solid #999;
+        font-size: 11px;
+      }
+      .mov-table td {
+        padding: 6px 8px;
+        border-bottom: 1px solid #eee;
+      }
+
+      .text-end {
+        text-align: right;
+      }
+      .text-success {
+        color: green;
+      }
+      .text-danger {
+        color: red;
+      }
+      .fw-bold {
+        font-weight: bold;
+      }
+
+      .footer {
+        margin-top: 30px;
+        text-align: center;
+        font-size: 10px;
+        color: #777;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="header">
+      <h1>REPORTE DE ARQUEO DE CAJA</h1>
+      <p>TECNISERVICIOS S.A.C.</p>
+      <p>
+        Fecha de Impresión:
+        <span
+          th:text="${#dates.format(#dates.createNow(), 'dd/MM/yyyy HH:mm')}"
+        ></span>
+      </p>
+    </div>
+
+    <h3>1. Resumen de Turno</h3>
+    <table class="resumen-table">
+      <tr>
+        <td class="bg-light">Caja:</td>
+        <td th:text="${sesion.caja.nombre}">Caja 1</td>
+        <td class="bg-light">Usuario:</td>
+        <td th:text="${sesion.usuarioApertura.nombreUsuario}">Admin</td>
+      </tr>
+      <tr>
+        <td class="bg-light">Apertura:</td>
+        <td
+          th:text="${#temporals.format(sesion.fechaApertura, 'dd/MM/yyyy HH:mm')}"
+        ></td>
+        <td class="bg-light">Cierre:</td>
+        <td
+          th:text="${sesion.fechaCierre != null ? #temporals.format(sesion.fechaCierre, 'dd/MM/yyyy HH:mm') : 'EN CURSO'}"
+        ></td>
+      </tr>
+      <tr>
+        <td class="bg-light">Estado:</td>
+        <td th:text="${sesion.estado}">ABIERTA</td>
+        <td class="bg-light">ID Sesión:</td>
+        <td th:text="${sesion.id}">#123</td>
+      </tr>
+    </table>
+
+    <h3>2. Balance Económico</h3>
+    <table class="resumen-table">
+      <tr>
+        <td>(+) Fondo Inicial:</td>
+        <td
+          class="text-end"
+          th:text="'S/ ' + ${#numbers.formatDecimal(sesion.montoInicial, 1, 2)}"
+        ></td>
+      </tr>
+      <tr>
+        <td>(+) Total Ingresos:</td>
+        <td
+          class="text-end text-success"
+          th:text="'S/ ' + ${#numbers.formatDecimal(sesion.totalIngresos, 1, 2)}"
+        ></td>
+      </tr>
+      <tr>
+        <td>(-) Total Egresos:</td>
+        <td
+          class="text-end text-danger"
+          th:text="'S/ ' + ${#numbers.formatDecimal(sesion.totalEgresos, 1, 2)}"
+        ></td>
+      </tr>
+      <tr style="border-top: 2px solid #000">
+        <td class="fw-bold">(=) SALDO TEÓRICO:</td>
+        <td
+          class="text-end fw-bold"
+          style="font-size: 14px"
+          th:text="'S/ ' + ${#numbers.formatDecimal(saldoCalculado, 1, 2)}"
+        ></td>
+      </tr>
+      <tr th:if="${sesion.montoFinal != null}">
+        <td class="fw-bold">Monto Real (Contado):</td>
+        <td
+          class="text-end"
+          th:text="'S/ ' + ${#numbers.formatDecimal(sesion.montoFinal, 1, 2)}"
+        ></td>
+      </tr>
+    </table>
+
+    <h3>3. Detalle de Movimientos</h3>
+    <table class="mov-table">
+      <thead>
+        <tr>
+          <th>Hora</th>
+          <th>Tipo</th>
+          <th>Descripción</th>
+          <th class="text-end">Monto</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr th:each="mov : ${movimientos}">
+          <td th:text="${#temporals.format(mov.fecha, 'HH:mm')}">10:00</td>
+          <td th:text="${mov.tipo}">INGRESO</td>
+          <td th:text="${mov.descripcion}">Venta #123</td>
+          <td
+            class="text-end"
+            th:classappend="${mov.tipo.name() == 'EGRESO'} ? 'text-danger' : 'text-success'"
+            th:text="${mov.tipo.name() == 'EGRESO' ? '-' : '+'} + ' ' + ${#numbers.formatDecimal(mov.monto, 1, 2)}"
+          ></td>
+        </tr>
+        <tr th:if="${#lists.isEmpty(movimientos)}">
+          <td colspan="4" style="text-align: center; padding: 20px">
+            No hay movimientos registrados.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="footer">
+      <p>_____________________________</p>
+      <p>Firma Responsable</p>
+    </div>
+  </body>
+</html>

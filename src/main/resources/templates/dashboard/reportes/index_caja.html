@@ -1,0 +1,167 @@
+<div
+  class="pc-container"
+  th:replace="~{dashboard/layout :: layout(~{::content}, ${usuario}, 'Reportes Caja', '/dashboard/reportes/caja')}"
+>
+  <div class="pc-content" th:fragment="content">
+    <div class="page-header">
+      <div class="page-block">
+        <div class="row align-items-center">
+          <div class="col-md-12">
+            <div class="page-header-title">
+              <h5 class="m-b-10">Reportes de Caja Chica</h5>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-12">
+        <div class="card">
+          <div class="card-header">
+            <h5 class="mb-0">Filtros de Búsqueda</h5>
+          </div>
+          <div class="card-body">
+            <div class="row align-items-end g-3">
+              <div class="col-md-4">
+                <label class="form-label">Seleccionar Caja</label>
+                <select class="form-select" id="selectCaja">
+                  <option
+                    th:each="c : ${cajas}"
+                    th:value="${c.id}"
+                    th:text="${c.nombre}"
+                  ></option>
+                </select>
+              </div>
+              <div class="col-md-4">
+                <label class="form-label">Fecha</label>
+                <input type="date" class="form-control" id="inputFecha" />
+              </div>
+              <div class="col-md-2">
+                <button
+                  class="btn btn-primary w-100"
+                  onclick="buscarSesiones()"
+                >
+                  <i class="ti ti-search me-1"></i> Buscar
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-12">
+        <div class="card">
+          <div class="card-header">
+            <h5 class="mb-0">Resultados (Sesiones / Turnos)</h5>
+          </div>
+          <div class="card-body table-border-style">
+            <div class="table-responsive">
+              <table class="table table-hover">
+                <thead>
+                  <tr>
+                    <th>ID Sesión</th>
+                    <th>Apertura</th>
+                    <th>Cierre</th>
+                    <th>Usuario</th>
+                    <th>Estado</th>
+                    <th class="text-end">Saldo Final</th>
+                    <th class="text-center">Acción</th>
+                  </tr>
+                </thead>
+                <tbody id="tablaSesiones">
+                  <tr>
+                    <td colspan="7" class="text-center text-muted">
+                      Seleccione una fecha para buscar.
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    document.getElementById("inputFecha").value = new Date()
+      .toISOString()
+      .split("T")[0];
+  });
+
+  async function buscarSesiones() {
+    const cajaId = document.getElementById("selectCaja").value;
+    const fecha = document.getElementById("inputFecha").value;
+    const tbody = document.getElementById("tablaSesiones");
+
+    if (!fecha) return alert("Seleccione una fecha");
+
+    tbody.innerHTML =
+      '<tr><td colspan="7" class="text-center">Cargando...</td></tr>';
+
+    try {
+      const res = await fetch(
+        `/api/reportes/caja/sesiones?cajaId=${cajaId}&fecha=${fecha}`
+      );
+      const sesiones = await res.json();
+
+      if (sesiones.length === 0) {
+        tbody.innerHTML =
+          '<tr><td colspan="7" class="text-center">No se encontraron aperturas de caja en esta fecha.</td></tr>';
+        return;
+      }
+
+      tbody.innerHTML = "";
+      sesiones.forEach((s) => {
+        const estadoBadge =
+          s.estado === "ABIERTA"
+            ? '<span class="badge bg-success">Abierta</span>'
+            : '<span class="badge bg-secondary">Cerrada</span>';
+
+        const fechaCierre = s.fechaCierre
+          ? new Date(s.fechaCierre).toLocaleTimeString([], {
+              hour: "2-digit",
+              minute: "2-digit",
+            })
+          : "-";
+
+        const ingresos = s.totalIngresos || 0;
+        const egresos = s.totalEgresos || 0;
+        const saldo = (s.montoInicial + ingresos - egresos).toFixed(2);
+
+        const tr = `
+                    <tr>
+                        <td>#${s.id}</td>
+                        <td>${new Date(s.fechaApertura).toLocaleTimeString([], {
+                          hour: "2-digit",
+                          minute: "2-digit",
+                        })}</td>
+                        <td>${fechaCierre}</td>
+                        <td>${s.usuarioApertura.nombreUsuario}</td>
+                        <td>${estadoBadge}</td>
+                        <td class="text-end fw-bold">S/ ${saldo}</td>
+                        <td class="text-center">
+                            <button class="btn btn-sm btn-outline-danger" onclick="imprimirReporte(${
+                              s.id
+                            })">
+                                <i class="ti ti-file-type-pdf"></i> PDF
+                            </button>
+                        </td>
+                    </tr>
+                `;
+        tbody.innerHTML += tr;
+      });
+    } catch (e) {
+      console.error(e);
+      tbody.innerHTML =
+        '<tr><td colspan="7" class="text-center text-danger">Error al cargar datos.</td></tr>';
+    }
+  }
+
+  function imprimirReporte(id) {
+    window.open(`/api/reportes/caja/pdf/${id}`, "_blank");
+  }
+</script>

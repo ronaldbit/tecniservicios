@@ -93,19 +93,31 @@ public class CajaService {
   public void cerrarCaja(CerrarCajaRequest request) {
     CajaSesion sesion = obtenerSesionAbierta(1L);
 
+    BigDecimal montoInicial = sesion.getMontoInicial() != null ? sesion.getMontoInicial() : BigDecimal.ZERO;
+    BigDecimal ingresos = sesion.getTotalIngresos() != null ? sesion.getTotalIngresos() : BigDecimal.ZERO;
+    BigDecimal egresos = sesion.getTotalEgresos() != null ? sesion.getTotalEgresos() : BigDecimal.ZERO;
+    BigDecimal montoFinalUsuario = request.getMontoFinal() != null ? request.getMontoFinal() : BigDecimal.ZERO;
+
+    BigDecimal saldoTeorico = montoInicial.add(ingresos).subtract(egresos);
+    BigDecimal diferencia = montoFinalUsuario.subtract(saldoTeorico);
+
     sesion.setFechaCierre(LocalDateTime.now());
-    sesion.setMontoFinal(request.getMontoFinal());
+    sesion.setMontoFinal(montoFinalUsuario);
     sesion.setEstado(EstadoCaja.CERRADA);
 
     sesion.getCaja().setEstadoActual(EstadoCaja.CERRADA);
     cajaRepository.save(sesion.getCaja());
 
-    registrarMovimientoInterno(sesion, TipoMovimiento.CIERRE, request.getMontoFinal(), "Cierre de caja");
+    String desc = "Cierre de caja. Sistema: " + saldoTeorico + ". Diferencia: " + diferencia;
+    registrarMovimientoInterno(sesion, TipoMovimiento.CIERRE, montoFinalUsuario, desc);
+
     cajaSesionRepository.save(sesion);
   }
 
+  @Transactional
   private void registrarMovimientoInterno(CajaSesion sesion, TipoMovimiento tipo, BigDecimal monto,
       String descripcion) {
+
     MovimientoCaja mov = MovimientoCaja.builder()
         .sesion(sesion)
         .usuario(getActualUsuarioService.get())
@@ -114,6 +126,15 @@ public class CajaService {
         .descripcion(descripcion)
         .fecha(LocalDateTime.now())
         .build();
+
+    BigDecimal ingresosActuales = sesion.getTotalIngresos() != null ? sesion.getTotalIngresos() : BigDecimal.ZERO;
+    BigDecimal egresosActuales = sesion.getTotalEgresos() != null ? sesion.getTotalEgresos() : BigDecimal.ZERO;
+
+    if (tipo == TipoMovimiento.INGRESO) {
+      sesion.setTotalIngresos(ingresosActuales.add(monto));
+    } else if (tipo == TipoMovimiento.EGRESO) {
+      sesion.setTotalEgresos(egresosActuales.add(monto));
+    }
 
     movimientoCajaRepository.save(mov);
 
