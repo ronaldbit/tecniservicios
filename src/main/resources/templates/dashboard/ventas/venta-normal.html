@@ -31,7 +31,28 @@
       </div>
     </div>
 
-    <div class="col-12">
+    <div class="row" th:if="${estadoCaja == 'cerrada'}">
+      <div class="col-12">
+        <div class="card text-center py-5">
+          <div class="card-body">
+            <div class="mb-4">
+              <span class="avtar avtar-xl bg-light-danger text-danger">
+                <i class="ti ti-lock-open f-30"></i>
+              </span>
+            </div>
+            <h3>La Caja está Cerrada</h3>
+            <p class="text-muted mb-4">
+              Debes abrir la caja para comenzar a registrar ventas.
+            </p>
+            <a href="/dashboard/ventas/caja-chica" class="btn btn-primary">
+              <i class="ti ti-key me-2"></i> Ir a Caja Chica
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12" th:if="${estadoCaja == 'ok'}">
       <div class="card table-card">
         <div
           class="card-header d-flex align-items-center justify-content-between"

@@ -68,6 +68,7 @@ public class PersonaService {
       log.info("Creando nueva entidad Persona");
       persona = new Persona();
     }
+    persona.setTipoPersona(request.getTipoPersona());
     actualizarDatosPersona(persona, request, tipoDocumento);
     persona.setEstado(true);
     persona.setEmailVerificado(false);

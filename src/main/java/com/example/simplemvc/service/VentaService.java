@@ -33,6 +33,7 @@ public class VentaService {
   private final VentaRepository ventaRepository;
   private final ProductoRepository productoRepository;
   private final VentaMapper ventaMapper;
+  private final CajaService cajaService;
 
   private final GetActualUsuarioService getActualUsuarioService;
 
@@ -101,6 +102,10 @@ public class VentaService {
     venta.setIgv(igvVenta);
     venta.setCanalVenta(CanalVenta.TIENDA_FISICA);
     Venta ventaGuardada = ventaRepository.save(venta);
+
+    cajaService.registrarIngresoVenta(
+        ventaGuardada.getTotal(),
+        ventaGuardada.getSerieComprobante() + "-" + ventaGuardada.getNumeroComprobante());
     return ventaMapper.toDto(ventaGuardada);
   }
 

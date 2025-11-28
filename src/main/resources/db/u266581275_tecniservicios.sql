@@ -36,6 +36,7 @@ CREATE TABLE `afectaciones` (
   `es_exportacion` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
+INSERT INTO cajas (id, nombre, estado_actual) VALUES (1, 'Caja 1 - Tienda Principal', 'CERRADA');
 --
 -- Volcado de datos para la tabla `afectaciones`
 --

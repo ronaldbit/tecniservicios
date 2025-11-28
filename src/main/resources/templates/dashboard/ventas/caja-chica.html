@@ -24,7 +24,11 @@
       <div class="col-12">
         <div class="card text-center py-5">
           <div class="card-body">
-            <i class="ti ti-lock-open text-muted display-4 mb-3"></i>
+            <div class="mb-4">
+              <span class="avtar avtar-xl bg-light-danger text-danger">
+                <i class="ti ti-lock-open f-30"></i>
+              </span>
+            </div>
             <h3>La Caja está Cerrada</h3>
             <p class="text-muted mb-4">
               Debes abrir la caja para comenzar a registrar ventas y
@@ -53,7 +57,7 @@
 
             <div class="mb-2">
               <i class="ti ti-user me-1"></i> Responsable:
-              <strong th:text="${cajaSesion.usuario.nombreUsuario}"
+              <strong th:text="${cajaSesion.usuarioApertura.nombreUsuario}"
                 >Usuario</strong
               >
             </div>
@@ -82,7 +86,7 @@
                 <i class="ti ti-lock me-1"></i> Cerrar Caja
               </button>
               <button
-                class="btn btn-outline-primary bg-white"
+                class="btn btn-outline-primary"
                 data-bs-toggle="modal"
                 data-bs-target="#modalMovimiento"
               >
@@ -115,7 +119,7 @@
             <div class="d-flex justify-content-between align-items-center">
               <span class="fw-bold">Saldo Teórico:</span>
               <span
-                class="h5 mb-0 text-primary"
+                class="h4 mb-0 text-primary"
                 th:with="saldo=${cajaSesion.montoInicial.add(cajaSesion.totalIngresos).subtract(cajaSesion.totalEgresos)}"
                 th:text="'S/ ' + ${#numbers.formatDecimal(saldo, 1, 2)}"
                 >0.00</span
@@ -131,9 +135,12 @@
             <h5 class="mb-0">Movimientos del Turno</h5>
           </div>
           <div class="card-body pt-0">
-            <div class="table-responsive">
+            <div
+              class="table-responsive"
+              style="max-height: 600px; overflow-y: auto"
+            >
               <table class="table table-hover mb-0" id="tabla-movimientos">
-                <thead class="table-light">
+                <thead class="table-light sticky-top">
                   <tr>
                     <th>Hora</th>
                     <th>Tipo</th>
@@ -158,20 +165,30 @@
                         class="badge bg-light-danger text-danger"
                         >Egreso</span
                       >
+                      <span
+                        th:if="${mov.tipo.name() == 'APERTURA'}"
+                        class="badge bg-light-primary text-primary"
+                        >Inicio</span
+                      >
+                      <span
+                        th:if="${mov.tipo.name() == 'CIERRE'}"
+                        class="badge bg-light-secondary text-secondary"
+                        >Cierre</span
+                      >
                     </td>
-                    <td th:text="${mov.descripcion}">Venta #123</td>
+                    <td th:text="${mov.descripcion}">Desc</td>
                     <td
                       class="text-end fw-bold"
-                      th:classappend="${mov.tipo.name() == 'INGRESO'} ? 'text-success' : 'text-danger'"
-                      th:text="${mov.tipo.name() == 'INGRESO' ? '+' : '-'} + ' S/ ' + ${#numbers.formatDecimal(mov.monto, 1, 2)}"
+                      th:classappend="${mov.tipo.name() == 'EGRESO'} ? 'text-danger' : 'text-success'"
+                      th:text="${mov.tipo.name() == 'EGRESO' ? '-' : '+'} + ' S/ ' + ${#numbers.formatDecimal(mov.monto, 1, 2)}"
                     >
-                      S/ 100.00
+                      0.00
                     </td>
                     <td
                       class="text-muted small"
                       th:text="${mov.usuario.nombreUsuario}"
                     >
-                      Admin
+                      User
                     </td>
                   </tr>
 
@@ -215,7 +232,7 @@
               </div>
               <div class="mb-3">
                 <label class="form-label fw-bold"
-                  >Monto Inicial (Efectivo en cajón)</label
+                  >Monto Inicial (Sencillo)</label
                 >
                 <div class="input-group">
                   <span class="input-group-text">S/</span>
@@ -229,6 +246,14 @@
                     required
                   />
                 </div>
+              </div>
+              <div class="mb-3">
+                <label class="form-label">Notas</label>
+                <textarea
+                  class="form-control"
+                  id="inputNotasApertura"
+                  rows="2"
+                ></textarea>
               </div>
             </form>
           </div>
@@ -257,7 +282,7 @@
       <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title">Nuevo Movimiento Manual</h5>
+            <h5 class="modal-title">Nuevo Movimiento</h5>
             <button
               type="button"
               class="btn-close"
@@ -337,22 +362,25 @@
             ></button>
           </div>
           <div class="modal-body">
-            <div class="alert alert-warning">
+            <div class="alert alert-light-danger border-danger text-danger">
               <i class="ti ti-alert-triangle me-1"></i>
-              Al cerrar la caja no podrás registrar más movimientos hasta abrir
-              un nuevo turno.
+              <strong>Atención:</strong> Al cerrar la caja no podrás registrar
+              más movimientos hasta abrir un nuevo turno.
             </div>
             <div class="mb-3">
               <label class="form-label fw-bold"
                 >Monto Real en Efectivo (Arqueo)</label
               >
-              <input
-                type="number"
-                class="form-control form-control-lg"
-                id="inputMontoCierre"
-                placeholder="¿Cuánto dinero hay?"
-                required
-              />
+              <div class="input-group">
+                <span class="input-group-text">S/</span>
+                <input
+                  type="number"
+                  class="form-control form-control-lg"
+                  id="inputMontoCierre"
+                  placeholder="0.00"
+                  required
+                />
+              </div>
               <small class="text-muted"
                 >Cuenta los billetes y monedas e ingresa el total.</small
               >
@@ -380,18 +408,24 @@
   async function abrirCaja() {
     const monto = document.getElementById("inputMontoInicial").value;
     const cajaId = document.getElementById("selectCajaId").value;
+    const notas = document.getElementById("inputNotasApertura").value;
 
-    if (!monto) return alert("Ingresa el monto inicial");
+    if (!monto || parseFloat(monto) < 0)
+      return alert("Ingresa un monto inicial válido");
 
     try {
       const resp = await fetch("/api/caja/abrir", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ cajaId: cajaId, montoInicial: monto }),
+        body: JSON.stringify({
+          cajaId: parseInt(cajaId),
+          montoInicial: parseFloat(monto),
+          notas: notas,
+        }),
       });
 
       if (resp.ok) {
-        window.location.reload(); // Recargamos para ver el dashboard abierto
+        window.location.reload();
       } else {
         alert("Error al abrir: " + (await resp.text()));
       }
@@ -401,22 +435,21 @@
   }
 
   async function registrarMovimiento() {
-    const cajaId = 1;
-
     const tipo = document.getElementById("selectTipoMov").value;
     const monto = document.getElementById("inputMontoMov").value;
     const motivo = document.getElementById("inputMotivoMov").value;
 
-    if (!monto || !motivo) return alert("Completa todos los campos");
+    if (!monto || parseFloat(monto) <= 0)
+      return alert("Ingresa un monto válido mayor a 0");
+    if (!motivo) return alert("Ingresa un motivo");
 
     try {
       const resp = await fetch("/api/caja/movimiento", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          cajaId: cajaId,
           tipo: tipo,
-          monto: monto,
+          monto: parseFloat(monto),
           motivo: motivo,
         }),
       });
@@ -433,18 +466,30 @@
 
   async function cerrarCaja() {
     const montoReal = document.getElementById("inputMontoCierre").value;
-    // En el futuro, aquí enviaremos el monto real para calcular el descuadre
-    // Por ahora, usamos la lógica simple que implementamos
 
-    // Asumimos caja 1
-    const cajaId = 1;
+    if (!montoReal || parseFloat(montoReal) < 0) {
+      alert("Por favor, ingresa el monto total del arqueo (dinero físico).");
+      return;
+    }
+
+    if (!confirm("¿Estás seguro de cerrar la caja?")) return;
 
     try {
-      // Nota: Tu endpoint actual de cerrarCaja usa RequestBody o Params?
-      // Ajustemos esto según tu controlador final.
-      // Asumiré un POST simple por ahora.
-      // Probablemente necesites actualizar tu ApiCajaController para recibir este cierre.
-      alert("Funcionalidad de cierre en construcción...");
-    } catch (e) {}
+      const resp = await fetch("/api/caja/cerrar", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          montoFinal: parseFloat(montoReal),
+        }),
+      });
+
+      if (resp.ok) {
+        window.location.reload();
+      } else {
+        alert("Error al cerrar: " + (await resp.text()));
+      }
+    } catch (e) {
+      alert("Error de conexión");
+    }
   }
 </script>
