@@ -21,17 +21,15 @@ public class ReportesViewController {
 
   @GetMapping("/caja")
   public String verReportesCaja(Model model) {
-    cargarUsuarioSiderbar(model);
+
+    Usuario actualUsuario = getActualUsuarioService.get();
+    model.addAttribute("usuario", actualUsuario);
+    actualUsuario.getRoles().stream()
+        .flatMap(rol -> rol.getPermisos().stream())
+        .forEach(permiso -> model.addAttribute("hide" + permiso.getNombre(), false));
     model.addAttribute("pageTitle", "Reportes de Caja");
     model.addAttribute("cajas", cajaRepository.findAll());
     return "dashboard/reportes/index_caja";
   }
 
-  public void cargarUsuarioSiderbar(Model model) {
-    Usuario actualUsuario = getActualUsuarioService.get();
-    model.addAttribute("actualUsuario", actualUsuario);
-    actualUsuario.getRoles().stream()
-        .flatMap(rol -> rol.getPermisos().stream())
-        .forEach(permiso -> model.addAttribute("hide" + permiso.getNombre(), false));
-  }
 }
