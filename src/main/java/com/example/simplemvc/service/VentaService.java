@@ -105,7 +105,8 @@ public class VentaService {
 
     cajaService.registrarIngresoVenta(
         ventaGuardada.getTotal(),
-        ventaGuardada.getSerieComprobante() + "-" + ventaGuardada.getNumeroComprobante());
+        ventaGuardada.getSerieComprobante() + "-" + ventaGuardada.getNumeroComprobante(),
+        ventaGuardada.getMetodoPago());
     return ventaMapper.toDto(ventaGuardada);
   }
 

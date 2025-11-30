@@ -12,6 +12,7 @@ import com.example.simplemvc.model.CajaSesion;
 import com.example.simplemvc.model.MovimientoCaja;
 import com.example.simplemvc.model.Usuario;
 import com.example.simplemvc.model.enums.EstadoCaja;
+import com.example.simplemvc.model.enums.MetodoPago;
 import com.example.simplemvc.model.enums.TipoMovimiento;
 import com.example.simplemvc.repository.CajaRepository;
 import com.example.simplemvc.repository.MovimientoCajaRepository;
@@ -62,7 +63,7 @@ public class CajaService {
     CajaSesion guardada = cajaSesionRepository.save(sesion);
 
     registrarMovimientoInterno(guardada, TipoMovimiento.APERTURA, request.getMontoInicial(),
-        "Apertura de caja: " + request.getNotas());
+        "Apertura de caja: " + request.getNotas(), null);
   }
 
   @Transactional
@@ -71,18 +72,19 @@ public class CajaService {
     CajaSesion sesion = obtenerSesionAbierta(1L);
 
     TipoMovimiento tipo = TipoMovimiento.valueOf(request.getTipo());
-    registrarMovimientoInterno(sesion, tipo, request.getMonto(), request.getMotivo());
+    registrarMovimientoInterno(sesion, tipo, request.getMonto(), request.getMotivo(), null);
   }
 
   @Transactional
-  public void registrarIngresoVenta(BigDecimal monto, String nroComprobante) {
+  public void registrarIngresoVenta(BigDecimal monto, String nroComprobante, MetodoPago metodoPago) {
     try {
       CajaSesion sesion = obtenerSesionAbierta(1L);
 
       registrarMovimientoInterno(sesion,
           TipoMovimiento.INGRESO,
           monto,
-          "Venta registrada: " + nroComprobante);
+          "Venta registrada: " + nroComprobante,
+          metodoPago);
 
     } catch (IllegalStateException e) {
       log.warn("Venta registrada sin caja abierta: {}", nroComprobante);
@@ -100,7 +102,7 @@ public class CajaService {
 
     BigDecimal saldoTeorico = montoInicial.add(ingresos).subtract(egresos);
     BigDecimal diferencia = montoFinalUsuario.subtract(saldoTeorico);
-
+    sesion.setFaltante(request.getFaltante());
     sesion.setFechaCierre(LocalDateTime.now());
     sesion.setMontoFinal(montoFinalUsuario);
     sesion.setEstado(EstadoCaja.CERRADA);
@@ -109,14 +111,14 @@ public class CajaService {
     cajaRepository.save(sesion.getCaja());
 
     String desc = "Cierre de caja. Sistema: " + saldoTeorico + ". Diferencia: " + diferencia;
-    registrarMovimientoInterno(sesion, TipoMovimiento.CIERRE, montoFinalUsuario, desc);
+    registrarMovimientoInterno(sesion, TipoMovimiento.CIERRE, montoFinalUsuario, desc, null);
 
     cajaSesionRepository.save(sesion);
   }
 
   @Transactional
   private void registrarMovimientoInterno(CajaSesion sesion, TipoMovimiento tipo, BigDecimal monto,
-      String descripcion) {
+      String descripcion, MetodoPago metodoPago) {
 
     MovimientoCaja mov = MovimientoCaja.builder()
         .sesion(sesion)
@@ -136,13 +138,25 @@ public class CajaService {
       sesion.setTotalEgresos(egresosActuales.add(monto));
     }
 
-    movimientoCajaRepository.save(mov);
-
-    if (tipo == TipoMovimiento.INGRESO) {
-      sesion.setTotalIngresos(sesion.getTotalIngresos().add(monto));
-    } else if (tipo == TipoMovimiento.EGRESO) {
-      sesion.setTotalEgresos(sesion.getTotalEgresos().add(monto));
+    if (metodoPago != null) {
+      if (metodoPago == metodoPago.EFECTIVO) {
+        BigDecimal totalEfectivoActual = sesion.getTotalEfectivo() != null ? sesion.getTotalEfectivo()
+            : BigDecimal.ZERO;
+        sesion.setTotalEfectivo(totalEfectivoActual.add(monto));
+      } else if (metodoPago == metodoPago.TARJETA_CREDITO || metodoPago == metodoPago.TARJETA_DEBITO) {
+        BigDecimal totalTarjetasActual = sesion.getTotalTarjetas() != null ? sesion.getTotalTarjetas()
+            : BigDecimal.ZERO;
+        sesion.setTotalTarjetas(totalTarjetasActual.add(monto));
+      } else if (metodoPago == metodoPago.TRANSFERENCIA_BANCARIA) {
+        BigDecimal totalTransferenciasActual = sesion.getTotalTransferencias() != null ? sesion.getTotalTransferencias()
+            : BigDecimal.ZERO;
+        sesion.setTotalOtros(totalTransferenciasActual.add(monto));
+      } else {
+        BigDecimal totalOtrosActual = sesion.getTotalOtros() != null ? sesion.getTotalOtros() : BigDecimal.ZERO;
+        sesion.setTotalOtros(totalOtrosActual.add(monto));
+      }
     }
+    movimientoCajaRepository.save(mov);
     cajaSesionRepository.save(sesion);
   }
 

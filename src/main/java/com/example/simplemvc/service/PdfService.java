@@ -18,6 +18,7 @@ public class PdfService {
 
   private final TemplateEngine templateEngine;
 
+  // VAUCHER DE VENTAS (GENERAR PDF)
   public byte[] generarPdfVenta(VentaDto venta) {
     try (ByteArrayOutputStream os = new ByteArrayOutputStream()) {
       Context context = new Context();
@@ -35,6 +36,7 @@ public class PdfService {
     }
   }
 
+  // REPORTE DE CAJA (GENERAR PDF)
   public byte[] generarPdfCaja(Map<String, Object> datos) {
     try (ByteArrayOutputStream os = new ByteArrayOutputStream()) {
       Context context = new Context();

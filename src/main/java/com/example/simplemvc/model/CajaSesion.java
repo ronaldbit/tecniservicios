@@ -42,13 +42,28 @@ public class CajaSesion {
   private LocalDateTime fechaCierre;
 
   private BigDecimal montoInicial;
+
   private BigDecimal montoFinal;
+
+  private BigDecimal faltante;
 
   @Builder.Default
   private BigDecimal totalIngresos = BigDecimal.ZERO;
 
   @Builder.Default
   private BigDecimal totalEgresos = BigDecimal.ZERO;
+
+  @Builder.Default
+  private BigDecimal totalTransferencias = BigDecimal.ZERO;
+
+  @Builder.Default
+  private BigDecimal totalEfectivo = BigDecimal.ZERO;
+
+  @Builder.Default
+  private BigDecimal totalTarjetas = BigDecimal.ZERO;
+
+  @Builder.Default
+  private BigDecimal totalOtros = BigDecimal.ZERO;
 
   @Enumerated(EnumType.STRING)
   private EstadoCaja estado;

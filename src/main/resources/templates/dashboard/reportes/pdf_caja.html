@@ -116,13 +116,64 @@
           th:text="'S/ ' + ${#numbers.formatDecimal(sesion.montoInicial, 1, 2)}"
         ></td>
       </tr>
+
       <tr>
-        <td>(+) Total Ingresos:</td>
+        <td class="fw-bold">(+) Total Ingresos:</td>
         <td
-          class="text-end text-success"
+          class="text-end text-success fw-bold"
           th:text="'S/ ' + ${#numbers.formatDecimal(sesion.totalIngresos, 1, 2)}"
         ></td>
       </tr>
+
+      <tr>
+        <td style="padding-left: 20px; font-size: 10px; color: #555">
+          - Efectivo:
+        </td>
+        <td
+          class="text-end"
+          style="font-size: 10px"
+          th:text="'S/ ' + ${#numbers.formatDecimal(sesion.totalEfectivo, 1, 2)}"
+        >
+          0.00
+        </td>
+      </tr>
+      <tr>
+        <td style="padding-left: 20px; font-size: 10px; color: #555">
+          - Tarjetas:
+        </td>
+        <td
+          class="text-end"
+          style="font-size: 10px"
+          th:text="'S/ ' + ${#numbers.formatDecimal(sesion.totalTarjetas, 1, 2)}"
+        >
+          0.00
+        </td>
+      </tr>
+      <tr>
+        <td style="padding-left: 20px; font-size: 10px; color: #555">
+          - Transferencias:
+        </td>
+        <td
+          class="text-end"
+          style="font-size: 10px"
+          th:text="'S/ ' + ${#numbers.formatDecimal(sesion.totalTransferencias, 1, 2)}"
+        >
+          0.00
+        </td>
+      </tr>
+      <tr>
+        <td style="padding-left: 20px; font-size: 10px; color: #555">
+          - Otros:
+        </td>
+        <td
+          class="text-end"
+          style="font-size: 10px"
+          th:text="'S/ ' + ${#numbers.formatDecimal(sesion.totalOtros, 1, 2)}"
+        >
+          0.00
+        </td>
+      </tr>
+
       <tr>
         <td>(-) Total Egresos:</td>
         <td
@@ -130,6 +181,7 @@
           th:text="'S/ ' + ${#numbers.formatDecimal(sesion.totalEgresos, 1, 2)}"
         ></td>
       </tr>
+
       <tr style="border-top: 2px solid #000">
         <td class="fw-bold">(=) SALDO TEÓRICO:</td>
         <td
@@ -145,8 +197,14 @@
           th:text="'S/ ' + ${#numbers.formatDecimal(sesion.montoFinal, 1, 2)}"
         ></td>
       </tr>
+      <tr th:if="${sesion.montoFinal != null}">
+        <td class="fw-bold">Monto faltante:</td>
+        <td
+          class="text-end"
+          th:text="'S/ ' + ${#numbers.formatDecimal(sesion.faltante, 1, 2)}"
+        ></td>
+      </tr>
     </table>
-
     <h3>3. Detalle de Movimientos</h3>
     <table class="mov-table">
       <thead>
