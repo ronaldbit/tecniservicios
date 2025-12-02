@@ -1,6 +1,7 @@
-'use strict';
-document.addEventListener('DOMContentLoaded', function () {
+"use strict";
+document.addEventListener("DOMContentLoaded", function () {
   setTimeout(function () {
+    /*
     var options8 = {
       chart: {
         height: 320,
@@ -57,5 +58,6 @@ document.addEventListener('DOMContentLoaded', function () {
     };
     var chart = new ApexCharts(document.querySelector('#total-income-graph'), options8);
     chart.render();
+    */
   }, 500);
 });

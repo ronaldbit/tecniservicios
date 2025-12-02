@@ -1,6 +1,7 @@
-'use strict';
-document.addEventListener('DOMContentLoaded', function () {
+"use strict";
+document.addEventListener("DOMContentLoaded", function () {
   setTimeout(function () {
+    /*
     var options5 = {
       chart: {
         type: 'area',
@@ -52,5 +53,6 @@ document.addEventListener('DOMContentLoaded', function () {
     };
     var chart = new ApexCharts(document.querySelector('#customer-rate-graph'), options5);
     chart.render();
+    */
   }, 500);
 });
