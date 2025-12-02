@@ -1,0 +1,119 @@
+<div
+  class="pc-container"
+  th:replace="~{dashboard/layout :: layout(~{::content}, ${usuario}, 'Análisis', '/dashboard/reportes/analisis')}"
+>
+  <div class="pc-content" th:fragment="content">
+    <div class="page-header">
+      <div class="page-block">
+        <div class="row align-items-center">
+          <div class="col-md-12">
+            <div class="page-header-title">
+              <h5 class="m-b-10">Análisis de Rendimiento</h5>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-12">
+        <div class="card">
+          <div class="card-header">
+            <h5 class="mb-0">Ranking de Productos</h5>
+          </div>
+          <div class="card-body">
+            <div class="row align-items-end g-3">
+              <div class="col-md-4">
+                <label class="form-label">Desde</label>
+                <input
+                  type="date"
+                  class="form-control"
+                  id="fechaInicio"
+                  th:value="${fechaInicioDefault}"
+                />
+              </div>
+              <div class="col-md-4">
+                <label class="form-label">Hasta</label>
+                <input
+                  type="date"
+                  class="form-control"
+                  id="fechaFin"
+                  th:value="${fechaFinDefault}"
+                />
+              </div>
+              <div class="col-md-4">
+                <button class="btn btn-primary w-100" onclick="descargarPDF()">
+                  <i class="ti ti-trophy me-1"></i> Generar Ranking PDF
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row mt-4">
+      <div class="col-12">
+        <div class="card">
+          <div class="card-header">
+            <h5 class="mb-0">Ranking de Vendedores</h5>
+          </div>
+          <div class="card-body">
+            <div class="row align-items-end g-3">
+              <div class="col-md-4">
+                <label class="form-label">Desde</label>
+                <input
+                  type="date"
+                  class="form-control"
+                  id="fechaInicioVend"
+                  th:value="${fechaInicioDefault}"
+                />
+              </div>
+              <div class="col-md-4">
+                <label class="form-label">Hasta</label>
+                <input
+                  type="date"
+                  class="form-control"
+                  id="fechaFinVend"
+                  th:value="${fechaFinDefault}"
+                />
+              </div>
+              <div class="col-md-4">
+                <button
+                  class="btn btn-success w-100"
+                  onclick="descargarRankingVendedores()"
+                >
+                  <i class="ti ti-users me-1"></i> Generar Ranking
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      function descargarPDF() {
+        const inicio = document.getElementById("fechaInicio").value;
+        const fin = document.getElementById("fechaFin").value;
+        if (!inicio || !fin) return alert("Fechas requeridas");
+
+        window.open(
+          `/api/reportes/analisis/top-productos/pdf?inicio=${inicio}&fin=${fin}`,
+          "_blank"
+        );
+      }
+
+      function descargarRankingVendedores() {
+        const inicio = document.getElementById("fechaInicioVend").value;
+        const fin = document.getElementById("fechaFinVend").value;
+
+        if (!inicio || !fin) return alert("Fechas requeridas");
+
+        window.open(
+          `/api/reportes/analisis/ranking-vendedores/pdf?inicio=${inicio}&fin=${fin}`,
+          "_blank"
+        );
+      }
+    </script>
+  </div>
+</div>

@@ -1,5 +1,6 @@
 package com.example.simplemvc.repository;
 
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,4 +30,13 @@ public interface ProductoRepository extends JpaRepository<Producto, Long> {
       @Param("marcaId") Long marcaId,
       @Param("estado") EstadoEntidad estado);
 
+  @Query("SELECT p FROM Producto p WHERE p.stockActual <= p.stockMinimo AND p.estado = 2 ORDER BY p.stockActual ASC")
+  List<Producto> findProductosStockBajo();
+
+  @Query("SELECT p FROM Producto p WHERE p.idProducto NOT IN " +
+      "(SELECT d.producto.idProducto FROM VentaDetalle d JOIN d.venta v WHERE v.fechaVenta > :fechaLimite)")
+  List<Producto> findProductosSinMovimiento(@Param("fechaLimite") Timestamp fechaLimite);
+
+
+  
 }

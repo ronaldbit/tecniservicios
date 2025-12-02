@@ -15,13 +15,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(
-    name = "persona",
-    uniqueConstraints = {
-      @UniqueConstraint(
-          columnNames = {"tipoDocumento", "numeroDocumento"},
-          name = "uk_persona_tipo_numero_documento")
-    })
+@Table(name = "persona", uniqueConstraints = {
+    @UniqueConstraint(columnNames = { "tipoDocumento", "numeroDocumento" }, name = "uk_persona_tipo_numero_documento")
+})
 @Data
 @Builder
 @NoArgsConstructor

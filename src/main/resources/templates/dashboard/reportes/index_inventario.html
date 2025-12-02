@@ -1,0 +1,108 @@
+<div
+  class="pc-container"
+  th:replace="~{dashboard/layout :: layout(~{::content}, ${usuario}, 'Reportes Inventario', '/dashboard/reportes/inventario')}"
+>
+  <div class="pc-content" th:fragment="content">
+    <div class="page-header">
+      <div class="page-block">
+        <div class="row align-items-center">
+          <div class="col-md-12">
+            <div class="page-header-title">
+              <h5 class="m-b-10">Reportes de Inventario</h5>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row mb-4">
+      <div class="col-md-6">
+        <div class="card bg-light-warning">
+          <div class="card-body">
+            <h6 class="mb-2">Productos con Stock Crítico</h6>
+            <h3 class="mb-0 text-warning" th:text="${stockBajo.size()}">0</h3>
+            <small>Necesitan reabastecimiento urgente</small>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="card bg-light-success">
+          <div class="card-body">
+            <h6 class="mb-2">Valor Total del Inventario</h6>
+            <h3
+              class="mb-0 text-success"
+              th:text="'S/ ' + ${#numbers.formatDecimal(valorizacion.totalValor, 1, 2)}"
+            >
+              S/ 0.00
+            </h3>
+            <small th:text="${valorizacion.totalItems} + ' unidades en total'"
+              >0 unidades</small
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-12">
+        <div class="card">
+          <div
+            class="card-header d-flex justify-content-between align-items-center"
+          >
+            <h5 class="mb-0">Detalle de Stock Bajo</h5>
+            <button
+              class="btn btn-primary btn-sm"
+              onclick="window.open('/api/reportes/inventario/stock-bajo/pdf', '_blank')"
+            >
+              <i class="ti ti-printer me-1"></i> Imprimir Reporte
+            </button>
+          </div>
+          <div class="card-body table-border-style">
+            <div class="table-responsive">
+              <table class="table table-hover">
+                <thead>
+                  <tr>
+                    <th>Código</th>
+                    <th>Producto</th>
+                    <th>Marca</th>
+                    <th>Stock Actual</th>
+                    <th>Stock Mínimo</th>
+                    <th>Estado</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr th:each="p : ${stockBajo}">
+                    <td th:text="${p.codigo}">COD</td>
+                    <td th:text="${p.nombre}">Aceite</td>
+                    <td th:text="${p.marca.nombre}">Shell</td>
+                    <td class="text-danger fw-bold" th:text="${p.stockActual}">
+                      5
+                    </td>
+                    <td th:text="${p.stockMinimo}">10</td>
+                    <td>
+                      <span
+                        class="badge bg-danger"
+                        th:if="${p.stockActual == 0}"
+                        >Agotado</span
+                      >
+                      <span
+                        class="badge bg-warning text-dark"
+                        th:if="${p.stockActual > 0}"
+                        >Bajo</span
+                      >
+                    </td>
+                  </tr>
+                  <tr th:if="${#lists.isEmpty(stockBajo)}">
+                    <td colspan="6" class="text-center text-success">
+                      ¡Todo en orden! No hay productos con stock bajo.
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

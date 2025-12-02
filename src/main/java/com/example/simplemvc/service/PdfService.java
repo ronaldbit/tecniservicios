@@ -55,4 +55,24 @@ public class PdfService {
       throw new RuntimeException("Error generando PDF de caja", e);
     }
   }
+
+  // METODO GENERICO PARA GENERAR PDF A PARTIR DE CUALQUIER PLANTILLA Y DATOS
+  public byte[] generarPdfGenerico(String plantilla, Map<String, Object> datos) {
+    try (ByteArrayOutputStream os = new ByteArrayOutputStream()) {
+      Context context = new Context();
+      context.setVariables(datos);
+
+      String htmlContent = templateEngine.process("dashboard/reportes/" + plantilla, context);
+
+      PdfRendererBuilder builder = new PdfRendererBuilder();
+      builder.useFastMode();
+      builder.withHtmlContent(htmlContent, null);
+      builder.toStream(os);
+      builder.run();
+
+      return os.toByteArray();
+    } catch (Exception e) {
+      throw new RuntimeException("Error generando PDF: " + plantilla, e);
+    }
+  }
 }

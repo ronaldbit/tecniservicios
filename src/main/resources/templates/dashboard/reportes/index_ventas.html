@@ -1,0 +1,83 @@
+<div
+  class="pc-container"
+  th:replace="~{dashboard/layout :: layout(~{::content}, ${usuario}, 'Reporte Ventas', '/dashboard/reportes/ventas')}"
+>
+  <div class="pc-content" th:fragment="content">
+    <div class="page-header">
+      <div class="page-block">
+        <div class="row align-items-center">
+          <div class="col-md-12">
+            <div class="page-header-title">
+              <h5 class="m-b-10">Reporte de Ventas</h5>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-12">
+        <div class="card">
+          <div class="card-header">
+            <h5 class="mb-0">Generar Reporte</h5>
+          </div>
+          <div class="card-body">
+            <form id="formReporteVentas">
+              <div class="row align-items-end g-3">
+                <div class="col-md-4">
+                  <label class="form-label">Fecha Inicio</label>
+                  <input
+                    type="date"
+                    class="form-control"
+                    id="fechaInicio"
+                    th:value="${fechaInicioDefault}"
+                  />
+                </div>
+                <div class="col-md-4">
+                  <label class="form-label">Fecha Fin</label>
+                  <input
+                    type="date"
+                    class="form-control"
+                    id="fechaFin"
+                    th:value="${fechaFinDefault}"
+                  />
+                </div>
+                <div class="col-md-4">
+                  <button
+                    type="button"
+                    class="btn btn-primary w-100"
+                    onclick="generarReporte()"
+                  >
+                    <i class="ti ti-file-analytics me-1"></i> Generar PDF
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="alert alert-info mt-3">
+      <i class="ti ti-info-circle me-2"></i> Selecciona un rango de fechas para
+      descargar el detalle de todas las ventas realizadas, anuladas y el total
+      recaudado.
+    </div>
+
+    <script>
+      function generarReporte() {
+        const inicio = document.getElementById("fechaInicio").value;
+        const fin = document.getElementById("fechaFin").value;
+
+        if (!inicio || !fin) return alert("Seleccione ambas fechas");
+        if (inicio > fin)
+          return alert("La fecha de inicio no puede ser mayor a la fecha fin");
+
+        window.open(
+          `/api/reportes/ventas/reporte/pdf?inicio=${inicio}&fin=${fin}`,
+          "_blank"
+        );
+      }
+    </script>
+  </div>
+</div>

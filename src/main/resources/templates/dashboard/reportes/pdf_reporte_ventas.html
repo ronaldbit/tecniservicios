@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Reporte de Ventas</title>
+    <style>
+      body {
+        font-family: sans-serif;
+        font-size: 11px;
+      }
+      .header {
+        text-align: center;
+        margin-bottom: 20px;
+        border-bottom: 2px solid #0d6efd;
+        padding-bottom: 10px;
+      }
+      h1 {
+        color: #0d6efd;
+        margin: 0;
+      }
+
+      .summary-box {
+        width: 100%;
+        margin-bottom: 20px;
+        background-color: #f8f9fa;
+        padding: 10px;
+        border: 1px solid #ddd;
+      }
+      .summary-item {
+        display: inline-block;
+        width: 30%;
+        text-align: center;
+      }
+      .summary-val {
+        font-size: 14px;
+        font-weight: bold;
+        display: block;
+        margin-top: 5px;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 10px;
+      }
+      th {
+        background-color: #0d6efd;
+        color: white;
+        padding: 6px;
+        text-align: left;
+        font-size: 10px;
+      }
+      td {
+        padding: 6px;
+        border-bottom: 1px solid #eee;
+      }
+
+      .text-end {
+        text-align: right;
+      }
+      .badge-success {
+        color: green;
+        font-weight: bold;
+      }
+      .badge-danger {
+        color: red;
+        font-weight: bold;
+      }
+
+      .footer {
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        text-align: center;
+        font-size: 9px;
+        color: #777;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="header">
+      <h1>REPORTE DE VENTAS</h1>
+      <p>
+        Período:
+        <span th:text="${#temporals.format(fechaInicio, 'dd/MM/yyyy')}"></span>
+        al <span th:text="${#temporals.format(fechaFin, 'dd/MM/yyyy')}"></span>
+      </p>
+    </div>
+
+    <div class="summary-box">
+      <div class="summary-item">
+        <span>Ventas Completadas</span>
+        <span
+          class="summary-val"
+          style="color: green"
+          th:text="${cantidadVentas}"
+          >0</span
+        >
+      </div>
+      <div class="summary-item">
+        <span>Total Ingresos</span>
+        <span
+          class="summary-val"
+          th:text="'S/ ' + ${#numbers.formatDecimal(totalIngresos, 1, 2)}"
+          >S/ 0.00</span
+        >
+      </div>
+      <div class="summary-item">
+        <span>Anuladas</span>
+        <span class="summary-val" style="color: red" th:text="${ventasAnuladas}"
+          >0</span
+        >
+      </div>
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>FECHA</th>
+          <th>COMPROBANTE</th>
+          <th>CLIENTE</th>
+          <th>VENDEDOR</th>
+          <th>ESTADO</th>
+          <th class="text-end">TOTAL</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr th:each="v : ${ventas}">
+          <td th:text="${#dates.format(v.fechaVenta, 'dd/MM/yyyy HH:mm')}"></td>
+          <td
+            th:text="${v.tipoComprobante} + ' ' + ${v.serieComprobante} + '-' + ${v.numeroComprobante}"
+          ></td>
+          <td th:text="${v.clienteNombreCompleto}"></td>
+          <td th:text="${v.vendedor.persona.nombres}"></td>
+          <td>
+            <span
+              th:if="${v.estado.name() == 'COMPLETADA'}"
+              class="badge-success"
+              >COMPLETADA</span
+            >
+            <span th:if="${v.estado.name() == 'ANULADA'}" class="badge-danger"
+              >ANULADA</span
+            >
+          </td>
+          <td
+            class="text-end"
+            th:text="'S/ ' + ${#numbers.formatDecimal(v.total, 1, 2)}"
+          ></td>
+        </tr>
+        <tr th:if="${#lists.isEmpty(ventas)}">
+          <td colspan="6" style="text-align: center; padding: 20px">
+            No hay ventas en este rango de fechas.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="footer">
+      Generado el
+      <span
+        th:text="${#dates.format(#dates.createNow(), 'dd/MM/yyyy HH:mm')}"
+      ></span>
+      - Sistema Tecniservicios
+    </div>
+  </body>
+</html>
