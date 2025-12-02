@@ -95,10 +95,7 @@ public class TiendaController {
     // convertir slug → texto búsqueda
     String q = slug.replace("-", " ").trim();
 
-    var resultados = productoService.findAll().stream()
-        .filter(p -> p.getNombre() != null &&
-            p.getNombre().toLowerCase().contains(q.toLowerCase()))
-        .toList();
+    var resultados = productoService.findAll().stream() .filter(p -> p.getNombre() != null && p.getNombre().toLowerCase().contains(q.toLowerCase())).toList();
 
     model.addAttribute("pageTitle", "Resultados para: " + q);
     model.addAttribute("query", q);

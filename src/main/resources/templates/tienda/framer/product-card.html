@@ -3,8 +3,6 @@
 
 <body>
     <div th:fragment="productCard(product)" class="product-card product-card--layout--grid">
-
-
         <!-- Botones superiores -->
         <div class="product-card__actions-list"
             th:attr="data-categoria=${product.categoria != null ? product.categoria.nombre : 'Sin categoría'}">
