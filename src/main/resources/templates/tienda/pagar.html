@@ -8,26 +8,297 @@
         <div th:replace="tienda/framer/header :: siteHeaderMobile"></div>
         <div th:replace="tienda/framer/header :: siteHeader"></div>
 
-        <div class="site__body container my-4">
-            <h1>Pago</h1>
-            <p>Resumen del carrito, datos de envío, etc. (luego lo completas).</p>
+        <div class="site__body">
+          <div class="block-header block-header--has-breadcrumb block-header--has-title">
+            <div class="container">
+              <div class="block-header__body">
+                <nav class="breadcrumb block-header__breadcrumb" aria-label="breadcrumb">
+                  <ol class="breadcrumb__list">
+                    <li class="breadcrumb__spaceship-safe-area" role="presentation"></li>
+                    <li class="breadcrumb__item breadcrumb__item--parent breadcrumb__item--first">
+                        <a href="index.html" class="breadcrumb__item-link">Inicio</a>
+                    </li>
+                    <li class="breadcrumb__item breadcrumb__item--parent">
+                        <a href="#" class="breadcrumb__item-link">Carrito</a>
+                    </li>
+                    <li class="breadcrumb__item breadcrumb__item--current breadcrumb__item--last" aria-current="page">
+                        <span class="breadcrumb__item-link">Pagar</span>
+                    </li>
+                    <li class="breadcrumb__title-safe-area" role="presentation"></li>
+                  </ol>
+                </nav>
+                <h1 class="block-header__title">Finalizar compra</h1>
+              </div>
+            </div>
+          </div>
 
-            <form>
-                <div class="mb-3">
-                    <label class="form-label">Nombre completo</label>
-                    <input class="form-control" type="text">
-                </div>
-                <div class="mb-3">
-                    <label class="form-label">Correo</label>
-                    <input class="form-control" type="email">
-                </div>
-                <div class="mb-3">
-                    <label class="form-label">Dirección</label>
-                    <input class="form-control" type="text">
+          <div class="checkout block">
+            <div class="container container--max--xl">
+              <div class="row">
+
+                <div class="col-12 mb-3">
+                  <div class="alert alert-lg alert-primary">
+                    ¿Ya tienes cuenta? <a href="#">Haz clic aquí para iniciar sesión</a>
+                  </div>
                 </div>
 
-                <button class="btn btn-primary" type="submit">Confirmar compra</button>
-            </form>
+                <!-- Datos de facturación -->
+                <div class="col-12 col-lg-6 col-xl-7">
+                  <div class="card mb-lg-0">
+                    <div class="card-body card-body--padding--2">
+                      <h3 class="card-title">Detalles de facturación</h3>
+
+                      <div class="form-row">
+                        <div class="form-group col-md-6">
+                          <label for="checkout-first-name">Nombre</label>
+                          <input type="text" class="form-control" id="checkout-first-name" placeholder="Nombre">
+                        </div>
+
+                        <div class="form-group col-md-6">
+                          <label for="checkout-last-name">Apellido</label>
+                          <input type="text" class="form-control" id="checkout-last-name" placeholder="Apellido">
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label for="checkout-company-name">Nombre de la empresa <span class="text-muted">(Opcional)</span></label>
+                        <input type="text" class="form-control" id="checkout-company-name" placeholder="Nombre de la empresa">
+                      </div>
+
+                      <div class="form-group">
+                        <label for="checkout-country">País</label>
+                        <select id="checkout-country" class="form-control form-control-select2">
+                          <option>Selecciona un país...</option>
+                          <option>Estados Unidos</option>
+                          <option>Rusia</option>
+                          <option>Italia</option>
+                          <option>Francia</option>
+                          <option>Ucrania</option>
+                          <option>Alemania</option>
+                          <option>Australia</option>
+                        </select>
+                      </div>
+
+                      <div class="form-group">
+                        <label for="checkout-street-address">Dirección</label>
+                        <input type="text" class="form-control" id="checkout-street-address" placeholder="Dirección">
+                      </div>
+
+                      <div class="form-group">
+                        <label for="checkout-address">Departamento, piso, unidad, etc. <span class="text-muted">(Opcional)</span></label>
+                        <input type="text" class="form-control" id="checkout-address">
+                      </div>
+
+                      <div class="form-group">
+                        <label for="checkout-city">Ciudad</label>
+                        <input type="text" class="form-control" id="checkout-city">
+                      </div>
+
+                      <div class="form-group">
+                        <label for="checkout-state">Provincia / Región</label>
+                        <input type="text" class="form-control" id="checkout-state">
+                      </div>
+
+                      <div class="form-group">
+                        <label for="checkout-postcode">Código Postal</label>
+                        <input type="text" class="form-control" id="checkout-postcode">
+                      </div>
+
+                      <div class="form-row">
+                        <div class="form-group col-md-6">
+                          <label for="checkout-email">Correo electrónico</label>
+                          <input type="email" class="form-control" id="checkout-email" placeholder="Correo electrónico">
+                        </div>
+
+                        <div class="form-group col-md-6">
+                          <label for="checkout-phone">Teléfono</label>
+                          <input type="text" class="form-control" id="checkout-phone" placeholder="Teléfono">
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <div class="form-check">
+                          <span class="input-check form-check-input">
+                            <span class="input-check__body">
+                              <input class="input-check__input" type="checkbox" id="checkout-create-account">
+                              <span class="input-check__box"></span>
+                              <span class="input-check__icon">
+                                <svg width="9px" height="7px"><path d="M9,1.395L3.46,7L0,3.5L1.383,2.095L3.46,4.2L7.617,0L9,1.395Z" /></svg>
+                              </span>
+                            </span>
+                          </span>
+                          <label class="form-check-label" for="checkout-create-account">¿Crear una cuenta?</label>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="card-divider"></div>
+
+                    <!-- Envío -->
+                    <div class="card-body card-body--padding--2">
+                      <h3 class="card-title">Detalles de envío</h3>
+
+                      <div class="form-group">
+                        <div class="form-check">
+                          <span class="input-check form-check-input">
+                            <span class="input-check__body">
+                              <input class="input-check__input" type="checkbox" id="checkout-different-address">
+                              <span class="input-check__box"></span>
+                              <span class="input-check__icon">
+                                <svg width="9px" height="7px"><path d="M9,1.395L3.46,7L0,3.5L1.383,2.095L3.46,4.2L7.617,0L9,1.395Z" /></svg>
+                              </span>
+                            </span>
+                          </span>
+                          <label class="form-check-label" for="checkout-different-address">¿Enviar a una dirección diferente?</label>
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label for="checkout-comment">Notas del pedido <span class="text-muted">(Opcional)</span></label>
+                        <textarea id="checkout-comment" class="form-control" rows="4"></textarea>
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+
+                <!-- Resumen del pedido -->
+                <div class="col-12 col-lg-6 col-xl-5 mt-4 mt-lg-0">
+                  <div class="card mb-0">
+                    <div class="card-body card-body--padding--2">
+
+                      <h3 class="card-title">Tu pedido</h3>
+
+                      <table class="checkout__totals">
+                        <thead class="checkout__totals-header">
+                          <tr>
+                            <th>Producto</th>
+                            <th>Total</th>
+                          </tr>
+                        </thead>
+
+                        <tbody class="checkout__totals-products">
+                          <tr><td>Glossy Gray 19" Aluminium Wheel AR-19 × 2</td><td>$1398.00</td></tr>
+                          <tr><td>Brandix Brake Kit BDX-750Z370-S × 1</td><td>$849.00</td></tr>
+                          <tr><td>Twin Exhaust Pipe From Brandix Z54 × 3</td><td>$3630.00</td></tr>
+                        </tbody>
+
+                        <tbody class="checkout__totals-subtotals">
+                          <tr><th>Subtotal</th><td>$5877.00</td></tr>
+                          <tr><th>Crédito en tienda</th><td>$-20.00</td></tr>
+                          <tr><th>Envío</th><td>$25.00</td></tr>
+                        </tbody>
+
+                        <tfoot class="checkout__totals-footer">
+                          <tr><th>Total</th><td>$5882.00</td></tr>
+                        </tfoot>
+                      </table>
+
+                      <!-- Métodos de pago -->
+                      <div class="checkout__payment-methods payment-methods">
+                        <ul class="payment-methods__list">
+
+                          <li class="payment-methods__item payment-methods__item--active">
+                            <label class="payment-methods__item-header">
+                              <span class="payment-methods__item-radio input-radio">
+                                <span class="input-radio__body">
+                                  <input class="input-radio__input" name="checkout_payment_method" type="radio" checked="checked">
+                                  <span class="input-radio__circle"></span>
+                                </span>
+                              </span>
+                              <span class="payment-methods__item-title">Transferencia bancaria directa</span>
+                            </label>
+
+                            <div class="payment-methods__item-container">
+                              <div class="payment-methods__item-details text-muted">
+                                Realiza el pago directamente a nuestra cuenta bancaria. Usa tu número de pedido como referencia. Tu pedido se enviará cuando confirmemos el pago.
+                              </div>
+                            </div>
+                          </li>
+
+                          <li class="payment-methods__item">
+                            <label class="payment-methods__item-header">
+                              <span class="payment-methods__item-radio input-radio">
+                                <span class="input-radio__body">
+                                  <input class="input-radio__input" name="checkout_payment_method" type="radio">
+                                  <span class="input-radio__circle"></span>
+                                </span>
+                              </span>
+                              <span class="payment-methods__item-title">Pago con cheque</span>
+                            </label>
+                            <div class="payment-methods__item-container">
+                              <div class="payment-methods__item-details text-muted">
+                                Envía un cheque a Nombre de la Tienda, Calle, Ciudad, Provincia, Código Postal.
+                              </div>
+                            </div>
+                          </li>
+
+                          <li class="payment-methods__item">
+                            <label class="payment-methods__item-header">
+                              <span class="payment-methods__item-radio input-radio">
+                                <span class="input-radio__body">
+                                  <input class="input-radio__input" name="checkout_payment_method" type="radio">
+                                  <span class="input-radio__circle"></span>
+                                </span>
+                              </span>
+                              <span class="payment-methods__item-title">Pago contra entrega</span>
+                            </label>
+                            <div class="payment-methods__item-container">
+                              <div class="payment-methods__item-details text-muted">Paga en efectivo al recibir tu pedido.</div>
+                            </div>
+                          </li>
+
+                          <li class="payment-methods__item">
+                            <label class="payment-methods__item-header">
+                              <span class="payment-methods__item-radio input-radio">
+                                <span class="input-radio__body">
+                                  <input class="input-radio__input" name="checkout_payment_method" type="radio">
+                                  <span class="input-radio__circle"></span>
+                                </span>
+                              </span>
+                              <span class="payment-methods__item-title">PayPal</span>
+                            </label>
+                            <div class="payment-methods__item-container">
+                              <div class="payment-methods__item-details text-muted">
+                                Paga mediante PayPal; también puedes usar tarjeta si no tienes cuenta.
+                              </div>
+                            </div>
+                          </li>
+
+                        </ul>
+                      </div>
+
+                      <div class="checkout__agree form-group">
+                        <div class="form-check">
+                          <span class="input-check form-check-input">
+                            <span class="input-check__body">
+                              <input class="input-check__input" type="checkbox" id="checkout-terms">
+                              <span class="input-check__box"></span>
+                              <span class="input-check__icon">
+                                <svg width="9px" height="7px"><path d="M9,1.395L3.46,7L0,3.5L1.383,2.095L3.46,4.2L7.617,0L9,1.395Z" /></svg>
+                              </span>
+                            </span>
+                          </span>
+                          <label class="form-check-label" for="checkout-terms">
+                            He leído y acepto los <a target="_blank" href="terms.html">términos y condiciones</a>
+                          </label>
+                        </div>
+                      </div>
+
+                      <form action="/pagar" method="post">
+                        <!-- aquí tus datos de la orden, campos ocultos, etc. -->
+                        <button type="submit">Pagar con PayShop</button>
+                      </form>
+
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+
+          <div class="block-space block-space--layout--before-footer"></div>
         </div>
 
         <div th:replace="tienda/framer/footer :: siteFooter"></div>

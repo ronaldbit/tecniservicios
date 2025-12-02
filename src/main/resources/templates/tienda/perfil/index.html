@@ -252,16 +252,19 @@
                     <h4 class="account-nav__title">Mi Cuenta</h4>
                     <ul class="account-nav__list">
                       <li class="account-nav__item account-nav__item--active">
-                        <a href="#">Resumen</a>
+                        <a href="/home/peril">Resumen</a>
                       </li>
                       <li class="account-nav__item">
-                        <a href="#">Mis Compras</a>
+                        <a href="/home/perfil/compras">Mis Compras</a>
                       </li>
                       <li class="account-nav__item">
-                        <a href="#">Direcciones</a>
+                        <a href="/home/perfil/favoritos">Favoritos</a>
                       </li>
                       <li class="account-nav__item">
-                        <a href="#">Favoritos</a>
+                        <a href="/home/perfil/editar">Editar Perfil</a>
+                      </li>
+                      <li class="account-nav__item">
+                        <a href="/home/perfil/direcciones">Direcciones</a>
                       </li>
                       <li class="account-nav__divider" role="presentation"></li>
                       <li class="account-nav__item">
@@ -276,57 +279,24 @@
                     <div class="dashboard__profile card profile-card">
                       <div class="card-body profile-card__body">
                         <div class="profile-card__avatar">
-                          <img
-                            th:src="@{/assets/images/user/avatar-2.jpg}"
-                            alt="Avatar"
-                          />
+                          <img th:src="@{/assets/images/user/avatar-2.jpg}" alt="Avatar" />
                         </div>
-
-                        <div
-                          class="profile-card__name"
-                          th:text="${clienteSesion.nombreCompleto}"
-                        >
-                          Nombre del Cliente
-                        </div>
-
-                        <div
-                          class="profile-card__email"
-                          th:text="${clienteSesion.email}"
-                        >
-                          email@ejemplo.com
-                        </div>
-
+                        <div class="profile-card__name" th:text="${clienteSesion.nombreCompleto}" > Nombre del Cliente</div>
+                        <div class="profile-card__email" th:text="${clienteSesion.email}"> email@ejemplo.com </div>
                         <div class="profile-card__edit">
-                          <button class="btn btn-secondary btn-sm">
-                            Editar Perfil
-                          </button>
+                          <button class="btn btn-secondary btn-sm">Editar Perfil</button>
                         </div>
                       </div>
                     </div>
 
-                    <div
-                      class="dashboard__address card address-card address-card--featured mt-4"
-                    >
-                      <div
-                        class="address-card__badge tag-badge tag-badge--theme"
-                      >
-                        Principal
-                      </div>
+                    <div class="dashboard__address card address-card address-card--featured mt-4" >
+                      <div class="address-card__badge tag-badge tag-badge--theme" >Principal</div>
                       <div class="address-card__body">
-                        <div class="address-card__name">
-                          Información Personal
-                        </div>
+                        <div class="address-card__name">Información Personal</div>
 
                         <div class="address-card__row">
-                          <div class="address-card__row-title">
-                            Documento (DNI/RUC)
-                          </div>
-                          <div
-                            class="address-card__row-content"
-                            th:text="${clienteSesion.dni}"
-                          >
-                            00000000
-                          </div>
+                          <div class="address-card__row-title">Documento (DNI/RUC)</div>
+                          <div class="address-card__row-content" th:text="${clienteSesion.dni}">00000000</div>
                         </div>
 
                         <div class="address-card__row">
