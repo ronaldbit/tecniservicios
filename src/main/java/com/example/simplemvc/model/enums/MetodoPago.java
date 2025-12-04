@@ -7,5 +7,6 @@ public enum MetodoPago {
   TRANSFERENCIA_BANCARIA,
   YAPE,
   PLIN,
+  PAYSHOP,
   OTRO
 }

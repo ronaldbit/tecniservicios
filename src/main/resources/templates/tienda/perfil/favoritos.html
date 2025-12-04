@@ -1,19 +1,50 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-
 <head th:replace="tienda/framer/head :: head(${pageTitle})"></head>
 
 <body>
-    <div class="site">
-        <div th:replace="tienda/framer/header :: siteHeaderMobile"></div>
-        <div th:replace="tienda/framer/header :: siteHeader"></div>
-        <div class="site__body container my-4">
-            <h1>Mis favoritos</h1>
-            <p>Aquí listarás los productos marcados como favoritos por el usuario.</p>
-        </div>
-        <div th:replace="tienda/framer/footer :: siteFooter"></div>
-    </div>
-    <div th:replace="tienda/framer/scripts :: scripts"></div>
-</body>
+<div class="site">
+  <div th:replace="tienda/framer/header :: siteHeaderMobile"></div>
+  <div th:replace="tienda/framer/header :: siteHeader"></div>
 
+  <div class="site__body">
+    <div class="block-space block-space--layout--after-header"></div>
+    <div class="block">
+      <div class="container container--max--xl">
+        <div class="row">
+          <div th:replace="tienda/perfil/opciones :: opciones"></div>
+
+          <div class="col-12 col-lg-9 mt-4 mt-lg-0">
+            <div class="card">
+              <div class="card-header">
+                <h5>Mis favoritos</h5>
+              </div>
+              <div class="card-body">
+                <div th:if="${#lists.isEmpty(productosFavoritos)}" class="text-muted">
+                  No tienes productos en favoritos.
+                </div>
+
+                <div class="products-list__content"
+                     th:if="${!#lists.isEmpty(productosFavoritos)}">
+                  <div class="products-list__item"
+                       th:each="p : ${productosFavoritos}">
+                    <div th:replace="~{tienda/framer/product-card :: productCard(${p})}"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <div class="block-space block-space--layout--before-footer"></div>
+  </div>
+
+  <div th:replace="tienda/framer/footer :: siteFooter"></div>
+</div>
+
+<div th:replace="tienda/framer/scripts :: scripts"></div>
+</body>
 </html>

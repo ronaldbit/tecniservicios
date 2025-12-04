@@ -50,6 +50,15 @@ public class DynamicRouterController {
   public String dynamic(@PathVariable String path, HttpServletRequest request, Model model) {
     String requestURI = request.getRequestURI();
 
+
+        String uri = request.getRequestURI();
+    System.out.println("DynamicRouterController :: uri = " + uri);
+
+    // Nunca manejar nada que empiece con /api
+    if (uri.startsWith("/api/")) {
+        return "forward:" + uri;
+    }
+
     if (requestURI.endsWith("/") && requestURI.length() > 1) {
       String redirectPath = requestURI.substring(0, requestURI.length() - 1);
       return "redirect:" + redirectPath;

@@ -101,7 +101,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         session.setAttribute("clienteSesion", clienteSesion);
         boolean esCliente = usuario.getRoles().stream()
             .anyMatch(rol -> "CLIENTE".equalsIgnoreCase(rol.getNombre()));
-        boolean esPersonal = !esCliente;    
+        boolean esPersonal = !esCliente;
         session.setAttribute("ES_PERSONAL", esPersonal);
 
         log.debug("Sesión re-hidratada para usuario: {}", usuario.getUsername());

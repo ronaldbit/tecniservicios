@@ -17,12 +17,21 @@ import com.example.simplemvc.model.Usuario;
 import com.example.simplemvc.request.CrearUsuarioClienteRequest;
 import com.example.simplemvc.request.LoginUsuarioRequest;
 import com.example.simplemvc.service.AuthService;
+import com.example.simplemvc.service.FavoritoService;
 import com.example.simplemvc.service.UsuarioService;
+import com.example.simplemvc.service.VentaService;
 
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+
+import com.example.simplemvc.dto.PersonaDto;
+import com.example.simplemvc.dto.ProductoDto;
+import com.example.simplemvc.dto.VentaDto;
+import com.example.simplemvc.service.PersonaService;
+import com.example.simplemvc.shared.ClienteSesion;
+
 
 @Controller
 @RequestMapping("/home/perfil")
@@ -31,25 +40,39 @@ import lombok.RequiredArgsConstructor;
 public class PerfilController {
 
   private final UsuarioService usuarioService;
+    private final PersonaService personaService;
+  private final VentaService ventaService;
+private final FavoritoService favoritoService;
+
   @Autowired
   private final AuthService authService;
 
-  // /perfil -> aquí luego pondrás perfil o formulario de registro según sesión
-  @GetMapping
-  public String perfilInicio(Model model, HttpSession session) { // Eliminé HttpSession, no se usaba
 
-    model.addAttribute("pageTitle", "Mi perfil");
-    // Añade el DTO para el formulario de REGISTRO (th:object="${usuarioRequest}")
+  // /perfil -> aquí luego pondrás perfil o formulario de registro según sesión
+@GetMapping
+public String perfilInicio(Model model, HttpSession session) {
+    model.addAttribute("pageTitle", "Mi perfil"); model.addAttribute("seccion", "resumen");
+
     if (!model.containsAttribute("usuarioRequest")) {
       model.addAttribute("usuarioRequest", new CrearUsuarioClienteRequest());
     }
-    // Añade el DTO para el formulario de LOGIN (th:object="${login}")
     if (!model.containsAttribute("login")) {
       model.addAttribute("login", new LoginUsuarioRequest());
     }
 
-    return "tienda/perfil/index"; // Carga tu plantilla
-  }
+    ClienteSesion clienteSesion = (ClienteSesion) session.getAttribute("clienteSesion");
+    if (clienteSesion != null && clienteSesion.getIdCliente() != null) {
+        var recientes = ventaService
+                .listarVentasDeClientePorDni(clienteSesion.getDni())
+                .stream()
+                .limit(5)
+                .toList();
+        model.addAttribute("comprasRecientes", recientes);
+    }
+
+    return "tienda/perfil/index";
+}
+
 
   @PostMapping("/login")
   public String loginCliente(
@@ -132,27 +155,131 @@ public class PerfilController {
   }
 
   // /perfil/compras
-  @GetMapping("/compras")
-  public String perfilCompras(Model model) {
-    model.addAttribute("pageTitle", "Mis compras");
-    // TODO: lista de compras del usuario
+@GetMapping("/compras")
+public String perfilCompras(Model model, HttpSession session, RedirectAttributes ra) {
+    ClienteSesion clienteSesion = (ClienteSesion) session.getAttribute("clienteSesion");
+
+    if (clienteSesion == null || clienteSesion.getIdCliente() == null) {
+        ra.addFlashAttribute("info", "Primero inicia sesión para ver tus compras.");
+        return "redirect:/home/perfil";
+    }
+
+    // usamos el DNI que guarda ClienteSesion
+    String dni = clienteSesion.getDni();
+    var compras = ventaService.listarVentasDeClientePorDni(dni);
+
+    model.addAttribute("pageTitle", "Mis compras"); model.addAttribute("seccion", "compras");
+    model.addAttribute("compras", compras);
+
     return "tienda/perfil/compras";
-  }
+}
+
 
   // /perfil/compras/{id}
-  @GetMapping("/compras/{id}")
-  public String perfilCompraDetalle(@PathVariable Long id, Model model) {
-    model.addAttribute("pageTitle", "Detalle de compra");
-    model.addAttribute("idCompra", id);
-    // TODO: cargar detalle de la compra por id
-    return "tienda/perfil/compra-detalle";
-  }
+@GetMapping("/compras/{id}")
+public String perfilCompraDetalle(
+        @PathVariable Long id,
+        Model model,
+        HttpSession session,
+        RedirectAttributes ra) {
 
-  // /perfil/favoritos
-  @GetMapping("/favoritos")
-  public String perfilFavoritos(Model model) {
+    ClienteSesion clienteSesion = (ClienteSesion) session.getAttribute("clienteSesion");
+
+    if (clienteSesion == null || clienteSesion.getIdCliente() == null) {
+        ra.addFlashAttribute("info", "Primero inicia sesión para ver el detalle de la compra.");
+        return "redirect:/home/perfil";
+    }
+
+    VentaDto venta = ventaService.obtenerVentaPorId(id);
+
+    // seguridad básica: que la venta pertenezca al cliente logueado
+    if (venta == null ||
+        venta.getClienteNumeroDocumento() == null ||
+        !venta.getClienteNumeroDocumento().equals(clienteSesion.getDni())) {
+
+        ra.addFlashAttribute("error", "No se encontró la compra o no pertenece a tu cuenta.");
+        return "redirect:/home/perfil/compras";
+    }
+
+    model.addAttribute("pageTitle", "Detalle de compra"); model.addAttribute("seccion", "compras");
+    model.addAttribute("venta", venta);
+
+    return "tienda/perfil/compra-detalle";
+}
+
+
+// /perfil/favoritos
+@GetMapping("/favoritos")
+public String perfilFavoritos(Model model, HttpSession session, RedirectAttributes ra) {
+    ClienteSesion clienteSesion = (ClienteSesion) session.getAttribute("clienteSesion");
+
+    if (clienteSesion == null || clienteSesion.getIdCliente() == null) {
+        ra.addFlashAttribute("info", "Inicia sesión para ver tus favoritos.");
+        return "redirect:/home/perfil";
+    }
+
+    var favoritos = favoritoService.listarFavoritosCliente(clienteSesion.getIdCliente());
+
     model.addAttribute("pageTitle", "Mis favoritos");
-    // TODO: productos favoritos del usuario
+    model.addAttribute("productosFavoritos", favoritos);
+    model.addAttribute("favoritosIds",
+            favoritos.stream().map(ProductoDto::getIdProducto).collect(java.util.stream.Collectors.toSet()));
+
+    model.addAttribute("seccion", "favoritos");
     return "tienda/perfil/favoritos";
-  }
+}
+
+
+@GetMapping("/editar")
+public String editarPerfil(Model model, HttpSession session, RedirectAttributes ra) {
+    ClienteSesion clienteSesion = (ClienteSesion) session.getAttribute("clienteSesion");
+
+    if (clienteSesion == null || clienteSesion.getIdCliente() == null) {
+        ra.addFlashAttribute("info", "Primero inicia sesión para editar tu perfil.");
+        return "redirect:/home/perfil";
+    }
+
+    PersonaDto personaDto = personaService.obtenerPorId(clienteSesion.getIdCliente());
+
+    // Si aún no hay objeto en el modelo, lo ponemos
+    if (!model.containsAttribute("persona")) {
+        model.addAttribute("persona", personaDto);
+    }
+
+    model.addAttribute("pageTitle", "Editar perfil");model.addAttribute("seccion", "editar");
+    return "tienda/perfil/editar";
+}
+@PostMapping("/editar")
+public String guardarPerfil(
+        PersonaDto personaForm,   // viene del th:object
+        HttpSession session,
+        RedirectAttributes ra) {
+
+    ClienteSesion clienteSesion = (ClienteSesion) session.getAttribute("clienteSesion");
+
+    if (clienteSesion == null || clienteSesion.getIdCliente() == null) {
+        ra.addFlashAttribute("info", "Tu sesión expiró. Inicia sesión nuevamente.");
+        return "redirect:/home/perfil";
+    }
+
+    try {
+        // Aseguramos que el ID sea el de la sesión
+        personaForm.setId(clienteSesion.getIdCliente());
+        personaService.actualizarDesdePerfil(personaForm);
+
+        // Actualizamos nombre/email en la sesión para que el dashboard los muestre actualizados
+        String nombreCompleto = ((personaForm.getNombres() != null ? personaForm.getNombres() : "") + " " +
+                                 (personaForm.getApellidos() != null ? personaForm.getApellidos() : "")).trim();
+        clienteSesion.setNombreCompleto(nombreCompleto);
+        clienteSesion.setEmail(personaForm.getEmail());
+        session.setAttribute("clienteSesion", clienteSesion);
+
+        ra.addFlashAttribute("success", "Perfil actualizado correctamente.");
+        return "redirect:/home/perfil";
+    } catch (Exception e) {
+        ra.addFlashAttribute("error", "Error al actualizar el perfil: " + e.getMessage());
+        return "redirect:/home/perfil/editar";
+    }
+}
+
 }

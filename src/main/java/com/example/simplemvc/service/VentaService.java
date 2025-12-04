@@ -17,8 +17,11 @@ import com.example.simplemvc.model.VentaDetalle;
 import com.example.simplemvc.model.VentaMapper;
 import com.example.simplemvc.model.enums.CanalVenta;
 import com.example.simplemvc.model.enums.EstadoVenta;
+import com.example.simplemvc.model.enums.MetodoPago;
 import com.example.simplemvc.repository.ProductoRepository;
 import com.example.simplemvc.repository.VentaRepository;
+import com.example.simplemvc.request.CheckoutItemRequest;
+import com.example.simplemvc.request.CheckoutRequest;
 import com.example.simplemvc.request.CrearVentaDetalleRequest;
 import com.example.simplemvc.request.CrearVentaRequest;
 import com.example.simplemvc.shared.Exeption.StockInsuficienteException;
@@ -109,6 +112,89 @@ public class VentaService {
         ventaGuardada.getMetodoPago());
     return ventaMapper.toDto(ventaGuardada);
   }
+
+  @Transactional
+  public Venta crearVentaOnlineDesdeCheckout(
+      CheckoutRequest request,
+      String orderId) {
+
+    Venta venta = new Venta();
+
+    // si no tienes PENDIENTE en tu enum, temporalmente usa COMPLETADA
+    venta.setEstado(EstadoVenta.PENDIENTE);
+    venta.setCanalVenta(CanalVenta.TIENDA_ONLINE);
+    venta.setMetodoPago(MetodoPago.PAYSHOP);
+
+    String nombreCompleto = (request.getNombres() != null ? request.getNombres() : "") +
+        " " +
+        (request.getApellidos() != null ? request.getApellidos() : "");
+    venta.setClienteNombreCompleto(nombreCompleto.trim());
+    venta.setClienteDireccion(request.getDireccion());
+
+    venta.setTipoComprobante("TICKET");
+    venta.setSerieComprobante("WEB");
+    venta.setNumeroComprobante(orderId);
+
+    List<VentaDetalle> detallesList = new ArrayList<>();
+    BigDecimal totalAcumulado = BigDecimal.ZERO;
+
+    if (request.getItems() == null || request.getItems().isEmpty()) {
+      throw new IllegalArgumentException("El carrito está vacío.");
+    }
+
+    for (CheckoutItemRequest item : request.getItems()) {
+      Producto producto = productoRepository.findById(item.getProductoId())
+          .orElseThrow(() -> new EntityNotFoundException(
+              "Producto no encontrado con ID: " + item.getProductoId()));
+
+      BigDecimal cantidad = BigDecimal.valueOf(item.getCantidad());
+
+      BigDecimal precioUnit = producto.getPrecioOnline() != null
+          ? producto.getPrecioOnline()
+          : producto.getPrecio();
+
+      if (precioUnit == null) {
+        throw new IllegalStateException(
+            "El producto " + producto.getNombre() + " no tiene precio configurado.");
+      }
+
+      BigDecimal subtotalLinea = precioUnit.multiply(cantidad);
+
+      VentaDetalle detalle = new VentaDetalle();
+      detalle.setProducto(producto);
+      detalle.setCantidad(cantidad);
+      detalle.setPrecioUnitario(precioUnit);
+      detalle.setDescuentoUnitario(BigDecimal.ZERO);
+      detalle.setSubtotal(subtotalLinea);
+      detalle.setVenta(venta);
+
+      detallesList.add(detalle);
+      totalAcumulado = totalAcumulado.add(subtotalLinea);
+    }
+
+    BigDecimal totalVenta = totalAcumulado.setScale(2, RoundingMode.HALF_UP);
+    BigDecimal subtotalVenta = totalVenta.divide(UNO_MAS_IGV, 2, RoundingMode.HALF_UP);
+    BigDecimal igvVenta = totalVenta.subtract(subtotalVenta);
+
+    venta.setTotal(totalVenta);
+    venta.setSubtotal(subtotalVenta);
+    venta.setIgv(igvVenta);
+    venta.setDetalles(detallesList);
+
+    return ventaRepository.save(venta);
+  }
+
+      public List<VentaDto> listarVentasDeClientePorDni(String dniCliente) {
+        if (dniCliente == null || dniCliente.isBlank()) {
+            return List.of();
+        }
+
+        return ventaRepository
+                .findByClienteNumeroDocumentoOrderByFechaVentaDesc(dniCliente)
+                .stream()
+                .map(ventaMapper::toDto)
+                .collect(Collectors.toList());
+    }
 
   @Transactional(readOnly = true)
   public VentaDto obtenerVentaPorId(Long id) {

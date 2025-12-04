@@ -53,7 +53,7 @@ spring:
         dialect: org.hibernate.dialect.MySQL8Dialect
 
   image:
-    path: ./uploads/productos  
+    path: ./uploads/productos
 
   doc:
     path: ./uploads/documentos
@@ -112,3 +112,8 @@ security:
 apiperu:
   base-url: ${API_PERU_URL:https://apiperu.dev/api}
   token: ${API_PERU_TOKEN:}
+
+payshop:
+  public-key: ${PAYSHOP_PUBLIC_KEY_SANDBOX:369fe0d60c28a6ec821c4d60d7448e3c}
+  secret-key: ${PAYSHOP_SECRET_KEY_SANDBOX:e52c0343557ab100ffd841f335a9c9150cfe98d7e4f1f2c70defb844b717b825}
+  mode: sandbox

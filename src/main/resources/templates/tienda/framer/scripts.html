@@ -16,6 +16,44 @@
 
     <script src="/assets_shop/js/cart.js"></script>
 
+    <script>
+document.addEventListener('click', function (e) {
+    const btn = e.target.closest('.product-card__action--wishlist');
+    if (!btn) return;
+
+    const productId = btn.dataset.id;
+    if (!productId) return;
+
+    fetch('/api/favoritos/toggle?productoId=' + encodeURIComponent(productId), {
+        method: 'POST',
+        headers: {
+            'X-Requested-With': 'XMLHttpRequest'
+        }
+    })
+    .then(resp => {
+        if (!resp.ok) {
+            if (resp.status === 401) {
+                alert('Inicia sesión para guardar favoritos.');
+            } else {
+                alert('No se pudo actualizar favoritos.');
+            }
+            throw new Error('HTTP ' + resp.status);
+        }
+        return resp.json();
+    })
+    .then(data => {
+        if (data.favorito) {
+            btn.classList.add('product-card__action--wishlist--active');
+            btn.dataset.favorito = 'true';
+        } else {
+            btn.classList.remove('product-card__action--wishlist--active');
+            btn.dataset.favorito = 'false';
+        }
+    })
+    .catch(err => console.error(err));
+});
+</script>
+
 </body>
 
 </html>

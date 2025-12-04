@@ -56,6 +56,17 @@ public class Persona {
   @Column(columnDefinition = "varchar(300)", nullable = false)
   private String direccion;
 
+  // NUEVOS CAMPOS
+  @Column(columnDefinition = "varchar(120)", nullable = true)
+  private String ciudad;
+
+  @Column(columnDefinition = "varchar(120)", nullable = true)
+  private String provincia;
+
+  @Column(columnDefinition = "varchar(20)", nullable = true)
+  private String codigoPostal;
+  // NUEVOS CAMPOS
+
   @Column(columnDefinition = "boolean", nullable = false)
   private Boolean estado;
 

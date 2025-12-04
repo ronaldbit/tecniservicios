@@ -36,9 +36,9 @@
             <div class="container container--max--xl">
               <div class="row">
 
-                <div class="col-12 mb-3">
+                <div class="col-12 mb-3" th:if="${clienteSesion == null}">
                   <div class="alert alert-lg alert-primary">
-                    ¿Ya tienes cuenta? <a href="#">Haz clic aquí para iniciar sesión</a>
+                    ¿Ya tienes cuenta? <a href="/home/perfil">Haz clic aquí para iniciar sesión</a>
                   </div>
                 </div>
 
@@ -51,69 +51,54 @@
                       <div class="form-row">
                         <div class="form-group col-md-6">
                           <label for="checkout-first-name">Nombre</label>
-                          <input type="text" class="form-control" id="checkout-first-name" placeholder="Nombre">
-                        </div>
+<input type="text" class="form-control" id="checkout-first-name"
+       placeholder="Nombre"
+       th:value="${persona != null ? persona.nombres : ''}">                     </div>
 
                         <div class="form-group col-md-6">
                           <label for="checkout-last-name">Apellido</label>
-                          <input type="text" class="form-control" id="checkout-last-name" placeholder="Apellido">
-                        </div>
+<input type="text" class="form-control" id="checkout-last-name"
+       placeholder="Apellido"
+       th:value="${persona != null ? persona.apellidos : ''}">                     </div>
                       </div>
 
-                      <div class="form-group">
-                        <label for="checkout-company-name">Nombre de la empresa <span class="text-muted">(Opcional)</span></label>
-                        <input type="text" class="form-control" id="checkout-company-name" placeholder="Nombre de la empresa">
-                      </div>
-
-                      <div class="form-group">
-                        <label for="checkout-country">País</label>
-                        <select id="checkout-country" class="form-control form-control-select2">
-                          <option>Selecciona un país...</option>
-                          <option>Estados Unidos</option>
-                          <option>Rusia</option>
-                          <option>Italia</option>
-                          <option>Francia</option>
-                          <option>Ucrania</option>
-                          <option>Alemania</option>
-                          <option>Australia</option>
-                        </select>
-                      </div>
-
-                      <div class="form-group">
-                        <label for="checkout-street-address">Dirección</label>
-                        <input type="text" class="form-control" id="checkout-street-address" placeholder="Dirección">
-                      </div>
-
-                      <div class="form-group">
-                        <label for="checkout-address">Departamento, piso, unidad, etc. <span class="text-muted">(Opcional)</span></label>
-                        <input type="text" class="form-control" id="checkout-address">
-                      </div>
-
-                      <div class="form-group">
-                        <label for="checkout-city">Ciudad</label>
-                        <input type="text" class="form-control" id="checkout-city">
-                      </div>
-
-                      <div class="form-group">
-                        <label for="checkout-state">Provincia / Región</label>
-                        <input type="text" class="form-control" id="checkout-state">
-                      </div>
-
-                      <div class="form-group">
-                        <label for="checkout-postcode">Código Postal</label>
-                        <input type="text" class="form-control" id="checkout-postcode">
-                      </div>
 
                       <div class="form-row">
                         <div class="form-group col-md-6">
-                          <label for="checkout-email">Correo electrónico</label>
-                          <input type="email" class="form-control" id="checkout-email" placeholder="Correo electrónico">
+                          <label for="checkout-street-address">Dirección</label>
+<input type="text" class="form-control" id="checkout-street-address"
+       placeholder="Dirección"
+       th:value="${persona != null ? persona.direccion : ''}">
                         </div>
 
+                      </div>
+                      <div class="form-row">
+                        <div class="form-group col-md-4">
+                          <label for="checkout-city">Ciudad</label>
+<input type="text" class="form-control" id="checkout-city"
+       th:value="${persona != null ? persona.ciudad : ''}">                      </div>
+
+                        <div class="form-group col-md-4">
+                          <label for="checkout-state">Provincia / Región</label>
+<input type="text" class="form-control" id="checkout-state"
+       th:value="${persona != null ? persona.provincia : ''}">                     </div>
+
+                        <div class="form-group col-md-4">
+                          <label for="checkout-postcode">Código Postal</label>
+<input type="text" class="form-control" id="checkout-postcode"
+       th:value="${persona != null ? persona.codigoPostal : ''}">                       </div>
+                      </div>
+                      <div class="form-row">
+                        <div class="form-group col-md-6">
+                          <label for="checkout-email">Correo electrónico</label>
+<input type="email" class="form-control" id="checkout-email"
+       placeholder="Correo electrónico"
+       th:value="${persona != null ? persona.email : ''}">                 </div>
                         <div class="form-group col-md-6">
                           <label for="checkout-phone">Teléfono</label>
-                          <input type="text" class="form-control" id="checkout-phone" placeholder="Teléfono">
-                        </div>
+<input type="text" class="form-control" id="checkout-phone"
+       placeholder="Teléfono"
+       th:value="${persona != null ? persona.telefono : ''}">                      </div>
                       </div>
 
                       <div class="form-group">
@@ -127,7 +112,7 @@
                               </span>
                             </span>
                           </span>
-                          <label class="form-check-label" for="checkout-create-account">¿Crear una cuenta?</label>
+                          <label th:if="${clienteSesion == null}" class="form-check-label" for="checkout-create-account">¿Crear una cuenta?</label>
                         </div>
                       </div>
                     </div>
@@ -177,20 +162,24 @@
                           </tr>
                         </thead>
 
-                        <tbody class="checkout__totals-products">
-                          <tr><td>Glossy Gray 19" Aluminium Wheel AR-19 × 2</td><td>$1398.00</td></tr>
-                          <tr><td>Brandix Brake Kit BDX-750Z370-S × 1</td><td>$849.00</td></tr>
-                          <tr><td>Twin Exhaust Pipe From Brandix Z54 × 3</td><td>$3630.00</td></tr>
-                        </tbody>
+                        <tbody class="checkout__totals-products" id="checkout-products"></tbody>
 
                         <tbody class="checkout__totals-subtotals">
-                          <tr><th>Subtotal</th><td>$5877.00</td></tr>
-                          <tr><th>Crédito en tienda</th><td>$-20.00</td></tr>
-                          <tr><th>Envío</th><td>$25.00</td></tr>
+                          <tr>
+                            <th>Subtotal</th>
+                            <td id="checkout-subtotal">S/. 0.00</td>
+                          </tr>
+                          <tr>
+                            <th>Envío</th>
+                            <td id="checkout-envio">S/. 0.00</td>
+                          </tr>
                         </tbody>
 
                         <tfoot class="checkout__totals-footer">
-                          <tr><th>Total</th><td>$5882.00</td></tr>
+                          <tr>
+                            <th>Total</th>
+                            <td id="checkout-total">S/. 0.00</td>
+                          </tr>
                         </tfoot>
                       </table>
 
@@ -200,74 +189,32 @@
 
                           <li class="payment-methods__item payment-methods__item--active">
                             <label class="payment-methods__item-header">
-                              <span class="payment-methods__item-radio input-radio">
-                                <span class="input-radio__body">
-                                  <input class="input-radio__input" name="checkout_payment_method" type="radio" checked="checked">
-                                  <span class="input-radio__circle"></span>
-                                </span>
-                              </span>
-                              <span class="payment-methods__item-title">Transferencia bancaria directa</span>
-                            </label>
+                              <form id="payshop-form" action="https://pay.doolpool.com/checkout/create" method="post" style="width: 100%;">
+                                <input type="hidden" name="mode" value="">
+                                <input type="hidden" name="public_key" value="">
+                                <input type="hidden" name="order_id" value="">
+                                <input type="hidden" name="amount" value="">
+                                <input type="hidden" name="currency" value="">
+                                <input type="hidden" name="timestamp" value="">
+                                <input type="hidden" name="nonce" value="">
+                                <input type="hidden" name="signature" value="">
+                                <input type="hidden" name="_redirect" value="1">
 
-                            <div class="payment-methods__item-container">
-                              <div class="payment-methods__item-details text-muted">
-                                Realiza el pago directamente a nuestra cuenta bancaria. Usa tu número de pedido como referencia. Tu pedido se enviará cuando confirmemos el pago.
-                              </div>
-                            </div>
-                          </li>
-
-                          <li class="payment-methods__item">
-                            <label class="payment-methods__item-header">
-                              <span class="payment-methods__item-radio input-radio">
-                                <span class="input-radio__body">
-                                  <input class="input-radio__input" name="checkout_payment_method" type="radio">
-                                  <span class="input-radio__circle"></span>
-                                </span>
-                              </span>
-                              <span class="payment-methods__item-title">Pago con cheque</span>
+                                <button style="padding: 5px 10px;background: white; width: 100%;"
+                                        type="button"
+                                        onclick="onPayShopClick(event)">
+                                    Pagar con PayShop
+                                </button>
+                            </form>
                             </label>
                             <div class="payment-methods__item-container">
                               <div class="payment-methods__item-details text-muted">
-                                Envía un cheque a Nombre de la Tienda, Calle, Ciudad, Provincia, Código Postal.
+                                Realiza el pago con PayShop, unas vez contenplado confirmaremos su compra.
                               </div>
                             </div>
                           </li>
-
-                          <li class="payment-methods__item">
-                            <label class="payment-methods__item-header">
-                              <span class="payment-methods__item-radio input-radio">
-                                <span class="input-radio__body">
-                                  <input class="input-radio__input" name="checkout_payment_method" type="radio">
-                                  <span class="input-radio__circle"></span>
-                                </span>
-                              </span>
-                              <span class="payment-methods__item-title">Pago contra entrega</span>
-                            </label>
-                            <div class="payment-methods__item-container">
-                              <div class="payment-methods__item-details text-muted">Paga en efectivo al recibir tu pedido.</div>
-                            </div>
-                          </li>
-
-                          <li class="payment-methods__item">
-                            <label class="payment-methods__item-header">
-                              <span class="payment-methods__item-radio input-radio">
-                                <span class="input-radio__body">
-                                  <input class="input-radio__input" name="checkout_payment_method" type="radio">
-                                  <span class="input-radio__circle"></span>
-                                </span>
-                              </span>
-                              <span class="payment-methods__item-title">PayPal</span>
-                            </label>
-                            <div class="payment-methods__item-container">
-                              <div class="payment-methods__item-details text-muted">
-                                Paga mediante PayPal; también puedes usar tarjeta si no tienes cuenta.
-                              </div>
-                            </div>
-                          </li>
-
                         </ul>
                       </div>
-
                       <div class="checkout__agree form-group">
                         <div class="form-check">
                           <span class="input-check form-check-input">
@@ -279,21 +226,12 @@
                               </span>
                             </span>
                           </span>
-                          <label class="form-check-label" for="checkout-terms">
-                            He leído y acepto los <a target="_blank" href="terms.html">términos y condiciones</a>
-                          </label>
+                          <label class="form-check-label" for="checkout-terms"> He leído y acepto los <a target="_blank" href="terms.html">términos y condiciones</a></label>
                         </div>
                       </div>
-
-                      <form action="/pagar" method="post">
-                        <!-- aquí tus datos de la orden, campos ocultos, etc. -->
-                        <button type="submit">Pagar con PayShop</button>
-                      </form>
-
                     </div>
                   </div>
                 </div>
-
               </div>
             </div>
           </div>
@@ -304,6 +242,150 @@
         <div th:replace="tienda/framer/footer :: siteFooter"></div>
     </div>
     <div th:replace="tienda/framer/scripts :: scripts"></div>
+
+    <script th:inline="javascript">
+
+  function getCartItems() {
+      try {
+          const raw = localStorage.getItem("cartItems");
+          if (!raw) return [];
+          const parsed = JSON.parse(raw);
+          return Array.isArray(parsed) ? parsed : [];
+      } catch (e) {
+          console.error("Error leyendo carrito en checkout:", e);
+          return [];
+      }
+  }
+
+  function renderCheckoutTable() {
+      const items = getCartItems();
+      const tbody = document.getElementById('checkout-products');
+      const subtotalEl = document.getElementById('checkout-subtotal');
+      const envioEl = document.getElementById('checkout-envio');
+      const totalEl = document.getElementById('checkout-total');
+
+      if (!tbody) return;
+
+      tbody.innerHTML = '';
+      let subtotal = 0;
+
+      items.forEach(item => {
+          const totalItem = (item.precio || 0) * (item.cantidad || 0);
+          subtotal += totalItem;
+
+          const tr = document.createElement('tr');
+          tr.innerHTML = `
+              <td>${item.nombre} × ${item.cantidad}</td>
+              <td>S/. ${totalItem.toFixed(2)}</td>
+          `;
+          tbody.appendChild(tr);
+      });
+
+      const envio = subtotal *  0.05;
+      const total = subtotal + envio;
+
+      subtotalEl.textContent = 'S/. ' + subtotal.toFixed(2);
+      envioEl.textContent = 'S/. ' + envio.toFixed(2);
+      totalEl.textContent = 'S/. ' + total.toFixed(2);
+  }
+
+  async function onPayShopClick(event) {
+      event.preventDefault();
+
+      const terms = document.getElementById('checkout-terms');
+      if (!terms.checked) {
+          alert('Debes aceptar los términos y condiciones.');
+          return;
+      }
+
+      const items = getCartItems();
+      if (!items.length) {
+          alert('Tu carrito está vacío.');
+          return;
+      }
+
+      const payload = {
+          nombres: document.getElementById('checkout-first-name').value.trim(),
+          apellidos: document.getElementById('checkout-last-name').value.trim(),
+          empresa: (document.getElementById('checkout-company-name')?.value || '').trim(),
+          direccion: document.getElementById('checkout-street-address').value.trim(),
+          direccion2: (document.getElementById('checkout-address')?.value || '').trim(),
+          ciudad: document.getElementById('checkout-city').value.trim(),
+          provincia: document.getElementById('checkout-state').value.trim(),
+          codigoPostal: document.getElementById('checkout-postcode').value.trim(),
+          email: document.getElementById('checkout-email').value.trim(),
+          telefono: document.getElementById('checkout-phone').value.trim(),
+          comentario: (document.getElementById('checkout-comment')?.value || '').trim(),
+          crearCuenta: document.getElementById('checkout-create-account').checked,
+          // MAPEAR bien el id del carrito -> productoId para el backend
+          items: items.map(i => ({
+              productoId: parseInt(i.id, 10),
+              nombre: i.nombre,
+              precio: i.precio,
+              cantidad: i.cantidad
+          }))
+      };
+
+try {
+    const resp = await fetch('/api/tienda/checkout/prepare', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(payload)
+    });
+
+    const text = await resp.text();   // <-- leemos texto crudo primero
+    console.log('prepare status:', resp.status);
+    console.log('prepare body:', text);
+
+    if (!resp.ok) {
+        alert('Ocurrió un error preparando el pago. Código: ' + resp.status);
+        return;
+    }
+
+    let data;
+    try {
+        data = JSON.parse(text);
+    } catch (e) {
+        console.error('No se pudo parsear JSON:', e);
+        alert('El servidor no devolvió un JSON válido.');
+        return;
+    }
+
+    const form = document.getElementById('payshop-form');
+
+    if (!form) {
+        alert('No se encontró el formulario de PayShop.');
+        return;
+    }
+
+    Object.entries(data.params).forEach(([key, value]) => {
+        let input = form.querySelector(`input[name="${key}"]`);
+        if (!input) {
+            input = document.createElement('input');
+            input.type = 'hidden';
+            input.name = key;
+            form.appendChild(input);
+        }
+        input.value = value;
+    });
+
+    form.submit();
+
+} catch (e) {
+    console.error('Error en fetch prepare:', e);
+    alert('No se pudo conectar con el servidor para preparar el pago.');
+}
+
+  }
+
+  document.addEventListener('DOMContentLoaded', function () {
+      renderCheckoutTable();
+  });
+</script>
+
+
 </body>
 
 </html>

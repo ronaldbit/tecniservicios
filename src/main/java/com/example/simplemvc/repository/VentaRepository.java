@@ -42,4 +42,8 @@ public interface VentaRepository extends JpaRepository<Venta, Long> {
       "GROUP BY u.id, p.nombres, p.apellidos " +
       "ORDER BY totalVendido DESC")
   List<TopVendedorDTO> obtenerRankingVendedores(@Param("inicio") Timestamp inicio, @Param("fin") Timestamp fin);
+
+
+  List<Venta> findByClienteNumeroDocumentoOrderByFechaVentaDesc(String clienteNumeroDocumento);
+
 }

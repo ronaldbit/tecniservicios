@@ -114,6 +114,26 @@ public class PersonaService {
     persona.setDireccion(request.getDireccion());
   }
 
+    @Transactional
+    public void actualizarDesdePerfil(PersonaDto dto) {
+        if (dto.getId() == null) {
+            throw new IllegalArgumentException("El ID de la persona es obligatorio para actualizar el perfil.");
+        }
+
+        Persona persona = personaRepository.findById(dto.getId())
+            .orElseThrow(() -> new IllegalArgumentException("Persona no encontrada con ID: " + dto.getId()));
+
+        // Sólo campos “de perfil” básicos
+        persona.setNombres(dto.getNombres());
+        persona.setApellidos(dto.getApellidos());
+        persona.setEmail(dto.getEmail());
+        persona.setTelefono(dto.getTelefono());
+        persona.setDireccion(dto.getDireccion());
+
+        personaRepository.save(persona);
+    }
+
+
   public void eliminarPorId(Long id) {
     log.info("Eliminando persona con ID: {}", id);
     Persona persona = personaRepository

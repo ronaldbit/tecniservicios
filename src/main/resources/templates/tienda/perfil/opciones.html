@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<div th:fragment="opciones" class="col-12 col-lg-3 d-flex">
+
+  <div class="account-nav flex-grow-1">
+    <h4 class="account-nav__title">Mi Cuenta</h4>
+    <ul class="account-nav__list">
+
+      <li class="account-nav__item"
+          th:classappend="${seccion == 'resumen'} ? ' account-nav__item--active'">
+        <a href="/home/perfil">Resumen</a>
+      </li>
+
+      <li class="account-nav__item"
+          th:classappend="${seccion == 'compras'} ? ' account-nav__item--active'">
+        <a href="/home/perfil/compras">Mis Compras</a>
+      </li>
+
+      <li class="account-nav__item"
+          th:classappend="${seccion == 'favoritos'} ? ' account-nav__item--active'">
+        <a href="/home/perfil/favoritos">Favoritos</a>
+      </li>
+
+      <li class="account-nav__item"
+          th:classappend="${seccion == 'editar'} ? ' account-nav__item--active'">
+        <a href="/home/perfil/editar">Editar Perfil</a>
+      </li>
+
+      <li class="account-nav__divider" role="presentation"></li>
+
+      <li class="account-nav__item">
+        <a th:href="@{/home/perfil/logout}">Cerrar Sesión</a>
+      </li>
+
+    </ul>
+  </div>
+
+</div>
+
+
+</html>
