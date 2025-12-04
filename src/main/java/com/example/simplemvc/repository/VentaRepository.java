@@ -67,4 +67,6 @@ public interface VentaRepository extends JpaRepository<Venta, Long> {
 
   List<Venta> findByVendedor_Id(Long idUsuario);
 
+    List<Venta> findByClienteNumeroDocumentoOrderByFechaVentaDesc(String clienteNumeroDocumento);
+
 }
