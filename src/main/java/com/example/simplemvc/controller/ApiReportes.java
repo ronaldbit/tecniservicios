@@ -90,14 +90,16 @@ public class ApiReportes {
   @Transactional(readOnly = true)
   public ResponseEntity<byte[]> descargarPdfReporteVentas(
       @RequestParam String inicio,
-      @RequestParam String fin) {
+      @RequestParam String fin,
+      @RequestParam(required = false) Long usuarioId) {
 
     LocalDate fechaInicio = LocalDate.parse(inicio);
     LocalDate fechaFin = LocalDate.parse(fin);
-    Map<String, Object> datos = reportesService.obtenerReporteVentas(fechaInicio, fechaFin);
+
+    Map<String, Object> datos = reportesService.obtenerReporteVentas(fechaInicio, fechaFin, usuarioId);
     byte[] pdfBytes = pdfService.generarPdfGenerico("pdf_reporte_ventas", datos);
     HttpHeaders headers = new HttpHeaders();
-    headers.add(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=reporte_ventas_" + inicio + "_al_" + fin + ".pdf");
+    headers.add(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=reporte_ventas.pdf");
 
     return ResponseEntity.ok()
         .headers(headers)

@@ -4,53 +4,129 @@
 >
   <div class="pc-content" th:fragment="content">
     <div class="page-header">
-      <div class="page-block">
-        <div class="row align-items-center">
-          <div class="col-md-12">
-            <div class="page-header-title">
-              <h5 class="m-b-10">Análisis de Rendimiento</h5>
-            </div>
-          </div>
-        </div>
-      </div>
+      <h5 class="m-b-10">Análisis de Rendimiento</h5>
     </div>
 
     <div class="row">
       <div class="col-12">
         <div class="card">
           <div class="card-header">
-            <h5 class="mb-0">Ranking de Productos</h5>
+            <h5 class="mb-0">Ranking de Productos (Top 10)</h5>
           </div>
           <div class="card-body">
-            <div class="row align-items-end g-3">
-              <div class="col-md-4">
-                <label class="form-label">Desde</label>
-                <input
-                  type="date"
-                  class="form-control"
-                  id="fechaInicio"
-                  th:value="${fechaInicioDefault}"
-                />
+            <form
+              action="/dashboard/reportes/analisis"
+              method="get"
+              id="formProductos"
+            >
+              <input type="hidden" name="tipo" value="productos" />
+
+              <div class="row align-items-end g-3">
+                <div class="col-md-3">
+                  <label class="form-label">Desde</label>
+                  <input
+                    type="date"
+                    class="form-control"
+                    name="inicio"
+                    id="fechaInicioProd"
+                    th:value="${tabActivo == 'productos' ? fechaInicioSel : fechaInicioDefault}"
+                    required
+                  />
+                </div>
+                <div class="col-md-3">
+                  <label class="form-label">Hasta</label>
+                  <input
+                    type="date"
+                    class="form-control"
+                    name="fin"
+                    id="fechaFinProd"
+                    th:value="${tabActivo == 'productos' ? fechaFinSel : fechaFinDefault}"
+                    required
+                  />
+                </div>
+                <div class="col-md-3">
+                  <button type="submit" class="btn btn-secondary w-100">
+                    <i class="ti ti-eye me-1"></i> Visualizar
+                  </button>
+                </div>
+                <div class="col-md-3">
+                  <button
+                    type="button"
+                    class="btn btn-primary w-100"
+                    onclick="descargarPDFProductos()"
+                  >
+                    <i class="ti ti-file-analytics me-1"></i> PDF
+                  </button>
+                </div>
               </div>
-              <div class="col-md-4">
-                <label class="form-label">Hasta</label>
-                <input
-                  type="date"
-                  class="form-control"
-                  id="fechaFin"
-                  th:value="${fechaFinDefault}"
-                />
+            </form>
+
+            <div
+              th:if="${reporteProductos != null}"
+              class="mt-4 animate__animated animate__fadeIn"
+            >
+              <div class="alert alert-light-primary border-primary">
+                <div class="d-flex justify-content-between">
+                  <strong
+                    >Total Unidades:
+                    <span th:text="${reporteProductos.totalUnidades}"
+                      >0</span
+                    ></strong
+                  >
+                  <strong
+                    >Venta Total:
+                    <span
+                      th:text="'S/ ' + ${#numbers.formatDecimal(reporteProductos.granTotalVendido, 1, 2)}"
+                      >0.00</span
+                    ></strong
+                  >
+                </div>
               </div>
-              <div class="col-md-4">
-                <button class="btn btn-primary w-100" onclick="descargarPDF()">
-                  <i class="ti ti-trophy me-1"></i> Generar Ranking PDF
-                </button>
+
+              <div class="table-responsive">
+                <table class="table table-hover mb-0">
+                  <thead class="table-light">
+                    <tr>
+                      <th>#</th>
+                      <th>Código</th>
+                      <th>Producto</th>
+                      <th class="text-center">Cant. Vendida</th>
+                      <th class="text-end">Total Generado</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr th:each="p, stat : ${reporteProductos.productos}">
+                      <td th:text="${stat.count}">1</td>
+
+                      <td th:text="${p.codigoProducto}">COD01</td>
+
+                      <td th:text="${p.nombreProducto}">Nombre del Producto</td>
+
+                      <td class="text-center" th:text="${p.cantidadTotal}">
+                        10
+                      </td>
+
+                      <td
+                        class="text-end"
+                        th:text="'S/ ' + ${#numbers.formatDecimal(p.totalVendido, 1, 2)}"
+                      >
+                        0.00
+                      </td>
+                    </tr>
+                    <tr th:if="${#lists.isEmpty(reporteProductos.productos)}">
+                      <td colspan="5" class="text-center">
+                        No hay datos en este rango.
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
               </div>
             </div>
           </div>
         </div>
       </div>
     </div>
+
     <div class="row mt-4">
       <div class="col-12">
         <div class="card">
@@ -58,32 +134,109 @@
             <h5 class="mb-0">Ranking de Vendedores</h5>
           </div>
           <div class="card-body">
-            <div class="row align-items-end g-3">
-              <div class="col-md-4">
-                <label class="form-label">Desde</label>
-                <input
-                  type="date"
-                  class="form-control"
-                  id="fechaInicioVend"
-                  th:value="${fechaInicioDefault}"
-                />
+            <form
+              action="/dashboard/reportes/analisis"
+              method="get"
+              id="formVendedores"
+            >
+              <input type="hidden" name="tipo" value="vendedores" />
+
+              <div class="row align-items-end g-3">
+                <div class="col-md-3">
+                  <label class="form-label">Desde</label>
+                  <input
+                    type="date"
+                    class="form-control"
+                    name="inicio"
+                    id="fechaInicioVend"
+                    th:value="${tabActivo == 'vendedores' ? fechaInicioSel : fechaInicioDefault}"
+                    required
+                  />
+                </div>
+                <div class="col-md-3">
+                  <label class="form-label">Hasta</label>
+                  <input
+                    type="date"
+                    class="form-control"
+                    name="fin"
+                    id="fechaFinVend"
+                    th:value="${tabActivo == 'vendedores' ? fechaFinSel : fechaFinDefault}"
+                    required
+                  />
+                </div>
+                <div class="col-md-3">
+                  <button type="submit" class="btn btn-secondary w-100">
+                    <i class="ti ti-eye me-1"></i> Visualizar
+                  </button>
+                </div>
+                <div class="col-md-3">
+                  <button
+                    type="button"
+                    class="btn btn-success w-100"
+                    onclick="descargarRankingVendedores()"
+                  >
+                    <i class="ti ti-users me-1"></i> PDF
+                  </button>
+                </div>
               </div>
-              <div class="col-md-4">
-                <label class="form-label">Hasta</label>
-                <input
-                  type="date"
-                  class="form-control"
-                  id="fechaFinVend"
-                  th:value="${fechaFinDefault}"
-                />
+            </form>
+
+            <div
+              th:if="${reporteVendedores != null}"
+              class="mt-4 animate__animated animate__fadeIn"
+            >
+              <div class="alert alert-light-success border-success">
+                <div class="d-flex justify-content-between">
+                  <strong
+                    >Operaciones Totales:
+                    <span th:text="${reporteVendedores.totalOperaciones}"
+                      >0</span
+                    ></strong
+                  >
+                  <strong
+                    >Recaudación Total:
+                    <span
+                      th:text="'S/ ' + ${#numbers.formatDecimal(reporteVendedores.totalGeneral, 1, 2)}"
+                      >0.00</span
+                    ></strong
+                  >
+                </div>
               </div>
-              <div class="col-md-4">
-                <button
-                  class="btn btn-success w-100"
-                  onclick="descargarRankingVendedores()"
-                >
-                  <i class="ti ti-users me-1"></i> Generar Ranking
-                </button>
+
+              <div class="table-responsive">
+                <table class="table table-hover mb-0">
+                  <thead class="table-light">
+                    <tr>
+                      <th>#</th>
+                      <th>Vendedor</th>
+                      <th class="text-center">N° Ventas</th>
+                      <th class="text-end">Total Vendido</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr th:each="v, stat : ${reporteVendedores.vendedores}">
+                      <td th:text="${stat.count}">1</td>
+
+                      <td th:text="${v.nombreVendedor}">Nombre Vendedor</td>
+
+                      <td class="text-center" th:text="${v.cantidadVentas}">
+                        5
+                      </td>
+
+                      <td
+                        class="text-end"
+                        th:text="'S/ ' + ${#numbers.formatDecimal(v.totalVendido, 1, 2)}"
+                      >
+                        0.00
+                      </td>
+                    </tr>
+                    <tr th:if="${#lists.isEmpty(reporteVendedores.vendedores)}">
+                      <td colspan="4" class="text-center">
+                        No hay datos en este rango.
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
               </div>
             </div>
           </div>
@@ -92,11 +245,10 @@
     </div>
 
     <script>
-      function descargarPDF() {
-        const inicio = document.getElementById("fechaInicio").value;
-        const fin = document.getElementById("fechaFin").value;
+      function descargarPDFProductos() {
+        const inicio = document.getElementById("fechaInicioProd").value;
+        const fin = document.getElementById("fechaFinProd").value;
         if (!inicio || !fin) return alert("Fechas requeridas");
-
         window.open(
           `/api/reportes/analisis/top-productos/pdf?inicio=${inicio}&fin=${fin}`,
           "_blank"
@@ -106,9 +258,7 @@
       function descargarRankingVendedores() {
         const inicio = document.getElementById("fechaInicioVend").value;
         const fin = document.getElementById("fechaFinVend").value;
-
         if (!inicio || !fin) return alert("Fechas requeridas");
-
         window.open(
           `/api/reportes/analisis/ranking-vendedores/pdf?inicio=${inicio}&fin=${fin}`,
           "_blank"

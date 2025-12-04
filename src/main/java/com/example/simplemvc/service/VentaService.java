@@ -40,7 +40,6 @@ public class VentaService {
 
   private final GetActualUsuarioService getActualUsuarioService;
 
-  private static final BigDecimal TASA_IGV = new BigDecimal("0.18");
   private static final BigDecimal UNO_MAS_IGV = new BigDecimal("1.18");
 
   @Transactional
@@ -205,7 +204,20 @@ public class VentaService {
 
   @Transactional(readOnly = true)
   public List<VentaDto> listarTodasLasVentas() {
-    return ventaRepository.findAll()
+
+    Usuario vendedor = getActualUsuarioService.get();
+
+    boolean esAdmin = vendedor.getRoles().stream()
+        .anyMatch(r -> "ADMIN".equals(r.getNombre()));
+
+    if (esAdmin) {
+      return ventaRepository.findAll()
+          .stream()
+          .map(ventaMapper::toDto)
+          .collect(Collectors.toList());
+    }
+
+    return ventaRepository.findByVendedor_Id(vendedor.getId())
         .stream()
         .map(ventaMapper::toDto)
         .collect(Collectors.toList());
