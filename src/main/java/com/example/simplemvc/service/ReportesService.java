@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.example.simplemvc.dto.TopProductoDTO;
 import com.example.simplemvc.dto.TopVendedorDTO;
@@ -81,12 +82,17 @@ public class ReportesService {
   }
 
   // REPORTE DE VENTAS POR FECHA
-  public Map<String, Object> obtenerReporteVentas(LocalDate fechaInicio, LocalDate fechaFin) {
+  @Transactional(readOnly = true)
+  public Map<String, Object> obtenerReporteVentas(LocalDate fechaInicio, LocalDate fechaFin, Long usuarioId) {
 
     Timestamp inicio = Timestamp.valueOf(fechaInicio.atStartOfDay());
     Timestamp fin = Timestamp.valueOf(fechaFin.atTime(LocalTime.MAX));
-
-    List<Venta> ventas = ventaRepository.findByFechaVentaBetweenOrderByFechaVentaDesc(inicio, fin);
+    List<Venta> ventas;
+    if (usuarioId != null && usuarioId > 0) {
+      ventas = ventaRepository.findByFechaVentaBetweenAndVendedor_IdOrderByFechaVentaDesc(inicio, fin, usuarioId);
+    } else {
+      ventas = ventaRepository.findByFechaVentaBetweenOrderByFechaVentaDesc(inicio, fin);
+    }
     BigDecimal totalIngresos = BigDecimal.ZERO;
     int cantidadVentas = 0;
     int ventasAnuladas = 0;
@@ -105,7 +111,11 @@ public class ReportesService {
     datos.put("totalIngresos", totalIngresos);
     datos.put("cantidadVentas", cantidadVentas);
     datos.put("ventasAnuladas", ventasAnuladas);
-
+    if (usuarioId != null && usuarioId > 0 && !ventas.isEmpty()) {
+      datos.put("nombreVendedor", ventas.get(0).getVendedor().getPersona().getNombres()); // Ajusta según tu modelo
+    } else {
+      datos.put("nombreVendedor", "Todos");
+    }
     return datos;
   }
 

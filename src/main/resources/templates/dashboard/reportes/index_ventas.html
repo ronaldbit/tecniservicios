@@ -3,52 +3,69 @@
   th:replace="~{dashboard/layout :: layout(~{::content}, ${usuario}, 'Reporte Ventas', '/dashboard/reportes/ventas')}"
 >
   <div class="pc-content" th:fragment="content">
-    <div class="page-header">
-      <div class="page-block">
-        <div class="row align-items-center">
-          <div class="col-md-12">
-            <div class="page-header-title">
-              <h5 class="m-b-10">Reporte de Ventas</h5>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
     <div class="row">
       <div class="col-12">
         <div class="card">
           <div class="card-header">
-            <h5 class="mb-0">Generar Reporte</h5>
+            <h5 class="mb-0">Filtros de Reporte</h5>
           </div>
           <div class="card-body">
-            <form id="formReporteVentas">
+            <form
+              id="formReporteVentas"
+              th:action="@{/dashboard/reportes/ventas}"
+              method="get"
+            >
               <div class="row align-items-end g-3">
-                <div class="col-md-4">
+                <div class="col-md-3">
                   <label class="form-label">Fecha Inicio</label>
                   <input
                     type="date"
                     class="form-control"
+                    name="inicio"
                     id="fechaInicio"
-                    th:value="${fechaInicioDefault}"
+                    th:value="${fechaInicioSel}"
+                    required
                   />
                 </div>
-                <div class="col-md-4">
+
+                <div class="col-md-3">
                   <label class="form-label">Fecha Fin</label>
                   <input
                     type="date"
                     class="form-control"
+                    name="fin"
                     id="fechaFin"
-                    th:value="${fechaFinDefault}"
+                    th:value="${fechaFinSel}"
+                    required
                   />
                 </div>
-                <div class="col-md-4">
+
+                <div class="col-md-3">
+                  <label class="form-label">Vendedor / Usuario</label>
+                  <select class="form-select" name="usuarioId" id="usuarioId">
+                    <option value="" th:selected="${usuarioIdSel == null}">
+                      -- Todos --
+                    </option>
+                    <option
+                      th:each="u : ${listaUsuarios}"
+                      th:value="${u.id}"
+                      th:text="${u.persona.nombres + ' ' + u.persona.apellidos}"
+                      th:selected="${usuarioIdSel == u.id}"
+                    ></option>
+                  </select>
+                </div>
+
+                <div class="col-md-3 d-flex gap-2">
+                  <button type="submit" class="btn btn-secondary flex-grow-1">
+                    <i class="ti ti-search me-1"></i> Buscar
+                  </button>
+
                   <button
                     type="button"
-                    class="btn btn-primary w-100"
-                    onclick="generarReporte()"
+                    class="btn btn-primary flex-grow-1"
+                    onclick="generarReportePdf()"
                   >
-                    <i class="ti ti-file-analytics me-1"></i> Generar PDF
+                    <i class="ti ti-file-analytics me-1"></i> PDF
                   </button>
                 </div>
               </div>
@@ -58,25 +75,105 @@
       </div>
     </div>
 
-    <div class="alert alert-info mt-3">
-      <i class="ti ti-info-circle me-2"></i> Selecciona un rango de fechas para
-      descargar el detalle de todas las ventas realizadas, anuladas y el total
-      recaudado.
-    </div>
+    <div class="row mt-4" th:if="${ventas != null}">
+      <div class="col-md-4">
+        <div class="card bg-light-success">
+          <div class="card-body text-center">
+            <h6 class="text-muted">Ventas Completadas</h6>
+            <h3 class="mb-0 text-success" th:text="${cantidadVentas}">0</h3>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card bg-light-primary">
+          <div class="card-body text-center">
+            <h6 class="text-muted">Total Ingresos</h6>
+            <h3
+              class="mb-0 text-primary"
+              th:text="'S/ ' + ${#numbers.formatDecimal(totalIngresos, 1, 2)}"
+            >
+              S/ 0.00
+            </h3>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card bg-light-danger">
+          <div class="card-body text-center">
+            <h6 class="text-muted">Anuladas</h6>
+            <h3 class="mb-0 text-danger" th:text="${ventasAnuladas}">0</h3>
+          </div>
+        </div>
+      </div>
 
+      <div class="col-12 mt-3">
+        <div class="card">
+          <div class="card-header">
+            <h5 class="mb-0">Detalle de Ventas</h5>
+          </div>
+          <div class="card-body table-responsive">
+            <table class="table table-hover table-striped">
+              <thead>
+                <tr>
+                  <th>Fecha</th>
+                  <th>Comprobante</th>
+                  <th>Cliente</th>
+                  <th>Vendedor</th>
+                  <th>Estado</th>
+                  <th class="text-end">Total</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr th:each="v : ${ventas}">
+                  <td
+                    th:text="${#dates.format(v.fechaVenta, 'dd/MM/yyyy HH:mm')}"
+                  ></td>
+                  <td
+                    th:text="${v.tipoComprobante} + ' ' + ${v.serieComprobante} + '-' + ${v.numeroComprobante}"
+                  ></td>
+                  <td th:text="${v.clienteNombreCompleto}"></td>
+                  <td th:text="${v.vendedor.persona.nombres}"></td>
+                  <td>
+                    <span
+                      class="badge bg-success"
+                      th:if="${v.estado.name() == 'COMPLETADA'}"
+                      >COMPLETADA</span
+                    >
+                    <span
+                      class="badge bg-danger"
+                      th:if="${v.estado.name() == 'ANULADA'}"
+                      >ANULADA</span
+                    >
+                  </td>
+                  <td
+                    class="text-end"
+                    th:text="'S/ ' + ${#numbers.formatDecimal(v.total, 1, 2)}"
+                  ></td>
+                </tr>
+                <tr th:if="${#lists.isEmpty(ventas)}">
+                  <td colspan="6" class="text-center p-4">
+                    No se encontraron ventas con estos filtros.
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
     <script>
-      function generarReporte() {
+      function generarReportePdf() {
         const inicio = document.getElementById("fechaInicio").value;
         const fin = document.getElementById("fechaFin").value;
-
+        const usuarioId = document.getElementById("usuarioId").value;
         if (!inicio || !fin) return alert("Seleccione ambas fechas");
         if (inicio > fin)
-          return alert("La fecha de inicio no puede ser mayor a la fecha fin");
-
-        window.open(
-          `/api/reportes/ventas/reporte/pdf?inicio=${inicio}&fin=${fin}`,
-          "_blank"
-        );
+          return alert("La fecha inicio no puede ser mayor a fin");
+        let url = `/api/reportes/ventas/reporte/pdf?inicio=${inicio}&fin=${fin}`;
+        if (usuarioId) {
+          url += `&usuarioId=${usuarioId}`;
+        }
+        window.open(url, "_blank");
       }
     </script>
   </div>

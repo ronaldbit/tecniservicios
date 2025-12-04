@@ -19,6 +19,9 @@ public interface VentaRepository extends JpaRepository<Venta, Long> {
 
   List<Venta> findByFechaVentaBetweenOrderByFechaVentaDesc(Timestamp inicio, Timestamp fin);
 
+  List<Venta> findByFechaVentaBetweenAndVendedor_IdOrderByFechaVentaDesc(Timestamp inicio, Timestamp fin,
+      Long vendedorId);
+
   @Query("SELECT " +
       "d.producto.nombre AS nombreProducto, " +
       "d.producto.codigo AS codigoProducto, " +
@@ -61,5 +64,7 @@ public interface VentaRepository extends JpaRepository<Venta, Long> {
       "GROUP BY MONTH(fecha_venta) " +
       "ORDER BY mes ASC", nativeQuery = true)
   List<Object[]> obtenerVentasPorMesAnioActual();
+
+  List<Venta> findByVendedor_Id(Long idUsuario);
 
 }
