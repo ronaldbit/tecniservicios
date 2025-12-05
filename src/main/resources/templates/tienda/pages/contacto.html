@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head th:replace="tienda/framer/head :: head(${pageTitle})"></head>
+
+  <body>
+    <div class="site">
+      <div th:replace="tienda/framer/header :: siteHeaderMobile"></div>
+      <div th:replace="tienda/framer/header :: siteHeader"></div>
+
+      <div class="site__body">
+        <div class="block-header block-header--has-breadcrumb">
+          <div class="container">
+            <div class="block-header__body">
+              <nav
+                class="breadcrumb block-header__breadcrumb"
+                aria-label="breadcrumb"
+              >
+                <ol class="breadcrumb__list">
+                  <li
+                    class="breadcrumb__item breadcrumb__item--parent breadcrumb__item--first"
+                  >
+                    <a href="index.html" class="breadcrumb__item-link"
+                      >Inicio</a
+                    >
+                  </li>
+                  <li
+                    class="breadcrumb__item breadcrumb__item--current breadcrumb__item--last"
+                    aria-current="page"
+                  >
+                    <span class="breadcrumb__item-link">Contáctanos</span>
+                  </li>
+                </ol>
+              </nav>
+              <h1 class="block-header__title">Estamos para ayudarte</h1>
+            </div>
+          </div>
+        </div>
+
+        <div class="block">
+          <div class="container">
+            <div class="card mb-5 border-0 shadow-sm">
+              <div class="block-map block-map--layout--divider-top-bottom">
+                <div class="block-map__body">
+                  <iframe
+                    src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d3961.9053487909673!2d-79.8310370863924!3d-6.781372917760176!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1ses-419!2spe!4v1764907882842!5m2!1ses-419!2spe"
+                    width="100%"
+                    height="450"
+                    frameborder="0"
+                    style="border: 0"
+                    allowfullscreen=""
+                    aria-hidden="false"
+                    tabindex="0"
+                  >
+                  </iframe>
+                </div>
+              </div>
+
+              <div class="card-body p-5">
+                <div class="row">
+                  <div
+                    class="col-12 col-md-4 mb-4 mb-md-0 text-center text-md-left"
+                  >
+                    <h4 class="contact-card__title">Nuestra Sede</h4>
+                    <div class="text-muted mt-3">
+                      Francisco de Paula y Vigil #259<br />
+                      Chiclayo, Perú<br />
+                      CP 14000
+                    </div>
+                  </div>
+                  <div
+                    class="col-12 col-md-4 mb-4 mb-md-0 text-center text-md-left"
+                  >
+                    <h4 class="contact-card__title">Canales de Atención</h4>
+                    <div class="text-muted mt-3">
+                      <strong>Soporte:</strong> +51 951-512-562<br />
+                      <strong>Email:</strong> contacto@tecniservicios.com
+                    </div>
+                  </div>
+                  <div class="col-12 col-md-4 text-center text-md-left">
+                    <h4 class="contact-card__title">Horario de Tienda</h4>
+                    <div class="text-muted mt-3">
+                      <strong>Lun - Vie:</strong> 8:00am - 6:00pm<br />
+                      <strong>Sáb:</strong> 8:00am - 1:00pm<br />
+                      <strong>Dom:</strong> Cerrado
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="block-header block-header--has-title">
+              <h3 class="block-header__title">Envíanos un mensaje</h3>
+              <div class="block-header__divider"></div>
+            </div>
+
+            <div class="card border-0 shadow-sm">
+              <div class="card-body p-5">
+                <div class="row justify-content-center">
+                  <div class="col-12 col-lg-8">
+                    <form>
+                      <div class="form-row">
+                        <div class="form-group col-md-6">
+                          <label for="form-name">Nombre completo</label>
+                          <input
+                            type="text"
+                            id="form-name"
+                            class="form-control"
+                            placeholder="Ej. Juan Pérez"
+                          />
+                        </div>
+                        <div class="form-group col-md-6">
+                          <label for="form-email">Correo electrónico</label>
+                          <input
+                            type="email"
+                            id="form-email"
+                            class="form-control"
+                            placeholder="email@ejemplo.com"
+                          />
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label for="form-subject">Asunto</label>
+                        <select id="form-subject" class="form-control">
+                          <option selected>Consulta General</option>
+                          <option>Cotización de Repuestos</option>
+                          <option>Servicio Técnico</option>
+                          <option>Garantías</option>
+                        </select>
+                      </div>
+                      <div class="form-group">
+                        <label for="form-message">Mensaje</label>
+                        <textarea
+                          id="form-message"
+                          class="form-control"
+                          rows="4"
+                          placeholder="¿En qué podemos ayudarte hoy? Detalla tu consulta..."
+                        ></textarea>
+                      </div>
+                      <div class="form-group mb-0 text-center">
+                        <button
+                          type="submit"
+                          class="btn btn-primary btn-lg mt-3"
+                        >
+                          Enviar Mensaje
+                        </button>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="block-space block-space--layout--before-footer"></div>
+      </div>
+
+      <div th:replace="tienda/framer/footer :: siteFooter"></div>
+    </div>
+    <div th:replace="tienda/framer/scripts :: scripts"></div>
+  </body>
+</html>
