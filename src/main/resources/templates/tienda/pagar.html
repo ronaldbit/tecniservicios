@@ -65,6 +65,14 @@
 
                       <div class="form-row">
                         <div class="form-group col-md-6">
+    <label for="checkout-document">Documento (DNI / RUC)</label>
+    <input type="text"
+           class="form-control"
+           id="checkout-document"
+           placeholder="DNI o RUC"
+           th:value="${persona != null ? persona.numeroDocumento : ''}">
+  </div>
+                        <div class="form-group col-md-6">
                           <label for="checkout-street-address">Dirección</label>
 <input type="text" class="form-control" id="checkout-street-address"
        placeholder="Dirección"
@@ -101,7 +109,7 @@
        th:value="${persona != null ? persona.telefono : ''}">                      </div>
                       </div>
 
-                      <div class="form-group">
+                      <div class="form-group" th:if="${clienteSesion == null}" >
                         <div class="form-check">
                           <span class="input-check form-check-input">
                             <span class="input-check__body">
@@ -112,7 +120,7 @@
                               </span>
                             </span>
                           </span>
-                          <label th:if="${clienteSesion == null}" class="form-check-label" for="checkout-create-account">¿Crear una cuenta?</label>
+                          <label class="form-check-label" for="checkout-create-account">¿Crear una cuenta?</label>
                         </div>
                       </div>
                     </div>
@@ -289,7 +297,7 @@
       totalEl.textContent = 'S/. ' + total.toFixed(2);
   }
 
-  async function onPayShopClick(event) {
+  async function onPayShopClick(event) { console.log('onPayShopClick');
       event.preventDefault();
 
       const terms = document.getElementById('checkout-terms');
@@ -317,6 +325,7 @@
           telefono: document.getElementById('checkout-phone').value.trim(),
           comentario: (document.getElementById('checkout-comment')?.value || '').trim(),
           crearCuenta: document.getElementById('checkout-create-account').checked,
+          documento: document.getElementById('checkout-document').value.trim(),
           // MAPEAR bien el id del carrito -> productoId para el backend
           items: items.map(i => ({
               productoId: parseInt(i.id, 10),
@@ -327,6 +336,7 @@
       };
 
 try {
+  console.log('Payload prepare:', payload);
     const resp = await fetch('/api/tienda/checkout/prepare', {
         method: 'POST',
         headers: {

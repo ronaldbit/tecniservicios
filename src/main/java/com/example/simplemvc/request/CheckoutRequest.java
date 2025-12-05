@@ -17,5 +17,6 @@ public class CheckoutRequest {
   private String telefono;
   private String comentario;
   private boolean crearCuenta;
+  private String documento;
   private List<CheckoutItemRequest> items;
 }

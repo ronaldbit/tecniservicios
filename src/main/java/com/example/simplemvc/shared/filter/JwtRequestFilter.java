@@ -46,6 +46,12 @@ public class JwtRequestFilter extends OncePerRequestFilter {
       return;
     }
 
+    // checkout TIENDA → no obligamos JWT
+if (uri.startsWith("/api/tienda/checkout")) {
+    filterChain.doFilter(request, response);
+    return;
+}
+
     log.info("Incoming request: {} {}", method, uri);
 
     String authorizationHeader = request.getHeader(HttpHeaders.AUTHORIZATION);

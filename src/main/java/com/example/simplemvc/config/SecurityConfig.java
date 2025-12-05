@@ -54,6 +54,7 @@ public class SecurityConfig {
           auth.requestMatchers(
               "/",
               "/home/**",
+             "/api/tienda/checkout/**", //agregado
               "/auth/**",
               "/api/**",
               "/assets/**",
@@ -88,6 +89,8 @@ public class SecurityConfig {
           } catch (Exception e) {
             log.error("Error al cargar permisos desde BD: {}", e.getMessage());
           }
+
+          auth.requestMatchers("/api/tienda/checkout/**").permitAll();
 
           auth.anyRequest().authenticated();
         })

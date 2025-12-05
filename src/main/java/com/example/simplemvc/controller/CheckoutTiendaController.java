@@ -40,8 +40,8 @@ public class CheckoutTiendaController {
       @RequestBody CheckoutRequest request,
       HttpSession session) throws Exception {
 
-          System.out.println(">>> ENTRO A /api/tienda/checkout/prepare <<<");
-  System.out.println(">>> EMAIL: " + request.getEmail());
+    System.out.println(">>> ENTRO A /api/tienda/checkout/prepare <<<");
+    System.out.println(">>> EMAIL: " + request.getEmail());
 
     // 1. Crear la venta ONLINE a partir del checkout
     String orderId = "WEB-" + System.currentTimeMillis();
@@ -74,11 +74,10 @@ public class CheckoutTiendaController {
     return ResponseEntity.ok(response);
   }
 
-  private String generarSignature(Map<String, String> params, String secretKey) throws Exception {
-    // Clonamos sin signature ni _redirect
+private String generarSignature(Map<String, String> params, String secretKey) throws Exception {
     Map<String, String> fil = new HashMap<>();
     for (Map.Entry<String, String> e : params.entrySet()) {
-      if ("signature".equals(e.getKey()) || "_redirect".equals(e.getKey())) continue;
+      if ("signature".equals(e.getKey())) continue; // <-- quitar SOLO signature
       fil.put(e.getKey(), e.getValue());
     }
 
@@ -104,7 +103,8 @@ public class CheckoutTiendaController {
       sb.append(String.format("%02x", b));
     }
     return sb.toString();
-  }
+}
+
 }
 
 

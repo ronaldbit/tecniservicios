@@ -94,7 +94,7 @@ public String detalleProducto(@PathVariable Long id, Model model, HttpSession se
     model.addAttribute("esFavorito", esFavorito);
     model.addAttribute("favoritosIds", favoritosIds);
 
-    return "tienda/producto/detalle";
+    return "tienda/producto.detalle";
 }
 
 

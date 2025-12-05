@@ -19,6 +19,7 @@ import com.example.simplemvc.model.enums.CanalVenta;
 import com.example.simplemvc.model.enums.EstadoVenta;
 import com.example.simplemvc.model.enums.MetodoPago;
 import com.example.simplemvc.repository.ProductoRepository;
+import com.example.simplemvc.repository.UsuarioRepository;
 import com.example.simplemvc.repository.VentaRepository;
 import com.example.simplemvc.request.CheckoutItemRequest;
 import com.example.simplemvc.request.CheckoutRequest;
@@ -39,6 +40,7 @@ public class VentaService {
   private final CajaService cajaService;
 
   private final GetActualUsuarioService getActualUsuarioService;
+  private final UsuarioRepository usuarioRepository;
 
   private static final BigDecimal UNO_MAS_IGV = new BigDecimal("1.18");
 
@@ -112,49 +114,73 @@ public class VentaService {
     return ventaMapper.toDto(ventaGuardada);
   }
 
-  @Transactional
-  public Venta crearVentaOnlineDesdeCheckout(
-      CheckoutRequest request,
-      String orderId) {
+@Transactional
+public Venta crearVentaOnlineDesdeCheckout(
+    CheckoutRequest request,
+    String orderId) {
 
-    Venta venta = new Venta();
+  Venta venta = new Venta();
 
-    // si no tienes PENDIENTE en tu enum, temporalmente usa COMPLETADA
-    venta.setEstado(EstadoVenta.PENDIENTE);
-    venta.setCanalVenta(CanalVenta.TIENDA_ONLINE);
-    venta.setMetodoPago(MetodoPago.PAYSHOP);
+  venta.setEstado(EstadoVenta.PENDIENTE);
+  venta.setCanalVenta(CanalVenta.TIENDA_ONLINE);
+  venta.setMetodoPago(MetodoPago.PAYSHOP);
 
-    String nombreCompleto = (request.getNombres() != null ? request.getNombres() : "") +
-        " " +
-        (request.getApellidos() != null ? request.getApellidos() : "");
-    venta.setClienteNombreCompleto(nombreCompleto.trim());
-    venta.setClienteDireccion(request.getDireccion());
+  // 🧠 1) Intentar tomar el usuario autenticado (si existe)
+  Usuario vendedor = null;
+  try {
+      vendedor = getActualUsuarioService.get();
+  } catch (Exception e) {
+      // puede ser null si es cliente web sin login
+  }
 
-    venta.setTipoComprobante("TICKET");
-    venta.setSerieComprobante("WEB");
-    venta.setNumeroComprobante(orderId);
+  // 🧠 2) Si no hay usuario autenticado, usamos uno por defecto (ej: admin ID=1)
+  if (vendedor == null) {
+      vendedor = usuarioRepository.findById(1L)
+          .orElseThrow(() -> new IllegalStateException(
+              "No se encontró el usuario vendedor por defecto (ID=1)."));
+  }
 
-    List<VentaDetalle> detallesList = new ArrayList<>();
-    BigDecimal totalAcumulado = BigDecimal.ZERO;
+  // 🧠 3) Seteamos el vendedor en la venta
+  venta.setVendedor(vendedor);
 
-    if (request.getItems() == null || request.getItems().isEmpty()) {
+  // ------------------ Cliente / documento ------------------
+  String nombreCompleto = (request.getNombres() != null ? request.getNombres() : "") + " " +
+                          (request.getApellidos() != null ? request.getApellidos() : "");
+  venta.setClienteNombreCompleto(nombreCompleto.trim());
+  venta.setClienteDireccion(request.getDireccion());
+
+  String numeroDoc = request.getDocumento();
+  if (numeroDoc == null || numeroDoc.isBlank()) {
+      throw new IllegalArgumentException("El número de documento es obligatorio para la venta.");
+  }
+  venta.setClienteNumeroDocumento(numeroDoc);
+  venta.setClienteTipoDocumento("DNI");
+
+  venta.setTipoComprobante("TICKET");
+  venta.setSerieComprobante("WEB");
+  venta.setNumeroComprobante(orderId);
+
+  // ------------------ Detalles / totales ------------------
+  List<VentaDetalle> detallesList = new ArrayList<>();
+  BigDecimal totalAcumulado = BigDecimal.ZERO;
+
+  if (request.getItems() == null || request.getItems().isEmpty()) {
       throw new IllegalArgumentException("El carrito está vacío.");
-    }
+  }
 
-    for (CheckoutItemRequest item : request.getItems()) {
+  for (CheckoutItemRequest item : request.getItems()) {
       Producto producto = productoRepository.findById(item.getProductoId())
           .orElseThrow(() -> new EntityNotFoundException(
               "Producto no encontrado con ID: " + item.getProductoId()));
 
       BigDecimal cantidad = BigDecimal.valueOf(item.getCantidad());
-
       BigDecimal precioUnit = producto.getPrecioOnline() != null
           ? producto.getPrecioOnline()
           : producto.getPrecio();
 
       if (precioUnit == null) {
-        throw new IllegalStateException(
-            "El producto " + producto.getNombre() + " no tiene precio configurado.");
+          throw new IllegalStateException(
+              "El producto " + producto.getNombre() + " no tiene precio configurado.");
       }
 
       BigDecimal subtotalLinea = precioUnit.multiply(cantidad);
@@ -169,19 +195,19 @@ public class VentaService {
 
       detallesList.add(detalle);
       totalAcumulado = totalAcumulado.add(subtotalLinea);
-    }
-
-    BigDecimal totalVenta = totalAcumulado.setScale(2, RoundingMode.HALF_UP);
-    BigDecimal subtotalVenta = totalVenta.divide(UNO_MAS_IGV, 2, RoundingMode.HALF_UP);
-    BigDecimal igvVenta = totalVenta.subtract(subtotalVenta);
-
-    venta.setTotal(totalVenta);
-    venta.setSubtotal(subtotalVenta);
-    venta.setIgv(igvVenta);
-    venta.setDetalles(detallesList);
-
-    return ventaRepository.save(venta);
   }
+
+  BigDecimal totalVenta = totalAcumulado.setScale(2, RoundingMode.HALF_UP);
+  BigDecimal subtotalVenta = totalVenta.divide(UNO_MAS_IGV, 2, RoundingMode.HALF_UP);
+  BigDecimal igvVenta = totalVenta.subtract(subtotalVenta);
+
+  venta.setTotal(totalVenta);
+  venta.setSubtotal(subtotalVenta);
+  venta.setIgv(igvVenta);
+  venta.setDetalles(detallesList);
+
+  return ventaRepository.save(venta);
+}
 
       public List<VentaDto> listarVentasDeClientePorDni(String dniCliente) {
         if (dniCliente == null || dniCliente.isBlank()) {
