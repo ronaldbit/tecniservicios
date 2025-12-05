@@ -176,6 +176,7 @@ public class PerfilController {
   }
 
   // /perfil/compras/{id}
+
   @GetMapping("/compras/{id}")
   public String perfilCompraDetalle(
       @PathVariable Long id,
