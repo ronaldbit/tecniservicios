@@ -324,7 +324,7 @@
           email: document.getElementById('checkout-email').value.trim(),
           telefono: document.getElementById('checkout-phone').value.trim(),
           comentario: (document.getElementById('checkout-comment')?.value || '').trim(),
-          crearCuenta: document.getElementById('checkout-create-account').checked,
+          crearCuenta: (document.getElementById('checkout-create-account')?.checked) || false,
           documento: document.getElementById('checkout-document').value.trim(),
           // MAPEAR bien el id del carrito -> productoId para el backend
           items: items.map(i => ({
