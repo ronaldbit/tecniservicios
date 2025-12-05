@@ -114,61 +114,61 @@ public class VentaService {
     return ventaMapper.toDto(ventaGuardada);
   }
 
-@Transactional
-public Venta crearVentaOnlineDesdeCheckout(
-    CheckoutRequest request,
-    String orderId) {
+  @Transactional
+  public Venta crearVentaOnlineDesdeCheckout(
+      CheckoutRequest request,
+      String orderId) {
 
-  Venta venta = new Venta();
+    Venta venta = new Venta();
 
-  venta.setEstado(EstadoVenta.PENDIENTE);
-  venta.setCanalVenta(CanalVenta.TIENDA_ONLINE);
-  venta.setMetodoPago(MetodoPago.PAYSHOP);
+    venta.setEstado(EstadoVenta.PENDIENTE);
+    venta.setCanalVenta(CanalVenta.TIENDA_ONLINE);
+    venta.setMetodoPago(MetodoPago.PAYSHOP);
 
-  // 🧠 1) Intentar tomar el usuario autenticado (si existe)
-  Usuario vendedor = null;
-  try {
+    // 🧠 1) Intentar tomar el usuario autenticado (si existe)
+    Usuario vendedor = null;
+    try {
       vendedor = getActualUsuarioService.get();
-  } catch (Exception e) {
+    } catch (Exception e) {
       // puede ser null si es cliente web sin login
-  }
+    }
 
-  // 🧠 2) Si no hay usuario autenticado, usamos uno por defecto (ej: admin ID=1)
-  if (vendedor == null) {
+    // 🧠 2) Si no hay usuario autenticado, usamos uno por defecto (ej: admin ID=1)
+    if (vendedor == null) {
       vendedor = usuarioRepository.findById(1L)
           .orElseThrow(() -> new IllegalStateException(
               "No se encontró el usuario vendedor por defecto (ID=1)."));
-  }
+    }
 
-  // 🧠 3) Seteamos el vendedor en la venta
-  venta.setVendedor(vendedor);
+    // 🧠 3) Seteamos el vendedor en la venta
+    venta.setVendedor(vendedor);
 
-  // ------------------ Cliente / documento ------------------
-  String nombreCompleto = (request.getNombres() != null ? request.getNombres() : "") + " " +
-                          (request.getApellidos() != null ? request.getApellidos() : "");
-  venta.setClienteNombreCompleto(nombreCompleto.trim());
-  venta.setClienteDireccion(request.getDireccion());
+    // ------------------ Cliente / documento ------------------
+    String nombreCompleto = (request.getNombres() != null ? request.getNombres() : "") + " " +
+        (request.getApellidos() != null ? request.getApellidos() : "");
+    venta.setClienteNombreCompleto(nombreCompleto.trim());
+    venta.setClienteDireccion(request.getDireccion());
 
-  String numeroDoc = request.getDocumento();
-  if (numeroDoc == null || numeroDoc.isBlank()) {
+    String numeroDoc = request.getDocumento();
+    if (numeroDoc == null || numeroDoc.isBlank()) {
       throw new IllegalArgumentException("El número de documento es obligatorio para la venta.");
-  }
-  venta.setClienteNumeroDocumento(numeroDoc);
-  venta.setClienteTipoDocumento("DNI");
+    }
+    venta.setClienteNumeroDocumento(numeroDoc);
+    venta.setClienteTipoDocumento("DNI");
 
-  venta.setTipoComprobante("TICKET");
-  venta.setSerieComprobante("WEB");
-  venta.setNumeroComprobante(orderId);
+    venta.setTipoComprobante("TICKET");
+    venta.setSerieComprobante("WEB");
+    venta.setNumeroComprobante(orderId);
 
-  // ------------------ Detalles / totales ------------------
-  List<VentaDetalle> detallesList = new ArrayList<>();
-  BigDecimal totalAcumulado = BigDecimal.ZERO;
+    // ------------------ Detalles / totales ------------------
+    List<VentaDetalle> detallesList = new ArrayList<>();
+    BigDecimal totalAcumulado = BigDecimal.ZERO;
 
-  if (request.getItems() == null || request.getItems().isEmpty()) {
+    if (request.getItems() == null || request.getItems().isEmpty()) {
       throw new IllegalArgumentException("El carrito está vacío.");
-  }
+    }
 
-  for (CheckoutItemRequest item : request.getItems()) {
+    for (CheckoutItemRequest item : request.getItems()) {
       Producto producto = productoRepository.findById(item.getProductoId())
           .orElseThrow(() -> new EntityNotFoundException(
               "Producto no encontrado con ID: " + item.getProductoId()));
@@ -179,8 +179,8 @@ public Venta crearVentaOnlineDesdeCheckout(
           : producto.getPrecio();
 
       if (precioUnit == null) {
-          throw new IllegalStateException(
-              "El producto " + producto.getNombre() + " no tiene precio configurado.");
+        throw new IllegalStateException(
+            "El producto " + producto.getNombre() + " no tiene precio configurado.");
       }
 
       BigDecimal subtotalLinea = precioUnit.multiply(cantidad);
@@ -195,31 +195,38 @@ public Venta crearVentaOnlineDesdeCheckout(
 
       detallesList.add(detalle);
       totalAcumulado = totalAcumulado.add(subtotalLinea);
+    }
+
+    BigDecimal totalVenta = totalAcumulado.setScale(2, RoundingMode.HALF_UP);
+    BigDecimal subtotalVenta = totalVenta.divide(UNO_MAS_IGV, 2, RoundingMode.HALF_UP);
+    BigDecimal igvVenta = totalVenta.subtract(subtotalVenta);
+
+    venta.setTotal(totalVenta);
+    venta.setSubtotal(subtotalVenta);
+    venta.setIgv(igvVenta);
+    venta.setDetalles(detallesList);
+
+    return ventaRepository.save(venta);
   }
 
-  BigDecimal totalVenta = totalAcumulado.setScale(2, RoundingMode.HALF_UP);
-  BigDecimal subtotalVenta = totalVenta.divide(UNO_MAS_IGV, 2, RoundingMode.HALF_UP);
-  BigDecimal igvVenta = totalVenta.subtract(subtotalVenta);
+  public List<VentaDto> listarVentasOnline() {
+    return ventaRepository.findByCanalVentaOrderByFechaVentaDesc(CanalVenta.TIENDA_ONLINE)
+        .stream()
+        .map(ventaMapper::toDto)
+        .collect(Collectors.toList());
+  }
 
-  venta.setTotal(totalVenta);
-  venta.setSubtotal(subtotalVenta);
-  venta.setIgv(igvVenta);
-  venta.setDetalles(detallesList);
-
-  return ventaRepository.save(venta);
-}
-
-      public List<VentaDto> listarVentasDeClientePorDni(String dniCliente) {
-        if (dniCliente == null || dniCliente.isBlank()) {
-            return List.of();
-        }
-
-        return ventaRepository
-                .findByClienteNumeroDocumentoOrderByFechaVentaDesc(dniCliente)
-                .stream()
-                .map(ventaMapper::toDto)
-                .collect(Collectors.toList());
+  public List<VentaDto> listarVentasDeClientePorDni(String dniCliente) {
+    if (dniCliente == null || dniCliente.isBlank()) {
+      return List.of();
     }
+
+    return ventaRepository
+        .findByClienteNumeroDocumentoOrderByFechaVentaDesc(dniCliente)
+        .stream()
+        .map(ventaMapper::toDto)
+        .collect(Collectors.toList());
+  }
 
   @Transactional(readOnly = true)
   public VentaDto obtenerVentaPorId(Long id) {
@@ -237,13 +244,15 @@ public Venta crearVentaOnlineDesdeCheckout(
         .anyMatch(r -> "ADMIN".equals(r.getNombre()));
 
     if (esAdmin) {
-      return ventaRepository.findAll()
+      return ventaRepository.findByCanalVenta(CanalVenta.TIENDA_FISICA)
           .stream()
           .map(ventaMapper::toDto)
           .collect(Collectors.toList());
     }
 
-    return ventaRepository.findByVendedor_Id(vendedor.getId())
+    return ventaRepository.findByVendedor_IdAndCanalVenta(
+        vendedor.getId(),
+        CanalVenta.TIENDA_FISICA)
         .stream()
         .map(ventaMapper::toDto)
         .collect(Collectors.toList());
@@ -265,6 +274,16 @@ public Venta crearVentaOnlineDesdeCheckout(
     }
     Venta ventaAnulada = ventaRepository.save(venta);
     return ventaMapper.toDto(ventaAnulada);
+  }
+
+  public void completarVentaOnline(Long id) {
+    Venta venta = ventaRepository.findById(id)
+        .orElseThrow(() -> new EntityNotFoundException("Venta no encontrada con ID: " + id));
+    if (venta.getEstado() != EstadoVenta.PENDIENTE) {
+      throw new IllegalStateException("La venta con ID: " + id + " no está en estado PENDIENTE.");
+    }
+    venta.setEstado(EstadoVenta.COMPLETADA);
+    ventaRepository.save(venta);
   }
 
   @Transactional(readOnly = true)
