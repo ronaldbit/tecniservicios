@@ -1,14 +1,5 @@
 package com.example.simplemvc.controller;
 
-import com.example.simplemvc.model.Persona;
-import com.example.simplemvc.service.JwtTokenEmail;
-import com.example.simplemvc.service.RecuperarPsService;
-import com.example.simplemvc.service.SucursalService;
-import com.example.simplemvc.service.TipoDocumentoService;
-import com.example.simplemvc.service.VerificacionService;
-
-import lombok.AllArgsConstructor;
-
 import java.util.Map;
 import java.util.Optional;
 
@@ -21,6 +12,15 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import com.example.simplemvc.model.Persona;
+import com.example.simplemvc.service.JwtTokenEmail;
+import com.example.simplemvc.service.RecuperarPsService;
+import com.example.simplemvc.service.SucursalService;
+import com.example.simplemvc.service.TipoDocumentoService;
+import com.example.simplemvc.service.VerificacionService;
+
+import lombok.AllArgsConstructor;
 
 @Controller
 @RequestMapping("/auth")

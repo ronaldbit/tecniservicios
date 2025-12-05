@@ -54,7 +54,7 @@ public interface VentaRepository extends JpaRepository<Venta, Long> {
   @Query("SELECT COUNT(v) FROM Venta v WHERE v.fechaVenta >= :fecha AND v.estado = 'ANULADA'")
   long contarVentasAnuladasDesde(@Param("fecha") Timestamp fecha);
 
-  @Query("SELECT COALESCE(SUM(v.total), 0) FROM Venta v WHERE v.canalVenta = :canal AND v.estado = 'COMPLETADA'")
+  @Query("SELECT COALESCE(SUM(v.total), 0) FROM Venta v WHERE v.canalVenta = :canal")
   BigDecimal sumarVentasPorCanal(@Param("canal") CanalVenta canal);
 
   @Query(value = "SELECT MONTH(fecha_venta) as mes, SUM(total) as total " +
@@ -67,6 +67,12 @@ public interface VentaRepository extends JpaRepository<Venta, Long> {
 
   List<Venta> findByVendedor_Id(Long idUsuario);
 
-    List<Venta> findByClienteNumeroDocumentoOrderByFechaVentaDesc(String clienteNumeroDocumento);
+  List<Venta> findByClienteNumeroDocumentoOrderByFechaVentaDesc(String clienteNumeroDocumento);
+
+  List<Venta> findByCanalVentaOrderByFechaVentaDesc(CanalVenta canalVenta);
+
+  List<Venta> findByCanalVenta(CanalVenta canalVenta);
+
+  List<Venta> findByVendedor_IdAndCanalVenta(Long vendedorId, CanalVenta canalVenta);
 
 }

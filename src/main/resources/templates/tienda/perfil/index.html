@@ -13,24 +13,58 @@
             <div class="container container--max--lg">
               <div class="row">
                 <div class="col-md-6 d-flex">
-                  <div class="card flex-grow-1 mb-md-0 mr-0 mr-lg-3 ml-0 ml-lg-4">
+                  <div
+                    class="card flex-grow-1 mb-md-0 mr-0 mr-lg-3 ml-0 ml-lg-4"
+                  >
                     <div class="card-body card-body--padding--2">
                       <h3 class="card-title">Login</h3>
-                      <div th:if="${loginError}" class="alert alert-danger" role="alert" th:text="${loginError}"></div>
-                      <div th:if="${param.registro == 'exitoso'}" class="alert alert-success">¡Registro exitoso! Por favor, inicia sesión.</div>
+                      <div
+                        th:if="${loginError}"
+                        class="alert alert-danger"
+                        role="alert"
+                        th:text="${loginError}"
+                      ></div>
+                      <div
+                        th:if="${param.registro == 'exitoso'}"
+                        class="alert alert-success"
+                      >
+                        ¡Registro exitoso! Por favor, inicia sesión.
+                      </div>
                       <form th:action="@{perfil/login}" method="post">
                         <div class="form-group">
-                          <label for="signin-identificador">NUMERO DE DOCUMENTO</label>
-                          <input id="signin-identificador" type="text" class="form-control" placeholder="DNI" name="identificador" required/>
+                          <label for="signin-identificador"
+                            >NUMERO DE DOCUMENTO</label
+                          >
+                          <input
+                            id="signin-identificador"
+                            type="text"
+                            class="form-control"
+                            placeholder="DNI"
+                            name="identificador"
+                            required
+                          />
                         </div>
                         <div class="form-group">
                           <label for="signin-password">Password</label>
-                          <input id="signin-password" type="password" class="form-control" placeholder="Secret word" name="password" required/>
-                          <small class="form-text text-muted"><a href="/auth/forgot">¿Olvidaste la contraseña?</a></small>
+                          <input
+                            id="signin-password"
+                            type="password"
+                            class="form-control"
+                            placeholder="Secret word"
+                            name="password"
+                            required
+                          />
+                          <small class="form-text text-muted"
+                            ><a href="/auth/forgot"
+                              >¿Olvidaste la contraseña?</a
+                            ></small
+                          >
                         </div>
 
                         <div class="form-group mb-0">
-                          <button type="submit" class="btn btn-primary mt-3">Login</button>
+                          <button type="submit" class="btn btn-primary mt-3">
+                            Login
+                          </button>
                         </div>
                       </form>
                     </div>
@@ -40,64 +74,154 @@
                   <div class="card flex-grow-1 mb-0 ml-0 ml-lg-3 mr-0 mr-lg-4">
                     <div class="card-body card-body--padding--2">
                       <h3 class="card-title">Register</h3>
-                      <form id="registroForm" th:action="@{/api/auth/registro-cliente}" th:object="${usuarioRequest}" method="post" novalidate >
-                        <div th:if="${errorGlobal}" class="alert alert-danger" role="alert">
+                      <form
+                        id="registroForm"
+                        th:action="@{/api/auth/registro-cliente}"
+                        th:object="${usuarioRequest}"
+                        method="post"
+                        novalidate
+                      >
+                        <div
+                          th:if="${errorGlobal}"
+                          class="alert alert-danger"
+                          role="alert"
+                        >
                           <span th:text="${errorGlobal}"></span>
                         </div>
-                        <div th:if="${param.registro == 'exitoso'}" class="alert alert-success">¡Registro exitoso! Por favor, Verifique su email en su bandeja de entrada.</div>
+                        <div
+                          th:if="${param.registro == 'exitoso'}"
+                          class="alert alert-success"
+                        >
+                          ¡Registro exitoso! Por favor, Verifique su email en su
+                          bandeja de entrada.
+                        </div>
                         <div class="row">
                           <div class="col-md-6 mb-3">
-                            <label for="tipoDocumento" class="form-label">Tipo de documento</label>
-                            <select id="tipoDocumento" class="form-select" th:field="*{tipoDocumentoId}" required>
-                              <option value="" disabled selected> Seleccione...</option>
+                            <label for="tipoDocumento" class="form-label"
+                              >Tipo de documento</label
+                            >
+                            <select
+                              id="tipoDocumento"
+                              class="form-select"
+                              th:field="*{tipoDocumentoId}"
+                              required
+                            >
+                              <option value="" disabled selected>
+                                Seleccione...
+                              </option>
                               <option value="1">DNI</option>
                               <option value="2">RUC</option>
                             </select>
-                            <div class="invalid-feedback" id="tipoDocumentoError" ></div>
+                            <div
+                              class="invalid-feedback"
+                              id="tipoDocumentoError"
+                            ></div>
                           </div>
                           <div class="col-md-6 mb-3">
-                            <label for="numeroDocumento" class="form-label">N. de documento</label>
-                            <input type="text" class="form-control" id="numeroDocumento" th:field="*{numeroDocumento}" required/>
-                            <div class="invalid-feedback" id="numeroDocumentoError"></div>
+                            <label for="numeroDocumento" class="form-label"
+                              >N. de documento</label
+                            >
+                            <input
+                              type="text"
+                              class="form-control"
+                              id="numeroDocumento"
+                              th:field="*{numeroDocumento}"
+                              required
+                            />
+                            <div
+                              class="invalid-feedback"
+                              id="numeroDocumentoError"
+                            ></div>
                           </div>
                         </div>
 
                         <div id="camposPersonaNatural">
                           <div class="row">
                             <div class="col-md-6 mb-3">
-                              <label for="nombres" class="form-label">Nombres</label>
-                              <input type="text" class="form-control" id="nombres" th:field="*{nombres}" />
-                              <div class="invalid-feedback" id="nombresError"></div>
+                              <label for="nombres" class="form-label"
+                                >Nombres</label
+                              >
+                              <input
+                                type="text"
+                                class="form-control"
+                                id="nombres"
+                                th:field="*{nombres}"
+                              />
+                              <div
+                                class="invalid-feedback"
+                                id="nombresError"
+                              ></div>
                             </div>
                             <div class="col-md-6 mb-3">
-                              <label for="apellidos" class="form-label">Apellidos</label>
-                              <input type="text" class="form-control" id="apellidos" th:field="*{apellidos}" />
-                              <div class="invalid-feedback" id="apellidosError"></div>
+                              <label for="apellidos" class="form-label"
+                                >Apellidos</label
+                              >
+                              <input
+                                type="text"
+                                class="form-control"
+                                id="apellidos"
+                                th:field="*{apellidos}"
+                              />
+                              <div
+                                class="invalid-feedback"
+                                id="apellidosError"
+                              ></div>
                             </div>
                           </div>
                         </div>
                         <div id="camposPersonaJuridica" style="display: none">
                           <div class="mb-3">
-                            <label for="razonSocial" class="form-label">Razón Social</label>
-                            <input type="text" class="form-control" id="razonSocial" th:field="*{razonSocial}"/>
-                            <div class="invalid-feedback" id="razonSocialError"></div>
+                            <label for="razonSocial" class="form-label"
+                              >Razón Social</label
+                            >
+                            <input
+                              type="text"
+                              class="form-control"
+                              id="razonSocial"
+                              th:field="*{razonSocial}"
+                            />
+                            <div
+                              class="invalid-feedback"
+                              id="razonSocialError"
+                            ></div>
                           </div>
                         </div>
                         <div class="form-group mb-3">
                           <label for="email">Email</label>
-                          <input id="email" type="email" class="form-control" th:field="*{email}" placeholder="customer@example.com" required/>
+                          <input
+                            id="email"
+                            type="email"
+                            class="form-control"
+                            th:field="*{email}"
+                            placeholder="customer@example.com"
+                            required
+                          />
                           <div class="invalid-feedback" id="emailError"></div>
                         </div>
                         <div class="form-group mb-3">
                           <label for="telefono">Teléfono</label>
-                          <input id="telefono" type="tel" class="form-control" th:field="*{telefono}" placeholder="987654321"/>
+                          <input
+                            id="telefono"
+                            type="tel"
+                            class="form-control"
+                            th:field="*{telefono}"
+                            placeholder="987654321"
+                          />
                         </div>
                         <div class="form-group mb-3">
                           <label for="direccion">Dirección</label>
-                          <input id="direccion" type="text" class="form-control" th:field="*{direccion}" placeholder="Av. Siempre Viva 123"/>
+                          <input
+                            id="direccion"
+                            type="text"
+                            class="form-control"
+                            th:field="*{direccion}"
+                            placeholder="Av. Siempre Viva 123"
+                          />
                         </div>
                         <div class="form-group mb-0">
-                          <button type="submit" class="btn btn-primary mt-3">Register</button>
+                          <button type="submit" class="btn btn-primary mt-3">
+                            Register
+                          </button>
                         </div>
                       </form>
                     </div>
@@ -119,30 +243,78 @@
                   <div class="dashboard">
                     <div class="dashboard__profile card profile-card">
                       <div class="card-body profile-card__body">
-                        <div class="profile-card__avatar"><img th:src="@{/assets/images/user/avatar-2.jpg}" alt="Avatar" /></div>
-                        <div class="profile-card__name" th:text="${clienteSesion.nombreCompleto}" > Nombre del Cliente</div>
-                        <div class="profile-card__email" th:text="${clienteSesion.email}"> email@ejemplo.com </div>
+                        <div class="profile-card__avatar">
+                          <img
+                            th:src="@{/assets/images/user/avatar-2.jpg}"
+                            alt="Avatar"
+                          />
+                        </div>
+                        <div
+                          class="profile-card__name"
+                          th:text="${clienteSesion.nombreCompleto}"
+                        >
+                          Nombre del Cliente
+                        </div>
+                        <div
+                          class="profile-card__email"
+                          th:text="${clienteSesion.email}"
+                        >
+                          email@ejemplo.com
+                        </div>
                         <div class="profile-card__edit">
-                          <a th:href="@{/home/perfil/editar}" class="btn btn-secondary btn-sm">Editar Perfil</a>
+                          <a
+                            th:href="@{/home/perfil/editar}"
+                            class="btn btn-secondary btn-sm"
+                            >Editar Perfil</a
+                          >
                         </div>
                       </div>
                     </div>
 
-                    <div class="dashboard__address card address-card address-card--featured mt-4" >
-                      <div class="address-card__badge tag-badge tag-badge--theme" >Principal</div>
+                    <div
+                      class="dashboard__address card address-card address-card--featured mt-4"
+                    >
+                      <div
+                        class="address-card__badge tag-badge tag-badge--theme"
+                      >
+                        Principal
+                      </div>
                       <div class="address-card__body">
-                        <div class="address-card__name">Información Personal</div>
-                        <div class="address-card__row">
-                          <div class="address-card__row-title">Documento (DNI/RUC)</div>
-                          <div class="address-card__row-content" th:text="${clienteSesion.dni}">00000000</div>
+                        <div class="address-card__name">
+                          Información Personal
                         </div>
                         <div class="address-card__row">
-                          <div class="address-card__row-title"> ID de Cliente</div>
-                          <div class="address-card__row-content" th:text="'#' + ${clienteSesion.idCliente}"> #1 </div>
+                          <div class="address-card__row-title">
+                            Documento (DNI/RUC)
+                          </div>
+                          <div
+                            class="address-card__row-content"
+                            th:text="${clienteSesion.dni}"
+                          >
+                            00000000
+                          </div>
                         </div>
                         <div class="address-card__row">
-                          <div class="address-card__row-title">Correo Electrónico</div>
-                          <div class="address-card__row-content" th:text="${clienteSesion.email}">correo@test.com</div>
+                          <div class="address-card__row-title">
+                            ID de Cliente
+                          </div>
+                          <div
+                            class="address-card__row-content"
+                            th:text="'#' + ${clienteSesion.idCliente}"
+                          >
+                            #1
+                          </div>
+                        </div>
+                        <div class="address-card__row">
+                          <div class="address-card__row-title">
+                            Correo Electrónico
+                          </div>
+                          <div
+                            class="address-card__row-content"
+                            th:text="${clienteSesion.email}"
+                          >
+                            correo@test.com
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -164,30 +336,38 @@
                               </tr>
                             </thead>
                             <tbody>
-  <!-- Si NO hay compras -->
-  <tr th:if="${#lists.isEmpty(comprasRecientes)}">
-    <td colspan="4" class="text-center p-4 text-muted">
-      No tienes compras recientes.
-    </td>
-  </tr>
+                              <!-- Si NO hay compras -->
+                              <tr th:if="${#lists.isEmpty(comprasRecientes)}">
+                                <td
+                                  colspan="4"
+                                  class="text-center p-4 text-muted"
+                                >
+                                  No tienes compras recientes.
+                                </td>
+                              </tr>
 
-  <!-- Si SÍ hay compras -->
-  <tr th:each="venta, iter : ${comprasRecientes}">
-    <td th:text="${'#' + venta.idVenta}">#1</td>
-    <td th:text="${#temporals.format(venta.fechaVenta, 'dd/MM/yyyy HH:mm')}">
-      01/01/2025 10:00
-    </td>
-    <td th:text="${venta.estado}">Registrado</td>
-    <td>
-      <span th:text="${'S/ ' + venta.total}">S/ 100.00</span>
-      &nbsp;·&nbsp;
-      <a th:href="@{'/home/perfil/compras/' + ${venta.idVenta}}" class="btn btn-xs btn-link">
-        Ver detalle
-      </a>
-    </td>
-  </tr>
-</tbody>
+                              <!-- Si SÍ hay compras -->
+                              <tr th:each="venta, iter : ${comprasRecientes}">
+                                <td th:text="${'#' + venta.idVenta}">#1</td>
+                                <td
+                                  th:text="${#temporals.format(venta.fechaVenta.toLocalDateTime(), 'dd/MM/yyyy HH:mm')}"
+                                ></td>
 
+                                <td th:text="${venta.estado}">Registrado</td>
+                                <td>
+                                  <span th:text="${'S/ ' + venta.total}"
+                                    >S/ 100.00</span
+                                  >
+                                  &nbsp;·&nbsp;
+                                  <a
+                                    th:href="@{'/home/perfil/compras/' + ${venta.idVenta}}"
+                                    class="btn btn-xs btn-link"
+                                  >
+                                    Ver detalle
+                                  </a>
+                                </td>
+                              </tr>
+                            </tbody>
                           </table>
                         </div>
                       </div>

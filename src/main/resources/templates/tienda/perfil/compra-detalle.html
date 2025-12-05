@@ -1,136 +1,153 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="tienda/framer/head :: head(${pageTitle})"></head>
+  <head>
+    <title th:text="${pageTitle}">Detalle de Compra</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="container my-5">
+      <div class="mb-4">
+        <a th:href="@{/home/perfil/compras}" class="btn btn-outline-secondary">
+          &larr; Volver a mis compras
+        </a>
+      </div>
 
-<body>
-<div class="site">
-  <div th:replace="tienda/framer/header :: siteHeaderMobile"></div>
-  <div th:replace="tienda/framer/header :: siteHeader"></div>
+      <div class="card shadow-sm mb-4">
+        <div
+          class="card-header bg-primary text-white d-flex justify-content-between align-items-center"
+        >
+          <h5 class="mb-0">
+            Orden #<span th:text="${venta.idVenta}">001</span>
+          </h5>
+          <span class="badge bg-light text-dark" th:text="${venta.estado}"
+            >COMPLETADO</span
+          >
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-6">
+              <h6 class="text-muted">Información de la Venta</h6>
+              <p class="mb-1">
+                <strong>Fecha:</strong>
+                <span
+                  th:text="${#dates.format(venta.fechaVenta, 'dd/MM/yyyy HH:mm')}"
+                ></span>
+              </p>
+              <p class="mb-1">
+                <strong>Comprobante:</strong>
+                <span
+                  th:text="${venta.tipoComprobante} + ' ' + ${venta.serieComprobante} + '-' + ${venta.numeroComprobante}"
+                ></span>
+              </p>
+              <p class="mb-1">
+                <strong>Método de Pago:</strong>
+                <span th:text="${venta.metodoPago}"></span>
+              </p>
+            </div>
+            <div class="col-md-6">
+              <h6 class="text-muted">Datos de Envío/Cliente</h6>
+              <p class="mb-1">
+                <strong>Cliente:</strong>
+                <span th:text="${venta.clienteNombreCompleto}"></span>
+              </p>
+              <p class="mb-1">
+                <strong>DNI/RUC:</strong>
+                <span th:text="${venta.clienteNumeroDocumento}"></span>
+              </p>
+              <p class="mb-1">
+                <strong>Dirección:</strong>
+                <span th:text="${venta.clienteDireccion}"></span>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
 
-  <div class="site__body">
-    <div class="block-space block-space--layout--after-header"></div>
-    <div class="block">
-      <div class="container container--max--xl">
-        <div class="row">
-          <div th:replace="tienda/perfil/opciones :: opciones"></div>
-
-          <div class="col-12 col-lg-9 mt-4 mt-lg-0">
-							<div class="card">
-								<div class="order-header">
-									<div class="order-header__actions"><a th:href="@{/home/perfil/compras}" class="btn btn-xs btn-secondary">Regresar</a></div>
-									<h5 class="order-header__title">
-  Pedido #<span th:text="${venta.numeroComprobante}">0001</span>
-</h5>
-
-<div class="order-header__subtitle">
-  Realizado el
-  <mark th:text="${#temporals.format(venta.fechaVenta, 'dd/MM/yyyy HH:mm')}">Fecha</mark>
-  &nbsp;y actualmente está
-  <mark th:text="${venta.estado}">Registrado</mark>.
-</div>
-
-								</div>
-								<div class="card-divider"></div>
-								<div class="card-table">
-									<div class="table-responsive-sm">
-										<table>
-  <thead>
-    <tr>
-      <th>Producto</th>
-      <th>Cantidad</th>
-      <th>Total</th>
-    </tr>
-  </thead>
-
-  <tbody class="card-table__body card-table__body--merge-rows">
-    <tr th:if="${#lists.isEmpty(venta.detalles)}">
-      <td colspan="3" class="text-center p-4 text-muted">
-        Esta compra no tiene detalles registrados.
-      </td>
-    </tr>
-
-    <tr th:each="det : ${venta.detalles}">
-      <td th:text="${det.descripcionProducto}">Producto X</td>
-      <td th:text="${det.cantidad}">1</td>
-      <td th:text="${'S/ ' + det.total}">S/ 100.00</td>
-    </tr>
-  </tbody>
-
-  <tbody class="card-table__body card-table__body--merge-rows">
-    <tr>
-      <th>Subtotal</th>
-      <td colspan="2" th:text="${'S/ ' + venta.subtotal}">S/ 0.00</td>
-    </tr>
-    <tr>
-      <th>IGV</th>
-      <td colspan="2" th:text="${'S/ ' + venta.igv}">S/ 0.00</td>
-    </tr>
-  </tbody>
-
-  <tfoot>
-    <tr>
-      <th>Total</th>
-      <td colspan="2" th:text="${'S/ ' + venta.total}">S/ 0.00</td>
-    </tr>
-  </tfoot>
-</table>
-
-									</div>
-								</div>
-							</div>
-							<div class="row mt-3 no-gutters mx-n2">
-								<div class="col-sm-6 col-12 px-2">
-									<div class="card address-card address-card--featured">
-										<div class="address-card__name" th:text="${venta.clienteNombreCompleto}">Nombre Cliente</div>
-<div class="address-card__row">
-  <div class="address-card__row-title">Documento</div>
-  <div class="address-card__row-content"
-       th:text="${venta.clienteTipoDocumento + ' ' + venta.clienteNumeroDocumento}">
-    DNI 00000000
-  </div>
-</div>
-<div class="address-card__row">
-  <div class="address-card__row-title">Dirección</div>
-  <div class="address-card__row-content" th:text="${venta.clienteDireccion}">
-    Dirección completa
-  </div>
-</div>
-
-										</div>
-									</div>
-								</div>
-								<div class="col-sm-6 col-12 px-2 mt-sm-0 mt-3">
-									<div class="card address-card address-card--featured">
-										<div class="address-card__badge tag-badge tag-badge--theme">Billing Address
-										</div>
-										<div class="address-card__body">
-											<div class="address-card__name">Ryan Ford</div>
-											<div class="address-card__row">Random Federation<br>115302, Moscow<br>ul.
-												Varshavskaya, 15-2-178</div>
-											<div class="address-card__row">
-												<div class="address-card__row-title">Phone Number</div>
-												<div class="address-card__row-content">38 972 588-42-36</div>
-											</div>
-											<div class="address-card__row">
-												<div class="address-card__row-title">Email Address</div>
-												<div class="address-card__row-content">stroyka@example.com</div>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-
+      <div class="card shadow-sm">
+        <div class="card-header">
+          <h6 class="mb-0">Productos Adquiridos</h6>
+        </div>
+        <div class="card-body p-0">
+          <div class="table-responsive">
+            <table class="table table-hover mb-0">
+              <thead class="table-light">
+                <tr>
+                  <th>Producto</th>
+                  <th class="text-center">Cant.</th>
+                  <th class="text-end">P. Unit.</th>
+                  <th class="text-end">Desc.</th>
+                  <th class="text-end">Subtotal</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr th:each="det : ${venta.detalles}">
+                  <td>
+                    <div>
+                      <strong th:text="${det.nombreProducto}"
+                        >Nombre Producto</strong
+                      >
+                      <br />
+                      <small
+                        class="text-muted"
+                        th:text="'Cód: ' + ${det.codigoProducto}"
+                      ></small>
+                    </div>
+                  </td>
+                  <td class="text-center" th:text="${det.cantidad}">1</td>
+                  <td
+                    class="text-end"
+                    th:text="'S/ ' + ${#numbers.formatDecimal(det.precioUnitario, 1, 2)}"
+                  >
+                    10.00
+                  </td>
+                  <td
+                    class="text-end text-danger"
+                    th:text="'- S/ ' + ${#numbers.formatDecimal(det.descuentoUnitario, 1, 2)}"
+                  >
+                    0.00
+                  </td>
+                  <td
+                    class="text-end fw-bold"
+                    th:text="'S/ ' + ${#numbers.formatDecimal(det.subtotal, 1, 2)}"
+                  >
+                    10.00
+                  </td>
+                </tr>
+              </tbody>
+              <tfoot class="table-group-divider">
+                <tr>
+                  <td colspan="4" class="text-end">Subtotal:</td>
+                  <td
+                    class="text-end"
+                    th:text="'S/ ' + ${#numbers.formatDecimal(venta.subtotal, 1, 2)}"
+                  ></td>
+                </tr>
+                <tr>
+                  <td colspan="4" class="text-end">IGV (18%):</td>
+                  <td
+                    class="text-end"
+                    th:text="'S/ ' + ${#numbers.formatDecimal(venta.igv, 1, 2)}"
+                  ></td>
+                </tr>
+                <tr class="table-active">
+                  <td colspan="4" class="text-end"><strong>TOTAL:</strong></td>
+                  <td class="text-end fs-5">
+                    <strong
+                      >S/
+                      <span
+                        th:text="${#numbers.formatDecimal(venta.total, 1, 2)}"
+                      ></span
+                    ></strong>
+                  </td>
+                </tr>
+              </tfoot>
+            </table>
+          </div>
         </div>
       </div>
     </div>
-
-    <div class="block-space block-space--layout--before-footer"></div>
-  </div>
-
-  <div th:replace="tienda/framer/footer :: siteFooter"></div>
-</div>
-
-<div th:replace="tienda/framer/scripts :: scripts"></div>
-</body>
+  </body>
 </html>

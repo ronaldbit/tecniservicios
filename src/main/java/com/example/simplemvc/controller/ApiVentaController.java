@@ -6,6 +6,7 @@ import java.util.Map;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller; // Usando @Controller como en tu ejemplo
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -58,6 +59,19 @@ public class ApiVentaController {
     }
   }
 
+  @GetMapping("/online")
+  @Transactional(readOnly = true)
+  public ResponseEntity<?> listarVentasOnline() {
+    try {
+      List<VentaDto> ventas = ventaService.listarVentasOnline();
+      return ResponseEntity.ok(ventas);
+
+    } catch (Exception e) {
+      return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+          .body("Error al listar las ventas: " + e.getMessage());
+    }
+  }
+
   @GetMapping("/{id}")
   public ResponseEntity<?> obtenerVenta(@PathVariable Long id) {
     try {
@@ -86,6 +100,12 @@ public class ApiVentaController {
       return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
           .body("Error al anular la venta: " + e.getMessage());
     }
+  }
+
+  @PutMapping("/complete-online/{id}")
+  public ResponseEntity<?> completarVentaOnline(@PathVariable Long id) {
+    ventaService.completarVentaOnline(id);
+    return ResponseEntity.ok(Map.of("message", "Venta completada"));
   }
 
   @GetMapping("/siguiente-numero")

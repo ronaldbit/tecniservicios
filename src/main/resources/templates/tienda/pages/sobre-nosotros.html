@@ -1,21 +1,160 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+  <head th:replace="tienda/framer/head :: head(${pageTitle})"></head>
 
-<head th:replace="tienda/framer/head :: head(${pageTitle})"></head>
-
-<body>
+  <body>
     <div class="site">
+      <div th:replace="tienda/framer/header :: siteHeaderMobile"></div>
+      <div th:replace="tienda/framer/header :: siteHeader"></div>
 
-        <div th:replace="tienda/framer/header :: siteHeaderMobile"></div>
-        <div th:replace="tienda/framer/header :: siteHeader"></div>
-
-        <div class="site__body container my-4">
-            <h1>Sobre nosotros</h1>
-            <p>Aquí contarás quiénes son, misión, visión, etc.</p>
+      <div class="site__body">
+        <div
+          class="block-header block-header--has-breadcrumb block-header--has-title"
+        >
+          <div class="container">
+            <div class="block-header__body text-center pt-5 pb-4">
+              <h1 class="block-header__title" style="font-size: 2.5rem">
+                Bienvenido a Tecniservicios
+              </h1>
+              <div class="block-header__divider"></div>
+              <p class="lead text-muted mt-3">
+                Tu aliado estratégico en repuestos de calidad y soluciones
+                técnicas confiables.
+              </p>
+            </div>
+          </div>
         </div>
-        <div th:replace="tienda/framer/footer :: siteFooter"></div>
+
+        <div class="block block-split">
+          <div class="container">
+            <div class="row align-items-center mb-5">
+              <div class="col-12 col-lg-6">
+                <div class="card border-0 shadow-sm">
+                  <img
+                    src="https://images.unsplash.com/photo-1487754180451-c456f719a1fc?auto=format&fit=crop&w=800&q=80"
+                    class="card-img-top"
+                    alt="Equipo Tecniservicios"
+                    style="height: 350px; object-fit: cover"
+                  />
+                </div>
+              </div>
+              <div class="col-12 col-lg-6 pl-lg-5 mt-4 mt-lg-0">
+                <h2 class="mb-3">Nuestra Historia</h2>
+                <p class="text-muted">
+                  En <strong>Tecniservicios</strong>, llevamos años dedicados a
+                  mantener el mundo en movimiento. Nacimos con la convicción de
+                  que un buen servicio técnico y el acceso a repuestos de alta
+                  calidad no deberían ser un lujo, sino un estándar.
+                </p>
+                <p class="text-muted">
+                  Contamos con un equipo de especialistas apasionados por la
+                  mecánica y la tecnología, comprometidos a brindarte asesoría
+                  personalizada para que encuentres exactamente la pieza que
+                  necesitas, garantizando la durabilidad y el rendimiento de tus
+                  equipos.
+                </p>
+                <a href="contacto.html" class="btn btn-primary mt-3"
+                  >Contáctanos</a
+                >
+              </div>
+            </div>
+
+            <div class="block-space block-space--layout--divider-nl"></div>
+
+            <div class="row mb-5">
+              <div class="col-md-6 d-flex">
+                <div class="card flex-fill shadow-sm border-0 bg-light">
+                  <div class="card-body p-5">
+                    <div class="mb-3 text-primary">
+                      <svg
+                        width="40"
+                        height="40"
+                        fill="currentColor"
+                        viewBox="0 0 16 16"
+                      >
+                        <path
+                          d="M8 16a2 2 0 0 0 2-2H6a2 2 0 0 0 2 2zm.995-14.901a1 1 0 1 0-1.99 0A5.002 5.002 0 0 0 3 6c0 1.098-.5 6-2 7h14c-1.5-1-2-5.902-2-7 0-2.42-1.72-4.44-4.005-4.901z"
+                        />
+                      </svg>
+                    </div>
+                    <h3 class="card-title">Nuestra Misión</h3>
+                    <p class="card-text text-muted">
+                      Proveer soluciones integrales mediante la venta de
+                      repuestos certificados y servicios técnicos de excelencia,
+                      superando las expectativas de nuestros clientes a través
+                      de la rapidez, la honestidad y un soporte post-venta
+                      inigualable.
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6 d-flex mt-4 mt-md-0">
+                <div class="card flex-fill shadow-sm border-0 bg-light">
+                  <div class="card-body p-5">
+                    <div class="mb-3 text-primary">
+                      <svg
+                        width="40"
+                        height="40"
+                        fill="currentColor"
+                        viewBox="0 0 16 16"
+                      >
+                        <path
+                          d="M5.5 9.5A.5.5 0 0 1 6 9h4a.5.5 0 0 1 0 1H6a.5.5 0 0 1-.5-.5z"
+                        />
+                        <path
+                          d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-8 3a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"
+                        />
+                      </svg>
+                    </div>
+                    <h3 class="card-title">Nuestra Visión</h3>
+                    <p class="card-text text-muted">
+                      Convertirnos en el referente nacional líder en
+                      distribución de autopartes y servicios técnicos,
+                      reconocidos por nuestra innovación logística, catálogo
+                      extenso y por construir relaciones de confianza a largo
+                      plazo con cada cliente.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="mb-5">
+              <h2 class="text-center mb-5">¿Por qué elegir Tecniservicios?</h2>
+              <div class="row text-center">
+                <div class="col-md-4 mb-4">
+                  <div class="h1 text-primary mb-3">
+                    <i class="fas fa-check-circle"></i> 🛡️
+                  </div>
+                  <h5>Garantía de Calidad</h5>
+                  <p class="text-muted">
+                    Trabajamos únicamente con marcas reconocidas y repuestos
+                    originales para asegurar tu inversión.
+                  </p>
+                </div>
+                <div class="col-md-4 mb-4">
+                  <div class="h1 text-primary mb-3">📦</div>
+                  <h5>Stock Permanente</h5>
+                  <p class="text-muted">
+                    Nuestro amplio inventario nos permite despachar tus pedidos
+                    con rapidez para que no detengas tu operación.
+                  </p>
+                </div>
+                <div class="col-md-4 mb-4">
+                  <div class="h1 text-primary mb-3">🤝</div>
+                  <h5>Asesoría Técnica</h5>
+                  <p class="text-muted">
+                    No solo vendemos piezas; te asesoramos para identificar la
+                    solución exacta a tu problema técnico.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div th:replace="tienda/framer/footer :: siteFooter"></div>
     </div>
     <div th:replace="tienda/framer/scripts :: scripts"></div>
-</body>
-
+  </body>
 </html>
