@@ -1,16 +1,18 @@
 package com.example.simplemvc.shared.config;
 
-import com.example.simplemvc.model.Usuario;
-import com.example.simplemvc.service.JwtAuthenticationService;
-import com.example.simplemvc.shared.properties.SecurityProperties;
-import jakarta.servlet.http.Cookie;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import lombok.RequiredArgsConstructor;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Component;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.web.servlet.HandlerInterceptor;
+
+import com.example.simplemvc.model.Usuario;
+import com.example.simplemvc.service.JwtAuthenticationService;
+import com.example.simplemvc.shared.properties.SecurityProperties;
+
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import lombok.RequiredArgsConstructor;
 
 @Component
 @RequiredArgsConstructor
@@ -30,7 +32,7 @@ public class AuthInterceptor implements HandlerInterceptor {
     String jwt = extractJwt(request);
     Usuario usuario = jwtAuthenticationService.fromJwt(jwt);
 
-    if (requestURI.equals("/auth/verify") || requestURI.equals("/auth/reset-password")) {
+    if ("/auth/verify".equals(requestURI) || "/auth/reset-password".equals(requestURI)) {
       return true;
     }
 
@@ -59,7 +61,7 @@ public class AuthInterceptor implements HandlerInterceptor {
               },
               () -> {
                 try {
-                  response.sendRedirect("/dashboard/portal");
+                  response.sendRedirect("/dashboard");
                 } catch (Exception e) {
                   e.printStackTrace();
                 }
